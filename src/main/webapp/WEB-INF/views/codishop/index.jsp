@@ -11,9 +11,7 @@
 			<h1>CodiShop</h1>
 		</div><br/>
 		<div class="social_header">
-			<a href="#" class="teb_item">��</a>
-			<a href="#" class="teb_item">�Ź�</a>
-			<a href="#" class="teb_item">�Ǽ�����</a>
+			<a href="#" class="teb_item">검색</a>
 		</div>
 		<br/>
 		<div class="container social">
