@@ -25,3 +25,15 @@
     letter-spacing: -.27px;
     background-color: #ebebeb;
 }
+.feed_card{
+	border : 1px solid black;
+	width: calc(25% - 21px);
+	height: 300px;
+	
+}
+.codi_img_box{
+	width: 279px; 
+	height: 376px; 
+	background-color: black;
+	border-radius : 10px
+}
