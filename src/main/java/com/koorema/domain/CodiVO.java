@@ -9,8 +9,6 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class CodiVO {
 
 }
