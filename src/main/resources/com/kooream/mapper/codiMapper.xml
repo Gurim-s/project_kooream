@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+	<mapper namespace="com.kooream.mapper.CodiMapper">
+		<insert id="insert" parameterType="com.koorema.domain.CodiVO">
+			<![CDATA[
+				INSERT INTO CODI_BOARD(codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_Kg)
+				VALUES(codi_seq.nextval, #{m_no}, #{codimodel_name},#{codi_date},#{codi_title},#{codi_content},#{codi_cm},#{codi_Kg})
+			]]>
+		</insert>
+		
+		<select id="read" resultType="com.koorema.domain.CodiVO">
+			SELECT
+    			* FROM codi_board 
+    				where codi_no = #{codi_no}
+		</select>
+		
+		<update id="update">
+			update codi_board set codi_title = #{codi_title}, codi_content = #{codi_content} where codi_no= #{codi_no}
+		</update>	
+	
+	
+		<delete id="delete">
+			delete codi_board where codi_no = #{codi_no}
+		</delete>
+		
+		
+	</mapper>
+

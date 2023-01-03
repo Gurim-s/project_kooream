@@ -152,7 +152,7 @@
 						<a href="/rental/index">RENTAL</a>
 					</li>
 					<li>
-						<a href="#">CODI</a>
+						<a href="/codishop/index">CODI</a>
 					</li>
 					<li>
 						<a href="#">COMMUNITY</a>

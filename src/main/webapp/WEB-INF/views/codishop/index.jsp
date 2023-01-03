@@ -23,6 +23,7 @@
 				<a href="#" class="brand_keyword">#THE NORTH FACE</a>
 				<a href="#" class="brand_keyword">#KOOREAM STANDARD</a>
 			</div>
+			<br/><br/>
 		</div>
 		<div class="social_feeds" style="position: relative; height: 100%">
 			<div class="masonry_posts">
