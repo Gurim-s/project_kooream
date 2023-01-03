@@ -13,20 +13,23 @@ import com.koorema.domain.BrandProductVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
-@Controller
-@Log4j
-@RequestMapping
-@AllArgsConstructor
-public interface BrandProductController {
-	
-	private BrandProductService service;
-	
-	@PostMapping("/register")
-	public String register(BrandProductVO vo, RedirectAttributes rttr) {
-		service.register(vo);
-		
-		return "redirect:/board/list;
-		
-	}
-
-}
+/*
+ * @Controller
+ * 
+ * @Log4j
+ * 
+ * @RequestMapping
+ * 
+ * @AllArgsConstructor public interface BrandProductController {
+ * 
+ * private BrandProductService service;
+ * 
+ * @PostMapping("/register") public String register(BrandProductVO vo,
+ * RedirectAttributes rttr) { service.register(vo);
+ * 
+ * return "redirect:/board/list;
+ * 
+ * }
+ * 
+ * }
+ */
