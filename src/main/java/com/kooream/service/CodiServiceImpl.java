@@ -1,21 +1,21 @@
 package com.kooream.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.kooream.domain.CodiVO;
 import com.kooream.mapper.CodiMapper;
-import com.koorema.domain.CodiVO;
 
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
+@Service
+@Log4j
 public class CodiServiceImpl implements CodiService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private CodiMapper mapper;
 	
-	
-	
-	
-
 	@Override
 	public void register(CodiVO vo) {
 		
@@ -23,8 +23,6 @@ public class CodiServiceImpl implements CodiService{
 		mapper.insert(vo);
 		
 	}
-	
-	
 	
 	
 	

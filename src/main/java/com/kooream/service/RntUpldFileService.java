@@ -1,6 +1,6 @@
 package com.kooream.service;
 
-import com.koorema.domain.AttachFileVO;
+import com.kooream.domain.AttachFileVO;
 
 public interface RntUpldFileService {
 	public int uploadFile(AttachFileVO vo);

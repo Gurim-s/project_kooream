@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.service.RntUpldFileService;
-import com.koorema.domain.AttachFileVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
