@@ -7,16 +7,16 @@
 	text-decoration: none;
 	color: #000;
 }
-
 a {
- 	color: #fff;
+ 	color: #000;
  	text-decoration: none;
  	outline: none
 }
-
 a:hover, a:active {
 	text-decoration: none;
-	color:#fff;
+	color:#000;
 	background-color:#f59000;
 }
-
+ul li {
+	list-style: none;
+}
