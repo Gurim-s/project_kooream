@@ -1,0 +1,39 @@
+@charset "EUC-KR";
+
+.codi_Main_top{
+	
+}
+.codi_box{
+	text-align : center;
+	margin: auto;
+}
+.brand_keyword{
+	display: inline-block;
+    padding: 8px 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    font-size: 15px;
+}
+.teb_item{
+	display: inline-block;
+	padding: 8px 14px;
+	border: 1px solid #ebebeb;
+	border-radius: 14px;
+    min-width: 59px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: -.27px;
+    background-color: #ebebeb;
+}
+.feed_card{
+	border : 1px solid black;
+	width: calc(25% - 21px);
+	height: 300px;
+	
+}
+.codi_img_box{
+	width: 279px; 
+	height: 376px; 
+	background-color: black;
+	border-radius : 10px
+}
