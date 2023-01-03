@@ -1,6 +1,6 @@
 package com.kooream.service;
 
-import com.koorema.domain.BrandProductVO;
+import com.kooream.domain.BrandProductVO;
 
 public interface BrandProductService {
 

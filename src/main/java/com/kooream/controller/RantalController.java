@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kooream.domain.ProductVO;
 import com.kooream.service.RentalService;
-import com.koorema.domain.ProductVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;

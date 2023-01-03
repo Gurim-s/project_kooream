@@ -1,6 +1,6 @@
 package com.kooream.mapper;
 
-import com.koorema.domain.BrandProductVO;
+import com.kooream.domain.BrandProductVO;
 
 public interface BrandProductMapper {
 	
