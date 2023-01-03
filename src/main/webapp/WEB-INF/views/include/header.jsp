@@ -149,7 +149,7 @@
 						<a href="#">BRAND</a>
 					</li>
 					<li>
-						<a href="#">RENTAL</a>
+						<a href="/rental/index">RENTAL</a>
 					</li>
 					<li>
 						<a href="#">COORDI</a>
