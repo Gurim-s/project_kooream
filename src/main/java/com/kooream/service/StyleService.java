@@ -1,5 +1,9 @@
 package com.kooream.service;
 
-public interface StyleService {
+import java.util.List;
 
+import com.kooream.domain.StyleVO;
+
+public interface StyleService {
+	public List<StyleVO> getList();
 }

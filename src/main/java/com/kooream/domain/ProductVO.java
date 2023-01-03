@@ -1,4 +1,4 @@
-package com.koorema.domain;
+package com.kooream.domain;
 
 import java.sql.Date;
 

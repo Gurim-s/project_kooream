@@ -3,8 +3,8 @@ package com.kooream.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.mapper.RntUpldFileMapper;
-import com.koorema.domain.AttachFileVO;
 
 import lombok.Setter;
 

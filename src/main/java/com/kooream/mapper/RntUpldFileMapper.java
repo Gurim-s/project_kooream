@@ -2,7 +2,7 @@ package com.kooream.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.koorema.domain.AttachFileVO;
+import com.kooream.domain.AttachFileVO;
 
 @Mapper
 public interface RntUpldFileMapper {

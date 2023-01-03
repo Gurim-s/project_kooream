@@ -1,6 +1,6 @@
 package com.kooream.service;
 
-import com.koorema.domain.ProductVO;
+import com.kooream.domain.ProductVO;
 
 public interface RentalService {
 	public int addRntPrdt(ProductVO vo);

@@ -1,5 +1,22 @@
 package com.kooream.service;
 
-public class StyleServiceImpl {
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.kooream.domain.StyleVO;
+import com.kooream.mapper.StyleMapper;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class StyleServiceImpl implements StyleService{
+	
+	private StyleMapper mapper;
+	
+	@Override
+	public List<StyleVO> getList() {
+		return mapper.getList();
+	}
 }

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kooream.domain.BrandProductVO;
 import com.kooream.service.BrandProductService;
-import com.koorema.domain.BrandProductVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
