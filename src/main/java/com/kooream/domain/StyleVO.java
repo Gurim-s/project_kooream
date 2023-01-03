@@ -17,4 +17,5 @@ public class StyleVO {
 	private Date style_regdate;
 	private String style_content;
 	private long count_like;
+	private long count_comment;
 }

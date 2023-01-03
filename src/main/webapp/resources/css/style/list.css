@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+#categories {
+	margin: 30px auto;
+	width: 300px;
+	
+}
+#categories button {
+	background: white;
+	font-size: 20px;
+	padding: 8px 15px;
+	border-radius: 30% 30% / 50% 50%;
+}
+#categories button.on {
+	background: black;
+	color: white;
+	font-weight: bold;
+}
+#styleList {
+	width: 100%;
+	border: 1px solid black;	
+}
+#styleList .list-column{
+	width: calc(25% - 17px);
+	margin-right: 17px;
+	height: 200px;
+	float: left;
+	border: 1px solid red;	
+}

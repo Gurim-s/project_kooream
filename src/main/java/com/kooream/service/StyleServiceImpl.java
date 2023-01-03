@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleVO;
 import com.kooream.mapper.StyleMapper;
 
@@ -16,7 +17,7 @@ public class StyleServiceImpl implements StyleService{
 	private StyleMapper mapper;
 	
 	@Override
-	public List<StyleVO> getList() {
-		return mapper.getList();
+	public List<StyleVO> getList(Criteria cri) {
+		return mapper.getList(cri);
 	}
 }

@@ -140,7 +140,7 @@
 			<div>
 				<ul>
 					<li>
-						<a href="#">STYLE</a>
+						<a href="/style/list">STYLE</a>
 					</li>
 					<li>
 						<a href="#">SHOP</a>
