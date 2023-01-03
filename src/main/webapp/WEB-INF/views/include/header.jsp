@@ -152,7 +152,7 @@
 						<a href="/rental/index">RENTAL</a>
 					</li>
 					<li>
-						<a href="#">COORDI</a>
+						<a href="#">CODI</a>
 					</li>
 					<li>
 						<a href="#">COMMUNITY</a>
