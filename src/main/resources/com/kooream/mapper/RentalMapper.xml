@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.RentalMapper">
+	
+	<insert id="addRntPrdt">
+		INSERT INTO PRODUCT
+		(P_NO, B_NO, P_NAME_KO, P_NAME_EN, P_MODEL_NO, P_RELEASE_PRICE, P_CATEGORY, P_CLASS, P_STOCK, R_CHECK, R_PRICE)
+		VALUES(rproduct_no_seq.nextval, 
+			#{b_no}, 
+			#{p_name_ko}, 
+			#{p_name_en}, 
+			#{p_model_no}, 
+			#{p_release_price}, 
+			#{p_category}, 
+			'rental', 
+			#{p_stock}, 
+			'y', 
+			#{r_price})
+	</insert>
+	
+	
+	
+</mapper>

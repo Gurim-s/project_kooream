@@ -132,7 +132,7 @@
 		<div class="header-bottom clearfix">
 			<div class="logo-container">
 				<a href="#">
-					<img alt="로고이미지" src="resources/img/kooream.png">
+					<img alt="로고이미지" src="/resources/img/kooream.png">
 				</a>
 			</div>
 			<div>
@@ -147,7 +147,7 @@
 						<a href="#">BRAND</a>
 					</li>
 					<li>
-						<a href="#">RENTAL</a>
+						<a href="/rental/index">RENTAL</a>
 					</li>
 					<li>
 						<a href="#">COORDI</a>
