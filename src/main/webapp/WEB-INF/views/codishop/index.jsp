@@ -4,8 +4,11 @@
 
 <link rel="stylesheet" href="/resources/css/codi/codi.css" />
 
-<body class="cordishop">
 <jsp:include page="../include/header.jsp"/>
+
+<body class="cordishop">
+	
+	
 	<div class="codi_box">
 
 		<div class="social_title">
@@ -26,8 +29,9 @@
 			</div>
 			<br/><br/>
 			<div class="regBtngo">
-				<a id="regBtn" class="btn btn_reg" href="/codishop/register">새 코디 등록</a>
+				<a id="regBtn" class="abtn" href="/codishop/register">새 코디 등록</a>
 			</div>
+			<br/><br/>
 		</div>
 		<div class="social_feeds" style="position: relative; height: 100%">
 			<div class="masonry_posts">

@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="WEB-INF/views/include/common.css">
+<!-- 	<link rel="stylesheet" type="text/css" href="WEB-INF/views/include/common.css"> -->
 	<style type="text/css">
 		* {
 			padding:0;
@@ -114,15 +114,11 @@
 			padding: 0 30px;
 		}
 		main .wrapper {
-			width: 1200px;
+			max-width: 1200px;
 			margin: 0 auto;
 		}
 	</style>
-	<script
-	  src="https://code.jquery.com/jquery-3.6.3.js"
-	  integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-	  crossorigin="anonymous">
-	</script>
+	<script type="text/javascript" src="<c:url value='/resources/js/jquery/jquery-3.4.1.js'/>"></script>
 </head>
 <body>
 	<header>
@@ -139,7 +135,6 @@
 		<div class="header-bottom clearfix">
 			<div class="logo-container">
 				<a href="#">
-<!-- 					<img alt="로고이미지" src="resources/img/kooream.png"> -->
 					<img alt="로고이미지" src="<c:url value='/resources/img/kooream.png'/>">
 				</a>
 			</div>

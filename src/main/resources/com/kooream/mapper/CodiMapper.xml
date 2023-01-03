@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.CodiMapper">
 
 	<!-- 게시글 등록 -->
-	<insert id="insert" parameterType="com.koorema.domain.CodiVO">
+	<insert id="insert" parameterType="com.kooream.domain.CodiVO">
 		<![CDATA[
 			INSERT INTO CODI_BOARD(codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_Kg)
 			VALUES(codi_seq.nextval, #{m_no}, #{codimodel_name},sysdate,#{codi_title},#{codi_content},#{codi_cm},#{codi_kg})
@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 게시글 보기 -->
-	<select id="read" resultType="com.koorema.domain.CodiVO">
+	<select id="read" resultType="com.kooream.domain.CodiVO">
 		SELECT
    			* FROM codi_board 
    				where codi_no = #{codi_no}
