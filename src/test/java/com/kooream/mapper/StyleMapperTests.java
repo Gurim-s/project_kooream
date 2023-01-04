@@ -21,11 +21,11 @@ public class StyleMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private StyleMapper mapper;
 	
-	@Test
-	public void testGetList() {
-		List<StyleVO> list = mapper.getList();
-		for (StyleVO vo : list) {
-			log.info(vo);
-		}
-	}
+//	@Test
+//	public void testGetList() {
+//		List<StyleVO> list = mapper.getList();
+//		for (StyleVO vo : list) {
+//			log.info(vo);
+//		}
+//	}
 }

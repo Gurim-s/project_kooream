@@ -2,13 +2,30 @@
  * 
  */
 
+var pageNum, amount;
+var column = $('.list-column');
+
 $(function() {
+	pageNum = 1;
+	amount = 20;
+	getList(pageNum, amount);
+})
+
+
+function getList(pageNum, amount) {
 	$.ajax({
 		url: "list/hot",
-		type: 'get',
-		dataType:"json"
+		data: JSON.stringify({
+			pageNum: pageNum,
+			amount: amount,
+		}),
+		type: 'post',
+		dataType:"json",
+		contentType:"application/json",
 	})
 	.done(function(json) {
-		$('#content').text(JSON.stringify(json));
-	});
-})
+		$.each(json, function(idx, style) {
+			$(column[idx % 4]).append(JSON.stringify(style));
+		});
+	});	
+}

@@ -7,8 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleVO;
 import com.kooream.service.StyleService;
 
@@ -27,20 +30,21 @@ public class StyleController {
 		return "style/list";
 	}
 	
-	@GetMapping(value = "/list/hot",
-			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<List<StyleVO>> listHot() {
-		List<StyleVO> list = service.getList();
-		log.info("hot list....");
+	@PostMapping(value = "/list/hot",
+			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
+			consumes = "application/json")
+	public ResponseEntity<List<StyleVO>> listHot(@RequestBody Criteria cri) {
+		List<StyleVO> list = service.getList(cri);
+		log.info(cri.getAmount() + "" + cri.getPageNum());
 		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 	}	
 	
-	@GetMapping(value = "/list/recent",
-				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<List<StyleVO>> listRecent() {
-		List<StyleVO> list = service.getList();
-		
-		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
-	}
+//	@GetMapping(value = "/list/recent",
+//				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+//	public ResponseEntity<List<StyleVO>> listRecent() {
+//		List<StyleVO> list = service.getList();
+//		
+//		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
+//	}
 	
 }
