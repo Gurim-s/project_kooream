@@ -37,7 +37,7 @@ public class StyleController {
 		List<StyleVO> list = service.getList(cri);
 		log.info(cri.getAmount() + "" + cri.getPageNum());
 		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
-	}	
+	}
 	
 //	@GetMapping(value = "/list/recent",
 //				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})

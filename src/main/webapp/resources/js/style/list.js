@@ -4,11 +4,17 @@
 
 var pageNum, amount;
 var column = $('.list-column');
+var more = $('#more');
 
 $(function() {
 	pageNum = 1;
 	amount = 20;
 	getList(pageNum, amount);
+	
+	$(more).on('click', function() {
+		pageNum++;
+		getList(pageNum, amount);
+	});
 })
 
 
@@ -24,6 +30,7 @@ function getList(pageNum, amount) {
 		contentType:"application/json",
 	})
 	.done(function(json) {
+		console.log(JSON.stringify(json));
 		$.each(json, function(idx, style) {
 			$(column[idx % 4]).append(JSON.stringify(style));
 		});
