@@ -107,7 +107,7 @@ public class RntUpldFileController {
 	//-----------------------------------------------------------------------------------X 누르면 파일 삭제
 	@PostMapping("/deleteFile")
 	@ResponseBody
-	public ResponseEntity<String> deleteFile(String fileName){
+	public ResponseEntity<String> deleteFile(String fileName, String getUuid){
 		log.info("deleteFile : " + fileName);
 			 
 		File file = null;
@@ -116,7 +116,7 @@ public class RntUpldFileController {
 			file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "utf-8"));	// 프론트에서 컨트롤러로 던질때 인코딩해서 던졋으므로 받을때 디코딩으로 받음
 			file.delete();
 			
-			service.removeFile(fileName);
+			service.removeFile(getUuid);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,7 +124,6 @@ public class RntUpldFileController {
 		}
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
-	// 파일 첨부시 pno업데이트
 	
 	
 	

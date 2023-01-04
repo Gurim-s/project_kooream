@@ -20,8 +20,8 @@ public class RntUpldFileServiceImpl implements RntUpldFileService{
 	}
 
 	@Override
-	public int removeFile(String fileName) {
-		return mapper.removeFile(fileName);
+	public int removeFile(String getUuid) {
+		return mapper.removeFile(getUuid);
 	}
 
 }

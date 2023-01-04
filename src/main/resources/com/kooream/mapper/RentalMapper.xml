@@ -6,9 +6,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.RentalMapper">
 	
 	<insert id="addRntPrdt">
+		<selectKey keyProperty="p_no" resultType="int" order="BEFORE">
+			SELECT rproduct_no_seq.nextval FROM DUAL
+		</selectKey>
 		INSERT INTO PRODUCT
 		(P_NO, B_NO, P_NAME_KO, P_NAME_EN, P_MODEL_NO, P_RELEASE_PRICE, P_CATEGORY, P_CLASS, P_STOCK, R_CHECK, R_PRICE)
-		VALUES(rproduct_no_seq.nextval, 
+		VALUES(#{p_no}, 
 			#{b_no}, 
 			#{p_name_ko}, 
 			#{p_name_en}, 
@@ -20,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			'y', 
 			#{r_price})
 	</insert>
+	
 	
 	
 	

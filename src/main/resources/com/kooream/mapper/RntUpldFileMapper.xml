@@ -5,19 +5,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.kooream.mapper.RntUpldFileMapper">
 	<insert id="uploadFile">
-		INSERT INTO PRODUCT_IMAGE(UUID, FILENAME, FILETYPE, UPLOADPATH, PNO)
-		VALUES(#{uuid}, #{FileName}, #{FileType, jdbcType=VARCHAR}, #{uploadPath}, #{pno, jdbcType=VARCHAR})
+		INSERT INTO PRODUCT_IMAGE(UUID, FILENAME, FILETYPE, UPLOADPATH)
+		VALUES(#{uuid}, #{FileName}, #{FileType, jdbcType=VARCHAR}, #{uploadPath})
 	</insert>
 
 	<delete id="removeFile">
-		DELETE FROM PRODUCT_IMAGE WHERE UUID=#{uuid}
+		DELETE FROM PRODUCT_IMAGE WHERE UUID=#{param1}
 	</delete>
+	
+	<update id="updtPno" parameterType="map">
+		UPDATE PRODUCT_IMAGE SET P_NO=#{p_no} WHERE UUID=#{uuid}
+	</update>
+	
 <!--
 	<select id="3">
 		SELECT * FROM PRODUCT_IMAGE WHERE PNO=#{pno}
 	</select>
 	
-	<update id="4">
-		UPDATE PRODUCT_IMAGE SET PNO=#{pno} WHERE UUID=#{uuid}
-	</update>	 -->
+		 -->
 </mapper>
