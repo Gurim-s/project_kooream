@@ -46,8 +46,15 @@
 				</div>
 				<div class="row">
 					<span class="title_content">사진 등록</span>
-					<input type="file" name="uploadFile" multiple="multiple" class="custom-btn btn-1">
-				</div>
+					<div>
+						<div>
+							<input type="file" name="uploadFile" multiple="multiple" accept="image/jpeg, image/gif, image/png">
+						</div>
+						<div class="uploadResult">
+			               <ul></ul>
+			            </div>					
+					</div>
+				</div>	<!-- row.... end -->
 			</div> <!--  insert_codi.... end -->
 			<hr/>
 			<br/><br/><br/>
@@ -85,26 +92,52 @@
 			}else{
 				console.log("submit clicked");
 				var str = '';
-			
 				
-				
-				
+				$(".uploadResult ul li").each(function(i, obj){
+					var jobj = $(obj);
+					console.dir(jobj);
+					console.dir(jobj);
+					str+='<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'">';
+					str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
+					str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
+					
+				});
 			formObj.append(str);
 			formObj.submit();
 			}
-			
-			
 		}); // button click end 
 		
 		
 		
-		
-		
+		//파일 업로드	
+		// 이미지 파일만 가능 하게 하기 
+		function fileCheck(obj) {
+			pathPoint = obj.value.lastIndexOf('.');
+			filepoint = obj.value.substring(parthpoint+1,obj.length);
+			filetype = filepoint.toLowerCase();
+			
+			if(filetype=='jpg' || filetype=='gif' || filetype=='png' || filetype=='jpeg' || filetype=='bmp'){
+				// 정상적인 이미지 확장자 파일
+			}else{
+				alert('이미지 파일만 선택할 수 있습니다.');
+				parentObj = obj.parentNode;
+				node = parentObj.replaceChild(obj.cloneNode(true).obj);
+				return false;
+			};
+			
+			if(filetype == 'bmp'){
+				upload = confirm('BMP파일은 웹상에서 사용하기엔 적절한 이미지 포멧이 아닙니다. 그래도 계속하시겠습니까 ?');
+				if(!upload)return false;
+			};
+	 		
+		}; 
+	
 	}); // function end
-
-
-
-
+	
+	
+	
+	
+	
 </script>
 
 

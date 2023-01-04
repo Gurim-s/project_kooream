@@ -20,6 +20,8 @@ public interface CodiService {
 	public boolean remove(int codi_no);
 	
 	
+	public List<CodiVO> getList();
+	
 	
 	
 	

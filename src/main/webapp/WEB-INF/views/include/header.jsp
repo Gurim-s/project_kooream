@@ -154,7 +154,7 @@
 						<a href="/rental/index">RENTAL</a>
 					</li>
 					<li>
-						<a href="/codishop/index">CODI</a>
+						<a href="/codishop/list">CODI</a>
 					</li>
 					<li>
 						<a href="/community/index">COMMUNITY</a>
