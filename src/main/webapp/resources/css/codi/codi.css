@@ -37,3 +37,32 @@
 	background-color: black;
 	border-radius : 10px
 }
+
+a .abtn{
+    display:block;
+    width:120px;
+    line-height:30px;
+    text-align:right;
+    /* 이미지 크기를 30*30 정사각형으로 지정하는 경우 */
+    padding-left:40px; /* 이미지와 글자사이 10px의 간격을 줌 */
+    background-image:url(search.png);
+    background-repeat:no-repeat;
+    background-position:left center;
+}
+
+.codi_box h2{
+	text-align: left;
+	
+}
+
+#textForm{
+	width: 95%;
+	  border:none;
+	  outline:none;
+	  color: #636e72;
+	  font-size:16px;
+	  height:25px;
+	  background: none;
+		
+}
+

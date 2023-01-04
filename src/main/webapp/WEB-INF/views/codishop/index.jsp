@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <link rel="stylesheet" href="/resources/css/codi/codi.css" />
 
-<body class="cordishop">
 <jsp:include page="../include/header.jsp"/>
+
+<body class="cordishop">
+	
+	
 	<div class="codi_box">
 
 		<div class="social_title">
@@ -23,6 +27,11 @@
 				<a href="#" class="brand_keyword">#THE NORTH FACE</a>
 				<a href="#" class="brand_keyword">#KOOREAM STANDARD</a>
 			</div>
+			<br/><br/>
+			<div class="regBtngo">
+				<a id="regBtn" class="abtn" href="/codishop/register">새 코디 등록</a>
+			</div>
+			<br/><br/>
 		</div>
 		<div class="social_feeds" style="position: relative; height: 100%">
 			<div class="masonry_posts">
@@ -92,12 +101,16 @@
 				</div>
 			</div>
 		</div>
-		
-		
-
-
-
 	</div>
+		<form action="/codishop/index" method="get" id="actionForm">
+			
+		</form>
 </body>
+
+<script type="text/javascript">
+
+</script>
+
+
 </html>
 <jsp:include page="../include/footer.jsp"/>
