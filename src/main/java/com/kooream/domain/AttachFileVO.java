@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AttachFileVO {
 	private String uuid, FileName, FileType, uploadPath;
-	private int pno;
+	private int p_no;
 }

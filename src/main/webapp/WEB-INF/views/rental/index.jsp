@@ -5,7 +5,8 @@
 	main .wrapper{
 		padding: 0;
 		margin: 0;
-		width: 100%
+		width: 100%;
+		max-width: none;
 	}
 	main{
 		padding: 0;

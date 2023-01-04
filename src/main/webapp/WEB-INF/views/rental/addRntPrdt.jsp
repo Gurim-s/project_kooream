@@ -77,8 +77,9 @@
 			<tr>
 				<td colspan="2" id="btn">
 					<input type="reset"  value="다시 작성"/>
-					<input type="submit" value="상품 등록"/>
+					<input type="submit" value="상품 등록"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
 					<input type="button" onclick="history.go(-1)" value="목록으로 이동"/>
+					<input type="hidden" id="strUuid" name="strUuid"/>
 				</td>
 			</tr>
 		</table>
@@ -135,7 +136,8 @@ $(function() {
 	function showUploadFile(uploadResultArr){	// 리스트 갯수만큼 li만들어서 uploadResult에다 동적으로 넣을것임
 		
 		var str = '<input id="file" type="file"/> ';
-	
+		var strUuid = '';
+		
 		for(var i=0; i<uploadResultArr.length; i++){
 			var obj = uploadResultArr[i];
 			
@@ -145,27 +147,35 @@ $(function() {
             //str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
             str += obj.fileName;
             str += '</a>';
-            str += '<span data-file="'+fileCallPath+'"> X </span>';		// X표시 만들어서 파일 삭제할 수 있게 기능 넣을 예정
+            str += '<span data-file="'+fileCallPath+'" data-uuid="'+obj.uuid+'"> X </span>';		// X표시 만들어서 파일 삭제할 수 있게 기능 넣을 예정
+			
+            strUuid += "@" + obj.uuid;
 		}
-		uploadResult.html(str);				
+		uploadResult.html(str);	
+		$("#strUuid").val(strUuid);
+		
 	}	//------------------------------------------------------------------------end showUploadFile();
 
-// ------------------------------------------------------------------------------파일 삭제 ajax
-uploadResult.on("click", "span", function(){
-	var targetFile = $(this).data("file");
-	
-	$.ajax({
-		url : "/rntfile/deleteFile",
-		data : {fileName: targetFile},
-		type : "post",
-		dataType : "text",
-		success : function(result){
-			console.log(result);					// upload한 파일이 upload드 되고나서 리스트 리턴
-		}
+	// ------------------------------------------------------------------------------파일 삭제 ajax
+	uploadResult.on("click", "span", function(){
+		var deleteSapn = $(this)
+		var targetFile = deleteSapn.data("file");
+		var getUuid = $(this).data("uuid");
+		
+		$.ajax({
+			url : "/rntfile/deleteFile",
+			data : {fileName: targetFile, getUuid: getUuid},
+			type : "post",
+			dataType : "text",
+			success : function(result){
+				console.log(result);					// upload한 파일이 upload드 되고나서 리스트 리턴
+				deleteSapn.prev().remove();
+				deleteSapn.remove();
+			}
+		});
+		
+		
 	});
-	
-	
-});
 
 
 

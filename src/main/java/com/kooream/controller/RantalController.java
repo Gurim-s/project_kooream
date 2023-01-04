@@ -31,7 +31,9 @@ public class RantalController {
 	// 렌탈리스트 페이지 이동
 	@GetMapping("/rentalList")
 	public String rentalList(@RequestParam(value="brand", required=false) String brand) {	//required=false -> brand가 null값이어도 오류 안남
-		log.info(brand);
+		ProductVO vo = new ProductVO();
+		vo = service.getList(brand);
+		
 		return "/rental/rentalList";
 	}
 	
@@ -45,11 +47,11 @@ public class RantalController {
 	@PostMapping("/addRntPrdt")
 	public String addRntPrdt(ProductVO vo) {
 		
-		
 		service.addRntPrdt(vo);
 		
 		return "redirect:/rental/rentalList";
 	}
+	
 	
 	
 }
