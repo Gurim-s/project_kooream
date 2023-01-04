@@ -143,7 +143,7 @@
 						<a href="/style/list">STYLE</a>
 					</li>
 					<li>
-						<a href="#">SHOP</a>
+						<a href="shop/shop_allList">SHOP</a>
 					</li>
 					<li>
 						<a href="#">BRAND</a>
