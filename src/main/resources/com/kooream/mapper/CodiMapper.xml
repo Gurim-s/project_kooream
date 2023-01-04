@@ -15,10 +15,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getListWithPaging" resultType="com.kooream.domain.CodiVO">
 			<![CDATA[
 			select 
-				 codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_Kg
+				 codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg
 			from
 				(select /*+index_desc(codi_board SYS_C007347)*/
-				rownum rn, codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_Kg
+				rownum rn, codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg
 				from codi_board
 				where rownum <= #{pageNum}*#{amount})
 			where rn > (#{pageNum}-1) * #{amount}

@@ -144,7 +144,7 @@
 						<a href="/style/list">STYLE</a>
 					</li>
 					<li>
-						<a href="shop/shop_allList">SHOP</a>
+						<a href="/shop/shop_allList">SHOP</a>
 					</li>
 					<li>
 						<a href="/brandshop/index">BRAND</a>	

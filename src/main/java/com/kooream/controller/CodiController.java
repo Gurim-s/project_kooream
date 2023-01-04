@@ -1,6 +1,6 @@
 package com.kooream.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +13,7 @@ import com.kooream.domain.Criteria;
 import com.kooream.service.CodiService;
 
 import lombok.AllArgsConstructor;
-import lombok.Setter;
+//import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -26,7 +26,7 @@ public class CodiController {
 
 
 	@GetMapping("/list")
-	public String list(Criteria cri,Model model) {
+	public String list(Criteria cri ,Model model) {
 		log.info("index.... 게시글 목록 이동");
 		
 		model.addAttribute("list", service.getListWithPaging(cri));

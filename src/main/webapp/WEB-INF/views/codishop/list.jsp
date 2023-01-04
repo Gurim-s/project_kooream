@@ -59,10 +59,20 @@
 		padding: 1em 2em;
 		border: 1px solid #b2876f;
 	}
+	.codi-table{
+		margin: auto;
+		width: 80%;
+	}
+	.codi-table td{
+		padding : 10px;
+	}
+	.codi-img {
+		width: 275px;
+		height: 350px;
+	}
 
 </style>
 <body class="cordishop">
-	
 	
 	<div class="codi_box">
 
@@ -93,27 +103,120 @@
 			</div>
 		</div>
 		<div class="main-codi">
-			<table>
-				<c:forEach  var="vo" items="${list }">
+			<table class="codi-table">
+				<colgroup>
+					<col width="20%"/>
+					<col width="20%"/>
+					<col width="20%"/>
+					<col width="20%"/>
+				</colgroup>
+				<tbody>
+				<c:set var="i" value="0" />
+				<c:set var="j" value="4" />
+					<c:forEach  var="vo" items="${list }" varStatus="status">
+					<c:if test="${i%j == 0 }">
+					</tr><tr>
+					</c:if>
+						<td>					
+							<img class="codi-img" src="<c:url value='/resources/img/codi_test.png'/>" alt="codi-img"><br>
+							<span style="font-weight: bold; font-size: large;"><c:out value="${vo.codi_title }"/></span><br>
+							<span style="color: gray; font-size: small;"> 모델 : <c:out value="${vo.codimodel_name }"/></span><br>
+							<span><c:out value="${vo.codi_cm }"/> | <c:out value="${vo.codi_kg }"/></span><br>
+							<span> <fmt:formatDate pattern="yyyy-MM-dd" value="${vo.codi_date }"/></span>
+						</td>
+				 	<c:if test="${i%j == j-1 }">
 					<tr>
-						<td><c:out value="${vo.codi_no }"/></td>
-						<td><c:out value="${vo.m_no }"/></td>
-						<td><c:out value="${vo.codimodel_name }"/></td>
-						<td><c:out value="${vo.codi_title }"/></td>
-						<td><c:out value="${vo.codi_content }"/></td>
-						<td><c:out value="${vo.codi_cm }"/></td>
-						<td><c:out value="${vo.codi_Kg }"/></td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${vo.codi_date }"/></td>
-					</tr>
-				</c:forEach>		
+					</c:if>
+	    			<c:set var="i" value="${i+1 }" />
+					</c:forEach>
+							
+				</tbody>
 			</table>
 		</div>
-			
 	</div>
 </body>
 
 <script type="text/javascript">
 
+var pageNum, amount;
+var column = $('.list-column');
+
+$(function() {
+	pageNum = 1;
+	amount = 20;
+	getList(pageNum, amount);
+})
+
+
+function getList(pageNum, amount) {
+	$.ajax({
+		url: "list/hot",
+		data: JSON.stringify({
+			pageNum: pageNum,
+			amount: amount,
+		}),
+		type: 'post',
+		dataType:"json",
+		contentType:"application/json",
+	})
+	.done(function(json) {
+		$.each(json, function(idx, style) {
+			$(column[idx % 4]).append(JSON.stringify(style));
+		});
+	});	
+}
+
+
+var rno =""; 
+$(function(){
+	
+	// 화면 이동 스크립트 ----------------------------------------Start
+	var operForm = $("#operForm");
+	$("#boardModBtn").click(function() {
+		operForm.append('<input type="hidden" name="bno" value="'+${vo.bno }+'">');
+		operForm.submit();	
+	});
+
+	$("#listMoveBtn").click(function() {
+		operForm.attr("action","/board/list");
+		operForm.submit();
+	});
+	// 화면 이동 스크립트 ----------------------------------------End
+	
+	var bnoValue = '${vo.bno}';
+	var replyUL = $(".chat");
+ 	
+	
+	// 첨부 파일 스크립트 ----------------------------------------start
+		$.ajax({
+		url:'/board/list',
+		type:'get',
+		data : {bno:bnoValue},
+		contentType:'application/json; charset=utf-8',
+		success : function(arr) {
+			console.log(arr);
+			 
+			var str = '';
+	            
+            for(var i=0; i<arr.length; i++){
+               var obj = arr[i];
+               
+               var fileCallPath = encodeURIComponent(obj.uploadPath + "/"
+            		   									+ obj.uuid + "_" 
+            		   									+ obj.fileName);
+               
+               str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';
+               str += '<a href="/download?fileName='+fileCallPath+'">';
+               str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+               str += '</a>'
+               // str += '<span data-file="'+fileCallPath+'"> X </span>';
+               str += '</li>';
+            }
+	            
+	           $(".uploadResult ul").html(str);
+			
+		}
+	});
 </script>
 
 
