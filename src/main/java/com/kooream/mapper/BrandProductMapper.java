@@ -1,9 +1,13 @@
 package com.kooream.mapper;
 
-import com.kooream.domain.BrandProductVO;
+import java.util.List;
+
+import com.kooream.domain.ProductVO;
 
 public interface BrandProductMapper {
 	
-	public void insert(BrandProductVO board);
+	public void insert(ProductVO board);
+
+	public List<ProductVO> getList();
 
 }
