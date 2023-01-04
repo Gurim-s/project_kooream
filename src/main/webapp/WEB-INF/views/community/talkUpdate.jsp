@@ -29,48 +29,50 @@
 	<br/>
 	<hr/>
 	<br/>
-	<form action="/community/talkRegister" method="post" role="form">
+	<form action="/community/talkUpdate" method="post" id="form">
 		<table>
 			<tr>
-				<td>회원번호</td>
-				<td><input type="number" name="m_no"></td>
-			</tr>
-			<tr>
 				<td>제목</td>
-				<td><input type="text" name="talktitle"></td>
+				<td><input type="text" name="talktitle" value="${vo.talktitle }"></td>
 			</tr>
 			<tr>
 				<td>닉네임</td>
-				<td><input type="text" name="talkname"></td>
+				<td><input type="text" name="talkname" value="${vo.talkname }"></td>
 			</tr>
 			<tr>
-				<td>내용</td>
-				<td><textarea rows="15" cols="30" name="talkcon"></textarea></td>
+				<td colspan="2"><textarea rows="15" cols="30" name="talkcon">${vo.talkcon }</textarea></td>
 			</tr>
 			<tr>
-				<td><button class="btn-insert" data-oper="talkregister">등록</button></td>
+				
+				<td>
+				<input type="hidden" name="talkno" value="${vo.talkno }">
+				<button class="btn-insert" data-oper="talkupdate">수정 완료</button>
+				</td>
 				<td><button class="btn-list" data-oper="talklist">목록</button></td>
 			</tr>
 		</table>
 	</form>
 </body>
 <script type="text/javascript">
-	$(function() {
-		var form = $("form");
+	$(function () {
+		
+		var form = $("#form");
+		var oper = $(this).data("oper");
 		
 		$("button").click(function(e) {
-			e.preventDefault();	// 버튼에 걸린 기본 이벤트 삭제
-		
-			var oper = $(this).data("oper");	//해당 버튼의 data가 oper인 것
+			e.preventDefault();	// 버튼 기본 이벤트 막기
 			
-			if(oper == 'talkregister'){	//게시글 등록
-				form.submit();	// 해당 form 데이터 보내기
-			}else if( oper == 'talklist'){
-				location.href = '/community/talkList'
+			if(oper == 'talklist'){
+				form.attr("action", "/community/talkList");
+				form.submit();
+			}else{
+				form.submit();
 			}
+			
 		})
+		
+		
 	})
-	
 </script>
 
 </html>

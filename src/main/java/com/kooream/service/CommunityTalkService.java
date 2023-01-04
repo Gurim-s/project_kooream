@@ -11,4 +11,13 @@ public interface CommunityTalkService {
 	
 	// 구림톡 게시글 등록
 	public void talkRegister(CommunityTalkVO vo); 
+	
+	// 구림톡 게시글 상세 페이지 보기
+	public CommunityTalkVO talkGet (int talkno);
+	
+	// 구림톡 게시글 삭제
+	public boolean talkRemove(int talkno);
+	
+	// 구림톡 게시글 수정
+	public boolean talkUpdate(CommunityTalkVO vo);
 }

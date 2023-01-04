@@ -32,7 +32,7 @@ public class RantalController {
 	@GetMapping("/rentalList")
 	public String rentalList(@RequestParam(value="brand", required=false) String brand) {	//required=false -> brand가 null값이어도 오류 안남
 		ProductVO vo = new ProductVO();
-		vo = service.getList(brand);
+		/* vo = service.getList(brand); */
 		
 		return "/rental/rentalList";
 	}
