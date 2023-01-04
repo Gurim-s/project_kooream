@@ -155,7 +155,7 @@
 						<a href="#">CODI</a>
 					</li>
 					<li>
-						<a href="#">COMMUNITY</a>
+						<a href="/community/index">COMMUNITY</a>
 					</li>
 					<li>
 						<a href="#">검색</a>
