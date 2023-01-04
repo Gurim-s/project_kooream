@@ -5,8 +5,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.kooream.mapper.StyleMapper">
 	<select id="getList" resultType="com.kooream.domain.StyleVO">
-		select *
-		from style
+		<![CDATA[
+			select style_no, m_no, style_regdate, style_content, count_like, count_comment
+			from (select /*+index_desc(style style_pk) */
+            	  rownum rn, style_no, m_no, style_regdate, style_content, count_like, count_comment
+			      from style
+        		  where rownum <= #{pageNum} * #{amount})
+			where rn > (#{pageNum} - 1) * #{amount}
+		]]>
 	</select>
 	
 </mapper>

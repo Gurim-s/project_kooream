@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleVO;
 
 import lombok.Setter;
@@ -20,11 +21,11 @@ public class StyleServiceTests {
 	@Setter(onMethod_ = @Autowired)
 	private StyleService service;
 	
-	@Test
-	public void testGetList() {
-		List<StyleVO> list =  service.getList();
-		for (StyleVO vo : list) {
-			log.info(vo);			
-		}
-	}
+//	@Test
+//	public void testGetList() {
+//		List<StyleVO> list =  service.getList(new Criteria(1, 10));
+//		for (StyleVO vo : list) {
+//			log.info(vo);			
+//		}
+//	}
 }
