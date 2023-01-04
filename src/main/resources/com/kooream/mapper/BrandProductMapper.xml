@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.BrandProductMapper">
+<insert id="insert" parameterType="com.kooream.domain.BrandProductVO">
+	insert into PRODUCT
+	(p_no, b_no, P_NAME_KO, P_NAME_EN, P_SIZE, P_BRAND, P_MODEL_NO,  P_RELEASE_PRICE,  P_CATEGORY, P_CLASS, P_STOCK)
+	values(seq_PRODUCT.nextval, #{b_no}, #{P_NAME_KO}, #{P_NAME_EN}, #{P_SIZE}, #{P_BRAND}, #{P_MODEL_NO},  #{P_RELEASE_PRICE},  #{P_CATEGORY}, 'brand', #{P_STOCK} )
+</insert>
+	
+</mapper> 

@@ -146,7 +146,8 @@
 						<a href="#">SHOP</a>
 					</li>
 					<li>
-						<a href="#">BRAND</a>
+						<a href="/brandshop/index">BRAND</a>	
+						<!-- href가 기본적으로 GetMapping -> Controller를 탄다 -->
 					</li>
 					<li>
 						<a href="/rental/index">RENTAL</a>

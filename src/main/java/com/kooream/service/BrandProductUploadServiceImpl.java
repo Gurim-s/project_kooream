@@ -14,18 +14,9 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j 
-  public class BrandProductServiceImpl implements BrandProductService{
+  public class BrandProductUploadServiceImpl implements BrandProductUploadService{
   
-  @Setter(onMethod_ = @Autowired ) 
-  private BrandProductMapper mapper;
-  
-  
-  @Override 
-  public void register(BrandProductVO vo) { 
-	  mapper.insert(vo);
-  
-  
-  }
+
   
   
   }
