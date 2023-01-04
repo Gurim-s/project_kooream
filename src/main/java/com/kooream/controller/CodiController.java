@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequestMapping("/codishop/*")
 @AllArgsConstructor
-public class Codicontroller {
+public class CodiController {
 	
 	private CodiService service;
 
