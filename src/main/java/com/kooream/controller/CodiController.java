@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Criteria;
 import com.kooream.service.CodiService;
 
 import lombok.AllArgsConstructor;
@@ -25,9 +26,10 @@ public class Codicontroller {
 
 
 	@GetMapping("/list")
-	public String list(Model model) {
+	public String list(Criteria cri,Model model) {
 		log.info("index.... 게시글 목록 이동");
 		
+		model.addAttribute("list", service.getListWithPaging(cri));
 		return "codishop/list";
 		
 	}

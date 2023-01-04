@@ -3,6 +3,7 @@ package com.kooream.service;
 import java.util.List;
 
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Criteria;
 
 public interface CodiService {
 	
@@ -20,7 +21,8 @@ public interface CodiService {
 	public boolean remove(int codi_no);
 	
 	
-	public List<CodiVO> getList();
+	//public List<CodiVO> getList();
+	public List<CodiVO> getListWithPaging(Criteria cri);
 	
 	
 	

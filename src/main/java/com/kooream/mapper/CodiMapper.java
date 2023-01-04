@@ -4,11 +4,14 @@ import java.util.List;
 
 
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Criteria;
 
 public interface CodiMapper {
 	
 	// 목록 조회 
-	public List<CodiVO> getList();
+	//public List<CodiVO> getList();
+	// 목록 조회 페이지 처리
+	public List<CodiVO> getListWithPaging(Criteria cri);
 	
 	// read 
 	public CodiVO read(int codi_no);

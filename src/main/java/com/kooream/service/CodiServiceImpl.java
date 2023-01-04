@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Criteria;
 import com.kooream.mapper.CodiMapper;
 
 import lombok.Setter;
@@ -18,15 +19,13 @@ public class CodiServiceImpl implements CodiService{
 	@Setter(onMethod_ = @Autowired)
 	private CodiMapper mapper;
 	
-
 	@Override
-	public List<CodiVO> getList() {
-		
+	public List<CodiVO> getListWithPaging(Criteria cri) {
 		log.info("getList.....");
-		
-		
-		return mapper.getList();
+		return mapper.getListWithPaging(cri);
 	}
+	
+	
 	
 	@Override
 	public void register(CodiVO vo) {
