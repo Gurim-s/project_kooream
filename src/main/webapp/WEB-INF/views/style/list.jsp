@@ -11,6 +11,7 @@
 			<button id="recent" class="">최신</button>
 			<button id="following" class="">팔로잉</button>
 			<button id="search" class="">검색</button>
+			<button id="register">+</button>
 		</div>
 		<div id="styleList" class="clearfix">
 			<div class="list-column">
