@@ -1,13 +1,25 @@
 package com.kooream.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
+import com.kooream.domain.RentalMenuVO;
 import com.kooream.service.RentalService;
 
 import lombok.Setter;
@@ -37,6 +49,13 @@ public class RantalController {
 		return "/rental/rentalList";
 	}
 	
+	@PostMapping(value="/ajax/rentalList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<ProductVO>> rentalList(RentalMenuVO vo) {	// required=false -> brand가 null값이어도 오류 안남
+		List<ProductVO> list = service.getList(vo);
+		return new ResponseEntity<List<ProductVO>>(list, HttpStatus.OK);
+	}
+	 
 	// 렌탈 상품 등록 페이지로 이동
 	@GetMapping("/addRntPrdtPage")
 	public String addRntPrdtPage() {
