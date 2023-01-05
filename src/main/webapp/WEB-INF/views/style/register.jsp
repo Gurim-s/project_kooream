@@ -32,6 +32,7 @@
 			<div class="clearfix">
 				<div class="editable textarea" contenteditable="true"></div>
 				<textarea name="style_content"></textarea>
+				<textarea name="style_text_content"></textarea>
 			</div>
 			<h2>상품태그(임시)</h2>
 			<div class="form-btn">

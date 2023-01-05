@@ -11,9 +11,16 @@ $(function() {
 	//div 입력창 만드는 함수
 	$('.editable').each(function(_, textDiv){
 		if ($(textDiv).prop('tagName') == 'div') return;
-		var textarea = $('textarea');
-		$(textDiv).on('input', function({target}) {
-			$(textarea).val(target.innerHTML);
+		
+		var html = $('textarea[name="style_content"]');
+		var text = $('textarea[name="style_text_content"]');
+		$(textDiv).on('input', function({target, data}) {
+			console.log(data);
+			if (data == '#') alert('#을 누르셨습니다.');
+			$(html).val(target.innerHTML);
+			$(text).val(target.innerText);
+			console.log($(html).val());
+			console.log($(text).text());
 		});
 	    this.contentEditable = true;
 	});
