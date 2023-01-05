@@ -1,6 +1,7 @@
 package com.kooream.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,4 +19,6 @@ public class StyleVO {
 	private String style_content;
 	private long count_like;
 	private long count_comment;
+	
+	private List<StyleImageVO> style_image;
 }
