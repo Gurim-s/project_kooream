@@ -144,7 +144,7 @@
 						<a href="/style/list">STYLE</a>
 					</li>
 					<li>
-						<a href="shop/shop_allList">SHOP</a>
+						<a href="/shop/shop_allList">SHOP</a>
 					</li>
 					<li>
 						<a href="/brandshop/index">BRAND</a>	
@@ -154,7 +154,7 @@
 						<a href="/rental/index">RENTAL</a>
 					</li>
 					<li>
-						<a href="/codishop/index">CODI</a>
+						<a href="/codishop/list">CODI</a>
 					</li>
 					<li>
 						<a href="/community/index">COMMUNITY</a>
