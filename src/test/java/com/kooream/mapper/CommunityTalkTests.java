@@ -23,27 +23,50 @@ public class CommunityTalkTests {
 	
 	
 	// 구림톡 게시판 리스트 출력 테스트
-	@Test
-	public void testGetTalkList() {
-		
-		List<CommunityTalkVO> talkList = mapper.getTalkList();
-		for(CommunityTalkVO vo : talkList) {
-			log.info(vo);
-		}
-	}
+//	@Test
+//	public void testGetTalkList() {
+//		
+//		List<CommunityTalkVO> talkList = mapper.getTalkList();
+//		for(CommunityTalkVO vo : talkList) {
+//			log.info(vo);
+//		}
+//	}
+//	
+//	@Test
+//	public void testTalkRegister() {
+//		CommunityTalkVO vo = new CommunityTalkVO();
+//		vo.setM_no(1);
+//		vo.setTalkcon("제가 세번째 글을 쓰게 되네요. 영광 입니다 하핫 ^^*");
+//		vo.setTalkname("구리머3");
+//		vo.setTalktitle("3등 당첨!!");
+//		
+//		mapper.talkInsert(vo);
+//		
+//		log.info(vo);
+//		
+//	}
+//	
+//	@Test
+//	public void testTalkGet() {
+//		CommunityTalkVO vo = new CommunityTalkVO();
+//		
+//		mapper.talkGet(1);
+//		log.info(vo);
+//		
+//		
+//	}
 	
-	@Test
-	public void testTalkRegister() {
-		CommunityTalkVO vo = new CommunityTalkVO();
-		vo.setM_no(1);
-		vo.setTalkcon("제가 세번째 글을 쓰게 되네요. 영광 입니다 하핫 ^^*");
-		vo.setTalkname("구리머3");
-		vo.setTalktitle("3등 당첨!!");
-		
-		mapper.talkInsert(vo);
-		
-		log.info(vo);
-		
-	}
+//	@Test
+//	public void testTalkUpdate() {
+//		CommunityTalkVO vo = new CommunityTalkVO();
+//		
+//		vo.setTalkcon("내용 수정");
+//		vo.setTalkname("닉넴 수정");
+//		vo.setTalktitle("제목 수정");
+//		
+//		//mapper.talkUpdate();
+//		
+//		log.info(vo);
+//	}
 	
 }
