@@ -2,8 +2,7 @@
 
 #categories {
 	margin: 30px auto;
-	width: 300px;
-	
+	text-align: center;
 }
 #categories button {
 	background: white;
@@ -16,6 +15,16 @@
 	color: white;
 	font-weight: bold;
 }
+#categories button#register {
+	float: right;
+	color: white;
+	font-size:30px;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	background-color: black;
+	border-radius: 50%;
+}
 #styleList {
 	width: 100%;
 	border: 1px solid black;	
@@ -23,7 +32,6 @@
 #styleList .list-column{
 	width: calc(25% - 17px);
 	margin-right: 17px;
-	height: 200px;
 	float: left;
 	border: 1px solid red;	
 }

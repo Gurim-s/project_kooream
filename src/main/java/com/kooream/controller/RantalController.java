@@ -42,7 +42,10 @@ public class RantalController {
 	
 	// 렌탈리스트 페이지 이동
 	@GetMapping("/rentalList")
-	public String rentalList() {	// required=false -> brand가 null값이어도 오류 안남
+	public String rentalList(@RequestParam(value="brand", required=false) String brand) {	//required=false -> brand가 null값이어도 오류 안남
+		ProductVO vo = new ProductVO();
+//		vo = service.getList(brand);
+		
 		return "/rental/rentalList";
 	}
 	
