@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.StyleVO;
 
 public interface CodiService {
 	
@@ -20,6 +21,8 @@ public interface CodiService {
 	// 삭제 Delete
 	public boolean remove(int codi_no);
 	
+	// 목록 조회 
+	public List<CodiVO> getList(Criteria cri);
 	
 	//public List<CodiVO> getList();
 	public List<CodiVO> getListWithPaging(Criteria cri);
