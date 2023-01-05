@@ -72,46 +72,21 @@
 	.minus_btn.clicked {
 		display: block;
 	}
-	
-	.category_menu{
-		display: none;
-	}
-	
-	.category_menu.clicked {
-		display: block;
-	}
-	
-	.filter_box{
-		display: inline-block;
-	}
-	
-	.product_photo{
-		display: inline-block;
-		border: 1px solid black;
-		width: 165px;
-		height : 320px;
-	}
-	
 </style>
 	<div class="shop_title" style="height: 110px; width: 100%;">
 		<h2 class="shop_text">SHOP</h2>
 	</div>
-	<div class="filter_box" style="border : 1px solid black; width : 210px;">
+	<div style="border : 1px solid black; width : 210px;">
 		<div class="filter_status" style="padding : 23px 0 15px;">
 			<span class="filter_text">필터</span>
 		</div>
-		<div class="filter_title" id="filter_title">
+		<div class="filter_title">
 			<div class="title_box">
 				<span class="categoty">카테고리</span><br/>
 				<span class="all_category">모든 카테고리</span>
 			</div>
 			<div class="plus_btn">+</div>
 			<div class="minus_btn">-</div>
-		</div>
-		<div class="category_menu" id="category_menu">
-			<label><input type="checkbox" value="신발">신발</label><br/>
-			<label><input type="checkbox" value="의류">의류</label><br/>
-			<label><input type="checkbox" value="패션잡화">패션잡화</label>
 		</div>
 		<div class="filter_title">
 			<div class="title_box">
@@ -121,11 +96,21 @@
 			<div class="plus_btn">+</div>
 			<div class="minus_btn">-</div>
 		</div>
-		<div class="category_menu" id="category_menu">
-			<label><input type="checkbox" value="Nike">Nike</label><br/>
-			<label><input type="checkbox" value="Vans">Vans</label><br/>
-			<label><input type="checkbox" value="Jordan">Jordan</label><br/>
-			<label><input type="checkbox" value="Apple">Apple</label>
+		<div class="filter_title">
+				<div class="title_box">
+					<span class="categoty">성별</span><br/>
+					<span class="all_category">모든 성별</span>
+				</div>
+			<div class="plus_btn">+</div>
+			<div class="minus_btn">-</div>
+		</div>
+		<div class="filter_title">
+				<div class="title_box">
+					<span class="categoty">컬렉션</span><br/>
+					<span class="all_category">모든 컬렉션</span>
+				</div>
+			<div class="plus_btn">+</div>
+			<div class="minus_btn">-</div>
 		</div>
 		<div class="filter_title">
 				<div class="title_box">
@@ -135,49 +120,15 @@
 			<div class="plus_btn">+</div>
 			<div class="minus_btn">-</div>
 		</div>
-			<div class="category_menu" id="category_menu">
-				<label><input type="checkbox" value="Nike">Nike</label><br/>
-				<label><input type="checkbox" value="Vans">Vans</label><br/>
-				<label><input type="checkbox" value="Jordan">Jordan</label>
-				<label><input type="checkbox" value="Apple">Apple</label>
-			</div>
-	</div>
-	<div class="product_photo">
-		ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
 	</div>
 <jsp:include page="../include/footer.jsp"/>
 
 <script type="text/javascript">
 	var filters = $('.filter_title');
-	
 	filters.on('click', function(e) {
+		console.log('hello');
 		$(e.target).closest('.filter_title').find('.all_category').toggleClass('clicked');
 		$(e.target).closest('.filter_title').find('.plus_btn').toggleClass('clicked');
 		$(e.target).closest('.filter_title').find('.minus_btn').toggleClass('clicked');
-	});
-	
-// 	var elementToToggle = $('.category_menu');
-	var button = $('.filter_title');
-
-	$(button).on('click', (e) => {
-		var category_menu = $(e.target).closest('.filter_title').next('.category_menu'); // 가장 가까운 .filter_title 부모 요소 선택
-		if ($(category_menu).css('display') === 'block') {
-			$(category_menu).css('display', 'none');
-		} else {
-			$(category_menu).css('display', 'block');
-		}
-	});
-	
-	const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-	checkboxes.forEach(checkbox => {
-	  checkbox.addEventListener('change', event => {
-	    const checkedCheckbox = event.target;
-	    checkboxes.forEach(checkbox => {
-	      if (checkbox !== checkedCheckbox) {
-	        checkbox.checked = false;
-	      }
-	    });
-	  });
 	});
 </script>
