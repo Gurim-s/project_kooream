@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="/resources/css/codi/codi.css" />
 <jsp:include page="../include/header.jsp"/>
 
-<body class="cordiregister">
 
 	<div class="codi_box">
 		<div class="social_title">
@@ -60,21 +59,18 @@
 			<br/><br/><br/>
 			<div class="btn btn_all">
 				<button class="btn1" data-oper="list">목록으로 가기</button>
-				<button class="btn1" data-oper="register">상품 등록</button>
+				<button class="btn1" data-oper="register">코디 등록</button>
 				<button class="btn1" data-oper="reset">취소</button>
 			</div> <!-- btn btn_all......... end -->
-	</form>
+		</form>
 		
 	</div> <!-- codi_box ........... end -->
-</body>
-</html>
 <script type="text/javascript">
 	$(function() {
 		
-		
-		
 		// 폼 오브젝트 만들기
-		var formObj = $("from[role='form']");
+		var formObj = $("form[role='form']");
+		console.log(formObj[0]);
 		
 		
 		// -----버튼 클릭 스크립트
@@ -84,8 +80,7 @@
 			var oper = $(this).data("oper"); // 버튼 가지고 있는 data-oper 속성
 			
 			if(oper == 'list'){
-				history.back();
-				return;
+				location.href = '/codishop/list';
 			}else if(oper == 'reset'){
 				formObj[0].reset();
 				return;
@@ -93,7 +88,7 @@
 				console.log("submit clicked");
 				var str = '';
 				
-				$(".uploadResult ul li").each(function(i, obj){
+				/* $(".uploadResult ul li").each(function(i, obj){
 					var jobj = $(obj);
 					console.dir(jobj);
 					console.dir(jobj);
@@ -101,8 +96,8 @@
 					str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
 					str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
 					
-				});
-			formObj.append(str);
+				}); */
+			/* formObj.append(str); */
 			formObj.submit();
 			}
 		}); // button click end 
@@ -133,14 +128,7 @@
 		}; 
 	
 	}); // function end
-	
-	
-	
-	
-	
 </script>
-
-
 
 <style>
 #textForm{
@@ -198,7 +186,7 @@
 	transition: 0.4s;
 	display:inline;
 }
-.btn 
+.btn {}
 
 </style>
 

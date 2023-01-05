@@ -49,14 +49,17 @@ public class CodiController {
 	
 	
 	@GetMapping("/register")
-	public void register() {
+	public String register() {
 		log.info("codiController - 게시글 등록 페이지 이동 " );
+		
+		return "codishop/register";
 	}
 	
 	@PostMapping("register")
 	public String register(CodiVO vo, RedirectAttributes rttr) {
 		log.info("register........" + vo);
 		service.register(vo);
+		
 		
 		rttr.addFlashAttribute("result", "ok");
 
