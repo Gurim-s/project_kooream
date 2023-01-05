@@ -13,5 +13,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (seq_talk.nextval, #{m_no}, #{talkname}, #{talktitle}, #{talkcon}, sysdate)
 	</insert>
 	
+	<select id="talkGet" resultType="com.kooream.domain.CommunityTalkVO">
+		SELECT * FROM talk WHERE talkno = #{talkno}
+	</select>
+	
+	<delete id="talkRemove">
+		DELETE FROM talk WHERE talkno = #{talkno}
+	</delete>
+	
+	<update id="talkUpdate">
+		UPDATE talk SET
+		talktitle = #{talktitle},
+		talkcon = #{talkcon},
+		talkname = #{talkname}
+		WHERE talkno = #{talkno}
+	</update>
+	
+	
+	<select id="getListWithPaging" resultType="com.kooream.domain.CommunityTalkVO">
+		<![CDATA[
+		SELECT rn, talkno, talktitle, talkcon, talkname, talkdate
+		FROM
+		(SELECT /*+index_desc(talk pk_talk)*/
+		ROWNUM rn, talkno, talktitle, talkcon, talkname, talkdate
+		FROM talk
+		WHERE ROWNUM <= 20)
+		WHERE rn > 10;
+		]]>
+	</select>
 	
 </mapper>

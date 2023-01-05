@@ -1,0 +1,150 @@
+@charset "UTF-8";
+
+#title h1{
+	text-align: center;
+}
+.form-wrapper {
+	width: 700px;
+	margin: 50px auto;
+	border: 1px solid black;
+}
+
+.form-wrapper h2 {
+	margin: 10px auto 20px 20px;
+}
+/* .form-wrapper h2:nth-child(1) { */
+/* 	margin: 10px auto 10px 20px; */
+/* } */
+.image-register>div{
+	float: left;
+	margin: 10px;
+}
+.image-register .preview-list .input-image-btn span{
+	font-size: 30px;
+	font-weight: bold;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	width: 50px;
+	height: 50px;
+	display: block;
+	text-align: center;
+	transform: translate3d(-50%, -50%, 0);
+}
+.image-register .preview-select li {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: #ddd;
+	margin-top: 10px;
+	overflow: hidden;
+}
+.image-register .preview-select li img {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	transform: translate3d(-50%, -50%, 0);
+}
+.image-register .preview-select li button {
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	width: 15px;
+	height: 15px;
+}
+.image-register .preview-image-slider {
+	position: relative;
+	max-width: 550px;
+	height: 700px;
+	background-color: lightgray;
+	white-space: nowrap;
+	border-radius: 20px;
+	overflow: hidden;
+}
+.image-register .preview-image-slider>button {
+	width: 50px;
+	height: 50px;
+	background-color: rgba(100, 100, 100, 0.5);
+	transform: translate3d(0, -50%, 0);
+	border-radius: 50%;
+	font-size: 30px;
+	border: none;
+}
+.image-register .preview-image-slider .next-img{
+	position: absolute;
+	top: 50%;
+	right: 5%;	
+}
+.image-register .preview-image-slider .prev-img{
+	position: absolute;
+	top: 50%;
+	left: 5%;
+}
+.image-register .preview-image-slider .preview-slider {
+	width: 5000px;
+	left: 0px;
+	height: 100%;
+	transition-duration: 1s;
+	position: relative;
+}
+.image-register .preview-image-slider .preview-slider li {
+	width: 550px;
+	height: 700px;
+	float: left;
+}
+.image-register .preview-image-slider .preview-slider li img {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	transform: translate3d(-50%, -50%, 0);
+}
+.image-register .preview-image-slider .preview-slider li button{
+	display: none;
+}
+.form-wrapper form .input-image-btn {
+	display: block;
+	width: 100px;
+	height: 100px;
+	border-radius: 10px;
+}
+input[type="file"] {
+	position: fixed;
+	left: -9999px;
+}
+.editable {
+	width: 650px;
+	height: 150px;
+	float: right;
+	margin-right: 20px;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 5px;
+}
+.form-wrapper form textarea {
+	display: none;
+}
+.form-wrapper form .form-btn {
+	text-align: center;
+	margin-top: 30px;
+}
+.form-wrapper form .form-btn button {
+	width: 100px;
+	height: 40px;
+	font-size: 22px;
+	border: 1px solid black;
+	border-radius: 20px 20px / 50% 50%;
+	background-color: white;
+}
+.form-wrapper form .form-btn button[type="submit"] {
+	color: white;
+	background-color: black;
+	margin-right: 20px;
+}
