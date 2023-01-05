@@ -1,4 +1,4 @@
-var tempInput, previewList, slider, image_list;
+var tempInput, previewList, slider;
 var dataTransfer = new DataTransfer();
 var form = $('form')[0];
 
@@ -6,7 +6,6 @@ $(function() {
 	tempInput = $('#tempImage')[0];
 	previewList = $('.preview-list');
 	slider = $('.preview-slider');
-	image_list = $('input[name="image_list"]');
 	var slideIndex = 0;
 	
 	//div 입력창 만드는 함수
@@ -73,7 +72,7 @@ $(function() {
 		$(previewList).each((_, target) => {
 			$(target).find('li').eq(idx).remove();
 		});
-		
+		 
 		// 파일 비워주기
 		var newFiles = new DataTransfer();
 		Array.from(dataTransfer.files)
@@ -84,11 +83,39 @@ $(function() {
 	
 	$('button[type="submit"]').on('click', (e) => {
 		e.preventDefault();
+		var form = $('form');
 		
-		image_list.files = dataTransfer.files;
-		console.log(form);
-		form.submit();
+		uploadImageAjax(dataTransfer.files).done(result => {
+			var str = ''
+			Array.from(result)
+				.forEach((image, i) => {
+					str += '<input type="hidden" name="style_image['+i+'].fileName" value="'+image.fileName+'">';
+					str += '<input type="hidden" name="style_image['+i+'].uuid" value="'+image.uuid+'">';
+					str += '<input type="hidden" name="style_image['+i+'].uploadPath" value="'+image.uploadPath+'">';
+				});
+				
+			form.append(str);
+			form.submit();
+		});
 	});
+	
+	//upload image ajax
+	function uploadImageAjax(files) {
+		var formData = new FormData();
+		Array.from(files)
+			.forEach((file) => {
+				formData.append("uploadFile", file);			
+			});
+		
+		return $.ajax({
+					url: '/uploadStyleImage',
+					processData: false,
+					contentType: false,
+					data: formData,
+					type: 'post',
+					dataType: 'json',
+				});
+	}
 });
 
  

@@ -57,6 +57,7 @@ public class StyleController {
 	@PostMapping("/register")
 	public String register(StyleVO vo, RedirectAttributes rttr) {
 		log.info("register....." + vo);
+		service.register(vo);
 		
 		return "redirect:style/list";
 	}

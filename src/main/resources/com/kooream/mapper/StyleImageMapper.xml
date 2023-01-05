@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.StyleImageMapper">
+	<select id="getImagesByStyle_no" resultType="com.kooream.domain.StyleImageVO">
+		select *
+		from style_image
+		where style_no=#{style_no}
+	</select>
+	<insert id="insert">
+		insert into style_image
+		values (#{uuid}, #{uploadPath}, #{fileName}, #{style_no})
+	</insert>
+</mapper>

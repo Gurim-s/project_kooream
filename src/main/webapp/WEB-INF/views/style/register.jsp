@@ -9,8 +9,7 @@
 	</div>
 	<div class="form-wrapper">
 		<input type="file" id="tempImage" multiple="multiple"/>
-		<form action="style/register" method="post" enctype="multipart/form-data">
-			<input type="file" name="image_list" multiple="multiple"/>
+		<form action="/style/register" method="post">
 			<h2>사진 등록</h2>
 			<div class="image-register clearfix">
 				<div>
