@@ -36,7 +36,7 @@ import lombok.extern.log4j.Log4j;
 		 * if(vo.getAttachList() = !null && vo.getAttachList(). size()>0) {
 		 * for(ProductVO vo2 : vo.getAttachList()) { vo2.setB_no(b_no);
 		 * uploadmapper.insert(vo2); } }
-		 *ddddd/
+		 */
   
   }
 
