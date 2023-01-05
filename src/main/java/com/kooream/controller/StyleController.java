@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.Criteria;
+import com.kooream.domain.StyleImageVO;
 import com.kooream.domain.StyleVO;
 import com.kooream.service.StyleService;
 
@@ -37,7 +39,7 @@ public class StyleController {
 		List<StyleVO> list = service.getList(cri);
 		log.info(cri.getAmount() + "" + cri.getPageNum());
 		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
-	}	
+	}
 	
 //	@GetMapping(value = "/list/recent",
 //				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -47,4 +49,15 @@ public class StyleController {
 //		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 //	}
 	
+	@GetMapping("/register")
+	public String register() {
+		return "style/register";
+	}
+	
+	@PostMapping("/register")
+	public String register(StyleVO vo, RedirectAttributes rttr) {
+		log.info("register....." + vo);
+		
+		return "redirect:style/list";
+	}
 }
