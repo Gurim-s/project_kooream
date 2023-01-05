@@ -4,11 +4,23 @@
 
 var pageNum, amount;
 var column = $('.list-column');
+var more = $('#more');
+var register = $('#register');
 
+// 페이지 초기화
 $(function() {
 	pageNum = 1;
 	amount = 20;
 	getList(pageNum, amount);
+	
+	$(more).on('click', function() {
+		pageNum++;
+		getList(pageNum, amount);
+	});
+	
+	$(register).on('click', function() {
+		location.href = 'register';
+	});
 })
 
 

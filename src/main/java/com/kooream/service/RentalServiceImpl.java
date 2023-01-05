@@ -1,12 +1,14 @@
 package com.kooream.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kooream.domain.ProductVO;
+import com.kooream.domain.RentalMenuVO;
 import com.kooream.mapper.RentalMapper;
 import com.kooream.mapper.RntUpldFileMapper;
 import com.kooream.domain.AttachFileVO;
@@ -24,7 +26,8 @@ public class RentalServiceImpl implements RentalService{
 	
 	@Setter(onMethod_= @Autowired)
 	private RntUpldFileMapper fmapper;
-
+	
+	// 렌탈 상품 등록
 	@Override
 	public int addRntPrdt(ProductVO vo) {
 		mapper.addRntPrdt(vo);
@@ -42,5 +45,10 @@ public class RentalServiceImpl implements RentalService{
 		}
 		
 		return 1;
+	}
+
+	@Override
+	public List<ProductVO> getList(RentalMenuVO vo) {
+		return mapper.getList(vo);
 	}
 }
