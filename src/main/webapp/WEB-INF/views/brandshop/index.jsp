@@ -30,22 +30,22 @@
 	<hr/>
 	<br/>
 		<div>
-		<a href="#"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
 	</div>
 	<hr/>
 	<br/>
 		<div>
-		<a href="#"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
 	</div>
 	<hr/>
 	<br/>
 		<div>
-		<a href="#"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
 	</div>
 	<hr/>
 	<br/>
 		<div>
-		<a href="#"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
 	</div>
 	<hr/>
 	<br/>

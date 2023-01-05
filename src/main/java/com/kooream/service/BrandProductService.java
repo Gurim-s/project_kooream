@@ -1,8 +1,13 @@
 package com.kooream.service;
 
-import com.kooream.domain.BrandProductVO;
+import java.util.List;
+
+import com.kooream.domain.ProductVO;
 
 public interface BrandProductService {
 
-	public void register(BrandProductVO vo);
+	public List<ProductVO> getList();
+	
+	public void register(ProductVO vo);
+	
 }

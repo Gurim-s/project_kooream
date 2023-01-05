@@ -4,10 +4,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kooream.mapper.BrandProductMapper">
-<insert id="insert" parameterType="com.kooream.domain.BrandProductVO">
+<insert id="insert" parameterType="com.kooream.domain.ProductVO">
 	insert into PRODUCT
-	(p_no, b_no, P_NAME_KO, P_NAME_EN, P_SIZE, P_BRAND, P_MODEL_NO,  P_RELEASE_PRICE,  P_CATEGORY, P_CLASS, P_STOCK)
-	values(seq_PRODUCT.nextval, #{b_no}, #{P_NAME_KO}, #{P_NAME_EN}, #{P_SIZE}, #{P_BRAND}, #{P_MODEL_NO},  #{P_RELEASE_PRICE},  #{P_CATEGORY}, 'brand', #{P_STOCK} )
+	(p_no, b_no, p_name_ko, p_name_en, p_size, p_model_no, p_release_price, p_category, p_class)
+	values(seq_PRODUCT.nextval, #{b_no}, #{p_name_ko}, #{p_name_en}, #{p_size}, #{p_model_no},  #{p_release_price}, #{p_category}, 'brand' )
 </insert>
+<select id="getList" resultType="com.kooream.domain.ProductVO">
+		<![CDATA[
+			select * from PRODUCT where b_no > 0
+		]]>
+
+</select>
 	
 </mapper> 

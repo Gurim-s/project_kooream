@@ -3,19 +3,30 @@ package com.kooream.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kooream.domain.AttachFileVO;
 
-import com.kooream.domain.BrandProductVO;
-import com.kooream.mapper.BrandProductMapper;
-
+import com.kooream.mapper.BrandProductUploadMapper;
 
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
 
 @Service
-@Log4j 
   public class BrandProductUploadServiceImpl implements BrandProductUploadService{
-  
+	
+	@Setter(onMethod_ = @Autowired )
+	private BrandProductUploadMapper mapper;
+
+
+	@Override
+	public int uploadFile(AttachFileVO vo) {
+		return mapper.uploadFile(vo);
+
+	}
+
+	@Override
+	public int removeFile(String getUuid) {
+		return mapper.removeFile(getUuid);
+	}
 
   
   

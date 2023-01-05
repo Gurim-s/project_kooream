@@ -3,11 +3,11 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.kooream.mapper.AttachFileVO">
-<!-- <insert id="insert" parameterType="com.kooream.domain.AttachFileVO">
-	insert into product_image
-	()
-	
-</insert> -->
+
+<mapper namespace="com.kooream.mapper.BrandProductUploadMapper">
+<insert id="uploadFile">
+		INSERT INTO PRODUCT_IMAGE(uuid, FileName, FileType, uploadPath, p_no)
+		VALUES(#{uuid}, #{FileName}, #{FileType, jdbcType=VARCHAR}, #{uploadPath}, #{p_no})
+</insert> 
 	
 </mapper> 
