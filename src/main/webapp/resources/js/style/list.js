@@ -1,6 +1,17 @@
 /**
  * 
  */
+// 스트링 포맷 함수
+if (!String.format) {
+	String.prototype.format = function() {
+	    var formatted = this;
+	    for( var arg in arguments ) {
+	        formatted = formatted.replace("{" + arg + "}", arguments[arg]);
+	    }
+	
+	    return formatted;
+	};
+}
 
 var pageNum, amount;
 var column = $('.list-column');
@@ -23,7 +34,6 @@ $(function() {
 	});
 })
 
-
 function getList(pageNum, amount) {
 	$.ajax({
 		url: "list/hot",
@@ -37,7 +47,29 @@ function getList(pageNum, amount) {
 	})
 	.done(function(json) {
 		$.each(json, function(idx, style) {
-			$(column[idx % 4]).append(JSON.stringify(style));
+			$(column[idx % 4]).append(makeCard(style));
 		});
 	});	
+}
+
+function makeCard(json) {
+	var str =(
+			'<div class="card">' +
+				'<div class="img-container">' +
+					'<img src="/displayStyleImage?fileName={0}"/>' +
+				'</div>' +
+				'<div class="summary">' +
+				'</div>' +
+				'<div class="content"></div>' +
+			'<div>'
+			).format(makeOriginPath(json.style_image[0]));
+	
+	return str;
+}
+
+function makeOriginPath(imageVO) {
+	if (!imageVO) return;
+	
+	var {uploadPath, uuid, fileName} = imageVO;
+	return encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
 }

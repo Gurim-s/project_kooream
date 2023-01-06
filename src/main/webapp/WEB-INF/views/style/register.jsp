@@ -9,8 +9,7 @@
 	</div>
 	<div class="form-wrapper">
 		<input type="file" id="tempImage" multiple="multiple"/>
-		<form action="style/register" method="post" enctype="multipart/form-data">
-			<input type="file" name="image_list" multiple="multiple"/>
+		<form action="/style/register" method="post">
 			<h2>사진 등록</h2>
 			<div class="image-register clearfix">
 				<div>
@@ -33,6 +32,7 @@
 			<div class="clearfix">
 				<div class="editable textarea" contenteditable="true"></div>
 				<textarea name="style_content"></textarea>
+				<textarea name="style_text_content"></textarea>
 			</div>
 			<h2>상품태그(임시)</h2>
 			<div class="form-btn">
