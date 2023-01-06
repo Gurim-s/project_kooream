@@ -13,7 +13,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<![CDATA[
 			select * from PRODUCT where b_no > 0
 		]]>
-
 </select>
+ <select id="getPno" resultType="int">
+
+      select p_no
+      from PRODUCT
+      WHERE rownum = 1
+      order by p_no desc
+</select>
+
 	
 </mapper> 

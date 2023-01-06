@@ -1,6 +1,7 @@
 package com.kooream.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,4 +17,6 @@ public class ProductVO {
 	private String p_name_ko, p_name_en, p_size, p_brand, p_model_no, p_category, p_class, r_check,strUuid;
 	private Date p_release_date;
 	private String img_url;
+	
+	private List<AttachFileVO> attachList;
 }

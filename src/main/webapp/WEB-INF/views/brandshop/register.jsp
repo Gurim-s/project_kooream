@@ -214,12 +214,11 @@
 			
 			
 				
-				str += '<li>';
-				str += '<a href="/download?fileName='+fileCallPath+'">';	// 다운로드에 매개변수 던지는 중
-				str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
-				str += '</a>';
-				str += '<span data-file="'+ fileCallPath+'"> X </span>';		// x표시 만들어서 삭제할수 있게 만든것
-				str += '</li>';
+				 str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+	               //str += '<a href="/download?fileName='+fileCallPath+'">';
+	               str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+	               str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
+	               str += '</li>';
 			
 			}
 			
@@ -228,14 +227,15 @@
 		
 		uploadResult.on("click", "span", function () {
 			var targetFile = $(this).data("file");
+			var targetLi = $(this).closest("li");
 			
 			$.ajax({
-				url:"/deleteFile",		// Controller에서 deleteFile 찾는다
+				url:"/brandfile/deleteFile",		// Controller에서 deleteFile 찾는다
 				data : {fileName:targetFile},
 				type : "post",
 				dataType : "text",
 				success : function (result) {
-					alert(result);
+					targetLi.remove();
 					
 				}
 			
