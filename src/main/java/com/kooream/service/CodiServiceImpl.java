@@ -25,6 +25,11 @@ public class CodiServiceImpl implements CodiService{
 		return mapper.getListWithPaging(cri);
 	}
 	
+	@Override
+	public List<CodiVO> getList(Criteria cri) {
+		
+		return mapper.getList(cri);
+	}
 	
 	
 	@Override
