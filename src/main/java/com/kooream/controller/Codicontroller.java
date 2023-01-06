@@ -16,14 +16,13 @@ import com.kooream.service.CodiService;
 import lombok.AllArgsConstructor;
 import com.kooream.domain.Criteria;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
 @RequestMapping("/codishop/*")
 @AllArgsConstructor
-public class CodiController {
+public class Codicontroller {
 	
 	private CodiService service;
 

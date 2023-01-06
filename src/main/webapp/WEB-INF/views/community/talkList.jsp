@@ -56,7 +56,7 @@
 	<ul id="menu_list">
 		<li>뉴스</li>
 		<li>정품판별</li>
-		<li><a href="/community/talkList">구림톡</a></li>
+		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
 		<span>구림톡</span>
@@ -88,8 +88,37 @@
 						</tr>
 					</c:forEach>
 			</table>
+			<!-- 페이징 처리 -->
+			<div class="pull-right">
+				<ul class ="pagination">
+					<c:if test="${pageMaker.prev }">
+						<li class="paginate_button previous">
+							<a href="${pageMaker.startPage-1 }">&lt;</a>
+						</li>
+					</c:if>
+					<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }" step="1">
+						<li class="paginate_button ${pageMaker.cri.pageNum==num ? 'active':'' }">
+							<a href="${num }">${num }</a>
+						</li>
+					</c:forEach>
+					<c:if test="${pagaMaker.next }">
+						<li class="paginate_button">
+							<a href="${pageMaker.endPage+1 }">&gt;</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+			<table>
+				<tr>
+					<td><input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }"></td>
+					<td><input type="hidden" name="amount" value="${pageMaker.cri.amount }"></td>
+				</tr>
+			</table>
 		</form>
 	</div>
+	
+	
+	
 </body>
 <script type="text/javascript">
 	$(function() {
@@ -99,6 +128,13 @@
 		// 게시글 작성 -------------------------------------
 		$("button").click(function() {
 			form.attr("action", "/community/talkRegister");
+			
+			// 페이징 처리를 위한 값을 담기 위해
+			var str = '';
+			str += '<input type="hidden" name="pageNum" value="'+${pageMaker.cri.pageNum }+'">';
+			str += '<input type="hidden" name="amount" value="'+${pageMaker.cri.amount }+'">';
+			
+			form.html(str);
 			form.submit();
 			//location.href = '/community/talkRegister';
 		});
@@ -111,6 +147,8 @@
 			form.attr("action", "/community/talkGet");	// form의 action 속성을 바꿔줌
 			
 			var str = '';
+			str += '<input type="hidden" name="pageNum" value="'+${pageMaker.cri.pageNum }+'">';
+			str += '<input type="hidden" name="amount" value="'+${pageMaker.cri.amount }+'">';
 			str += '<input type="hidden" name="talkno" value="'+$(this).attr("href")+'">';
 			
 			//form.append('<input type="hidden" name="talkno" value="'+$(this).attr("href")+'">');
@@ -122,6 +160,14 @@
 		});
 		
 		
+		//페이징 -------------------------------------
+		$(".paginate_button a").click(function(e) {
+			e.preventDefault();
+			form.attr("action","/community/talkList");
+			form.find('input[name="pageNum"]').val($(this).attr("href"));
+			form.submit();
+		});
+		
 	});
 	
 	// 수정, 삭제 결과 확인 창 코드
@@ -130,15 +176,15 @@
 	/* rttr인 result값 (컨트롤러에서 if) 이 빈 값이 아니면(int로 리턴 받기 때문에 성공 했으면 빈값이 아닐 것)
 	메소드를 실행하게 한다. */
 	
-	if(reuslt != ''){
+	 if(reuslt != ''){
 		checkResult(result);
-	}
+	} 
 	// 위에 if에서 함수를 탄다고 했고 null이 아니라면 아래 함수를 탈 것 
-	function checkResult(result) {
+	 function checkResult(result) {
 		if(result === 'success'){
 			alert("처리가 완료 되었습니다.");
 		}
-	}
+	} 
 	
 	
 </script>
