@@ -2,13 +2,21 @@ package com.kooream.controller;
 
 
 
+import java.util.List;
+
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.ProductVO;
 import com.kooream.service.BrandProductService;
@@ -54,6 +62,18 @@ public class BrandProductController {
 		model.addAttribute("list", service.getList());
 		return "/brandshop/view";
 	}
+	
+	
+	  @GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	  
+	  @ResponseBody public ResponseEntity<List<AttachFileVO>> getAttachList(int p_no) {
+		  log.info("getAttachList...." + p_no); 
+		  return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
+	  
+	  }
+	 
+	
+	
   
 
   }

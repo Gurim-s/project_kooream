@@ -4,47 +4,69 @@
 <jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
 <html>
+
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.register{
+		float: right;
+	
+	}
+	.class-data{
+		display: flex;	
+	}
+
+
+
+
+</style>
 </head>
 <body>
-	<a href="/brandshop/register">등록</a>
-	<table>
-		<tr>
-		<td>P_no</td>
-		<td>B_No</td>
-		<td>P_NAME_KO</td>
-		<td>P_NAME_EN</td>
-		<td>P_MODEL_NO</td>
-		<td>P_RELEASE_PRICE</td>
-		<td>P_CATEGORY</td>
-		<td>P_CLASS</td>
-		</tr>
-		
-		<c:forEach var="board" items="${list }">
-				<tr>
-			<td><c:out value="${board.p_no}"></c:out></td>
-			<td><c:out value="${board.b_no}"></c:out></td>
-			<td><c:out value="${board.p_name_ko}"></c:out></td>
-			<td><c:out value="${board.p_name_en}"></c:out></td>
-			<td><c:out value="${board.p_release_price}"></c:out></td>
-			<td><c:out value="${board.p_category}"></c:out></td>
-			<td><c:out value="${board.p_class}"></c:out></td>
-			
-			
-			</tr>
-		
-		
-		
-		
-		
-		</c:forEach>
-		
+	<a class="register" href="/brandshop/register">등록</a>
+
+	   <div class="middle_content">
+         <div class="middle_content_inner">
+            <c:forEach var="product" items="${list}">
+               <div>
+               <ul class="class-data">   
+                     <li data-cno="${product.p_no}">
+                        <div>
+                        <img width="100px" src="<c:url value='/resources/img/kooream.png'/>"><br/>
+                        <c:out value="${product.p_name_ko }"></c:out> <br/>
+                        <c:out value="${product.p_name_en }"></c:out> <br/>
+                        <c:out value="${product.p_release_price }" ></c:out><br/>
+                     </div>
+                  </li>
+               </ul>   
+               </div>
+            </c:forEach>
+            
+         </div>
+      </div>
+      
+      
 	
 	
+
+	<script type="text/javascript">
+	//상품 클릭 이벤트----------------------------------------------------------------------------------
+    var p_no;
+    $("ul").on("click", "li", function() {
+       
+       cno = $(this).data("p_no"); 
+       alert(p_no);
+       location.href="/branshop/get?p_no=" + p_no;            
+       
+       
+       
+       });
+
+    
+ //상품 클릭 이벤트 end------------------------------------------------------------------------------   
 	
-	</table>
+	</script>
 
 		
 
