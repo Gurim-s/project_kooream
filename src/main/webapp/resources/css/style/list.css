@@ -35,3 +35,9 @@
 	float: left;
 	border: 1px solid red;	
 }
+.card {
+	width: 100%;
+}
+.card .img-container img{
+	width: 100%;
+}

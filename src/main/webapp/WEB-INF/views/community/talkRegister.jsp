@@ -21,7 +21,7 @@
 	<ul id="menu_list">
 		<li>뉴스</li>
 		<li>정품판별</li>
-		<li><a href="/community/talkList">구림톡</a></li>
+		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
 		<span>구림톡</span>
@@ -52,11 +52,19 @@
 				<td><button class="btn-list" data-oper="talklist">목록</button></td>
 			</tr>
 		</table>
+		<div>
+			<input type="hidden" name="pageNum" value="${cri.pageNum }">
+			<input type="hidden" name="amount" value="${cri.amount }">
+		</div>
 	</form>
 </body>
 <script type="text/javascript">
 	$(function() {
 		var form = $("form");
+		
+		// 아래 talklist를 위해 표현식을 담은 것
+		var amount = '${cri.amount}';
+		var pageNum = '${cri.pageNum}';
 		
 		$("button").click(function(e) {
 			e.preventDefault();	// 버튼에 걸린 기본 이벤트 삭제
@@ -65,8 +73,10 @@
 			
 			if(oper == 'talkregister'){	//게시글 등록
 				form.submit();	// 해당 form 데이터 보내기
+				
 			}else if( oper == 'talklist'){
-				location.href = '/community/talkList'
+				location.href = '/community/talkList?pageNum='+pageNum+'&amount='+amount;
+				// submit 하면 form의 action 따라가므로 400 에러 발생 주의할 것
 			}
 		})
 	})

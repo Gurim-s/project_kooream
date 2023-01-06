@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.CommunityTalkReplyMapper">
+	<insert id="insert">
+		insert into talkreply(rno, bno, reply, replyer)
+		values(seq_reply.nextval, #{bno}, #{reply}, #{replyer})
+	</insert>
+	
+	<select id="getList" resultType="com.kooream.domain.CommunityTalkReplyVO">
+		SELECT talkreplyno, talkreplyname, talkreplycon, talkreplydate  FROM talkreply 
+		WHERE talkno = #{talkno} ORDER BY talkreplyno ASC 
+	</select>
+	
+	
+</mapper>
