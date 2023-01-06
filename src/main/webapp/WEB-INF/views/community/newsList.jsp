@@ -20,7 +20,7 @@
 	<ul id="menu_list">
 		<li>뉴스</li>
 		<li>정품판별</li>
-		<li><a href="/community/talkList">구림톡</a></li>
+		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div id="content">
 		<form>

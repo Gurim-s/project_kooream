@@ -21,7 +21,7 @@
 	<ul id="menu_list">
 		<li>뉴스</li>
 		<li>정품판별</li>
-		<li><a href="/community/talkList">구림톡</a></li>
+		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
 		<span>구림톡</span>
@@ -43,12 +43,15 @@
 				<td colspan="2"><textarea rows="15" cols="30" name="talkcon">${vo.talkcon }</textarea></td>
 			</tr>
 			<tr>
-				
 				<td>
 				<input type="hidden" name="talkno" value="${vo.talkno }">
 				<button class="btn-insert" data-oper="talkupdate">수정 완료</button>
 				</td>
 				<td><button class="btn-list" data-oper="talklist">목록</button></td>
+			</tr>
+			<tr>
+				<td><input type="hidden" name="pageNum" value="${cri.pageNum }"></td>
+				<td><input type="hidden" name="amount" value="${cri.amount }"></td>
 			</tr>
 		</table>
 	</form>

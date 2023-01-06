@@ -16,7 +16,6 @@ import com.kooream.service.CodiService;
 import lombok.AllArgsConstructor;
 import com.kooream.domain.Criteria;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Controller
