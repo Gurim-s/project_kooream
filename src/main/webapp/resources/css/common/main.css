@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+main {
+	min-height: 800px;
+	width: 100%;
+	padding: 0 30px;
+}
+main .wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
+}

@@ -1,18 +1,3 @@
-/**
- * 
- */
-// 스트링 포맷 함수
-if (!String.format) {
-	String.prototype.format = function() {
-	    var formatted = this;
-	    for( var arg in arguments ) {
-	        formatted = formatted.replace("{" + arg + "}", arguments[arg]);
-	    }
-	
-	    return formatted;
-	};
-}
-
 var pageNum, amount;
 var column = $('.list-column');
 var more = $('#more');
@@ -32,7 +17,7 @@ $(function() {
 	$(register).on('click', function() {
 		location.href = 'register';
 	});
-})
+});
 
 function getList(pageNum, amount) {
 	$.ajax({
@@ -54,22 +39,22 @@ function getList(pageNum, amount) {
 
 function makeCard(json) {
 	var str =(
-			'<div class="card">' +
-				'<div class="img-container">' +
-					'<img src="/displayStyleImage?fileName={0}"/>' +
-				'</div>' +
-				'<div class="summary">' +
-				'</div>' +
-				'<div class="content"></div>' +
-			'<div>'
-			).format(makeOriginPath(json.style_image[0]));
+			'<a href="/style/detail?category=hot&style_no={0}">' +
+				'<div class="card">' +
+					'<div class="img-container">' +
+						'<img src="{1}"/>' +
+					'</div>' +
+					'<div class="summary">' +
+						'<div class="user_info">' +
+							'<div class="profile"><img src="{2}" /></div>' +
+							'<div class="user_id">{3}</div>'+
+						'</div>' +
+					'</div>' +
+					'<div class="content">{4}</div>' +
+				'<div>' +
+			'</a>'
+			).format(json.style_no, makeOriginPath(json.style_image[0]), "", "김씨", "안녕하세용 ㅎㅎ;");
 	
 	return str;
 }
 
-function makeOriginPath(imageVO) {
-	if (!imageVO) return;
-	
-	var {uploadPath, uuid, fileName} = imageVO;
-	return encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
-}
