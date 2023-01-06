@@ -7,4 +7,5 @@ import com.kooream.domain.StyleVO;
 
 public interface StyleService {
 	public List<StyleVO> getList(Criteria cri);
+	public void register(StyleVO vo);
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StyleImageVO {
 	private String uuid;
-	private String fileName;
 	private String uploadPath;
+	private String fileName;
 	private long style_no;
 }
