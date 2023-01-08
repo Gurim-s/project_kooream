@@ -15,6 +15,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<select id="get" resultType="com.kooream.domain.StyleVO">
+		select *
+		from style
+		where style_no = #{style_no}
+	</select>
+	
 	<select id="getStyle_no" resultType="long">
 		select style_no
 		from (select style_no
@@ -28,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert">
 		insert into style(style_no, m_no, style_regdate, style_content, count_like, count_comment)
 		values( style_seq.nextval,
-				11,
+				0,
 				sysdate,
 				#{style_content},
 				0,

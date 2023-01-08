@@ -30,9 +30,9 @@
 			</div>
 			<h2>내용입력</h2>
 			<div class="clearfix">
-				<div class="editable textarea" contenteditable="true"></div>
+			<!-- 해시태그 기능 추가시 수정 -->
+<!-- 				<div class="editable textarea" contenteditable="true"></div> -->
 				<textarea name="style_content"></textarea>
-				<textarea name="style_text_content"></textarea>
 			</div>
 			<h2>상품태그(임시)</h2>
 			<div class="form-btn">

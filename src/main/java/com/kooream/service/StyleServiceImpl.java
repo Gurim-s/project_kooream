@@ -34,6 +34,16 @@ public class StyleServiceImpl implements StyleService{
 	}
 	
 	@Override
+	public StyleVO get(long style_no) {
+		return mapper.get(style_no);
+	}
+	
+	@Override
+	public List<StyleImageVO> getImageList(long style_no) {
+		return imageMapper.getImagesByStyle_no(style_no);
+	}
+	
+	@Override
 	public void register(StyleVO vo) {
 		mapper.insert(vo);		
 		long style_no = mapper.getStyle_no();
@@ -44,5 +54,17 @@ public class StyleServiceImpl implements StyleService{
 				imageMapper.insert(image);
 			}
 		}
+	}
+	
+	@Override
+	public boolean remove(long style_no) {
+		imageMapper.deleteAll(style_no);
+		
+		return mapper.delete(style_no) == 1;
+	}
+	
+	@Override
+	public void update(StyleVO vo) {
+		
 	}
 }

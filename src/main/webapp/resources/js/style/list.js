@@ -57,4 +57,3 @@ function makeCard(json) {
 	
 	return str;
 }
-

@@ -13,4 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into style_image
 		values (#{uuid}, #{uploadPath}, #{fileName}, #{style_no})
 	</insert>
+	<delete id="deleteAll">
+		delete from style_image
+		where style_no = #{style_no}
+	</delete>
 </mapper>
