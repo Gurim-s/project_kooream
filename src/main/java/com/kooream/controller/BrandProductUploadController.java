@@ -99,7 +99,7 @@ public class BrandProductUploadController {
 				
 				list.add(attachVo);
 				
-				service.uploadFile(attachVo);
+				/* service.uploadFile(attachVo); p_no값이 0이 들어감 => insert가 2번된다*/
 				
 				
 			} catch (Exception e) {
