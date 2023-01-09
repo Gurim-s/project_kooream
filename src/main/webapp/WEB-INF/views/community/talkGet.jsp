@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -66,11 +67,13 @@
 	<!-- 댓글 출력 폼 -->
 	<table class="replylist">
 		<tr>
-			<th id="replyname">닉네임</th>
-			<td id="replydate">작성날짜</td>
+			<td>닉네임</td>
+			<td><button class="replyupdatebtn" data-oper="replyupdate">수정</button></td>
+			<td><button class="replyremovebtn" data-oper="replyremove">삭제</button></td>
+			<td>작성날짜</td>
 		</tr>
 		<tr>
-			<td id="replycontent">댓글 내용</td>
+			<td>댓글 내용</td>
 		</tr>
 	</table>
 	
@@ -78,28 +81,28 @@
 	<!-- 댓글 입력 폼 -->
 	<table>
 		<tr>
-			<td>닉네임</td>
+			<td>닉네임 : <input type="text" name="replyname" id="replyname"></td>
+			<td>회원 번호 : <input type="text" name="m_no" id="m_no"></td>
 		</tr>
 		<tr>
 			<td>
-				<textarea rows="5" cols="50"></textarea>
+				<textarea rows="5" cols="50" name="replycon" id="replycon"></textarea>
 			</td>
 			<td><button id="addReplyBtn">등록</button></td>
 		</tr>
 	</table>
 	
-	
 </body>
-
-
+<!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
+<script type="text/javascript" src="/resources/js/community/reply.js"></script>
 <script type="text/javascript">
 	$(function() {
-		 var form = $("#form");
+		var form = $("#form");
 		 
 		 
 		 // 게시글 관련 내용 ------------------------------------start
 		 // 버튼 클릭시 해당 작업 수행
-		 $("button").click(function(e) 
+		 $("button").click(function(e) {
 			e.preventDefault();
 			
 			var oper = $(this).data("oper"); 
@@ -129,39 +132,48 @@
  				form.submit();
 			}
 			
-		);
-	})
+		});
+	});
+	
 	// 게시글 관련 내용 ------------------------------------end
 	
 	
+	// 댓글 관련 내용 ------------------------------------start
 	
 	
-	
-	var talkno = '${vo.talkno }';
-	// 댓글 작성
-	$("#addReplyBtn").click(function() {
-		//alert("댓글 등록 함수");
+ 	var talkno = '${vo.talkno }';
+	var replycon = $("#replycon");
+	var replyname = $("#replyname");
+	var m_no = $("#m_no");
+ 	 
+ 	// 댓글 등록
+ 	// 댓글 등록하려는 게시글 번호 확인
+ 	console.log(talkno);
+ 	// 댓글 등록 함수 불러오기
+ 	$("#addReplyBtn").click(function() {
 		replyService.add(
-			{reply:replycontent, replyer:replyname, bno:talkno},
+			{talkreplycon:replycon.val(), talkreplyname:replyname.val(), talkno:talkno, m_no:m_no.val()},
 				function(result) {
 					showList();
-				}
+			}
 		);
 	});
 	
 	
-	
-	//댓글 리스트 화면 출력 (ajax 작성 함수 사용) ------------------------------------start
-	/* var replylist = $(".replylist"); */
+	//댓글 리스트 출력
+	var replylist = $(".replylist");
 	
 	// 댓글 불러오는 함수 불러오기
-	/* showList(); */
+	showList();
 	
-	// 댓글 리스트 함수
-	/* function showList() {
-		replyService.getList({bno:bnoValue, page:1},
+	// 댓글 리스트 함수 (shoewList 함수에 담아서 등록 시에나 필요할 떄 함수 호출 가능)
+	function showList() {
+		
+		replyService.getList({no:talkno},
 			function(result) {
-				var str = '';
+				// 함수를 타고 값을 가져오는지 확인 콘솔
+				console.log(result);
+				 var str = '';
 				
 				if(result == null || result.length==0){
 					// 댓글이 없으면
@@ -170,22 +182,30 @@
 				}else{
 					// 댓글이 있으면
 					for(var i=0; i<result.length; i++){
-						str += '<li class = "left clearfix" data-rno ="' + result[i].rno + '">';
-						str += '<div>';
-						str += '<div class = "header">';
-						str += '<strong class = "primary-front">'+result[i].replyer+'</strong>';
-						str += '<small class = "pull-right text-muted">'+displayTime(result[i].replydate)+'</small>'
-						str += '</div>';
-						str += '<p>'+result[i].reply+'</p>'
-						str += '</div>';
-						str += '</li>';
+						str += '<tr>';
+						str += '<td>'+ result[i].talkreplyname +'</td>';
+						str += '<td><button class="replyupdatebtn" data-oper="replyupdate"	>수정</button></td>';
+						str += '<td><button class="replyremovebtn" data-oper="replyremove">삭제</button></td>';
+						str += '<td>'+result[i].talkreplydate+'</td>';
+						str += '</tr>';
+						str += '<tr>';
+						str += '<td>'+ result[i].talkreplycon +'</td>';
+						str += '</tr>';
 					}
 					replylist.html(str);
 				}
 			}
 		);
-	} */
+	}
 	
+	
+		// 댓글 수정 하기
+		$(".replyupdatebtn").click(function() {
+			alert("댓글 수정 버튼");
+			// 댓글 수정하기 버튼을 눌러도 아무런 반응이 있지 않음....
+			// 온로드는 위에 게시글에서 끝났고, on으로 클릭을 줘도 반응하지 않음.
+			// 눌러도 alert이 안뜸...ㅠㅠ
+		});
 	
 	
 	
