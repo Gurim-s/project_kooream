@@ -1,3 +1,5 @@
+import {styleService} from '../service/style-service.js';
+
 var column;
 
 $(function() {
