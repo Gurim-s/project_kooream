@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- <link rel="stylesheet" href="/resources/css/codi/codi.css" /> -->
 <jsp:include page="../include/header.jsp"/>
-<style>
+<style type="text/css">
 	.codi_box{
 		width: 1200px;
 	
@@ -11,7 +11,7 @@
 	.social_title{
 		text-align: center;
 	}
-	.keyword_bind{
+	.keyword_brand{
 		text-align: center;
 	}
 	.brand_keyword{
@@ -152,7 +152,7 @@
 		</div>
 		<br/>
 		<div class="container social">
-			<div class="keyword_bind">
+			<div class="keyword_brand">
 				<a href="#" class="brand_keyword">#Nike</a>
 				<a href="#" class="brand_keyword">#adidas</a>
 				<a href="#" class="brand_keyword">#new balance</a>
@@ -200,7 +200,7 @@ $(function() {
 	pageNum = 1;
 	amount = 20;
 	getList(pageNum, amount);
-})
+});
 
 
 function getList(pageNum, amount) {
@@ -219,7 +219,7 @@ function getList(pageNum, amount) {
 		$.each(json, function(idx, codi) {
 			 
 			// 1개의 코디 중 제일 큰 곳
-			var card_box = $('<div></div>');		//card_box div 태그 생성
+			var card_box = $('<a href="/codishop/get?codi_no='+ codi.codi_no + '"><div></div></a>');		//card_box div 태그 생성
 			$(card_box).attr('class', 'codi_card');  // card_box class 넣어주기
 			
 			var img_box = $('<div></div>');		//img_box div 태그 생성

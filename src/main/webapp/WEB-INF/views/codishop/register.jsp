@@ -15,11 +15,11 @@
 			<div class="insert_codi">
 				<div class="row">
 					<span class="title_content">코디제목</span>
-					<input type="text" class="codi_title" id="textForm">
+					<input type="text" name="codi_title" id="textForm">
 				</div>
 				<div class="row">
 					<span class="title_content">코디소개</span>
-					<input type="text" class="codi_content" id="textForm">
+					<input type="text" name="codi_content" id="textForm">
 				</div>
 				
 				<div class="row">
@@ -29,19 +29,19 @@
 				
 				<div class="row">
 					<span class="title_content">상품태그</span>
-					<input type="text" name="item_tag" id="textForm">
+					<input type="text" name="m_no" id="textForm">
 				</div>
 				
 				<div class="row">
 					<span class="title_content">모델정보</span>
 					<span>이름: </span>
-						<input type="text" name="model_name" id="textForm2">
+						<input type="text" name="codimodel_name" id="textForm2">
 						
 					<span>키 :  </span>
-						<input type="number" name="model_cm" id="textForm2">
+						<input type="number" name="codi_cm" id="textForm2">
 						
 					<span>무게 : </span>
-						<input type="number" name="model_kg" id="textForm2">
+						<input type="number" name="codi_Kg" id="textForm2">
 				</div>
 				<div class="row">
 					<span class="title_content">사진 등록</span>
@@ -106,7 +106,7 @@
 		
 		//파일 업로드	
 		// 이미지 파일만 가능 하게 하기 
-		function fileCheck(obj) {
+	/* 	function fileCheck(obj) {
 			pathPoint = obj.value.lastIndexOf('.');
 			filepoint = obj.value.substring(parthpoint+1,obj.length);
 			filetype = filepoint.toLowerCase();
@@ -125,7 +125,7 @@
 				if(!upload)return false;
 			};
 	 		
-		}; 
+		};  */
 	
 	}); // function end
 </script>
@@ -186,7 +186,6 @@
 	transition: 0.4s;
 	display:inline;
 }
-.btn {}
 
 </style>
 

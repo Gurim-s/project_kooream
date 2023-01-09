@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Criteria;
-import com.kooream.domain.StyleVO;
 import com.kooream.service.CodiService;
 
 import lombok.AllArgsConstructor;
@@ -29,11 +29,12 @@ import lombok.extern.log4j.Log4j;
 public class CodiController {
 	
 
+
 	private CodiService service;
 
 	@GetMapping("/list")
 	public String list() {
-		return "codishop/list";
+		return "/codishop/list";
 	}
 
 	@PostMapping(value = "/list", produces = {
@@ -44,21 +45,14 @@ public class CodiController {
 		return new ResponseEntity<List<CodiVO>>(list, HttpStatus.OK);
 	}
 	
-	
-	
-	
-
-	
-	
-	
 	@GetMapping("/register")
 	public String register() {
 		log.info("codiController - 게시글 등록 페이지 이동 " );
 		
-		return "codishop/register";
+		return "/codishop/register";
 	}
 	
-	@PostMapping("register")
+	@PostMapping("/register")
 	public String register(CodiVO vo, RedirectAttributes rttr) {
 		log.info("register........" + vo);
 		service.register(vo);
@@ -66,6 +60,20 @@ public class CodiController {
 		
 		rttr.addFlashAttribute("result", "ok");
 
-		return "redirect:/codishop/index";
+		return "redirect:/codishop/list";
 	}
+	
+	@GetMapping("/get")
+	public String get(@RequestParam("codi_no") int codi_no, Model model, Criteria cri) {
+		log.info("/get....gogo");
+		model.addAttribute("board", service.get(codi_no));
+		model.addAttribute("cri", cri);
+		
+		return "/codishop/get";
+	
+	}
+
+	
+	
+	
 }
