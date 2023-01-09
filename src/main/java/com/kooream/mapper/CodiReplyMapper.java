@@ -17,6 +17,6 @@ public interface CodiReplyMapper {
 
 	public int update(CodiReplyVO vo);
 	
-	public List<CodiReplyVO> getList(Criteria cri, int codi_no);
+	public List<CodiReplyVO> getList(int codi_no);
 	
 }
