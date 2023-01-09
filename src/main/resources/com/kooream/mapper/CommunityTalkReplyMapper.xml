@@ -5,14 +5,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.kooream.mapper.CommunityTalkReplyMapper">
 	<insert id="insert">
-		insert into talkreply(rno, bno, reply, replyer)
-		values(seq_reply.nextval, #{bno}, #{reply}, #{replyer})
+		INSERT INTO talkreply  (talkreplyno, talkno, m_no, talkreplyname, talkreplycon, talkreplydate)
+		VALUES (seq_talkreply.nextval, #{talkno}, #{m_no}, #{talkreplyname}, #{talkreplycon}, sysdate)
 	</insert>
 	
 	<select id="getList" resultType="com.kooream.domain.CommunityTalkReplyVO">
 		SELECT talkreplyno, talkreplyname, talkreplycon, talkreplydate  FROM talkreply 
 		WHERE talkno = #{talkno} ORDER BY talkreplyno ASC 
 	</select>
+	
+	<delete id="delete">
+		DELETE FROM talkreply WHERE talkreplyno = #{talkreplyno}
+	</delete>
+	
+	<update id="update">
+		UPDATE talkreply SET
+		talkreplycon = #{talkreplycon},
+		talkreplydate = sysdate
+		WHERE talkreplyno = #{talkreplyno}
+	</update>
+	
 	
 	
 </mapper>

@@ -11,4 +11,11 @@ public interface CommunityTalkReplyMapper {
 	
 	// 댓글 목록
 	public List<CommunityTalkReplyVO> getList(int talkno);
+	
+	// 댓글 삭제
+	public int delete(int talkreplyno);
+	
+	// 댓글 수정
+	public int update(CommunityTalkReplyVO vo);
+	
 }

@@ -3,20 +3,20 @@ console.log("Reply Module......");
 var replyService = (function(){
 
 	function add(reply, callback){
-		console.log("reply.....");
+		console.log("reply insert.....");
 		
 		$.ajax({
 			type:'post',
 			url : '/replies/new',
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
-			success:function(result, status, xhr){
+			success:function(result){
 				if(callback){
 					callback(result);
 				}
 			},
 			error : function(xhr, status, er){
-				if(error){
+				if(er){
 					error(er);
 				}
 			}
@@ -26,18 +26,18 @@ var replyService = (function(){
 
 
 	function getList(param, callback, error){
-		var bno = param.bno;
+		var talkno = param.no;
 		
 		$.ajax({
 			type:'get',
-			url : '/replies/pages/' + bno + '/1.json',
+			url : '/replies/pages/' + talkno + '.json',
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
 				}
 			},
 			error : function(xhr, status, er){
-				if(error){
+				if(er){
 					error(er);
 				}
 			}
@@ -49,14 +49,14 @@ var replyService = (function(){
 	function remove(rno, callback, error){
 		$.ajax({
 			type:'delete',
-			url : '/replies/' + rno,
+			url : '/replies/' + talkreplyno,
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
 				}
 			},
 			error : function(xhr, status, er){
-				if(error){
+				if(er){
 					error(er);
 				}
 			}
@@ -64,11 +64,11 @@ var replyService = (function(){
 	} // --------------------------- function remove end
 	
 	function update(reply, callback, error){
-		console.log("update reply..." + reply.rno);
+		console.log("update reply..." + reply.talkreplyno);
 		
 		$.ajax({
 			type:'put',
-			url : '/replies/' + reply.rno,
+			url : '/replies/' + reply.talkreplyno,
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success:function(result, status, xhr){
@@ -77,7 +77,7 @@ var replyService = (function(){
 				}
 			},
 			error : function(xhr, status, er){
-				if(error){
+				if(er){
 					error(er);
 				}
 			}
@@ -88,18 +88,18 @@ var replyService = (function(){
 	
 	
 	function get(rno, callback, error){
-		console.log("get reply..." + rno);
+		console.log("get reply..." + talkreplyno);
 		
 		$.ajax({
 			type:'get',
-			url : '/replies/' + rno + '.json',
+			url : '/replies/' + talkreplyno + '.json',
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
 				}
 			},
 			error : function(xhr, status, er){
-				if(error){
+				if(er){
 					error(er);
 				}
 			}
