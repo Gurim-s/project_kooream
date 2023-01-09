@@ -47,7 +47,15 @@ import lombok.extern.log4j.Log4j;
 
 @Override
 public List<ProductVO> getList() {
-	return mapper.getList();
+	List<ProductVO> list = mapper.getList();
+	
+	// 상품테이블 + 상품이미지 합쳐서 불러오기
+	for (ProductVO vo : list) {
+		List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());	// 
+		vo.setAttachList(attach);
+	}
+	
+	return list;
 }
 
 

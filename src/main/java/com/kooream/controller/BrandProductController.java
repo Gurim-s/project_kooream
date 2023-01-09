@@ -52,17 +52,30 @@ public class BrandProductController {
 	@PostMapping("/register")	// 등록 페이지 삽입 
 	public String register(ProductVO vo,RedirectAttributes rttr) { 
 		
-		log.info("register....." + vo);
+		log.info("register....." + vo.getB_no());
+		log.info("register....." + vo.getP_category());
+		log.info("register....." + vo.getP_model_no());
+		log.info("register....." + vo.getP_name_en());
+		log.info("register....." + vo.getP_name_ko());
+		log.info("register....." + vo.getP_release_price());
+		log.info("register....." + vo.getP_no());
+		log.info("register....." + vo.getP_size());
 		service.register(vo);
-		return "redirect:/brandshop/register";
+		rttr.addFlashAttribute("result", "ok");
+		return "redirect:/brandshop/view";
 	}
 	
 	@GetMapping("/view")
 	public String view(Model model) {
 		model.addAttribute("list", service.getList());
 		return "/brandshop/view";
-	}
+	}	
 	
+	@GetMapping("/getList")
+	@ResponseBody 
+	public ResponseEntity<List<ProductVO>> getList() {	
+		return new ResponseEntity<List<ProductVO>>(service.getList(),HttpStatus.OK);
+	}
 	
 	  @GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	  
