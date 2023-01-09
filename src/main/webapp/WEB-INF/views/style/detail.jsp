@@ -15,5 +15,6 @@
 <!-- 		<button id="more">더 보기 +</button> -->
 <!-- 	</div> -->
 </div>
+<script type="text/javascript" src="<c:url value='/resources/js/service/style-service.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/resources/js/style/detail.js'/>"></script>
 <jsp:include page="../include/footer.jsp"/>

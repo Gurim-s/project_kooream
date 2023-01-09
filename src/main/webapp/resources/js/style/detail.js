@@ -9,8 +9,12 @@ $(function() {
 										return {...obj, [arr[0]]: arr[1]};
 									}, {});
 	getList(category, style_no);
+	styleService.get(category, style_no)
+				.then(res => res.json())
+				.then(data => console.log(data));
+	
+	
 });
-
 
 function getList(category, style_no) {
 	$.ajax({
@@ -21,7 +25,7 @@ function getList(category, style_no) {
 	})
 	.done(function(json) {
 		$.each(json, function(_, style) {
-			$(column).append(makeItem(style));
+			$(column).append(itemTemplate(style));
 		});
 		$('button.update').on('click', function() {
 			location.href = '/style/update';
@@ -29,57 +33,40 @@ function getList(category, style_no) {
 	});
 }
 
-
-function makeItem(style) {
-	var {style_no, m_no, style_regdate, style_content, count_like, count_comment, style_image} = style;
-	var el = document.createElement('div');
-
-	var str =(
+var itemTemplate = function(style) {
+	return (
+		'<div class="item">' +
+			'<div class="item-header clearfix">' +
+				'<div class="item-header-left">' +
+					'<div class="profile-image">'+
+						'<img class="profile" src="/resources/img/codi_test.png" />' +
+					'</div>' +
+					'<div class="user-regdate">' +
+						'<div class="user-name">김씨</div>' +
+						'<div class="regdate">'+ style.style_regDate +'</div>' +
+					'</div>' +
+				'</div>' +
+				'<div class="item-header-right">' +
+					'<button class="follow-btn" data-user-no="'+style.m_no+'">팔로우</button>' +
+					'<button class="update">수정</button>' +
+				'</div>' +
+			'</div>' +
+			'<div class="img-container"></div>' +
 			'<div class="summary">' +
 				'<div class="comment-like">'+
 					'<div class="comment">' +
-						'<img src="" />' +
-						'<span>댓글 {0} 개</span>' +
+						'<img src="/resources/img/comment.svg" alt="댓글"/>' +
+						'<span>댓글 '+ style.count_comment+' 개</span>' +
 					'</div>' +
 					'<div class="like">' +
-						'<img src="" />' +
-						'<span>공감 {1} 개</span>' +
+						'<img src="/resources/img/like.svg" alt="공감"/>' +
+						'<span>공감 '+ style.count_like +' 개</span>' +
 					'</div>' +
 				'</div>' + 
-			'</div>'
-		).format(count_comment, count_like);
-	
-	el.className = 'card';
-	el.dataset.styleNo = style_no;
-	el.append(detailHeader(style))
-	el.append(imgSlider(style_image))
-	el.append(detailContent(style));
-	el.innerHTML += str;
-	return el;
-}
-
-function detailHeader(style) {
-	var {style_no, m_no, style_regdate} = style;
-	var el = document.createElement('div');
-	var str = (
-			'<div class="item-header-left">' +
-				'<div class="profile-image">'+
-					'<img src="{0}" />' +
-				'</div>' +
-				'<div class="user-regdate">' +
-					'<div class="user-name">{1}</div>' +
-					'<div class="regdate">{2}</div>' +
-				'</div>' +
-			'</div>' +
-			'<div class="item-header-right">' +
-				'<button class="follow-btn">팔로우</button>' +
-				'<button class="update">수정</button>' +
-			'</div>' 
-			).format("/resources/img/codi_test.png", 'Nobody', '0시간 전');
-	
-	el.innerHTML = str;
-	el.className = 'item-header clearfix';
-	return el;
+			'</div>' + 
+			'<div class="content"></div>' + 
+		'</div>'
+	).format();
 }
 
 function imgSlider(imageList) {
@@ -90,14 +77,5 @@ function imgSlider(imageList) {
 	
 	el.innerHTML = imgTagList;
 	el.className = 'img-container';
-	return el;
-}
-
-function detailContent(style) {
-	var {style_content} = style;
-	var el = document.createElement('div');	
-	
-	el.innerHTML = style_content;
-	el.className = 'content';
 	return el;
 }

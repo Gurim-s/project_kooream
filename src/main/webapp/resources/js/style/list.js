@@ -53,7 +53,7 @@ function makeCard(json) {
 					'<div class="content">{4}</div>' +
 				'<div>' +
 			'</a>'
-			).format(json.style_no, makeOriginPath(json.style_image[0]), "", "김씨", "안녕하세용 ㅎㅎ;");
+	).format(json.style_no, makeOriginPath(json.style_image[0]), "", "김씨", "안녕하세용 ㅎㅎ;");
 	
 	return str;
 }

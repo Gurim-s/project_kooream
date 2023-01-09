@@ -15,30 +15,30 @@
 #styleList .list-column:last-child {
 	margin-right: 0px;
 }
-.card {
+.item {
 	width: 100%;
 }
-.card .img-container img{
+.item .img-container img{
 	width: 100%;
 }
-.card .item-header {
+.item .item-header {
 	width: 100%;
 }
-.card .item-header-right {
+.item .item-header-right {
 	float: right;
 }
-.card .item-header-left {
+.item .item-header-left {
 	float: left;
 }
-.card .item-header-left .profile-image {
+.item .item-header-left .profile-image {
 	float: left;
 	height: 50px;
 }
-.card .item-header-left .profile-image img {
+.item .item-header-left .profile-image img {
 	height: 100%;
 	border-radius: 50%;
 	border: solid 2px black;
 }
-.card .item-header-left .user-regdate {
+.item .item-header-left .user-regdate {
 	float: left;
 }
