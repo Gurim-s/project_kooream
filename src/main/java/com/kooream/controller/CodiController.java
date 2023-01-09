@@ -18,6 +18,7 @@ import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleVO;
 import com.kooream.service.CodiService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -25,7 +26,7 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/codishop/*")
 @AllArgsConstructor
 
-public class Codicontroller {
+public class CodiController {
 	
 
 	private CodiService service;

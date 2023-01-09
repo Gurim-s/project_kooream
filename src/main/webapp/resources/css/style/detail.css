@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+#content {
+	width: 70%;
+	margin: 0 auto;
+}
+#styleList {
+	width: 100%;
+}
+#styleList .list-column{
+	width: 100%;
+	margin-right: 20px;
+	float: left;
+}
+#styleList .list-column:last-child {
+	margin-right: 0px;
+}
+.card {
+	width: 100%;
+}
+.card .img-container img{
+	width: 100%;
+}
+.card .item-header {
+	width: 100%;
+}
+.card .item-header-right {
+	float: right;
+}
+.card .item-header-left {
+	float: left;
+}
+.card .item-header-left .profile-image {
+	float: left;
+	height: 50px;
+}
+.card .item-header-left .profile-image img {
+	height: 100%;
+	border-radius: 50%;
+	border: solid 2px black;
+}
+.card .item-header-left .user-regdate {
+	float: left;
+}

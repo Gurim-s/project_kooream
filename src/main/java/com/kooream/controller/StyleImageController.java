@@ -103,4 +103,5 @@ public class StyleImageController {
 		
 		return result;
 	}
+	
 }

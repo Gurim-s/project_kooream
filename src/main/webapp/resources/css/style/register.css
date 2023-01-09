@@ -129,7 +129,14 @@ input[type="file"] {
 	padding: 5px;
 }
 .form-wrapper form textarea {
-	display: none;
+	width: 650px;
+	height: 150px;
+	float: right;
+	margin-right: 20px;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 5px;
+	resize: none;
 }
 .form-wrapper form .form-btn {
 	text-align: center;

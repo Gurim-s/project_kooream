@@ -93,7 +93,7 @@ $(function() {
 		var form = $('form');
 		
 		uploadImageAjax(dataTransfer.files).done(result => {
-			var str = ''
+			var str = '';
 			Array.from(result)
 				.forEach((image, i) => {
 					str += '<input type="hidden" name="style_image['+i+'].fileName" value="'+image.fileName+'">';

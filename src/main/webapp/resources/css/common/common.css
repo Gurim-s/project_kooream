@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+* {
+	padding:0;
+	margin:0;
+	box-sizing: border-box;
+	text-decoration: none;
+	color: #000;
+}
+a {
+ 	color: #000;
+ 	text-decoration: none;
+ 	outline: none
+}
+a:hover, a:active {
+	text-decoration: none;
+	color:#000;
+	background-color:#f59000;
+}
+ul li {
+	list-style: none;
+}
+.clearfix {
+	*zoom:1;
+}
+.clearfix::after {
+	clear:both;
+}
+.clearfix::after, .clearfix::before {
+	display:block;
+	content: '';
+	line-height: 0;
+}
