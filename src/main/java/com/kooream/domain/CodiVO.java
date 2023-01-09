@@ -15,12 +15,13 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CodiVO {
 	private int codi_no, m_no, codi_cm, codi_kg;
 	private String codimodel_name, codi_title, codi_content;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date codi_date;
+	
 	
 	@Override
 	public String toString() {
