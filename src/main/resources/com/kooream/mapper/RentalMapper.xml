@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.kooream.mapper.RentalMapper">
 	
+	<!-- 렌탈 상품 등록 -->
 	<insert id="addRntPrdt">
 		<selectKey keyProperty="p_no" resultType="int" order="BEFORE">
 			SELECT rproduct_no_seq.nextval FROM DUAL
@@ -24,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{r_price})
 	</insert>
 	
+	<!-- 렌탈 상품 리스트 -->
 	<select id="getList" parameterType="com.kooream.domain.RentalMenuVO" resultType="com.kooream.domain.ProductVO">
 		<![CDATA[
 		SELECT (SELECT B.UPLOADPATH || '\' || B.UUID || '_' || B.FILENAME 
@@ -50,9 +52,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	AND A.R_PRICE <= #{price}
 	    	]]>
 	    </if>
-	    
-	    
 	</select>
 	
+	<!-- 렌탈 상품 상세보기에서 이미지 불러오기 -->
+	<select id="getViewImg" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.AttachFileVO">
+		<![CDATA[
+		SELECT (B.UPLOADPATH || '\' || B.UUID || '_' || B.FILENAME) AS img_url
+        FROM product_image B WHERE B.P_NO =#{p_no}
+		]]>
+	</select>
+	
+	<!-- 렌탕 상품 상세보기 -->
+	<select id="viewPrdt" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.ProductVO">
+		SELECT * FROM PRODUCT WHERE P_NO = #{p_no}
+	</select>
+	
+	<!-- 상품 수정에서 해당 상품에 업로드 되어있는 이미지파일 가져오기 -->
+	<select id="getFile" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.AttachFileVO">
+		SELECT * FROM PRODUCT_IMAGE WHERE P_NO = #{p_no}
+	</select>
+	
+	<!-- 상품 수정 쿼리 -->
+	<update id="updateRntPrdt" parameterType="com.kooream.domain.ProductVO">
+		UPDATE PRODUCT 
+		SET 
+		B_NO=#{b_no},
+		P_NAME_KO=#{p_name_ko},
+		P_NAME_EN=#{p_name_en},
+		P_MODEL_NO=#{p_model_no},
+		P_RELEASE_PRICE=#{p_release_price},
+		P_CATEGORY=#{p_category},
+		P_STOCK=#{p_stock},
+		R_PRICE=#{r_price}
+		WHERE P_NO=#{p_no}
+	</update>
+	
+	<!-- 상품 삭제 쿼리 -->
+	<delete id="removeRntPrdt" parameterType="com.kooream.domain.ProductVO">
+		DELETE FROM PRODUCT WHERE P_NO=#{p_no}
+	</delete>
 	
 </mapper>

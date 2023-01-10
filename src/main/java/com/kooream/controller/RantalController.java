@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.domain.RentalMenuVO;
+import com.kooream.domain.RntReviewVO;
 import com.kooream.service.RentalService;
+import com.kooream.service.RntReviewService;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -33,6 +35,8 @@ public class RantalController {
 	@Setter(onMethod_= @Autowired)
 	private RentalService service;
 	
+	@Setter(onMethod_= @Autowired)
+	private RntReviewService rp_service;
 	
 	// 렌탈 브랜드 목록 페이지 이동
 	@GetMapping("/index")
@@ -42,10 +46,7 @@ public class RantalController {
 	
 	// 렌탈리스트 페이지 이동
 	@GetMapping("/rentalList")
-	public String rentalList(@RequestParam(value="brand", required=false) String brand) {	//required=false -> brand가 null값이어도 오류 안남
-		ProductVO vo = new ProductVO();
-		/* vo = service.getList(brand); */
-		
+	public String rentalList() {	//required=false -> brand가 null값이어도 오류 안남
 		return "/rental/rentalList";
 	}
 	
@@ -71,6 +72,44 @@ public class RantalController {
 		return "redirect:/rental/rentalList";
 	}
 	
+	// 상세보기 페이지 이동
+	@GetMapping("/viewRntPrdt")
+	public String viewRntPrdt(ProductVO vo, Model model) {
+		// 이미지 불러오는 쿼리
+		List<AttachFileVO> imageList = service.getViewImg(vo);
+		// 상품 정보 불러오는 쿼리
+		ProductVO pvo = service.viewPrdt(vo);
+		// 리뷰 불러오는 쿼리
+		List<RntReviewVO> reviewVO = rp_service.getReview(vo);
+		
+		model.addAttribute("reviewVO", reviewVO);
+		model.addAttribute("imageList", imageList);
+		model.addAttribute("pvo", pvo);
+		return "/rental/viewRntPrdt";
+	}
 	
+	// 상품 수정 페이지 이동
+	@GetMapping("/updateRntPrdtPage")
+	public String updateRntPrdtPage(ProductVO vo, Model model) {
+		model.addAttribute("pvo", service.viewPrdt(vo));
+		// 파일 테이블에서 상품번호 기준으로 업로드된 파일(이미지) 정보 가져오기
+		List<AttachFileVO> fvoList = service.getFile(vo);
+		model.addAttribute("fvoList", fvoList);
+		return "/rental/updateRntPrdtPage";
+	}
+	
+	// 상품 수정 기능
+	@PostMapping("/updateRntPrdt")
+	public String updateRntPrdt(ProductVO vo, HttpServletRequest http) {
+		service.updateRntPrdt(vo);
+		return "redirect:/rental/rentalList";
+	}
+	
+	// 상품 삭제 기능
+	@PostMapping("/removeRntPrdt")
+	public String removeRntPrdt(ProductVO vo) {
+		service.removeRntPrdt(vo);
+		return "redirect:/rental/rentalList";
+	}
 	
 }
