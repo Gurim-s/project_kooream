@@ -18,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<delete id="delete">
-		delete from codi_reply 
+	
+		delete from CODI_REPLY 
 			where codi_c_no= #{codi_c_no} 
 	
 	</delete>

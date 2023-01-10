@@ -14,7 +14,7 @@ public interface CodiReplyService {
 	
 	public int modify(CodiReplyVO vo);
 
-	public int remove(int codi_no);
+	public int remove(int codi_c_no);
 	
 	public List<CodiReplyVO> getList( int codi_no);
 	

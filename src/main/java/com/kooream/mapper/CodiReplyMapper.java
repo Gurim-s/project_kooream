@@ -13,7 +13,7 @@ public interface CodiReplyMapper {
 	public CodiReplyVO read(int codi_no);
 	
 	
-	public int delete(int codi_no);
+	public int delete(int codi_c_no);
 
 	public int update(CodiReplyVO vo);
 	

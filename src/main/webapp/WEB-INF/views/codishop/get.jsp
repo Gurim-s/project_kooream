@@ -24,11 +24,6 @@
 		width: 600px;
 		height: 800px;
 	}
-
-	
-	
-	
-	
 	.title>span {
 		font-weight: bold;
 		font-size: 30px;
@@ -52,8 +47,6 @@
 		font-weight: bold;
 		font-size: 20px;
 	}
-	
-	
 	/* 버튼 이미지  */
 	.comment-inner-text {
     width: 100%;
@@ -125,6 +118,39 @@
   		}
 		
 	}
+	#goodsBtn{
+		display: inline-block;
+	    padding: 1em 2em;
+	    border-radius: 0;
+	  	color: #b2876f;
+	    margin-top:2rem;
+	    font-weight: bold;
+	    font-size: 0.678rem;
+	    letter-spacing: 2px;
+	    text-transform: uppercase;
+	    text-decoration: none;
+		  background: linear-gradient(to right, rgba(#b2876f, 0) 25%, rgba(#b2876f, .8) 75%);
+		  background-position: 1% 50%;
+		  background-size: 400% 300%;
+		  border: 1px solid #b2876f;
+		  @include transition;
+	  
+		  &:hover{
+		    color: white;
+		      color: #fff;
+      	background-position: 99% 50%;
+  		}
+	}
+	
+	
+	.remove_comment_go{
+	 	padding : 0px;
+		border: none;
+		background-color: white;
+		margin-right: 15px;
+	
+	}	
+	
 	.comment-header{
 		width: 100%;
 		height: 30px;
@@ -133,6 +159,16 @@
 	}
 	.comment-main{
 		border: 1px solid #b2876f;
+		/* height: 50px; */
+		min-height: 50px;
+	}
+	.m_replyer{
+		line-height: 30px;
+		margin-left: 5px;
+	}
+	
+	#List_img{
+		width: 24px;
 	}
 	
 </style>
@@ -189,6 +225,7 @@
 			<div >
 				<input type="button" value="목록" id="List_go">
 				<input type="button" value="수정" id="modify_go">
+				<input type="button" value="삭제" id="remove_go">
 			</div>
 				
 				
@@ -200,16 +237,17 @@
 		<br/>
 		<div class="comment">
 			<div class="comment_textarea">
+        		<!-- <button id="goodsHideBtn">댓글 취소</button> -->
 				<textarea class="comment-inner-text" id="replytext" name="content" tabindex="1" placeholder="댓글 입력해 주세요."></textarea>			
 			</div>
 			<div class="comment_btn">
 				<input type="button" class="submit-content" id="btnReply" value="등록" tabindex="2" style="float: right;">
+				<button id="goodsBtn" style="float: right;">입력</button>
 				<span class="btn_hide" style="display:none"></span>
 				<!-- <input type="button" class="submit_hide" value="취소" style="float: right;"> -->
 			</div>
 			
 			<br><br><br><br><br>
-			<hr/>
 			
 			<div class = "panel-body">
 				<ul class = "chat">
@@ -250,72 +288,173 @@
 		submit();
 	});
 	
+	$("#remove_go").click(function() {
+		location.href = "/codishop/remove?codi_no=${board.codi_no}";
+		submit();
+	});
 	
-	$(function(){
 	var codi_c_no = "";
 	
 	// 화면 이동 스크립트 --- end
 	var replyUL = $(".chat");
 	var codi_noValue = '${board.codi_no}';
-		console.log(codi_noValue);
 	
 	
-	showList();
+	// 댓글 달기 버튼 이벤트
+	$("#btnReply").hide();
+	$("#replytext").hide();
+	$("#goodsBtn").on("click", function(){
+		var thisText = $(this).text();
+		if(thisText=='입력'){
+			$("#replytext").val("");
+			$("#replytext").show();
+			$("#btnReply").show();
+			$(this).text("취소");
+		}else{
+			$("#replytext").hide();
+			$("#btnReply").hide();
+			$(this).text("입력");
+		}
+	});
+	
+	
+	
+	
+	
+	
+	/* $('#goodsShowBtn').click(function() {
+	    $("#replytext").show();
+	    $("#goodsHideBtn").show();
+	    $("#btnReply").show();
+	})
+	$('#goodsHideBtn').click(function() {
+		$("#goodsShowBtn").show();
+	    $("#replytext").hide();
+	    $("#btnReply").hide();
+	}) */
+	
+	
+	
 	// 댓글 리스트 화면에 출력 함수 ---- start 
 	function showList() {
 		CodiReplyService.getList({codi_no:codi_noValue, page:1},
-				function(result) {
-					str = '';
+			function(result) {
+				str = '';
+				console.log(result);
+					
+				if(result == null || result.length == 0){
+					replyUL.html("");
+					console.log("댓글 없음");
+					return;
+				}else{
 					console.log(result);
 					
-					if(result == null || result.length == 0){
-						replyUL.html("");
-						console.log("댓글 없음");
-						return;
-					}else{
-						console.log(result);
-						
-						for(var i=0; i<result.length; i++){
-							str += '<li class = "left clearfix" data-rno = "' + result[i].codi_no+'">';
-		 						str += '<div>';
-			 						str += '<div class="comment-header">';
-	 									str += '<strong class = "m_replyer">'+result[i].replyer+'</strong>';
-	 									str += '<small class = "reply_date">'+displayTime(result[i].replyDate)+'</small>';
-	 								str += '</div>';
-	 							str += '</div>';
-	 							str += '<div class="comment-main">';
- 										str += '<p class="c_reply">'+result[i].reply+'</p>';
-	 							str += '</div>';
-	 						str += '</li>';
-						}
-						replyUL.html(str);
+					for(var i=0; i<result.length; i++){
+						str += '<li class="left clearfix" data-rno = "' + result[i].codi_no+'">';
+	 						str += '<div>';
+		 						str += '<div class="comment-header">';
+ 									str += '<strong class="m_replyer">'+result[i].replyer+'</strong>';
+ 									str += '<small class="reply_date">'+displayTime(result[i].replyDate)+'</small>';
+		 							str += '<button class="List_btn" data-opened="closed" style="float: right; "><img id="List_img" class="List_img" src="/resources/img/List_icon.png" alt="목록열림"></button>';
+		 							str += '<button class="remove_btn" onclick="remove_btn('+ result[i].codi_c_no +')" style="float: right; ">삭제</button>';
+		 							str += '<button class="update_btn" onclick="update_btn('+ result[i].codi_c_no +')" style="float: right; ">수정</button>';
+ 								str += '</div>';
+ 							str += '</div>';
+ 							str += '<div class="comment-main">';
+								str += '<pre class="c_reply">'+result[i].reply+'</pre>';
+ 							str += '</div>';
+ 						str += '</li>';
 					}
+					replyUL.html(str);
+					
+					$(".remove_btn").hide();
+					$(".update_btn").hide();
+					console.log($(".List_btn")[0]);
+					
+					$(".List_btn").on("click", function(e){
+						var target = $(e.target).closest('button');
+						var remove_btn = $(target).closest('div').find(".remove_btn");
+						var update_btn = $(target).closest('div').find(".update_btn");
+						console.log($(target).data('opened'));
+						if($(target).data('opened') == "closed"){
+							$(remove_btn).show();
+							$(update_btn).show();
+							$(target).data('opened', 'opened');
+						}else{
+							$(remove_btn).hide();
+							$(update_btn).hide();
+							$(target).data('opened', 'closed');
+						}
+					});
 				}
-			);
-		} // showList ... end
+			}
+		);
+	}// showList ... end
 		
-	// 댓글 등록 ... start
-	$("#btnReply").click(function() {
-		CodiReplyService.add(
-			{reply: $("#replytext").val(), replyer:"임시 작성자", codi_no : codi_noValue},
-			function(result) {
+		
+		
+
+	
+	$(function(){
+
+		console.log(codi_noValue);
+		
+		
+		showList();
+		
+ 		
+			
+		// 댓글 등록 ... start
+	
+		$("#btnReply").click(function() {
+			CodiReplyService.add({
+				reply : $("#replytext").val(),
+				replyer : "임시 작성자",
+				codi_no : codi_noValue
+			}, function(result) {
 				showList();
 				$("#replytext").val("");
-			}
-		)
+			})
+		});
 	});
+		// 댓글 등록 ... end
 		
-		
+	// 댓글 수정 start
 	
-	// 댓글 등록 ... end
-	
-	
-	
-	
-	
+	$(".remove_btn").hide();
+	$(".update_btn").hide();
 
-
+	$(".List_btn").on("click", function(){
+		console.log($(this).alt);
+		var thisAlt = $(this).alt();
+		if(thisAlt=='목록열림'){
+			$(".replytext").val("");
+			$(".remove_btn").show();
+			$(".update_btn").show();
+			$(this).alt("목록닫힘");
+		}else{
+			$(".remove_btn").hide();
+			$(".update_btn").hide();
+			$(this).alt("목록열림");
+		}
 	});
+	// 댓글 수정 end
 
+
+		// 댓글 삭제 start
+	function remove_btn(codi_c_no) {
+		CodiReplyService.remove(codi_c_no, function(result){
+			alert(result);
+			showList();
+			
+		});
+	};
+
+	// 댓글 삭제 end
+	
+	
+	
+	
+	
 </script>
 <jsp:include page="../include/footer.jsp"/>
