@@ -5,7 +5,7 @@
 var imgSlider = (x) => (function(_container) {
 	var container = _container;
 	var ul = document.createElement('ul');
-	var idx = 0; 
+	var idx = 0;
 	
 	(() => {
 		init();
@@ -24,7 +24,7 @@ var imgSlider = (x) => (function(_container) {
 		
 		var str = '<button class="prev">&lt;</button>' + 
 				  '<button class="next">&gt;</button>'; 
-		
+
 		btnContainer.innerHTML = str;
 		btnContainer.querySelectorAll('button')
 					.forEach(x => x.addEventListener('click', (e) => {
@@ -33,16 +33,6 @@ var imgSlider = (x) => (function(_container) {
 		
 		return btnContainer;
 	}
-	
-	function createIdx() {
-		var idxContainer = document.createElement('div');
-		idxContainer.className = 'idx-container';
-		
-		var str = '';
-		ul.childElementCount
-		
-		return createIdx();
-	};
 	
 	function hover(v) {
 		var buttons = container.querySelectorAll('.next, .prev');
@@ -74,11 +64,12 @@ var imgSlider = (x) => (function(_container) {
 	}
 	
 	function slideImg(v) {
-		ul.style.transition = '0.5s';
 		if (v == 'next') {
 			idx++;
 		} else if (v == 'prev') {
 			idx--;
+		} else {
+			idx = v;
 		}
 	
 		ul.style.left = (-1 * idx * 100) + '%';
@@ -136,5 +127,49 @@ var imgSlider = (x) => (function(_container) {
 		addList: addList,
 	}
 }(x));
+
+var idxContainer = (function() {
+	var container = document.createElement('ul');
+	container.className = 'idx-container';
+	
+	var idx = 0;
+	
+	
+	//추가 할때 그냥 추가 하고 이벤트 콜백에서 ul내에서 li index 참고해서 idx변경 하도록 구성
+	function add() {
+		var length = container.childElementCount;
+		var li = document.createElement('li');
+		
+	}
+	
+	function remove() {
+		
+	}
+	
+	function next() {
+		
+	}
+	
+	function prev() {
+		
+	}
+	
+	function move(idx) {
+		
+	}
+	
+	function isEnd() {
+		return idx == container.childElementCount - 1;
+	}
+	
+	return {
+		idx: idx,
+		add: add,
+		remove: remove,
+		next: next,
+		prev: prev,
+		move: move,
+	}
+})();
 
 export {imgSlider};
