@@ -17,7 +17,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-@RequestMapping("/replies/")
+@RequestMapping("/codi/replies/")
 @RestController
 public class CodiReplyController {
 	

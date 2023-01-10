@@ -19,12 +19,14 @@
 		text-align: center;
 		margin: 0 auto;
 	}
+	
 	.categoty{
 		position: relative;
 		font-size: 20px;
 		letter-spacing: -.07px;
 		font-weight: 600;
 	}
+	
 	.all_category{
 		margin-top: 4px;
 		overflow: hidden;
@@ -73,7 +75,7 @@
 		display: block;
 	}
 	
-	.category_menu{
+	.category_menu{s
 		display: none;
 	}
 	
@@ -81,70 +83,211 @@
 		display: block;
 	}
 	
-	.filter_box{
-		display: inline-block;
+	.product_box{
+		float: left;
+		border: 1px solid black;
+		width: calc(25% - 10px);
+		height : 410px;
 	}
 	
-	.product_photo{
+	.filter_box{
+		float: left;
 		display: inline-block;
-		border: 1px solid black;
-		width: 165px;
-		height : 320px;
+		margin-right: 10px;
+		padding-right: 10px;
+		height: 100%;
+	}
+	
+	.product_all{
+		float: left;
+		width: calc(100% - 220px);
+		display: inline-block;
+		grid-column-gap: 20px;
+	}
+	
+	.brand_name{
+		font-size: 13px;
+		font-weight: bold;
+	}
+	
+	.product_name_eng{
+		line-height: 16px;
+		font-size: 13px;
+	}
+	
+	.product_name_kor, .buy_price{
+		line-height: 13px;
+		margin-top: 2px;
+		font-size: 11px;
+		color: rgba(34,34,34,.5);
+	}
+	
+	.view_price{
+		line-height: 17px;
+		font-size: 14px;
+		font-weight: 700;
+	}
+	
+	.badge_product {
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+		line-height: 11px;
+		padding: 4.5px 5.5px 4.5px 17px;
+		color: #31b46e;
+		background-color: #f2f9f6;
+		border-radius: 2px;
+		font-size: 11px;
+		letter-spacing: -.33px;
+		height: 20px;
+		margin-bottom: 10px;
+	}
+	
+	.product_image {
+		border-radius: 7px;
+		width: 100%;
+	}
+	
+	.product_box:not(:nth-child(4n)) {
+		margin-right: 10px;
 	}
 	
 </style>
 	<div class="shop_title" style="height: 110px; width: 100%;">
 		<h2 class="shop_text">SHOP</h2>
 	</div>
-	<div class="filter_box" style="border : 1px solid black; width : 210px;">
-		<div class="filter_status" style="padding : 23px 0 15px;">
-			<span class="filter_text">필터</span>
-		</div>
-		<div class="filter_title" id="filter_title">
-			<div class="title_box">
-				<span class="categoty">카테고리</span><br/>
-				<span class="all_category">모든 카테고리</span>
+	<div class="main-content-box clearfix">
+		<div class="filter_box" style="border : 1px solid black; width : 210px;">
+			<div class="filter_status" style="padding : 23px 0 15px;">
+				<span class="filter_text">필터</span>
 			</div>
-			<div class="plus_btn">+</div>
-			<div class="minus_btn">-</div>
-		</div>
-		<div class="category_menu" id="category_menu">
-			<label><input type="checkbox" value="신발">신발</label><br/>
-			<label><input type="checkbox" value="의류">의류</label><br/>
-			<label><input type="checkbox" value="패션잡화">패션잡화</label>
-		</div>
-		<div class="filter_title">
-			<div class="title_box">
-				<span class="categoty">브랜드</span><br/>
-				<span class="all_category">모든 브랜드</span>
-			</div>
-			<div class="plus_btn">+</div>
-			<div class="minus_btn">-</div>
-		</div>
-		<div class="category_menu" id="category_menu">
-			<label><input type="checkbox" value="Nike">Nike</label><br/>
-			<label><input type="checkbox" value="Vans">Vans</label><br/>
-			<label><input type="checkbox" value="Jordan">Jordan</label><br/>
-			<label><input type="checkbox" value="Apple">Apple</label>
-		</div>
-		<div class="filter_title">
+			<div class="filter_title" id="filter_title">
 				<div class="title_box">
-					<span class="categoty">신발 사이즈</span><br/>
-					<span class="all_category">모든 사이즈</span>
+					<span class="categoty">카테고리</span><br/>
+					<span class="all_category">모든 카테고리</span>
 				</div>
-			<div class="plus_btn">+</div>
-			<div class="minus_btn">-</div>
-		</div>
+				<div class="plus_btn">+</div>
+				<div class="minus_btn">-</div>
+			</div>
+			<div class="category_menu" id="category_menu">
+				<label><input type="checkbox" value="신발">신발</label><br/>
+				<label><input type="checkbox" value="의류">의류</label><br/>
+				<label><input type="checkbox" value="패션잡화">패션잡화</label>
+			</div>
+			<div class="filter_title">
+				<div class="title_box">
+					<span class="categoty">브랜드</span><br/>
+					<span class="all_category">모든 브랜드</span>
+				</div>
+				<div class="plus_btn">+</div>
+				<div class="minus_btn">-</div>
+			</div>
 			<div class="category_menu" id="category_menu">
 				<label><input type="checkbox" value="Nike">Nike</label><br/>
 				<label><input type="checkbox" value="Vans">Vans</label><br/>
-				<label><input type="checkbox" value="Jordan">Jordan</label>
+				<label><input type="checkbox" value="Jordan">Jordan</label><br/>
 				<label><input type="checkbox" value="Apple">Apple</label>
 			</div>
+			<div class="filter_title">
+					<div class="title_box">
+						<span class="categoty">신발 사이즈</span><br/>
+						<span class="all_category">모든 사이즈</span>
+					</div>
+				<div class="plus_btn">+</div>
+				<div class="minus_btn">-</div>
+			</div>
+			<div class="category_menu" id="category_menu">
+				<label><input type="checkbox" value="Nike">250</label><br/>
+				<label><input type="checkbox" value="Vans">260</label><br/>
+				<label><input type="checkbox" value="Jordan">270</label><br/>
+				<label><input type="checkbox" value="Apple">280</label>
+			</div>
+		</div>
+		<div class="product_all">
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/ps5.png">
+				<div class="brand_name">Sony</div>
+				<div class="product_name_eng">Sony Playstation 5 Blu-ray Edition (SIEK 220V)</div>
+				<div class="product_name_kor">소니 플레이스테이션 5 블루레이 에디션 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">637,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/iphone.png">
+				<div class="brand_name">Apple</div>
+				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
+				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">1,553,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/ps5.png">
+				<div class="brand_name">Sony</div>
+				<div class="product_name_eng">Sony Playstation 5 Blu-ray Edition (SIEK 220V)</div>
+				<div class="product_name_kor">소니 플레이스테이션 5 블루레이 에디션 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">637,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/iphone.png">
+				<div class="brand_name">Apple</div>
+				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
+				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">1,553,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/iphone.png">
+				<div class="brand_name">Apple</div>
+				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
+				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">1,553,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/iphone.png">
+				<div class="brand_name">Apple</div>
+				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
+				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">1,553,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/iphone.png">
+				<div class="brand_name">Apple</div>
+				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
+				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">1,553,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/ps5.png">
+				<div class="brand_name">Sony</div>
+				<div class="product_name_eng">Sony Playstation 5 Blu-ray Edition (SIEK 220V)</div>
+				<div class="product_name_kor">소니 플레이스테이션 5 블루레이 에디션 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">637,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+			<div class="product_box">
+				<img class="product_image" src="../resources/img/iphone.png">
+				<div class="brand_name">Apple</div>
+				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
+				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="badge_product">빠른 배송</div>
+				<div class="view_price">1,553,000원</div>
+				<div class="buy_price">즉시 구매가</div>
+			</div>
+		</div>
 	</div>
-	<div class="product_photo">
-		ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-	</div>
+	
 <jsp:include page="../include/footer.jsp"/>
 
 <script type="text/javascript">
@@ -155,7 +298,7 @@
 		$(e.target).closest('.filter_title').find('.plus_btn').toggleClass('clicked');
 		$(e.target).closest('.filter_title').find('.minus_btn').toggleClass('clicked');
 	});
-	
+
 // 	var elementToToggle = $('.category_menu');
 	var button = $('.filter_title');
 
@@ -171,13 +314,13 @@
 	const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
 	checkboxes.forEach(checkbox => {
-	  checkbox.addEventListener('change', event => {
-	    const checkedCheckbox = event.target;
-	    checkboxes.forEach(checkbox => {
-	      if (checkbox !== checkedCheckbox) {
-	        checkbox.checked = false;
-	      }
-	    });
-	  });
+		checkbox.addEventListener('change', event => {
+			const checkedCheckbox = event.target;
+				checkboxes.forEach(checkbox => {
+					if (checkbox !== checkedCheckbox) {
+						checkbox.checked = false;
+					}
+				});
+		});
 	});
 </script>

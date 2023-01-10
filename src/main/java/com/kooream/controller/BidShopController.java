@@ -19,5 +19,11 @@ public class BidShopController {
 		
 		return "shop/shop_allList";
 	}
-
+	
+	@GetMapping("/shop_introduce")
+	public String shop_introduce() {
+		log.info("list...");
+		
+		return "shop/shop_introduce";
+	}
 }
