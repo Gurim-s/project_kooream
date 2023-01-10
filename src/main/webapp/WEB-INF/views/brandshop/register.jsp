@@ -1,18 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
+<style type="text/css">
+	.register{
+		margin-left:auto;
+		margin-right:auto; 
+		padding: 50px;
+		width: 100%;
+		height: 100%;
+	}
+	.register td{
+		height: 50px;
+		width: 100px;
+		font-size: 20px;
+		font-weight: bold ;
+	}
+	.register td input{
+		width: 90%;
+	}
+
+
+
+
+
+</style>
 </head>
 <body>
-	<h1>상품등록</h1>
+	<h1>상품등록</h1><br/>
 	<div class="container">
 		<form action="/brandshop/register"method="post">
-			<table>
+			<table class = "register">
 			<tr>
 				<td>이미지 등록</td>
 					<td><input type="file" name="uploadFile" multiple="multiple"></td>
@@ -23,7 +48,7 @@
 			<tr>
 				<td>브랜드</td>
 					<td class="form-inline">
-						<select class="BrandCategory1" name="b_no">
+						<select id="brand_select" name="b_no">
 							<option value="51">LE17SEPTEMBRE</option>
 							<option value="52">Polar Skate Co.</option>
 							<option value="53">Punch Drunk Parties</option>
@@ -43,35 +68,32 @@
 			<tr>		
 				<td>상품분류</td>
 				<td class="form-inline">
-						<select class="Category1" name="p_size">
-							<%-- <c:if test="${ productList eq top}"></c:if> 상의면  비동기 방식????!!?!?!--%>
+						<select id="Category1">
+							<option value="">선택</option>
 							<option value="top">1. 상의</option>
-							<option value="botton">2. 하의</option>
+							<option value="bottom">2. 하의</option>
 							<option value="shoes">3. 신발</option>
 							<option value="acc">4. 패션잡화</option>
 						</select>
-						<c:if test="${ p_size eq top}"></c:if> 상의면
-							<select class="Category1" id="Top_Size">
+							<select class="T_Category" name="">
 								<option value="S">S</option>
 								<option value="M">M</option>
 								<option value="L">L</option>
 							</select>
-							<c:if test="${ p_size eq botton }"></c:if> 
-							<select class="Category1" id="botton_Size">
+							<select class="B_Category" name="">
 								<option value="46">46</option>
 								<option value="48">48</option>
 								<option value="50">50</option>
 							</select>
-							<c:if test="${ p_size eq shoes }"></c:if>
-							<select class="Category1" id="Shoes_Size">
+							<select class="S_Category" name="">
 								<option value="230">230</option>
 								<option value="240">240</option>
 								<option value="250">250</option>
 								<option value="260">260</option>
 							</select>
-							<c:if test="${ p_size eq acc }"></c:if>
-							<select class="Category1" id="productList">
-								<option value="acc_FREE">FREE</option>
+
+							<select class="A_Category" name="">
+								<option value="FREE">FREE</option>
 							</select> 
 
 				</td>
@@ -98,7 +120,10 @@
 					</select></td>
 			</tr>
 			<tr>
-				<td class="col-sm-offset-2 col-sm-10">
+					<td class = "Brand_name"><input type="hidden" name ="p_brand" value=""></td>
+			</tr>
+			<tr>
+				<td class="register_button">
 					<button data-oper="submit">등록</button>
 					<button data-oper="reset">취소</button>
 					<button data-oper="list">목록으로</button>
@@ -211,15 +236,16 @@
 				var fileCallPath = encodeURIComponent(obj.uploadPath + "/" +		// 인코딩
 														obj.uuid + "_" +
 														obj.fileName);
-			
+				
+/* 				var orginPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName;
+					orginPath = originPath.replace(new RegExp(/\\/g),"/"); */
 			
 				
-				str += '<li>';
-				str += '<a href="/download?fileName='+fileCallPath+'">';	// 다운로드에 매개변수 던지는 중
-				str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
-				str += '</a>';
-				str += '<span data-file="'+ fileCallPath+'"> X </span>';		// x표시 만들어서 삭제할수 있게 만든것
-				str += '</li>';
+				 str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+	               //str += '<a href="/download?fileName='+fileCallPath+'">';
+	               str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+	               str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
+	               str += '</li>';
 			
 			}
 			
@@ -228,14 +254,15 @@
 		
 		uploadResult.on("click", "span", function () {
 			var targetFile = $(this).data("file");
+			var targetLi = $(this).closest("li");
 			
 			$.ajax({
-				url:"/deleteFile",		// Controller에서 deleteFile 찾는다
+				url:"/brandfile/deleteFile",		// Controller에서 deleteFile 찾는다
 				data : {fileName:targetFile},
 				type : "post",
 				dataType : "text",
 				success : function (result) {
-					alert(result);
+					targetLi.remove();
 					
 				}
 			
@@ -244,6 +271,64 @@
 		});
 		
 	});
+	// 사이즈 선택-----------------------------------------------------------------
+		
+		$('#Category1').change(function () {
+			var result =$('#Category1 option:selected').val();
+			if(result == 'top'){
+				$('.T_Category').show();
+				$('.T_Category').attr('name','p_size');	// name='p_size' 가 들어간다
+				$('.B_Category').hide();
+				$('.S_Category').hide();
+				$('.A_Category').hide();
+				
+			}else if(result == 'bottom'){
+				$('.B_Category').show();
+				$('.B_Category').attr('name','p_size');
+				$('.T_Category').hide();
+				$('.S_Category').hide();
+				$('.A_Category').hide();
+			}else if(result == 'shoes'){
+				$('.S_Category').show();
+				$('.S_Category').attr('name','p_size');
+				$('.T_Category').hide();
+				$('.B_Category').hide();
+				$('.A_Category').hide();
+			}else{
+				$('.A_Category').show();
+				$('.A_Category').attr('name','p_size');
+				$('.T_Category').hide();
+				$('.B_Category').hide();
+				$('.S_Category').hide();	
+			};
+		});
+	// 사이즈 선택 끝-----------------------------------------------------------		
+	
+	// 브랜드 이름 // 내 생각은 브랜드 선택할때 값이 51이면 Brand_name에 value = 
+/* 		$('#brand_select').change(function () {
+			var result2 = $('#brand_select option:selected').val();
+			var Le = 'LE17SEPTEMBRE';
+			if(result2 == "51"){
+				$('input[name=p_brand]').attr('value',Le)
+
+			}else{
+				
+			};
+				
+		
+		
+		
+		});
+ */
+			
+	
+	
+	
+	
+		
+
+
+	
 
 	</script>
 	

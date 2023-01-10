@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="/resources/css/codi/codi.css" />
 <jsp:include page="../include/header.jsp"/>
 
-<body class="cordiregister">
 
 	<div class="codi_box">
 		<div class="social_title">
@@ -16,11 +15,11 @@
 			<div class="insert_codi">
 				<div class="row">
 					<span class="title_content">코디제목</span>
-					<input type="text" class="codi_title" id="textForm">
+					<input type="text" name="codi_title" id="textForm">
 				</div>
 				<div class="row">
 					<span class="title_content">코디소개</span>
-					<input type="text" class="codi_content" id="textForm">
+					<input type="text" name="codi_content" id="textForm">
 				</div>
 				
 				<div class="row">
@@ -30,19 +29,19 @@
 				
 				<div class="row">
 					<span class="title_content">상품태그</span>
-					<input type="text" name="item_tag" id="textForm">
+					<input type="text" name="m_no" id="textForm">
 				</div>
 				
 				<div class="row">
 					<span class="title_content">모델정보</span>
 					<span>이름: </span>
-						<input type="text" name="model_name" id="textForm2">
+						<input type="text" name="codimodel_name" id="textForm2">
 						
 					<span>키 :  </span>
-						<input type="number" name="model_cm" id="textForm2">
+						<input type="number" name="codi_cm" id="textForm2">
 						
 					<span>무게 : </span>
-						<input type="number" name="model_kg" id="textForm2">
+						<input type="number" name="codi_Kg" id="textForm2">
 				</div>
 				<div class="row">
 					<span class="title_content">사진 등록</span>
@@ -60,21 +59,18 @@
 			<br/><br/><br/>
 			<div class="btn btn_all">
 				<button class="btn1" data-oper="list">목록으로 가기</button>
-				<button class="btn1" data-oper="register">상품 등록</button>
+				<button class="btn1" data-oper="register">코디 등록</button>
 				<button class="btn1" data-oper="reset">취소</button>
 			</div> <!-- btn btn_all......... end -->
-	</form>
+		</form>
 		
 	</div> <!-- codi_box ........... end -->
-</body>
-</html>
 <script type="text/javascript">
 	$(function() {
 		
-		
-		
 		// 폼 오브젝트 만들기
-		var formObj = $("from[role='form']");
+		var formObj = $("form[role='form']");
+		console.log(formObj[0]);
 		
 		
 		// -----버튼 클릭 스크립트
@@ -84,8 +80,7 @@
 			var oper = $(this).data("oper"); // 버튼 가지고 있는 data-oper 속성
 			
 			if(oper == 'list'){
-				history.back();
-				return;
+				location.href = '/codishop/list';
 			}else if(oper == 'reset'){
 				formObj[0].reset();
 				return;
@@ -93,7 +88,7 @@
 				console.log("submit clicked");
 				var str = '';
 				
-				$(".uploadResult ul li").each(function(i, obj){
+				/* $(".uploadResult ul li").each(function(i, obj){
 					var jobj = $(obj);
 					console.dir(jobj);
 					console.dir(jobj);
@@ -101,8 +96,8 @@
 					str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
 					str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
 					
-				});
-			formObj.append(str);
+				}); */
+			/* formObj.append(str); */
 			formObj.submit();
 			}
 		}); // button click end 
@@ -111,7 +106,7 @@
 		
 		//파일 업로드	
 		// 이미지 파일만 가능 하게 하기 
-		function fileCheck(obj) {
+	/* 	function fileCheck(obj) {
 			pathPoint = obj.value.lastIndexOf('.');
 			filepoint = obj.value.substring(parthpoint+1,obj.length);
 			filetype = filepoint.toLowerCase();
@@ -130,17 +125,10 @@
 				if(!upload)return false;
 			};
 	 		
-		}; 
+		};  */
 	
 	}); // function end
-	
-	
-	
-	
-	
 </script>
-
-
 
 <style>
 #textForm{
@@ -198,7 +186,6 @@
 	transition: 0.4s;
 	display:inline;
 }
-.btn 
 
 </style>
 

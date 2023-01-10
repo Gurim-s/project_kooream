@@ -1,7 +1,9 @@
 package com.kooream.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.security.Provider.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -96,7 +99,7 @@ public class BrandProductUploadController {
 				
 				list.add(attachVo);
 				
-				service.uploadFile(attachVo);
+				/* service.uploadFile(attachVo); p_no값이 0이 들어감 => insert가 2번된다*/
 				
 				
 			} catch (Exception e) {
@@ -117,7 +120,7 @@ public class BrandProductUploadController {
 	 }
 	 
 	//-----------------------------------------------------------------------------------X 누르면 파일 삭제
-	@PostMapping("/deleteFile")
+	@PostMapping("deleteFile")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String getUuid){
 		log.info("deleteFile : " + fileName);
@@ -136,6 +139,35 @@ public class BrandProductUploadController {
 		}
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
+	//-----------------------------------------------------------------------------썸네일
+	
+	  @GetMapping("/display")
+	  @ResponseBody 
+	  
+	  public ResponseEntity<byte[]> getFile(String fileName){
+	  log.info("fileName : " + fileName); 
+	  
+	  File file = new File("c:\\upload\\" + fileName); 
+	  log.info("file :" + file);
+	
+	  ResponseEntity<byte[]> result = null;
+	  
+	  try {
+		  HttpHeaders header = new HttpHeaders();
+		  
+		  header.add("Content-Type", Files.probeContentType(file.toPath()));
+		  result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),
+				  header, HttpStatus.OK);
+		
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	 return result;
+	  
+	  
+	  
+	  }
+	 
 	
 	
 	

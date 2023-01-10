@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kooream.mapper.CommunityTalkMapper;
 import com.kooream.domain.CommunityTalkVO;
+import com.kooream.domain.Criteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -18,12 +19,12 @@ public class CommunityTalkServiceImpl implements CommunityTalkService{
 	@Setter(onMethod_ = @Autowired)
 	private CommunityTalkMapper mapper;
 	
-	// 구림톡 게시글 리스트
-	@Override
-	public List<CommunityTalkVO> getTalkList() {
-		log.info("getlist.............");
-		return mapper.getTalkList(); 
-	}
+	// 구림톡 게시글 리스트 (페이징 처리 하기 전)
+//	@Override
+//	public List<CommunityTalkVO> getTalkList() {
+//		log.info("getlist.............");
+//		return mapper.getTalkList(); 
+//	}
 	
 	// 구림톡 게시글 등록
 	@Override
@@ -56,6 +57,20 @@ public class CommunityTalkServiceImpl implements CommunityTalkService{
 		System.out.println(vo.getTalkno());
 		int result = mapper.talkUpdate(vo);
 		return result == 1? true : false;
+	}
+	
+	// 페이징 처리 된 구림톡 전체 게시글 보기
+	@Override
+	public List<CommunityTalkVO> getListWithPaging(Criteria cri) {
+		log.info("getListWithPaging" + cri);
+		return mapper.getListWithPaging(cri);
+	}
+	
+	// 게시판 전체 글 수 구하기
+	@Override
+	public int getTotal() {
+		log.info("get total count.........");
+		return mapper.getTotalCount();
 	}
 	
 }

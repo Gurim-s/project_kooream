@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+#content {
+	width: 70%;
+	margin: 0 auto;
+}
+#styleList {
+	width: 100%;
+}
+#styleList .list-column{
+	width: 100%;
+	margin-right: 20px;
+	float: left;
+}
+#styleList .list-column:last-child {
+	margin-right: 0px;
+}
+.item {
+	width: 100%;
+}
+.item .img-container img{
+	width: 100%;
+}
+.item .item-header {
+	width: 100%;
+}
+.item .item-header-right {
+	float: right;
+}
+.item .item-header-left {
+	float: left;
+}
+.item .item-header-left .profile-image {
+	float: left;
+	height: 50px;
+}
+.item .item-header-left .profile-image img {
+	height: 100%;
+	border-radius: 50%;
+	border: solid 2px black;
+}
+.item .item-header-left .user-regdate {
+	float: left;
+}

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-
-
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.mapper.BrandProductMapper;
 import com.kooream.mapper.BrandProductUploadMapper;
@@ -26,24 +26,51 @@ import lombok.extern.log4j.Log4j;
 	private BrandProductUploadMapper uploadmapper;
 
   
-  
+  @Transactional
   @Override 
   public void register(ProductVO vo) { 
 	  mapper.insert(vo);
-		/*
-		 * int b_no = mapper.getBno();
-		 * 
-		 * if(vo.getAttachList() = !null && vo.getAttachList(). size()>0) {
-		 * for(ProductVO vo2 : vo.getAttachList()) { vo2.setB_no(b_no);
-		 * uploadmapper.insert(vo2); } }
-		 */
+		
+		  int p_no = mapper.getPno();
+		  
+		  if(vo.getAttachList() != null && vo.getAttachList(). size()>0) {
+			  for(AttachFileVO vo2 : vo.getAttachList()) { 
+				  vo2.setP_no(p_no);
+				  uploadmapper.uploadFile(vo2); 
+				  } 
+			  }
+		 
   
   }
+  
 
 
 @Override
 public List<ProductVO> getList() {
-	return mapper.getList();
+	List<ProductVO> list = mapper.getList();
+	
+	// 상품테이블 + 상품이미지 합쳐서 불러오기
+	for (ProductVO vo : list) {
+		List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());	// 
+		vo.setAttachList(attach);
+	}
+	
+	return list;
+}
+
+
+@Override
+public List<AttachFileVO> getAttachList(int p_no) {
+	
+	return uploadmapper.findByPno(p_no);
+}
+
+
+
+@Override
+public ProductVO get(ProductVO vo) {
+
+	return mapper.read(vo);
 }
   
   

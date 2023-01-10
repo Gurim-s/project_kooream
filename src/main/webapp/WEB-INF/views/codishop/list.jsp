@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- <link rel="stylesheet" href="/resources/css/codi/codi.css" /> -->
 <jsp:include page="../include/header.jsp"/>
-<style>
+<style type="text/css">
 	.codi_box{
 		width: 1200px;
 	
@@ -11,11 +11,10 @@
 	.social_title{
 		text-align: center;
 	}
-	.keyword_bind{
+	.keyword_brand{
 		text-align: center;
 	}
 	.brand_keyword{
-	
 		display: inline-block;
 	    padding: 8px 10px;
 	    border: 1px solid #ebebeb;
@@ -28,7 +27,9 @@
 	.insert_btn{
 		text-align: right;
 	}
-	
+	.More_btn{
+		text-align: center;
+	}
 	
 	.btn_search{
 		display: inline-block;
@@ -54,6 +55,31 @@
   		}
 		
 	}
+	 .btn_More{
+	 	display: inline-block;
+	    padding: 1em 2em;
+	    border-radius: 0;
+	  	color: #b2876f;
+	    margin-top:2rem;
+	    font-weight: bold;
+	    font-size: 0.678rem;
+	    letter-spacing: 2px;
+	    text-transform: uppercase;
+	    text-decoration: none;
+		  background: linear-gradient(to right, rgba(#b2876f, 0) 25%, rgba(#b2876f, .8) 75%);
+		  background-position: 1% 50%;
+		  background-size: 400% 300%;
+		  border: 1px solid #b2876f;
+		  @include transition;
+	  
+		  &:hover{
+		    color: white;
+		      color: #fff;
+      	background-position: 50% 50%;
+  		}
+	 }
+	
+	
 	.form-control{
 		border: none;
 		padding: 1em 2em;
@@ -70,7 +96,52 @@
 		width: 275px;
 		height: 350px;
 	}
-
+	#codi-list {
+	width: 100%;
+	margin: 10px auto;
+	display: flex;
+	}
+	#first {
+	    /* border: 1px solid red; */
+	    flex:1;
+	    width:22%;
+	    box-sizing: border-box;
+	}
+	
+	#second{
+	    /* border: 1px solid green; */
+	    flex:1;
+	    margin-left: 1%;
+	    width:22%;
+	    box-sizing: border-box;
+	}
+	
+	#third{
+	    /* border: 1px solid blue; */
+	    flex:1;
+	    margin-left: 1%;
+	    width:22%;
+	    box-sizing: border-box;
+	}
+	
+	#force{
+	    /* border: 1px solid blue; */
+	    flex:1;
+		margin-left: 1%;
+	    width:22%;
+	    box-sizing: border-box;
+	}
+	.list-column{
+		padding-top: 5px;
+	}
+	.codi_img{
+		width: 275px;
+		height: 350px;
+	}
+	.codi_img_box{
+		width: 275px;
+		height: 350px;
+	}
 </style>
 <body class="cordishop">
 	
@@ -81,7 +152,7 @@
 		</div>
 		<br/>
 		<div class="container social">
-			<div class="keyword_bind">
+			<div class="keyword_brand">
 				<a href="#" class="brand_keyword">#Nike</a>
 				<a href="#" class="brand_keyword">#adidas</a>
 				<a href="#" class="brand_keyword">#new balance</a>
@@ -99,40 +170,24 @@
 		<div class="codi_insert">
 			<div class="insert_btn">
 				<a  href="/codishop/register" class="btn_search">코디 등록</a>
-				
+			</div>
+			<hr/>
+		</div>
+		
+		<div id="codi-list" class="clearfix">
+			<div class="list-column" id="first">
+			</div>
+			<div class="list-column" id="second">
+			</div>
+			<div class="list-column" id="third">
+			</div>
+			<div class="list-column" id="force">
 			</div>
 		</div>
-		<div class="main-codi">
-			<table class="codi-table">
-				<colgroup>
-					<col width="20%"/>
-					<col width="20%"/>
-					<col width="20%"/>
-					<col width="20%"/>
-				</colgroup>
-				<tbody>
-				<c:set var="i" value="0" />
-				<c:set var="j" value="4" />
-					<c:forEach  var="vo" items="${list }" varStatus="status">
-					<c:if test="${i%j == 0 }">
-					</tr><tr>
-					</c:if>
-						<td>					
-							<img class="codi-img" src="<c:url value='/resources/img/codi_test.png'/>" alt="codi-img"><br>
-							<span style="font-weight: bold; font-size: large;"><c:out value="${vo.codi_title }"/></span><br>
-							<span style="color: gray; font-size: small;"> 모델 : <c:out value="${vo.codimodel_name }"/></span><br>
-							<span><c:out value="${vo.codi_cm }"/> | <c:out value="${vo.codi_kg }"/></span><br>
-							<span> <fmt:formatDate pattern="yyyy-MM-dd" value="${vo.codi_date }"/></span>
-						</td>
-				 	<c:if test="${i%j == j-1 }">
-					<tr>
-					</c:if>
-	    			<c:set var="i" value="${i+1 }" />
-					</c:forEach>
-							
-				</tbody>
-			</table>
+		<div class="More_btn">
+			<a  href="#" class="btn_More">더보기(MORE)</a>
 		</div>
+		
 	</div>
 </body>
 
@@ -145,12 +200,12 @@ $(function() {
 	pageNum = 1;
 	amount = 20;
 	getList(pageNum, amount);
-})
+});
 
 
 function getList(pageNum, amount) {
 	$.ajax({
-		url: "list/hot",
+		url: "list",
 		data: JSON.stringify({
 			pageNum: pageNum,
 			amount: amount,
@@ -158,65 +213,51 @@ function getList(pageNum, amount) {
 		type: 'post',
 		dataType:"json",
 		contentType:"application/json",
-	})
+	})	// $.ajax.... end 
 	.done(function(json) {
-		$.each(json, function(idx, style) {
-			$(column[idx % 4]).append(JSON.stringify(style));
-		});
-	});	
-}
-
-
-var rno =""; 
-$(function(){
-	
-	// 화면 이동 스크립트 ----------------------------------------Start
-	var operForm = $("#operForm");
-	$("#boardModBtn").click(function() {
-		operForm.append('<input type="hidden" name="bno" value="'+${vo.bno }+'">');
-		operForm.submit();	
-	});
-
-	$("#listMoveBtn").click(function() {
-		operForm.attr("action","/board/list");
-		operForm.submit();
-	});
-	// 화면 이동 스크립트 ----------------------------------------End
-	
-	var bnoValue = '${vo.bno}';
-	var replyUL = $(".chat");
- 	
-	
-	// 첨부 파일 스크립트 ----------------------------------------start
-		$.ajax({
-		url:'/board/list',
-		type:'get',
-		data : {bno:bnoValue},
-		contentType:'application/json; charset=utf-8',
-		success : function(arr) {
-			console.log(arr);
+		console.log(JSON.stringify(json));
+		$.each(json, function(idx, codi) {
 			 
-			var str = '';
-	            
-            for(var i=0; i<arr.length; i++){
-               var obj = arr[i];
-               
-               var fileCallPath = encodeURIComponent(obj.uploadPath + "/"
-            		   									+ obj.uuid + "_" 
-            		   									+ obj.fileName);
-               
-               str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';
-               str += '<a href="/download?fileName='+fileCallPath+'">';
-               str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
-               str += '</a>'
-               // str += '<span data-file="'+fileCallPath+'"> X </span>';
-               str += '</li>';
-            }
-	            
-	           $(".uploadResult ul").html(str);
+			// 1개의 코디 중 제일 큰 곳
+			var card_box = $('<a href="/codishop/get?codi_no='+ codi.codi_no + '"><div></div></a>');		//card_box div 태그 생성
+			$(card_box).attr('class', 'codi_card');  // card_box class 넣어주기
 			
-		}
-	});
+			var img_box = $('<div></div>');		//img_box div 태그 생성
+			$(img_box).attr('class', 'codi_img_box');	// img_box class 넣어주기
+			
+			var text_box = $('<div></div>');		//text_box div 태그 생성
+			$(text_box).attr('class', 'codi_text');	// text_box 클래스 생성
+			
+			var img_tag = $('<img></img>');	// img_tag div 태그 생성 
+			$(img_tag).attr('class', 'codi_img');
+			$(img_tag).attr('src', '/resources/img/codi_test.png');
+			
+			var text_Line1 = $('<div></div>');
+			$(text_Line1).append('<h3>' + codi.codi_title + '</h3>');
+			var text_Line2 = $('<div></div>');
+			$(text_Line2).append(' Model: ' + codi.codimodel_name+' ');
+			$(text_Line2).append(' Body: ' + codi.codi_cm);
+			$(text_Line2).append('/ ' +codi.codi_kg);
+			var text_Line3 = $('<div></div>');
+			$(text_Line3).text(new Intl.DateTimeFormat('kr').format(new Date(codi.codi_date)));
+			
+			
+			$(img_box).append(img_tag);	 // 이미지 박스에 이미지 태그 넣어주기 
+			$(card_box).append(img_box);	// 카드 박스에 이미지 박스 넣어주기 
+			
+			$(card_box).append(text_box);	// 카드 박스에 택스트 박스 넣어주기 
+			$(text_box).append(text_Line1);	  
+			$(text_box).append(text_Line2);	 
+			$(text_box).append(text_Line3);	 
+			
+			$(column[idx % 4]).append(card_box);	// 생성한 div를 column에 추가 -> 이 작업을 해야 view에 나옴
+			
+		}); // function(idx, codi) ... end
+	});	// .done ... end
+}	// function getList ... .end
+
+
+
 </script>
 
 

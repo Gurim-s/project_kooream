@@ -1,4 +1,4 @@
-package com.kooram.mapper;
+package com.kooream.mapper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

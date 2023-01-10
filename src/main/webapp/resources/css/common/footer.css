@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+footer {
+	height: 300px;
+	background-color: #a99;
+	line-height: 300px;
+}
+footer h1 {
+	text-align: center;	
+}

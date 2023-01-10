@@ -27,11 +27,18 @@
 }
 #styleList {
 	width: 100%;
-	border: 1px solid black;	
 }
 #styleList .list-column{
-	width: calc(25% - 17px);
-	margin-right: 17px;
+	width: calc(25% - 15px);
+	margin-right: 20px;
 	float: left;
-	border: 1px solid red;	
+}
+#styleList .list-column:last-child {
+	margin-right: 0px;
+}
+.card {
+	width: 100%;
+}
+.card .img-container img{
+	width: 100%;
 }

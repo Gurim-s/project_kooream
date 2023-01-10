@@ -8,6 +8,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <insert id="uploadFile">
 		INSERT INTO PRODUCT_IMAGE(uuid, FileName, FileType, uploadPath, p_no)
 		VALUES(#{uuid}, #{FileName}, #{FileType, jdbcType=VARCHAR}, #{uploadPath}, #{p_no})
-</insert> 
+</insert>
+<select id="findByPno" resultType="com.kooream.domain.AttachFileVO">
+	select * from product_image where p_no=#{p_no}
+</select>
+<delete id="removeFile">
+	delete form product_image where uuid=#{uuid}
+	
+
+</delete>
+ 
 	
 </mapper> 
