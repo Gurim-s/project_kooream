@@ -58,4 +58,12 @@ public class CommunityTalkReplyServiceImpl implements CommunityTalkReplyService 
 		return result;
 	}
 	
+	
+	// 댓글 조회
+	public CommunityTalkReplyVO get (int talkreplyno) {
+		log.info("get............." + talkreplyno);
+		return mapper.read(talkreplyno);
+	}
+	
+	
 }

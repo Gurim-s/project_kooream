@@ -34,20 +34,38 @@ public class CommunityTalkReplyTests {
 	
 	
 	// 구림톡 게시판 댓글 달기
+//	@Test
+//	public void testRegister() {
+//		CommunityTalkReplyVO vo = new CommunityTalkReplyVO();
+//		vo.setTalkno(31);
+//		vo.setTalkreplycon("새해 복 많이 받으세요.");
+//		vo.setTalkreplyname("댓글러3");
+//		vo.setM_no(3);
+//		
+//		mapper.insert(vo);
+//		
+//		log.info(vo);
+//	}
+	
+	
+	// 구림톡 게시판 댓글 삭제
+//	@Test
+//	public void testRemove() {
+//		
+//		int count = mapper.delete(1);
+//		log.info("remove : " + count);
+//		
+//	}
+	
+	
+	// 구림톡 게시판 댓글 보기
 	@Test
-	public void testRegister() {
-		CommunityTalkReplyVO vo = new CommunityTalkReplyVO();
-		vo.setTalkno(31);
-		vo.setTalkreplycon("새해 복 많이 받으세요.");
-		vo.setTalkreplyname("댓글러3");
-		vo.setM_no(3);
+	public void testRead() {
 		
-		mapper.insert(vo);
+		CommunityTalkReplyVO vo = mapper.read(8);
 		
 		log.info(vo);
 	}
-	
-	
 	
 
 }

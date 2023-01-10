@@ -81,4 +81,12 @@ public class CommunityTalkReplyController {
 					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// 댓글 조회
+	@GetMapping(value = "/{rno}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<CommunityTalkReplyVO> get(@PathVariable("talkreplyno") int talkreplyno){
+		log.info("get............" + talkreplyno);
+		
+		return new ResponseEntity<CommunityTalkReplyVO>(service.get(talkreplyno),HttpStatus.OK);
+	}
+	
 }

@@ -17,4 +17,7 @@ public interface CommunityTalkReplyService {
 	
 	// 댓글 수정
 	public int modify (CommunityTalkReplyVO vo);
+	
+	// 댓글 조회
+	public CommunityTalkReplyVO get (int talkreplyno);
 }

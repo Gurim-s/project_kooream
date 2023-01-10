@@ -68,14 +68,16 @@
 	<table class="replylist">
 		<tr>
 			<td>닉네임</td>
-			<td><button class="replyupdatebtn" data-oper="replyupdate">수정</button></td>
-			<td><button class="replyremovebtn" data-oper="replyremove">삭제</button></td>
+			<td data-replyno ="1">댓글번호</td>
+			<td><button class="replyBtn" id="replyupdatebtn">수정</button></td>
+			<td><button class="replyBtn" id="replyupdatebtn">삭제</button></td>
 			<td>작성날짜</td>
 		</tr>
 		<tr>
 			<td>댓글 내용</td>
 		</tr>
 	</table>
+	
 	
 	
 	<!-- 댓글 입력 폼 -->
@@ -133,6 +135,115 @@
 			}
 			
 		});
+		 
+		 
+		var talkno = '${vo.talkno }';
+		var replycon = $("#replycon");
+		var replyname = $("#replyname");
+		var m_no = $("#m_no");
+		
+	 	// 댓글 등록
+	 	// 댓글 등록하려는 게시글 번호 확인
+	 	console.log(talkno);
+		// 댓글 등록 함수 불러오기
+	 	$("#addReplyBtn").click(function() {
+	 		alert("댓글 등록 버튼");	
+			replyService.add(
+				{talkreplycon:replycon.val(), talkreplyname:replyname.val(), talkno:talkno, m_no:m_no.val()},
+					function(result) {
+						showList();
+				}
+			);
+		});
+		 	
+			
+			
+		//댓글 리스트 출력
+		var replylist = $(".replylist");
+			
+		// 댓글 불러오는 함수 불러오기
+		showList();
+			
+		// 댓글 리스트 함수 (shoewList 함수에 담아서 등록 시에나 필요할 떄 함수 호출 가능)
+		function showList() {
+			
+			replyService.getList({no:talkno},
+				function(result) {
+					// 함수를 타고 값을 가져오는지 확인 콘솔
+					console.log(result);
+					var str = '';
+					
+					if(result == null || result.length==0){
+						// 댓글이 없으면
+						replylist.html("");
+						return;
+					}else{
+						// 댓글이 있으면
+						for(var i=0; i<result.length; i++){
+							str += '<tr>';
+							str += '<td>'+ result[i].talkreplyname +'</td>';
+							str += '<td data-replyno ="'+result[i].talkreplyno+ '">'+result[i].talkreplyno+'</td>';
+							str += '<td><button class="replyBtn" id="replyupdatebtn">수정</button></td>';
+							str += '<td><button class="replyBtn" id="replyremovebtn">삭제</button></td>';
+							str += '<td>'+result[i].talkreplydate+'</td>';
+							str += '</tr>';
+							str += '<tr>';
+							str += '<td>'+ result[i].talkreplycon +'</td>';
+							str += '</tr>';
+						}
+						replylist.html(str);
+						
+						// 댓글 번호
+						//var talkreplyno = $(".replyno").attr("value");
+						/* $(".replylist").click(function(e) {
+							
+						}) */
+						
+						var talkreplyno;
+						$(".replyBtn").on("click", function() {
+							talkreplyno = $(this).data("replyno");
+							replyService.get(talkreplyno, function(result) {
+								console.log(result);
+							});
+						});
+					
+						
+						// 댓글 삭제
+						 $("#replyremovebtn").click(function() {
+							
+							alert(talkreplyno);
+							replyService.remove(talkreplyno, function(result) {
+									
+								if(result ==='success'){
+									alert("댓글 삭제 완료")
+									showList();
+								}
+							})
+						});
+						
+						
+						
+						// 댓글 수정
+						
+						 /* $(".replyupdatebtn").click(function() {
+							alert(talkreplyno);
+							console.log(talkreplyno);
+							replyService.update(
+									{talkreplyno : talkreplyno, talkreplycon:talkreplycon.val()},
+							)
+						});  */
+						
+						
+						
+					}
+				}
+			);
+		} 
+		 
+		 
+		 
+		 
+		 
 	});
 	
 	// 게시글 관련 내용 ------------------------------------end
@@ -141,7 +252,7 @@
 	// 댓글 관련 내용 ------------------------------------start
 	
 	
- 	var talkno = '${vo.talkno }';
+ 	/* var talkno = '${vo.talkno }';
 	var replycon = $("#replycon");
 	var replyname = $("#replyname");
 	var m_no = $("#m_no");
@@ -151,6 +262,7 @@
  	console.log(talkno);
  	// 댓글 등록 함수 불러오기
  	$("#addReplyBtn").click(function() {
+ 		alert("댓글 등록 버튼");	
 		replyService.add(
 			{talkreplycon:replycon.val(), talkreplyname:replyname.val(), talkno:talkno, m_no:m_no.val()},
 				function(result) {
@@ -158,6 +270,11 @@
 			}
 		);
 	});
+ 	
+ 	// 댓글 수정 하기
+	$(".replyupdatebtn").click(function() {
+		alert("댓글 수정 버튼");
+	})
 	
 	
 	//댓글 리스트 출력
@@ -184,7 +301,7 @@
 					for(var i=0; i<result.length; i++){
 						str += '<tr>';
 						str += '<td>'+ result[i].talkreplyname +'</td>';
-						str += '<td><button class="replyupdatebtn" data-oper="replyupdate"	>수정</button></td>';
+						str += '<td><button class="replyupdatebtn" data-oper="replyupdate">수정</button></td>';
 						str += '<td><button class="replyremovebtn" data-oper="replyremove">삭제</button></td>';
 						str += '<td>'+result[i].talkreplydate+'</td>';
 						str += '</tr>';
@@ -196,16 +313,11 @@
 				}
 			}
 		);
-	}
+	} */
 	
 	
-		// 댓글 수정 하기
-		$(".replyupdatebtn").click(function() {
-			alert("댓글 수정 버튼");
-			// 댓글 수정하기 버튼을 눌러도 아무런 반응이 있지 않음....
-			// 온로드는 위에 게시글에서 끝났고, on으로 클릭을 줘도 반응하지 않음.
-			// 눌러도 alert이 안뜸...ㅠㅠ
-		});
+	
+			
 	
 	
 	
