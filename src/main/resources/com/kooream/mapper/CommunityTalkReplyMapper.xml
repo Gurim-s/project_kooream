@@ -25,6 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE talkreplyno = #{talkreplyno}
 	</update>
 	
+	<select id="read" resultType="com.kooream.domain.CommunityTalkReplyVO">
+		SELECT talkreplyno, talkreplycon, talkreplyname, talkreplydate, talkno FROM talkreply
+		WHERE talkreplyno = #{talkreplyno}
+	</select>
 	
 	
 </mapper>

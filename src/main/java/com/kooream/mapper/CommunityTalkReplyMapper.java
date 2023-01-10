@@ -18,4 +18,7 @@ public interface CommunityTalkReplyMapper {
 	// 댓글 수정
 	public int update(CommunityTalkReplyVO vo);
 	
+	// 댓글 조회(번호 가져오기 위해)
+	public CommunityTalkReplyVO read(int talkreplyno);
+	
 }

@@ -46,7 +46,7 @@ var replyService = (function(){
 	
 	
 	
-	function remove(rno, callback, error){
+	function remove(talkreplyno, callback, error){
 		$.ajax({
 			type:'delete',
 			url : '/replies/' + talkreplyno,
@@ -87,7 +87,7 @@ var replyService = (function(){
 	
 	
 	
-	function get(rno, callback, error){
+	function get(talkreplyno, callback, error){
 		console.log("get reply..." + talkreplyno);
 		
 		$.ajax({
