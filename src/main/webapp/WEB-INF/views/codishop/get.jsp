@@ -205,7 +205,7 @@
 			<div class="comment_btn">
 				<input type="button" class="submit-content" id="btnReply" value="등록" tabindex="2" style="float: right;">
 				<span class="btn_hide" style="display:none"></span>
-				<input type="button" class="submit_hide" value="취소" style="float: right;">
+				<!-- <input type="button" class="submit_hide" value="취소" style="float: right;"> -->
 			</div>
 			
 			<br><br><br><br><br>
@@ -304,6 +304,9 @@
 			}
 		)
 	});
+		
+		
+	
 	// 댓글 등록 ... end
 	
 	
