@@ -13,7 +13,7 @@ public interface BrandProductMapper {
 
 	public int getPno();
 
-	public ProductVO read(int p_no);
+	public ProductVO read(ProductVO vo);
 
 	
 

@@ -305,9 +305,9 @@
 	// 사이즈 선택 끝-----------------------------------------------------------		
 	
 	// 브랜드 이름 // 내 생각은 브랜드 선택할때 값이 51이면 Brand_name에 value = 
-		$('#brand_select').change(function () {
+/* 		$('#brand_select').change(function () {
 			var result2 = $('#brand_select option:selected').val();
-			var Le = 'LE17SEPTEMBRE';'
+			var Le = 'LE17SEPTEMBRE';
 			if(result2 == "51"){
 				$('input[name=p_brand]').attr('value',Le)
 
@@ -319,7 +319,7 @@
 		
 		
 		});
-
+ */
 			
 	
 	

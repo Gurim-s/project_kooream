@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -52,14 +53,14 @@ public class BrandProductController {
 	@PostMapping("/register")	// 등록 페이지 삽입 
 	public String register(ProductVO vo,RedirectAttributes rttr) { 
 		
-		log.info("register....." + vo.getB_no());
-		log.info("register....." + vo.getP_category());
-		log.info("register....." + vo.getP_model_no());
-		log.info("register....." + vo.getP_name_en());
-		log.info("register....." + vo.getP_name_ko());
-		log.info("register....." + vo.getP_release_price());
-		log.info("register....." + vo.getP_no());
-		log.info("register....." + vo.getP_size());
+		/*
+		 * log.info("register....." + vo.getB_no()); log.info("register....." +
+		 * vo.getP_category()); log.info("register....." + vo.getP_model_no());
+		 * log.info("register....." + vo.getP_name_en()); log.info("register....." +
+		 * vo.getP_name_ko()); log.info("register....." + vo.getP_release_price());
+		 * log.info("register....." + vo.getP_no()); log.info("register....." +
+		 * vo.getP_size());
+		 */
 		service.register(vo);
 		rttr.addFlashAttribute("result", "ok");
 		return "redirect:/brandshop/view";
@@ -84,6 +85,17 @@ public class BrandProductController {
 		  return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
 	  
 	  }
+	  
+	  @GetMapping("/get")	// 누르면 상세페이지 이동
+	  public String get(ProductVO vo, Model model, Criteria cri) {
+		 log.info("getp_no"+ vo.getP_no());
+		  model.addAttribute("cri", cri);
+		  model.addAttribute("vo", service.get(vo));
+		  
+		  return "/brandshop/get";
+		  
+	  }
+	  
 	 
 	
 	
