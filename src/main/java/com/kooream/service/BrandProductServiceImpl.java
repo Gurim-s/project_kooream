@@ -68,9 +68,9 @@ public List<AttachFileVO> getAttachList(int p_no) {
 
 
 @Override
-public ProductVO get(int p_no) {
+public ProductVO get(ProductVO vo) {
 
-	return mapper.read(p_no);
+	return mapper.read(vo);
 }
   
   

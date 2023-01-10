@@ -55,19 +55,40 @@
 	var test = '${list}';
 	console.log(test);
 	
+
+	
 	//상품 클릭 이벤트----------------------------------------------------------------------------------
-/*     //var p_no;
-    $("ul").on("click", "li", function(e) {
+
+			
+			
+			
+			
+			// <a> 클릭 시 페이지 이동이 이루어지지 않게 하기 위해
+ 			//e.preventDefault();	// 기본 href 경로 이동 방지
+		//	actionForm.attr("action", "/branshop/get");
+			  /* var str=''; */ 	// up& 되지 않도록 하는 방법
+			   	
+		         /* str += '<input type="hidden" name="p_no" value="'+$(this).attr("href")+'">'; */
+		       //  actionForm.html(str);
+		          
+			//actionForm.append('<input type="hidden" name="bno" value="'+$(this).attr("href")+'">'); // this 내 자신	// url에 밑에 3개 다 보이게 하기위해서는 append 사용
+			//actionForm.html('<input type="hidden" name="bno" value="'+$(this).attr("href")+'">');	// html로 하면 url에서 pageNum, amount, bno를 다 날린다 
+		/* 	actionForm.submit(); */
+	
+	
+	
+	
+	/*    $(".brand").click(function(e) {
     	e.preventDefault();
-    	actionForm.attr("")
+    	actionForm.attr("action", "/brandshop/get");
        
-       cno = $(this).data("p_no"); 
-       alert(p_no);
-       location.href="/branshop/get?p_no=" + p_no;            
+    	var str='';
+    	str += '<input type="hidden" name="p_no" value="'+$(this).attr("href")+'">';
+        actionForm.html(str);         
        
+        actionForm.submit();
        
-       
-       }); */
+       });  */
     
  //상품 클릭 이벤트 end------------------------------------------------------------------------------   
  // 상품 이미지 리스트에 보여주기--------------------------------------------------------
@@ -94,7 +115,7 @@
 			var str='<ul id="container">';
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
-				str += '<div class="product_list">'; 
+				str += '<a href="/brandshop/get?p_no="'+json[i].p_no+'><li class="product_list">';	// 페이지 이동하면서 p_no값 가지고 이동 
 				// 이미지 하나만 보여주기 
 				
 				
@@ -103,7 +124,7 @@
 					var uuid = json[i].attachList[0].uuid;
 					var fileName = json[i].attachList[0].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-					str += '<div ><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
+					str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
 				}
 				//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
 // 				for(var j=0; j<json[i].attachList.length; j++) {
@@ -119,8 +140,9 @@
 				str += '<br/>'
 				str += '<div>'+json[i].p_brand+'</div>';
 				
-				str += '</div>';
+				str += '</li></a>';
 			}
+			
 			str += '</ul>';
 			$('.brand').append(str);
 		});	

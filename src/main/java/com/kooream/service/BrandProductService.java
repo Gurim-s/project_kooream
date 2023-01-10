@@ -11,7 +11,7 @@ public interface BrandProductService {
 	
 	public void register(ProductVO vo);
 	
-	public ProductVO get(int p_no);
+	public ProductVO get(ProductVO vo);		// 상세보기
 
 	public List<AttachFileVO> getAttachList(int p_no);
 	
