@@ -11,8 +11,7 @@
 	.social_title{
 		text-align: center;
 	}
-	.keyword_brand{
-	}
+	
 	.brand_keyword{
 		display: inline-block;
 	    padding: 8px 10px;
@@ -27,9 +26,7 @@
 	}
 
 	
-	/* div{
-		border: 1px solid black;
-	} */
+	
 	
 	
 	.title>span {
@@ -128,7 +125,16 @@
   		}
 		
 	}
-		
+	.comment-header{
+		width: 100%;
+		height: 30px;
+		background-color: #b2876f;
+	
+	}
+	.comment-main{
+		border: 1px solid #b2876f;
+	}
+	
 </style>
 <body class="cordi_get">
 	<div class="codi_box">
@@ -179,19 +185,49 @@
 					<a href="#" class="brand_keyword">#KOOREAM STANDARD</a>
 				</div>
 			</div>
+			
+			<div >
+				<input type="button" value="목록" id="List_go">
+				<input type="button" value="수정" id="modify_go">
+			</div>
+				
+				
+				
+				
 		</div>			
 		<br/>
 		<hr/>
 		<br/>
 		<div class="comment">
 			<div class="comment_textarea">
-				<textarea class="comment-inner-text" name="content" tabindex="1" placeholder="댓글 입력해 주세요."></textarea>			
+				<textarea class="comment-inner-text" id="replytext" name="content" tabindex="1" placeholder="댓글 입력해 주세요."></textarea>			
 			</div>
 			<div class="comment_btn">
-			<input type="button" class="submit-content" value="등록" tabindex="2" style="float: right;">
-			<span class="btn_hide" style="display:none"></span>
-			<input type="button" class="submit_hide" value="취소" style="float: right;">
+				<input type="button" class="submit-content" id="btnReply" value="등록" tabindex="2" style="float: right;">
+				<span class="btn_hide" style="display:none"></span>
+				<input type="button" class="submit_hide" value="취소" style="float: right;">
 			</div>
+			
+			<br><br><br><br><br>
+			<hr/>
+			
+			<div class = "panel-body">
+				<ul class = "chat">
+					<!-- start reply -->
+					<li class = "left clearfix" data-rno = '12'>
+						<div>
+							<div class = "header">
+								<strong class = "primary-font"></strong>
+								<small class = "pull-right text-muted">2018-01-01 13:13</small>								
+							</div>
+							<p>Good job!</p>
+						</div>
+					</li>
+					<!-- end reply -->
+				</ul>
+				<!-- ./ end ul -->
+			</div> <!-- panel-body -->
+			
 		</div>
 		
 	</div> <!-- codi_box .....end -->
@@ -200,11 +236,83 @@
 
 
 </body>
+<script type="text/javascript" src="/resources/js/codi/codiReply.js"></script>
+<script type="text/javascript" src="/resources/js/codi/util.js"></script>
 <script type="text/javascript">
+	// 화면 이동 스크립트 --- start
+	$("#List_go").click(function() {
+		location.href = "/codishop/list";
+		submit();
+		
+	});
+	$("#modify_go").click(function() {
+		location.href = "/codishop/modify";
+		submit();
+	});
+	
+	
+	$(function(){
+	var codi_c_no = "";
+	
+	// 화면 이동 스크립트 --- end
+	var replyUL = $(".chat");
+	var codi_noValue = '${board.codi_no}';
+		console.log(codi_noValue);
+	
+	
+	showList();
+	// 댓글 리스트 화면에 출력 함수 ---- start 
+	function showList() {
+		CodiReplyService.getList({codi_no:codi_noValue, page:1},
+				function(result) {
+					str = '';
+					console.log(result);
+					
+					if(result == null || result.length == 0){
+						replyUL.html("");
+						console.log("댓글 없음");
+						return;
+					}else{
+						console.log(result);
+						
+						for(var i=0; i<result.length; i++){
+							str += '<li class = "left clearfix" data-rno = "' + result[i].codi_no+'">';
+		 						str += '<div>';
+			 						str += '<div class="comment-header">';
+	 									str += '<strong class = "m_replyer">'+result[i].replyer+'</strong>';
+	 									str += '<small class = "reply_date">'+displayTime(result[i].replyDate)+'</small>';
+	 								str += '</div>';
+	 							str += '</div>';
+	 							str += '<div class="comment-main">';
+ 										str += '<p class="c_reply">'+result[i].reply+'</p>';
+	 							str += '</div>';
+	 						str += '</li>';
+						}
+						replyUL.html(str);
+					}
+				}
+			);
+		} // showList ... end
+		
+	// 댓글 등록 ... start
+	$("#btnReply").click(function() {
+		CodiReplyService.add(
+			{reply: $("#replytext").val(), replyer:"임시 작성자", codi_no : codi_noValue},
+			function(result) {
+				showList();
+				$("#replytext").val("");
+			}
+		)
+	});
+	// 댓글 등록 ... end
+	
+	
+	
+	
+	
 
 
-
-
+	});
 
 </script>
 <jsp:include page="../include/footer.jsp"/>

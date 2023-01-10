@@ -54,10 +54,10 @@ public class CodiReplyServiceImpl implements CodiReplyService{
 	}
 	
 	@Override
-	public List<CodiReplyVO> getList(Criteria cri, int codi_no) {
+	public List<CodiReplyVO> getList( int codi_no) {
 		log.info("get reply List >............>>>>> " + codi_no);
 		
-		return mapper.getList(cri, codi_no);
+		return mapper.getList(codi_no);
 	}
 	
 	
