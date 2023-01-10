@@ -105,9 +105,8 @@
 	
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script  type="text/javascript">
-	$(function(){
-		// 처음 상품 리스트 보여주기 위해서 getList 에이젝스함수 실행해줌
-		getList();
+	$(function(){ //------------------------------------------------------------------------------------onload start
+		
 		
 		// 카테고리 클릭 이벤트------------------------------------------------------
 		$(".category").on("click", function(e){
@@ -171,7 +170,7 @@
 			getList();
 		});
 		
-		// 안쓰는데 나중에 참고될것같아 남김----------------start
+		// 안쓰는데 나중에 참고될것같아 남김--------------------------------------start
 		// 카테고리 필더링 조회 후 체크박스 유지--------------------------------
 		<c:forEach var="rntVo" items="${rntVo.brandType }">
 			if($("#bSpan").text()=="+"){
@@ -224,7 +223,7 @@
 					$("input[value=150000]").click();
 				</c:when>
 			</c:choose>
-		</c:forEach> // 안쓰는데 나중에 참고될것같아 남김----------------end
+		</c:forEach> // 안쓰는데 나중에 참고될것같아 남김--------------------------end
 		
 		// 스크롤 내리면 삼품 불러오는 ajax
 		$(window).scroll(function(){
@@ -238,16 +237,46 @@
 				//아닐때 이벤트
 			}
 		});
-	
-	
-	
 		
-	});
+		// 선택된 배너에 맞춰서 브랜드 상품 보여주기 및 브랜드 체크---------------------------
+		<c:forEach var="rntVo" items="${param.brandType }">
+			if($("#bSpan").text()=="+"){
+				$("#bSpan").parent().click();
+			}
+			<c:choose>
+				<c:when test="${rntVo eq 9999}">
+					//$("input[value=9999]").prop("checked", true);
+					$("input[value=9999]").click();
+				</c:when>
+				<c:when test="${rntVo eq 9998}">
+					$("input[value=9998]").click();
+				</c:when>
+				<c:when test="${rntVo eq 9997}">
+					$("input[value=9997]").click();
+				</c:when>
+				<c:when test="${rntVo eq 9996}">
+					$("input[value=9996]").click();
+				</c:when>
+				<c:when test="${rntVo eq 9995}">
+					$("input[value=9995]").click();
+				</c:when>
+			</c:choose>
+		</c:forEach>
+		// 처음 상품 리스트 보여주기 위해서 getList 에이젝스함수 실행해줌-----------
+		getList();
+		
+		
+		
+		
+		
+		
+	});//------------------------------------------------------------------------------------onload end
+	
 	// 페이징처리를 위해 전역변수 선언
 	var idx = 1;
 		
 		
-		
+	//------------------------------------------------------------------------------------상품 리스트 가져오는 함수--------
 	function getList(){
 		var getListIdx = 8;	// 페이지에 보이는 상품 갯수
 		$.ajax({
@@ -264,6 +293,7 @@
 				}
 				
 				for(var i=0; i<getLength; i++){
+					str += '<a href="/rental/viewRntPrdt?p_no='+result[i].p_no+'">';
 					str += '<div class="product" style="display: inline-block;width:225px;height: 330px;float:left;padding:15px">';
 					str += '<img src="/display/'+result[i].img_url+'">';
 					str += '<div></div>';
@@ -271,6 +301,7 @@
 					str += '<div style="font-size:10px;color: #808080bd;">'+result[i].p_name_ko+'</div>';
 					str += '<div style="font-size: 13px;">'+result[i].r_price+'원</div>';
 					str += '</div>';
+					str += '</a>';
 				}
             
 				$("#productList").html(str);

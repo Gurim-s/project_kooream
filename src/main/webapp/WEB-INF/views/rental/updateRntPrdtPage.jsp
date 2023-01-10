@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	#title{
@@ -17,9 +19,10 @@
 	}
 	
 </style>
-<div id="title"><h1>렌탈 상품 등록</h1></div>
+<div id="title"><h1>렌탈 상품 수정</h1></div>
 <div id="addBox">
-	<form action="/rental/addRntPrdt" method="post">
+	<form action="/rental/updateRntPrdt" method="post">
+		<input type="hidden" name="p_no" value="${pvo.p_no }"/>
 		<table>
 			<tr>
 				<td style="width: 100px;">브랜드</td>
@@ -35,19 +38,19 @@
 			</tr>
 			<tr>
 				<td>상품명</td>
-				<td><input name="p_name_ko" type="text" maxlength="150"/> </td>
+				<td><input name="p_name_ko" type="text" value="${pvo.p_name_ko }"/> </td>
 			</tr>
 			<tr>
 				<td>상품명_EN</td>
-				<td><input name="p_name_en" type="text" maxlength="150"/> </td>
+				<td><input name="p_name_en" type="text" value="${pvo.p_name_en }"/> </td>
 			</tr>
 			<tr>
 				<td>모델번호</td>
-				<td><input name="p_model_no" type="text" maxlength="30"/> </td>
+				<td><input name="p_model_no" type="text" value="${pvo.p_model_no }"/> </td>
 			</tr>
 			<tr>
 				<td>발매가</td>
-				<td><input name="p_release_price" type="text" maxlength="10"/> </td>
+				<td><input name="p_release_price" type="text" value="${pvo.p_release_price }"/> </td>
 			</tr>
 			<tr>
 				<td>카테고리</td>
@@ -61,24 +64,30 @@
 			</tr>
 			<tr>
 				<td>재고</td>
-				<td><input name="p_stock" type="number"/> </td>
+				<td><input name="p_stock" type="number" value="${pvo.p_stock }"/> </td>
 			</tr>
 			<tr>
 				<td>대여금액</td>
-				<td><input name="r_price" type="number" maxlength="10"/> </td>
+				<td><input name="r_price" type="number" value="${pvo.r_price }"/> </td>
 			</tr>
 			<tr>
 				<td>상품이미지</td>
 				<td class="uploadResult">
 					<input id="file" type="file" name="uploadFile" multiple="multiple"/>
-				
+					<div id="fileResult">
+					<c:forEach var="fvo" items="${fvoList }">
+						<a href="/download?fileName=${fvo.uploadPath }/${fvo.uuid}_${fvo.fileName}">${fvo.fileName }</a>
+						<span data-file="${fvo.uploadPath }/${fvo.uuid}_${fvo.fileName}" data-uuid="${fvo.uuid }">X</span><br/>
+						
+					</c:forEach>
+					</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2" id="btn">
 					<input type="reset"  value="다시 작성"/>
-					<input type="submit" value="상품 등록"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
-					<input type="button" onclick="history.go(-1)" value="목록으로 이동"/>
+					<input type="submit" value="상품 수정"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
+					<input type="button" onclick="history.go(-1)" value="상세페이지로 이동"/>
 					<input type="hidden" id="strUuid" name="strUuid"/>
 				</td>
 			</tr>
@@ -135,23 +144,24 @@ $(function() {
 	var uploadResult = $(".uploadResult");
 	function showUploadFile(uploadResultArr){	// 리스트 갯수만큼 li만들어서 uploadResult에다 동적으로 넣을것임
 		
-		var str = '<input id="file" type="file"/> ';
-		var strUuid = '';
+		var str = '';
+		var strUuid = $("#strUuid").val();
 		
 		for(var i=0; i<uploadResultArr.length; i++){
 			var obj = uploadResultArr[i];
 			
 			var fileCallPath = encodeURIComponent(obj.uploadPath + '/' + obj.uuid + "_" + obj.fileName);	// 인코딩
 			
-            str += '<br/><a href="/download?fileName='+fileCallPath+'">';
+            str += '<a href="/download?fileName='+fileCallPath+'">';
             //str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
             str += obj.fileName;
             str += '</a>';
-            str += '<span data-file="'+fileCallPath+'" data-uuid="'+obj.uuid+'"> X </span>';		// X표시 만들어서 파일 삭제할 수 있게 기능 넣을 예정
+            str += '<span data-file="'+fileCallPath+'" data-uuid="'+obj.uuid+'"> X </span><br/>';		// X표시 만들어서 파일 삭제할 수 있게 기능 넣을 예정
 			
+            // 파일 업로드시 uuid를 문자열로 가져가서 @기준으로 자르고 해당 uuid 가지고 있으면 p_no를 업데이트함
             strUuid += "@" + obj.uuid;
 		}
-		uploadResult.html(str);	
+		$(".uploadResult").children().last().append(str);	// children() : 자식 요소, last() : 그 중 마지막 요소
 		$("#strUuid").val(strUuid);
 		
 	}	//------------------------------------------------------------------------end showUploadFile();
@@ -169,6 +179,7 @@ $(function() {
 			dataType : "text",
 			success : function(result){
 				console.log(result);					// upload한 파일이 upload드 되고나서 리스트 리턴
+				deleteSapn.prev().prev().remove();
 				deleteSapn.prev().remove();
 				deleteSapn.remove();
 			}

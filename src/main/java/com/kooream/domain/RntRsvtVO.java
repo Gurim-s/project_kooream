@@ -1,16 +1,18 @@
 package com.kooream.domain;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttachFileVO {
-	private String uuid, FileName, FileType, uploadPath;
-	private int p_no;
-	private String img_url;
+public class RntRsvtVO {
+	private String r_no, buyno;
+	private int m_no, p_no;
+	private Date strt_r_date, rtrn_r_date;
 }

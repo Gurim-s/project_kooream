@@ -1,14 +1,17 @@
 package com.kooream.controller;
 
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +21,7 @@ import com.kooream.domain.CodiVO;
 import com.kooream.domain.Criteria;
 import com.kooream.service.CodiService;
 
+
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -25,7 +29,6 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequestMapping("/codishop/*")
 @AllArgsConstructor
-
 public class CodiController {
 	
 
@@ -57,7 +60,6 @@ public class CodiController {
 		log.info("register........" + vo);
 		service.register(vo);
 		
-		
 		rttr.addFlashAttribute("result", "ok");
 
 		return "redirect:/codishop/list";
@@ -72,8 +74,4 @@ public class CodiController {
 		return "/codishop/get";
 	
 	}
-
-	
-	
-	
 }

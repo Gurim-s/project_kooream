@@ -17,10 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE PRODUCT_IMAGE SET P_NO=#{p_no} WHERE UUID=#{uuid}
 	</update>
 	
-<!--
-	<select id="3">
-		SELECT * FROM PRODUCT_IMAGE WHERE PNO=#{pno}
-	</select>
-	
-		 -->
+	<delete id="removePrdtFile" parameterType="com.kooream.domain.ProductVO">
+		DELETE FROM PRODUCT_IMAGE WHERE P_NO = #{p_no}
+	</delete>
+
 </mapper>
