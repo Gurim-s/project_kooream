@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.domain.RentalMenuVO;
+import com.kooream.domain.RntInterestVO;
 import com.kooream.domain.RntReviewVO;
 import com.kooream.service.RentalService;
+import com.kooream.service.RntInterestService;
 import com.kooream.service.RntReviewService;
 
 import lombok.Setter;
@@ -35,8 +37,15 @@ public class RantalController {
 	@Setter(onMethod_= @Autowired)
 	private RentalService service;
 	
+	// 댓글 서비스
 	@Setter(onMethod_= @Autowired)
 	private RntReviewService rp_service;
+	
+	// 관심상품 서비스
+	@Setter(onMethod_= @Autowired)
+	private RntInterestService interestService;
+	
+	
 	
 	// 렌탈 브랜드 목록 페이지 이동
 	@GetMapping("/index")
@@ -81,7 +90,11 @@ public class RantalController {
 		ProductVO pvo = service.viewPrdt(vo);
 		// 리뷰 불러오는 쿼리
 		List<RntReviewVO> reviewVO = rp_service.getReview(vo);
+		// 관심상품 여부 보여주는 쿼리
+		RntInterestVO interestVO = interestService.countInterest(vo);
 		
+		
+		model.addAttribute("interestVO", interestVO);
 		model.addAttribute("reviewVO", reviewVO);
 		model.addAttribute("imageList", imageList);
 		model.addAttribute("pvo", pvo);
@@ -112,4 +125,27 @@ public class RantalController {
 		return "redirect:/rental/rentalList";
 	}
 	
+	// 관심상품추가 버튼 눌렀을때 기능
+	@PostMapping(value="/insertInterest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public int interestRnt(ProductVO vo) {
+		
+		// 관심상품 테이블에 상품번호 추가하는 쿼리
+		int result = interestService.interestRnt(vo);
+		
+		
+		return result;
+	}
+
+	
+	// 관심상품삭제 버튼 눌렀을때 기능
+	@PostMapping(value = "/removeInterest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public int interesRemovetRnt(ProductVO vo) {
+		
+		// 관심상품 테이블에 상품번호 삭제하는 쿼리
+		int result = interestService.intrstRemove(vo);
+	
+		return result;
+	}
 }

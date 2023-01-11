@@ -75,6 +75,18 @@
 <div id="prdtInfo">
 	<table id="infoBox">
 		<tr>
+			<td colspan="2">
+				<c:choose>
+					<c:when test="${interestVO.cnt > 0}">
+						<span class="interest" >♥</span>
+					</c:when>
+					<c:otherwise>
+						<span class="interest" >♡</span>
+					</c:otherwise>
+				</c:choose>
+			</td>
+		</tr>
+		<tr>
 			<td colspan="2">${pvo.p_name_en }</td>
 		</tr>
 		<tr>
@@ -88,7 +100,8 @@
 		</tr>
 		<tr>
 			<td style="text-align:center;border-bottom: 1px solid #ebebeb; padding: 14px;">
-				<input class="buy" type="button" value="관심상품"/>
+				<input class="buy" type="button" id="intrstBtn" value="관심상품추가"/>
+				<input class="buy" type="button" id="intrstRemoveBtn" value="관심상품삭제"/>
 			</td>
 			<td style="text-align:center;border-bottom: 1px solid #ebebeb; padding: 14px;">
 				<div><input class="buy" id="rsvtBtn" type="button" value="상품예약"/></div>
@@ -181,6 +194,16 @@
 	var $ = jQuery.noConflict();	// j쿼리 충돌 막기 위해서 적어줌
 	// -------------------------------------------------------------------------------------onload start
 	$(function(){
+		// 페이지 로드시 cnt가 0보다 클경우(관심상품 추가가 되어있는경우) 관심상품삭제 버튼으로 보이게
+		if("${interestVO.cnt}"> 0){
+			$("#intrstBtn").hide();
+		}else{
+			$("#intrstRemoveBtn").hide();
+		}
+		
+		
+		
+		
 		// 상품 수정 버튼 클릭 이벤트----------------------------------------------------------
 		$("#prdtModBtn").on("click", function(){
 			location.href="/rental/updateRntPrdtPage?p_no=${pvo.p_no}";
@@ -262,13 +285,61 @@
 			location.href="/rsvt/rsvtPage?p_no=${pvo.p_no}";
 		});
 		
+		// 관심 상품 버튼 클릭 이벤트-----------------------------------------------------------
+		$("#intrstBtn").on("click", function(){
+			interestAjax('insert');
+		});
+		
+		
+		// 관심 상품 삭제 버튼 클릭 이벤트-----------------------------------------------------------
+		$("#intrstRemoveBtn").on("click", function(){
+			interestAjax('remove');	
+		});
+		
+		
 		
 		
 		
 	});
 	// -------------------------------------------------------------------------------------onload end
 	
-	
+	function interestAjax(type){
+		var url = '';
+		if(type == 'insert'){
+			url = "/rental/insertInterest";
+		}else{
+			url = "/rental/removeInterest";
+		}
+		
+		$.ajax({
+            type : "POST",            
+            url : url,      
+            data : {p_no: "${pvo.p_no}"},
+            dataType : 'json',
+            success : function(result){
+				if(result>0){
+					if(type == 'insert'){
+						$(".interest").html("♥");
+						$("#intrstBtn").hide();
+						$("#intrstRemoveBtn").show();
+					}else{
+						$(".interest").html("♡");
+						$("#intrstRemoveBtn").hide();
+						$("#intrstBtn").show();
+					}
+				}else{
+					alert("관심 상품 " + (type == 'insert' ? '추가' : '삭제') + "를 실패하였습니다.")	// type이 insert면 추가 아니면 삭제 출력
+				}
+            }
+            
+        });
+		
+		
+		
+		
+		
+		
+	}
 	
 	
 	

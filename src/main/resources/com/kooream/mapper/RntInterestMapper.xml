@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.RntInterestMapper">
+	<!-- 관심상품 추가 -->
+	<insert id="interestRnt" parameterType="com.kooream.domain.ProductVO">
+		INSERT INTO interest_tbl VALUES(1, #{p_no})
+	</insert>
+	
+	<!-- 관심상품 여부 -->
+	<select id="countInterest" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.RntInterestVO">
+		select count(*) as cnt from interest_tbl where m_no=1 and p_no=#{p_no}
+	</select>
+	
+	<delete id="intrstRemove" parameterType="com.kooream.domain.ProductVO">
+		DELETE FROM INTEREST_TBL WHERE M_NO=1 AND P_NO=#{p_no}
+	</delete>
+</mapper>
