@@ -79,7 +79,6 @@
 	</table>
 	
 	
-	
 	<!-- 댓글 입력 폼 -->
 	<table>
 		<tr>
@@ -134,9 +133,12 @@
  				form.submit();
 			}
 			
-		});
+		}); // 게시글 관련 내용 ------------------------------------end
 		 
-		 
+		
+		
+		
+		// 댓글 관련 내용 ------------------------------------start
 		var talkno = '${vo.talkno }';
 		var replycon = $("#replycon");
 		var replyname = $("#replyname");
@@ -182,13 +184,13 @@
 						for(var i=0; i<result.length; i++){
 							str += '<tr>';
 							str += '<td>'+ result[i].talkreplyname +'</td>';
-							str += '<td data-replyno ="'+result[i].talkreplyno+ '">'+result[i].talkreplyno+'</td>';
-							str += '<td><button class="replyBtn" id="replyupdatebtn">수정</button></td>';
-							str += '<td><button class="replyBtn" id="replyremovebtn">삭제</button></td>';
+							str += '<td>'+result[i].talkreplyno+'</td>';
+							str += '<td><button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno	+ '">수정</button></td>';
+							str += '<td><button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno	+ '">삭제</button></td>';
 							str += '<td>'+result[i].talkreplydate+'</td>';
 							str += '</tr>';
 							str += '<tr>';
-							str += '<td>'+ result[i].talkreplycon +'</td>';
+							str += '<td class="reply-con">'+ result[i].talkreplycon +'</td>';
 							str += '</tr>';
 						}
 						replylist.html(str);
@@ -200,39 +202,87 @@
 						}) */
 						
 						var talkreplyno;
-						$(".replyBtn").on("click", function() {
-							talkreplyno = $(this).data("replyno");
-							replyService.get(talkreplyno, function(result) {
-								console.log(result);
-							});
-						});
-					
 						
 						// 댓글 삭제
-						 $("#replyremovebtn").click(function() {
-							
-							alert(talkreplyno);
+						$(".replylist").on("click", ".replyremovebtn", function() {
+							talkreplyno = $(this).data("replyno");
+							console.log(talkreplyno);  
 							replyService.remove(talkreplyno, function(result) {
-									
+								
 								if(result ==='success'){
 									alert("댓글 삭제 완료")
 									showList();
 								}
 							})
 						});
+					
+						//수정 이벤트
+// 						$('.replyupdatebtn').on('click', function(e) {
+// 							var old = $(e.target).closest('tr').next('tr').find('.reply-con').text();
+// 							var str = '<textarea rows="5" cols="50">'+old+'</textarea>';
+							
+// 							$(e.target).closest('tr').next('tr').html(str);
+// 						});
 						
 						
+							
 						
 						// 댓글 수정
-						
-						 /* $(".replyupdatebtn").click(function() {
-							alert(talkreplyno);
-							console.log(talkreplyno);
-							replyService.update(
-									{talkreplyno : talkreplyno, talkreplycon:talkreplycon.val()},
-							)
-						});  */
-						
+// 						$(".replylist").on("click", ".replyupdatebtn", function() {
+						$('.replyupdatebtn').on('click', function(e) {
+							var talkreplyno = $(e.target).data("replyno");
+							var test = $(e.target).closest('tr');
+							var test2 = $(test).next('tr').remove();;
+							
+							var str = '';
+							replyService.get(talkreplyno, function(result){
+								console.log(result);
+							
+								str += '<tr>';
+								str += '<td>'+result.talkreplyname +'</td>';
+								str += '<td>'+result.talkreplyno+'</td>';
+								str += '<td><button class="replyBtn" id="replyupdate-ok" data-replybtn ="'+result.talkreplyno	+ '">수정 완료</button></td>';
+								str += '<td><button class="replyBtn" id="replyreset" data-replybtn ="'+result.talkreplyno	+ '">취소</button></td>';
+								str += '<td>'+result.talkreplydate+'</td>';
+								str += '</tr>';
+								str += '<tr>';
+								str += '<td><textarea rows="5" cols="50" id="replyconupdate">'+result.talkreplycon +'</textarea></td>';
+								str += '</tr>';
+							
+								test.html(str);
+								
+								
+								// 댓글 수정 취소 버튼
+								$("#replyreset").click(function() {
+									showList();
+								});
+								
+								var replyconupdate = $('#replyconupdate');
+								// 댓글 수정
+								$("#replyupdate-ok").on("click", function() {
+									replyService.update(
+									{talkreplyno : talkreplyno, talkreplycon:replyconupdate.val()},
+									
+									function(result) {
+										if(result === 'success'){
+											alert("댓글 수정 완료");
+											
+											showList();
+										}
+									});
+								})
+								
+								
+								
+								
+							});
+							
+							
+							
+							
+
+							
+						});
 						
 						
 					}
@@ -241,88 +291,8 @@
 		} 
 		 
 		 
-		 
-		 
-		 
 	});
-	
-	// 게시글 관련 내용 ------------------------------------end
-	
-	
-	// 댓글 관련 내용 ------------------------------------start
-	
-	
- 	/* var talkno = '${vo.talkno }';
-	var replycon = $("#replycon");
-	var replyname = $("#replyname");
-	var m_no = $("#m_no");
- 	 
- 	// 댓글 등록
- 	// 댓글 등록하려는 게시글 번호 확인
- 	console.log(talkno);
- 	// 댓글 등록 함수 불러오기
- 	$("#addReplyBtn").click(function() {
- 		alert("댓글 등록 버튼");	
-		replyService.add(
-			{talkreplycon:replycon.val(), talkreplyname:replyname.val(), talkno:talkno, m_no:m_no.val()},
-				function(result) {
-					showList();
-			}
-		);
-	});
- 	
- 	// 댓글 수정 하기
-	$(".replyupdatebtn").click(function() {
-		alert("댓글 수정 버튼");
-	})
-	
-	
-	//댓글 리스트 출력
-	var replylist = $(".replylist");
-	
-	// 댓글 불러오는 함수 불러오기
-	showList();
-	
-	// 댓글 리스트 함수 (shoewList 함수에 담아서 등록 시에나 필요할 떄 함수 호출 가능)
-	function showList() {
 		
-		replyService.getList({no:talkno},
-			function(result) {
-				// 함수를 타고 값을 가져오는지 확인 콘솔
-				console.log(result);
-				 var str = '';
-				
-				if(result == null || result.length==0){
-					// 댓글이 없으면
-					replylist.html("");
-					return;
-				}else{
-					// 댓글이 있으면
-					for(var i=0; i<result.length; i++){
-						str += '<tr>';
-						str += '<td>'+ result[i].talkreplyname +'</td>';
-						str += '<td><button class="replyupdatebtn" data-oper="replyupdate">수정</button></td>';
-						str += '<td><button class="replyremovebtn" data-oper="replyremove">삭제</button></td>';
-						str += '<td>'+result[i].talkreplydate+'</td>';
-						str += '</tr>';
-						str += '<tr>';
-						str += '<td>'+ result[i].talkreplycon +'</td>';
-						str += '</tr>';
-					}
-					replylist.html(str);
-				}
-			}
-		);
-	} */
-	
-	
-	
-			
-	
-	
-	
-	
-	
 </script>
 
 
