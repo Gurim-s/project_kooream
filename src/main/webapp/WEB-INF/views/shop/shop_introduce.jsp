@@ -6,21 +6,20 @@
 <style>
 	.wrap {
 		width: 100%;
-		height: 1000px;
 		border: 1px solid black;
 	}
 	
 	.product_photo {
 		float:left;
 		width: 50%;
-		height: 500px;
+		height: 2000px;
 		border: 1px solid black;
 	}
 	
 	.product_introduce{
 		float:left;
 		width: 50%;
-		height: 500px;
+		height: 2000px;
 		border: 1px solid black;
 		position: relative;
 		padding-left: 2%;
@@ -104,8 +103,252 @@
 	}
 	
 	.amount {
+		font-weight: bold;
+	}
+	
+	.fluctuation{
+		color: #f15746;
+		font-size: 13px;
+		font-weight: normal;
+	}
+	
+	.btn_box{
+		margin-top: 17px;
+		display: flex;
+		height: 60px;
+		border: 1px solid black;
+	}
+	
+	.btn_buy {
+		height: 100%;
+		width: 50%;
+		border: 1px solid black;
+		background-color: #ef6253;
+		border-radius: 7px;
+	}
+
+	.buy_box {
+		float: left;
+		width: 55px;
+		height: 100%;
+		border-right: 1px solid #da5b4e;
+	}
+	
+	.sell_box{
+		float: left;
+		width: 55px;
+		height: 100%;
+		border-right: 1px solid #3a9b68;
+	}
+	
+	.buy_text {
+		display: inline-block;
+		font-size: 18px;
+		color:white;
+		margin-top: 14px;
+		margin-left: 7px;
+	}
+	
+	.buy_price_box{
+		float: left;
+		margin-left: 7px;
+		margin-top: 10px;
+	}
+	
+	.buy_price{
+		color:white;
+		font-size: 15px;
 		font-weight: 700;
-	    font-size: 0;
+	}
+	
+	.buy_now{
+		color:white;
+		font-size: 11px;
+		font-weight: 600;
+	}
+	
+	.btn_sell{
+		height: 100%;
+		width: 50%;
+		border: 1px solid black;
+		background-color: #41b979;
+		border-radius: 7px;
+		margin-left: 11px;
+	}
+	
+	.interest_p{
+		display: flex;
+		-webkit-box-align: center;
+		align-items: center;
+		-webkit-box-pack: center;
+		justify-content: center;
+		border: 1px solid #ebebeb;
+		border-radius: 10px;
+		color: #333;
+		margin-top: 12px;
+		height:58px;
+	}
+	
+	.inter_p {
+		font-size: 15px;
+		font-weight: 400;
+		letter-spacing: normal;
+	}
+	
+	.inter_count {
+		font-size: 15px;
+		font-weight: 600;
+		letter-spacing: normal;
+	}
+	
+	.intro_title{
+		line-height: 22px;
+		padding: 40px 0 20px;
+		font-size: 18px;
+		letter-spacing: -.15px;
+	}
+	
+	.detail_product_wrap{
+		display: flex;
+		min-height: 20px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		border-top: 1px solid #ebebeb;
+		border-bottom: 1px solid #ebebeb;
+	}
+	
+	.product_title{
+		line-height: 14px;
+		font-size: 12px;
+		letter-spacing: -.33px;
+		color: rgba(34,34,34,.5);
+	}
+	
+	.model_num{
+		margin-top: 4px;
+		word-break: break-word;
+		line-height: 17px;
+		font-size: 14px;
+		font-weight: 600;
+	}
+	
+	.model_box{
+		padding: 0 12px;
+		width: 25%;
+	}
+	
+	.model_intro{
+		margin-top: 4px;
+		word-break: break-word;
+		line-height: 17px;
+		font-size: 14px;
+	}
+	
+	.bsinfo{
+		line-height: 17px;
+		padding-bottom: 0;
+		font-size: 14px;
+		letter-spacing: -.21px;
+		font-weight: 400;
+		color: rgba(34,34,34,.8);
+		padding-top : 40px;
+	}
+	
+	.delivery_way_wrap{
+		padding-top : 12px;
+		padding: 18px 0;
+	}
+	
+	.delivery {
+		margin: auto;
+		font-weight: 600;
+		font-size: 14px;
+		letter-spacing: -.21px;
+	}
+	
+	.delivery_won{
+	font-size: 14px;
+	letter-spacing: -.21px;
+	}
+	
+	
+	.way_info{
+		display: flex;
+		-webkit-box-align: center;
+		align-items: center;
+		width: 100%;
+
+	}
+	
+	.sub_text{
+		line-height: 16px;
+		margin-top: 3px;
+		font-size: 14px;
+		color: rgba(34,34,34,.5);
+	}
+	
+	.delivery_est{
+		color: #297dcb;
+	}
+	
+	.way_desc{
+		margin-left: 20px;
+	}
+	
+	.delivery_way_wrap{
+		border-bottom: 1px solid #ebebeb;
+	}
+	
+	.graph{
+		height: 593px;
+		width: 100%;
+		border: 1px solid black;
+		text-align: center;
+	}
+	
+	.confirm_wrap{
+		padding-top: 39px;
+	}
+	
+	.confirm_title{
+		line-height: 22px;
+		padding-bottom: 12px;
+		font-size: 18px;
+		letter-spacing: -.27px;
+		border-bottom: 1px solid #ebebeb;
+	}
+	
+	.confirm_content{
+		font-size: 15px;
+		letter-spacing: -.15px;
+	}
+	
+	.dropdown_head{
+		padding: 18px 0 17px;
+		border-bottom: 1px solid #ebebeb;
+		cursor: pointer;
+		width: 100%;
+	}
+	
+	.dropdown_content{
+		padding: 20px 0;
+		border-bottom: 1px solid #ebebeb;
+		border-top: 1px solid #222;
+	}
+	
+	.title_txt{
+		font-size: 13px;
+		letter-spacing: -.07px;
+		color: rgba(34,34,34,.8);
+		margin-top: 20px;
+	}
+	
+	.main_txt{
+		margin-top: 10px;
+	}
+	
+	.buy_txt{
+		margin-top: 20px;
 	}
 
 /* 보여줄 구간의 높이와 넓이 설정 */
@@ -195,7 +438,7 @@
 		transform: translateX(10px);
 	}
 </style>
-	<div class="wrap">
+	<div class="wrap clearfix">
 		<div class="product_photo">
 		
 			<div id="slideShow">
@@ -228,7 +471,106 @@
 					<div class="amount">
 						<span class="product_price">501,000</span>
 						<span class="won">원</span>
-						<div class="fluctuation">99,000원</div>
+							<p class="fluctuation">99,000원 (+24.6%)</p>
+					</div>
+				</div>
+			</div>
+			<div class="btn_inter_box">
+				<div class="btn_box">
+					<div class="btn_buy">
+						<div class="buy_box">
+							<strong class="buy_text">구매</strong>
+						</div>
+						<div class="buy_price_box">
+							<div class="buy_price">402,000원</div>
+							<div class="buy_now">즉시 구매가</div>
+						</div>
+					</div>
+					<div class="btn_sell">
+						<div class="sell_box">
+							<strong class="buy_text">판매</strong>
+						</div>
+						<div class="buy_price_box">
+							<div class="buy_price">412,000원</div>
+							<div class="buy_now">즉시 판매가</div>
+						</div>
+					</div>
+				</div>
+				<div class="interest_p">
+					<span class="inter_p">관심 상품</span>
+					<span class="inter_count">1.3만</span>
+				</div>
+			</div>
+			<h3 class="intro_title">상품 정보</h3>
+			<div class="detail_product_wrap">
+				<div class="model_box">
+					<div class="product_title">모델번호</div>
+					<div class="model_num">555088-711</div>
+				</div>
+				<div class="model_box">
+					<div class="product_title">출시일</div>
+					<div class="model_intro">22/08/08</div>
+				</div>
+				<div class="model_box">
+					<div class="product_title">컬러</div>
+					<div class="model_intro">TAXI/BLACK-SAIL</div>
+				</div>
+				<div class="model_box">
+					<div class="product_title">발매가</div>
+					<div class="model_intro">209,000원</div>
+				</div>
+			</div>
+			<h3 class="bsinfo">배송정보</h3>
+			<div class="delivery_way_wrap">
+				<div class="way_info">
+					<img src="../resources/img/bsicon.png" style="width:40px; height: 40px;">
+					<div class="way_desc">
+						<span class="delivery">빠른배송</span>
+						<span class="delivery_won"> 5,000원</span>
+						<div class="sub_text">지금 결제시 <span class="delivery_est">내일 1/11(수) 도착 예정</span></div>
+					</div>
+				</div>
+			</div>
+			<div class="delivery_way_wrap">
+				<div class="way_info">
+					<img src="../resources/img/boxicon.png" style="width:40px; height: 40px;">
+					<div class="way_desc">
+						<span class="delivery">일반배송</span>
+						<span class="delivery_won"> 3,000원</span>
+						<div class="sub_text">검수 후 배송 ・ 5-7일 내 도착 예정</div>
+					</div>
+				</div>
+			</div>
+			<div class="delivery_way_wrap">
+				<div class="way_info">
+					<img src="../resources/img/warehouse.png" style="width:40px; height: 40px;">
+					<div class="way_desc">
+						<span class="delivery">창고보관</span>
+						<span class="delivery_won"> 첫 30일 무료</span>
+						<div class="sub_text">배송 없이 창고에 보관 ・ 빠르게 판매 가능</div>
+					</div>
+				</div>
+			</div>
+			<div class="graph">
+				그래프 공간
+				넣을지 말지는 나중에 생각
+			</div>
+			<div class="confirm_wrap">
+				<h3 class="confirm_title">구매 전 꼭 확인해주세요!</h3>
+				<div class="confirm_content">
+					<div class="dropdown_head">
+						<p class="title">배송 기간 안내</p>
+					</div>
+					<div class="dropdown_content">
+						<strong>KREAM은 최대한 빠르게 모든 상품을 배송하기 위해 노력하고 있습니다. 
+						배송 시간은 판매자가 검수를 위하여 상품을 검수센터로 보내는 속도에 따라 차이가 있습니다.</strong>
+						<div class="title_txt">
+							<p>[빠른배송 구매]</p>
+							<p class="main_txt">- 판매자가 보관 신청한 상품 중 검수에 합격한 상품을 KREAM의 전용 창고에 보관합니다. 보관 상품에 한하여 바로 구매와 95점 구매가 가능합니다.</p>
+							<p class="main_txt">- 오늘(오후 11:59까지) 결제하면 내일 바로 출고되어 빠른 배송이 가능합니다. (연휴 및 공휴일, 천재지변, 택배사 사유 등 예외적으로 출고일이 변경될 수 있습니다. 빠른배송 안내</p>
+							<p class="buy_txt">[일반 구매]</p>
+							<p class="main_txt">- 거래가 체결된 시점부터 48시간(일요일•공휴일 제외) 내에 판매자가 상품을 발송해야 하며, 통상적으로 발송 후 1-2일 내에 KREAM 검수센터에 도착합니다.</p>
+						</div>
 					</div>
 				</div>
 			</div>
