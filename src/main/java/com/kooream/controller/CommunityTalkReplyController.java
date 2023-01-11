@@ -82,7 +82,7 @@ public class CommunityTalkReplyController {
 	}
 	
 	// 댓글 조회
-	@GetMapping(value = "/{rno}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping(value = "/{talkreplyno}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<CommunityTalkReplyVO> get(@PathVariable("talkreplyno") int talkreplyno){
 		log.info("get............" + talkreplyno);
 		
