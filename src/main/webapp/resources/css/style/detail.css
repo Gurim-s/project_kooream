@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 #content {
-	max-width: 720px;
+	max-width: 600px;
 	width: 70%;
 	margin: 0 auto;
 }
@@ -18,15 +18,14 @@
 }
 .item {
 	width: 100%;
+	margin-bottom: 30px;
 }
 .item .img-container img{
 	width: 100%;
 }
 .item .item-header {
 	width: 100%;
-}
-.item .item-header-right {
-	float: right;
+	margin-bottom: 5px;
 }
 .item .item-header-left {
 	float: left;
@@ -48,11 +47,28 @@
 	float: left;
 	font-weight: bold;
 }
+.item .item-header-right {
+	float: right;
+}
+.item .item-header-right button{
+	float: left;
+	height: 36px;
+	width: 100px;
+	background-color: black;
+	font-weight: bold;
+	color: white;
+	border-radius: 18px;
+}
 .item .summary .comment-like .comment,
 .item .summary .comment-like .like {
 	float: left;
 }
 .item .summary .comment-like .comment img,
 .item .summary .comment-like .like img {
-	width: 30px;
+	width: 35px;
+	margin-right: 20px;
+}
+.item .like-cnt,
+.item .comment-cnt {
+	font-size: 14px;
 }

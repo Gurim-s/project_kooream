@@ -21,12 +21,7 @@
 						</li>
 					</ul>
 				</div>
-				<div id="previewImageSlider" class="preview-image-slider">
-					<ul class="preview-list preview-slider">
-					</ul>
-					<button class="next-img">&gt;</button>
-					<button class="prev-img">&lt;</button>
-				</div>
+				<div class="img-container"></div>
 			</div>
 			<h2>내용입력</h2>
 			<div class="clearfix">
@@ -41,5 +36,5 @@
 			</div>
 		</form>
 	</div>
-	<script type="text/javascript" src="<c:url value='/resources/js/style/register.js'/>"></script>
+	<script type="module" src="<c:url value='/resources/js/style/register.js'/>"></script>
 <jsp:include page="../include/footer.jsp"/>

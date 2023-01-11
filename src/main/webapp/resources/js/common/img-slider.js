@@ -17,6 +17,7 @@ var imgSlider = (x) => (function(_container) {
 		container.append(idxContainer);
 		container.addEventListener('mouseover', () => hover('on'));
 		container.addEventListener('mouseout', () => hover('out'));
+		setDefaultCss();
 	}
 	
 	function createBtnContainer() {
@@ -28,10 +29,11 @@ var imgSlider = (x) => (function(_container) {
 
 		btnContainer.innerHTML = str;
 		btnContainer.querySelectorAll('button')
-					.forEach(x => x.addEventListener('click', (e) => {
-						slideImg(e.target.className);
-						hover('on');
-					}));
+		.forEach(x => x.addEventListener('click', (e) => {
+			e.preventDefault();
+			slideImg(e.target.className);
+			hover('on');
+		}));
 		
 		return btnContainer;
 	}
@@ -63,24 +65,20 @@ var imgSlider = (x) => (function(_container) {
 		}
 	}
 	
-	function originPath(imageVO) {
-		if (!imageVO) return "/resources/img/codi_test.png";
-		
-		var {uploadPath, uuid, fileName} = imageVO;
-		return "/displayStyleImage?fileName=" + encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
+	function add(imgSrc) {
+		console.log(imgSrc);
+		ul.innerHTML += '<li><img src="' + imgSrc + '"/></li>';
+		addIdx();
+		setDefaultCss();
+		slideImg(idxContainer.childElementCount-1);
 	}
 	
-	function add(imageVO) {
-		ul.append('<img src="'+originPath(imageVO)+'"/>');
-	}
-	
-	function addList(imageVOList) { 
-		var imgTagList = Array.from(imageVOList)
-							.map(imageVO => originPath(imageVO))
-							.reduce((str, imgSrc) => {
-								addIdx();
-								return str + '<li><img src="' + imgSrc + '"/></li>'
-							}, '');
+	function addList(imgSrcList) { 
+		var imgTagList = Array.from(imgSrcList)
+						.reduce((str, imgSrc) => {
+							addIdx();
+							return str + '<li><img src="' + imgSrc + '"/></li>'
+						}, '');
 		
 		ul.innerHTML += imgTagList;
 		setDefaultCss();
@@ -133,12 +131,12 @@ var imgSlider = (x) => (function(_container) {
 		//list 스타일
 		var liWidth = (100 / liAll.length) + '%';
 		ul.querySelectorAll('li')
-			.forEach(li => {
-				li.style.float = 'left';
-				li.style.width = liWidth;
-				//이미지 스타일
-				li.querySelector('img').style.width = '100%';
-			});
+		.forEach(li => {
+			li.style.float = 'left';
+			li.style.width = liWidth;
+			//이미지 스타일
+			li.querySelector('img').style.width = '100%';
+		});
 		
 		//버튼 스타일
 		[prev, next].forEach(x => {
@@ -167,12 +165,12 @@ var imgSlider = (x) => (function(_container) {
 		
 		//인덱스
 		idxContainer.querySelectorAll('li')
-					.forEach(x => {
-						x.style.width ="7px";
-						x.style.height ="7px";
-						x.style.float = "left";
-						x.style.borderRadius = "50%";
-						x.style.backgroundColor = "lightgray";
+		.forEach(x => {
+			x.style.width ="7px";
+			x.style.height ="7px";
+			x.style.float = "left";
+			x.style.borderRadius = "50%";
+			x.style.backgroundColor = "lightgray";
 		});
 	}
 	
