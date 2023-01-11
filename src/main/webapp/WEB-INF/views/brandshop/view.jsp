@@ -92,17 +92,7 @@
     
  //상품 클릭 이벤트 end------------------------------------------------------------------------------   
  // 상품 이미지 리스트에 보여주기--------------------------------------------------------
-/*  	$(document).ready(function () {
- 		(function () {
- 			var p_no = '<c:out value="${product.p_no}"/>';
-			console.log(1)
-			$.getJSON("/brandfile/getAttachList", {p_no : p_no}, function (arr) {
-				console.log(arr);
-			});
-			
-		})();
-		
-	}); */
+
  
  	$(function() {
  		$.ajax({
@@ -115,7 +105,10 @@
 			var str='<ul id="container">';
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
-				str += '<a href="/brandshop/get?p_no="'+json[i].p_no+'><li class="product_list">';	// 페이지 이동하면서 p_no값 가지고 이동 
+				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'"><li class="product_list">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+				
+				
+				
 				// 이미지 하나만 보여주기 
 				
 				

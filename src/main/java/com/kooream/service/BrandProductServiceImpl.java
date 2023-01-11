@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.AttachFileVO;
+import com.kooream.domain.BrandAdminVO;
 import com.kooream.domain.ProductVO;
+import com.kooream.mapper.BrandAdminMapper;
 import com.kooream.mapper.BrandProductMapper;
 import com.kooream.mapper.BrandProductUploadMapper;
 
@@ -22,8 +24,11 @@ import lombok.extern.log4j.Log4j;
   @Setter(onMethod_ = @Autowired ) 
   private BrandProductMapper mapper;
 	
-	@Setter(onMethod_ = @Autowired )
-	private BrandProductUploadMapper uploadmapper;
+  @Setter(onMethod_ = @Autowired )
+  private BrandProductUploadMapper uploadmapper;
+	
+  @Setter(onMethod_ = @Autowired )
+  private BrandAdminMapper adminmapper;
 
   
   @Transactional
@@ -72,6 +77,26 @@ public ProductVO get(ProductVO vo) {
 
 	return mapper.read(vo);
 }
+
+
+
+@Override
+public boolean modify(ProductVO vo) {
+	int result = mapper.update(vo);
+	return result == 1 ? true : false;
+}
+
+
+
+/*
+ * @Override public List<BrandAdminVO> brandGetList() { List<BrandAdminVO> list2
+ * = adminmapper.brandgetList(); return list2; }
+ * 
+ * 
+ * 
+ * @Override public BrandAdminVO get(BrandAdminVO vo2) { return
+ * mapper.read(vo2); }
+ */
   
   
   }
