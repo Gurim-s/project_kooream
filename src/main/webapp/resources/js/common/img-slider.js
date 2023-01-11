@@ -6,19 +6,20 @@ var imgSlider = (x) => (function(_container) {
 	var container = _container;
 	var ul = document.createElement('ul');
 	var idx = 0;
+	var idxContainer;
 	
-	(() => {
-		init();
-	})();
-	
+	init();
+
 	function init() {
 		container.append(ul);
-		container.append(createBtns());	
+		container.append(createBtnContainer());
+		idxContainer = createIdxContainer();
+		container.append(idxContainer);
 		container.addEventListener('mouseover', () => hover('on'));
 		container.addEventListener('mouseout', () => hover('out'));
 	}
 	
-	function createBtns() {
+	function createBtnContainer() {
 		var btnContainer= document.createElement('div');
 		btnContainer.className = 'btn-container';
 		
@@ -29,17 +30,36 @@ var imgSlider = (x) => (function(_container) {
 		btnContainer.querySelectorAll('button')
 					.forEach(x => x.addEventListener('click', (e) => {
 						slideImg(e.target.className);
+						hover('on');
 					}));
 		
 		return btnContainer;
 	}
 	
+	function createIdxContainer() {
+		var idxContainer = document.createElement('ul');
+		idxContainer.className = 'idx-container';
+		
+		idxContainer.addEventListener('click', function(e) {
+			var idx = Array.from(e.target.parentNode.children).indexOf(e.target);
+			slideImg(idx);
+		});
+		
+		return idxContainer;
+	}
+	
 	function hover(v) {
-		var buttons = container.querySelectorAll('.next, .prev');
+		var length = idxContainer.childElementCount;
+		var isEnd = idx == length - 1;
+		var isStart = idx == 0;
+		var prev = container.querySelector('button.prev');
+		var next = container.querySelector('button.next');
+		
 		if (v == 'on') {
-			buttons.forEach(btn => {btn.style.display = 'block'});
+			next.style.display = isEnd ? 'none' : 'block';
+			prev.style.display = isStart ? 'none' : 'block';
 		} else {
-			buttons.forEach(btn => {btn.style.display = 'none'});
+			[prev, next].forEach(btn => {btn.style.display = 'none'});
 		}
 	}
 	
@@ -57,13 +77,25 @@ var imgSlider = (x) => (function(_container) {
 	function addList(imageVOList) { 
 		var imgTagList = Array.from(imageVOList)
 							.map(imageVO => originPath(imageVO))
-							.reduce((str, imgSrc) => {return str + '<li><img src="' + imgSrc + '"/></li>'}, '');
+							.reduce((str, imgSrc) => {
+								addIdx();
+								return str + '<li><img src="' + imgSrc + '"/></li>'
+							}, '');
 		
 		ul.innerHTML += imgTagList;
 		setDefaultCss();
+		slideImg(0);
+	}
+	
+	function addIdx() {
+		var li = document.createElement('li');
+		container.querySelector('.idx-container').append(li);
 	}
 	
 	function slideImg(v) {
+		var idxLiAll = Array.from(idxContainer.children);
+		idxLiAll[idx].style.backgroundColor = 'lightgray';
+		
 		if (v == 'next') {
 			idx++;
 		} else if (v == 'prev') {
@@ -73,8 +105,13 @@ var imgSlider = (x) => (function(_container) {
 		}
 	
 		ul.style.left = (-1 * idx * 100) + '%';
+		idxLiAll[idx].style.backgroundColor = 'black';
 	}
 	
+	
+	//********************* */
+	//--CSS--
+	//********************* */
 	function setDefaultCss() {
 		var liAll = ul.querySelectorAll('li');
 		var prev = container.querySelector('.prev');
@@ -120,6 +157,23 @@ var imgSlider = (x) => (function(_container) {
 		prev.style.transform = 'tanslate3d(-50%, -50%, 0)';
 		next.style.right = "5%";
 		next.style.transform = 'tanslate3d(50%, -50%, 0)';
+		
+		//인덱스 컨테이너
+		var idxContainer = container.querySelector('.idx-container');
+		idxContainer.style.position = 'absolute';
+		idxContainer.style.bottom = '2%';
+		idxContainer.style.left = '50%';
+		idxContainer.style.transform = 'tanslate3d(-50%, 0, 0)';
+		
+		//인덱스
+		idxContainer.querySelectorAll('li')
+					.forEach(x => {
+						x.style.width ="7px";
+						x.style.height ="7px";
+						x.style.float = "left";
+						x.style.borderRadius = "50%";
+						x.style.backgroundColor = "lightgray";
+		});
 	}
 	
 	return {
@@ -127,49 +181,5 @@ var imgSlider = (x) => (function(_container) {
 		addList: addList,
 	}
 }(x));
-
-var idxContainer = (function() {
-	var container = document.createElement('ul');
-	container.className = 'idx-container';
-	
-	var idx = 0;
-	
-	
-	//추가 할때 그냥 추가 하고 이벤트 콜백에서 ul내에서 li index 참고해서 idx변경 하도록 구성
-	function add() {
-		var length = container.childElementCount;
-		var li = document.createElement('li');
-		
-	}
-	
-	function remove() {
-		
-	}
-	
-	function next() {
-		
-	}
-	
-	function prev() {
-		
-	}
-	
-	function move(idx) {
-		
-	}
-	
-	function isEnd() {
-		return idx == container.childElementCount - 1;
-	}
-	
-	return {
-		idx: idx,
-		add: add,
-		remove: remove,
-		next: next,
-		prev: prev,
-		move: move,
-	}
-})();
 
 export {imgSlider};

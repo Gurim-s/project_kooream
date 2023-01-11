@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 #content {
+	max-width: 720px;
 	width: 70%;
 	margin: 0 auto;
 }
@@ -32,13 +33,26 @@
 }
 .item .item-header-left .profile-image {
 	float: left;
-	height: 50px;
+	margin-right: 10px;
 }
 .item .item-header-left .profile-image img {
 	height: 100%;
+	height: 40px;
 	border-radius: 50%;
 	border: solid 2px black;
 }
 .item .item-header-left .user-regdate {
 	float: left;
+}
+.item .item-header-left .user-regdate .user-name {
+	float: left;
+	font-weight: bold;
+}
+.item .summary .comment-like .comment,
+.item .summary .comment-like .like {
+	float: left;
+}
+.item .summary .comment-like .comment img,
+.item .summary .comment-like .like img {
+	width: 30px;
 }
