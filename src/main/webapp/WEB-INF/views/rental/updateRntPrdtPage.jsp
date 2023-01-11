@@ -74,6 +74,7 @@
 				<td>상품이미지</td>
 				<td class="uploadResult">
 					<input id="file" type="file" name="uploadFile" multiple="multiple"/>
+					<!-- 기존 저장되어 있는 파일 보여주기 -->
 					<div id="fileResult">
 					<c:forEach var="fvo" items="${fvoList }">
 						<a href="/download?fileName=${fvo.uploadPath }/${fvo.uuid}_${fvo.fileName}">${fvo.fileName }</a>
