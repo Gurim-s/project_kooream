@@ -1,9 +1,9 @@
 import {styleService} from '../service/style-service.js';
+import {imgSlider} from '../common/img-slider.js';
 
 var column;
-
-$(function() {
-	column = $('.list-column');
+(async () => {
+	column = document.querySelector('.list-column');
 	
 	const searchParams = new URLSearchParams(location.search);
 	const {category, style_no} = Array.from(searchParams)
@@ -12,11 +12,19 @@ $(function() {
 									}, {});
 	getList(category, style_no);
 	styleService.get(category, style_no)
-				.then(res => res.json())
 				.then(data => console.log(data));
 	
+	let styleList = await styleService.get(category, style_no);
+	console.log(styleList[0]);
 	
-});
+	Array.from(styleList)
+		.forEach(x => {})
+		
+	let imgContainer = document.querySelector('.img-container');
+	let images = imgSlider(imgContainer);
+	
+	images.addList(styleList[0].style_image);
+})();
 
 function getList(category, style_no) {
 	$.ajax({
@@ -69,15 +77,4 @@ var itemTemplate = function(style) {
 			'<div class="content"></div>' + 
 		'</div>'
 	).format();
-}
-
-function imgSlider(imageList) {
-	var el = document.createElement('ul');
-	var imgTagList = Array.from(imageList)
-						.map(image => makeOriginPath(image))
-						.reduce((str, imagePath) => {return str + '<li><img src="' + imagePath + '"/></li>'}, '');
-	
-	el.innerHTML = imgTagList;
-	el.className = 'img-container';
-	return el;
 }
