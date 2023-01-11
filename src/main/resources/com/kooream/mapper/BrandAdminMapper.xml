@@ -3,6 +3,9 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<!-- <mapper namespace="com.kooream.mapper.BidShopMapper">
-	<select id = "BrandAdmin" resut
-</mapper>  -->
+<mapper namespace="com.kooream.mapper.BrandAdminMapper">
+<!-- 	<select id = "brandgetList" resultType="com.kooream.mapper.BrandAdminVO">
+		select * form brand_member where b_no = #{b_no}
+	
+	</select> -->
+</mapper> 

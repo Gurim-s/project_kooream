@@ -67,13 +67,17 @@
 			<div class = "btn">
 			<button id = "product_cart" style="background: red; color: white;">구매하기</button><br/>
 			<br/>
-			<button id = "product_remove"> 관심상품</button><br/>
+			<button id = "product_cart">장바구니</button><br/>
 			<br/>
 			</div>
 			<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
-			<button type="button" id = "product_modify"> 수정하기</button>
-			<button type="button" id = "product_remove"> 삭제하기</button>
+			<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+			<!-- <button type="button" id = "product_remove"> 삭제하기</button> -->
 			</div>
+				<form action="/brandshop/modify" method="get" id="operForm">
+				<input type="hidden" name="pageNum" value="${cri.pageNum }">
+				<input type="hidden" name="amount" value="${cri.amount }">
+			</form>
 			
 			</div>
 	</div>
@@ -113,60 +117,19 @@
 	
 
 <script type="text/javascript">
-$(function() {
-		$.ajax({
-			url:'/brandshop/getList',
-			type: 'get',
-			dataType:{p_no:p_noValue]}",
-			contentType:"application/json;  charset=utf-8",
-		})
-		.done(function(json) {
-		var str='<ul id="container">';
-		console.log(json);
-		for(var i=0; i<json.length; i++) {
-			str += '<div>'; 
-			// 이미지 하나만 보여주기 
-			
-			
-			if(json[i].attachList.length > 0) {
-				var uploadPath = json[i].attachList[0].uploadPath;
-				var uuid = json[i].attachList[0].uuid;
-				var fileName = json[i].attachList[0].fileName;
-				var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-				str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
-			}
-			//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
-//				for(var j=0; j<json[i].attachList.length; j++) {
-//					var uploadPath = json[i].attachList[j].uploadPath;
-//					var uuid = json[i].attachList[j].uuid;
-//					var fileName = json[i].attachList[j].fileName;
-//					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-//					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
-//				}
-			str += '<div style="font-weight: bold; font-size: 18px; ">'+json[i].p_name_en+'</div>';
-			str += '<div style="color: gray;">'+json[i].p_name_ko+'</div>';
-			str += '<div style="font-weight: bold; font-size: 18px;">'+json[i].p_release_price+'원</div>';
-			str += '<br/>'
-			str += '<div>'+json[i].p_brand+'</div>';
-			
-			str += '</div>';
-		}
-		str += '</ul>';
-		$('.brand').append(str);
-	});	
-	});
+
+
 $(function() {
 	$.ajax({
 		url:'/brandshop/getList',
 		type: 'get',
 		dataType:{p_no:p_noValue]}",
 		contentType:"application/json;  charset=utf-8",
-	})
 	.done(function(json) {
-	var str='<ul id="container">';
-	console.log(json);
-	for(var i=0; i<json.length; i++) {
-		str += '<div>'; 
+		var str='<ul id="container">';
+		console.log(json);
+		for(var i=0; i<json.length; i++) {
+			str += '<div>'; 
 		// 이미지 하나만 보여주기 
 		
 		
@@ -185,18 +148,61 @@ $(function() {
 				var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
 				str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
 			}
-/* 		str += '<div style="font-weight: bold; font-size: 18px; ">'+json[i].p_name_en+'</div>';
-		str += '<div style="color: gray;">'+json[i].p_name_ko+'</div>';
-		str += '<div style="font-weight: bold; font-size: 18px;">'+json[i].p_release_price+'원</div>';
-		str += '<br/>'
-		str += '<div>'+json[i].p_brand+'</div>'; */
-		
-		str += '</div>';
-	}
-	str += '</ul>';
+
+				str += '</div>';
+		}
+				str += '</ul>';
 	$('.brands').append(str);
-});	
+	});	
 });
+});
+$(function name() {
+	var p_noValue = '${vo.p_no}';
+	
+	var operForm = $("#operForm");
+	
+	$("#product_modify").click(function () {
+		var str = '<input type="hidden" name="pageNum" value="'+${cri.pageNum }+'">';
+			str += '<input type="hidden" name="amount" value="'+${cri.amount }+'">';
+			str += '<input type="hidden" name="p_no" value="'+${vo.p_no }+'">';
+			operForm.html(str);
+			operForm.submit();
+			/* operForm.attr("action", "/brandshop/modify"); */
+		}); 
+		
+});	
+
+$(function() {
+	$.ajax({
+		url : '/brandshop/getList',
+		type : 'get',
+		data : {p_no:p_noValue},
+		contentType : 'application/json; charset=utf-8',
+		success : function (arr) {				// 리스트로 넘어옴
+			console.log(arr);
+		
+			var str = '';	// 태그들을 한번에 동적으로 실행
+	            
+				for(var i=0; i<arr.length; i++){	// 리스트 갯수만큼 li를 만들어서 동적으로 넣는다	// 게시글 상세보기하면 파일첨부 리스트 보임
+					var obj = arr[i];
+	               
+					var fileCallPath = encodeURIComponent(obj.uploadPath + "/" +		// 인코딩
+	                                             obj.uuid + "_" + 
+	                                             obj.fileName);
+	               
+	               //console.log(fileCallPath);
+	               
+					str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+					str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+	               //str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
+				}
+					str += '</ul>';
+		$('.brand').append(str);
+	}
+	})
+});	
+
+
 
 
 

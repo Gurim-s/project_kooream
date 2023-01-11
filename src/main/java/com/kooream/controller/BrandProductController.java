@@ -96,6 +96,15 @@ public class BrandProductController {
 		  
 	  }
 	  
+	  @GetMapping("/modify")
+	  public String modify(ProductVO vo, Model model, Criteria cri) {
+		  log.info("modify...." + vo );
+		  model.addAttribute("cri", cri);
+		  model.addAttribute("vo", service.get(vo));
+		  
+		  return "brandshop/modify";
+	  }
+	  
 	 
 	
 	
