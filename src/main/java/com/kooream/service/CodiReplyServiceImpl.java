@@ -46,11 +46,11 @@ public class CodiReplyServiceImpl implements CodiReplyService{
 
 	
 	@Override
-	public int remove(int codi_no) {
-		log.info("remove.............." + codi_no);
+	public int remove(int codi_c_no) {
+		log.info("remove.............." + codi_c_no);
 		
 		
-		return mapper.delete(codi_no);
+		return mapper.delete(codi_c_no);
 	}
 	
 	@Override

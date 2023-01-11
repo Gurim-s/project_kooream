@@ -46,11 +46,11 @@ var CodiReplyService = (function(){
    		function remove(codi_c_no, callback, error){
    			$.ajax({
 				type : 'delete',
-		    	url : '/replies/'+codi_c_no,
+		    	url : '/codi/replies/'+codi_c_no,
 		    	success: function(result, status, xhr) {  
 		        	if(callback){
 		        		callback(result);
-		        }	// if(callback) -- end
+		        	}	// if(callback) -- end
 		    	}, // function(result, status, xhr) -- end
 			    error: function(xhr, status, er) {
 		       	 	if(error){

@@ -10,11 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.CodiVO;
@@ -70,8 +73,33 @@ public class CodiController {
 		log.info("/get....gogo");
 		model.addAttribute("board", service.get(codi_no));
 		model.addAttribute("cri", cri);
-		
-		return "/codishop/get";
 	
+		return "/codishop/get";
 	}
+	
+	
+	
+//	// 삭제 
+//	@PostMapping("/remove")
+//	public String remove(@RequestParam("codi_no") int codi_no, Criteria cri, RedirectAttributes rttr) {
+//		log.info("remove ..... " + codi_no);
+//		if(service.remove(codi_no)) {
+//			rttr.addFlashAttribute("result","success");
+//		}
+//		
+//		return "redirect:/codishop/list";
+//		
+//	}// remove() .... end
+	
+	// 삭제 
+	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	public String remove(@RequestParam("codi_no") int codi_no)throws Exception{
+		service.remove(codi_no);
+		
+		return "redirect:/codishop/list";
+	}
+	
+	
+	
+	
 }
