@@ -87,6 +87,28 @@ public class CodiReplyController {
 		
 	}
 
-
+	// 댓글 수정
+	@RequestMapping(method= {RequestMethod.PUT,
+					RequestMethod.PATCH}, value = "/{codi_c_no}",
+					consumes = "application/json",
+					produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modify(
+				@RequestBody CodiReplyVO vo,
+				@PathVariable("codi_c_no") int codi_c_no){
+	
+ 			vo.setCodi_c_no(codi_c_no);
+			log.info("codi_c_no : " + codi_c_no );
+			log.info("modify" + vo);
+		
+		return service.modify(vo) == 1
+				? new ResponseEntity<>("success", HttpStatus.OK)
+						: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	
+	
+	
+	
+	
 
 }

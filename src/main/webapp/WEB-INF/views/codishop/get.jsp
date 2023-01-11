@@ -141,6 +141,29 @@
       	background-position: 99% 50%;
   		}
 	}
+	.update_btn{
+		display: inline-block;
+	    padding: 1em 2em;
+	    border-radius: 0;
+	  	color: #b2876f;
+	    margin-top:2rem;
+	    font-weight: bold;
+	    font-size: 0.678rem;
+	    letter-spacing: 2px;
+	    text-transform: uppercase;
+	    text-decoration: none;
+		  background: linear-gradient(to right, rgba(#b2876f, 0) 25%, rgba(#b2876f, .8) 75%);
+		  background-position: 1% 50%;
+		  background-size: 400% 300%;
+		  border: 1px solid #b2876f;
+		  @include transition;
+	  
+		  &:hover{
+		    color: white;
+		      color: #fff;
+      	background-position: 99% 50%;
+  		}
+	}
 	
 	
 	.remove_comment_go{
@@ -170,6 +193,24 @@
 	#List_img{
 		width: 24px;
 	}
+	.c_reply_text{
+		border: none;
+	}
+	.remove_btn{
+		border: none;
+		background-color: transparent;
+		
+	}
+	.update_open{
+		border: none;
+		background-color: transparent;
+	}
+	.List_btn{
+		background-color: transparent;
+		border: none;
+	}
+	
+	
 	
 </style>
 <body class="cordi_get">
@@ -334,7 +375,6 @@
 	}) */
 	
 	
-	
 	// 댓글 리스트 화면에 출력 함수 ---- start 
 	function showList() {
 		CodiReplyService.getList({codi_no:codi_noValue, page:1},
@@ -357,35 +397,64 @@
  									str += '<small class="reply_date">'+displayTime(result[i].replyDate)+'</small>';
 		 							str += '<button class="List_btn" data-opened="closed" style="float: right; "><img id="List_img" class="List_img" src="/resources/img/List_icon.png" alt="목록열림"></button>';
 		 							str += '<button class="remove_btn" onclick="remove_btn('+ result[i].codi_c_no +')" style="float: right; ">삭제</button>';
-		 							str += '<button class="update_btn" onclick="update_btn('+ result[i].codi_c_no +')" style="float: right; ">수정</button>';
+		 							str += '<button class="update_open" data-textopen="close" onclick="update_open('+ result[i].codi_c_no +')" style="float: right; ">수정</button>';
  								str += '</div>';
  							str += '</div>';
  							str += '<div class="comment-main">';
 								str += '<pre class="c_reply">'+result[i].reply+'</pre>';
+								str += '<textarea rows="5" cols="100" name="contents" id="c_reply_text" class="c_reply_text">'+result[i].reply+'</textarea>';
+								str += '<button class="update_btn" onclick="update_btn('+ result[i].codi_c_no +')" style="float: right; ">수정</button>';
  							str += '</div>';
  						str += '</li>';
 					}
 					replyUL.html(str);
 					
-					$(".remove_btn").hide();
+					
 					$(".update_btn").hide();
+					$(".c_reply_text").hide();
+					$(".remove_btn").hide();
+					$(".update_open").hide();
 					console.log($(".List_btn")[0]);
 					
 					$(".List_btn").on("click", function(e){
 						var target = $(e.target).closest('button');
 						var remove_btn = $(target).closest('div').find(".remove_btn");
-						var update_btn = $(target).closest('div').find(".update_btn");
+						var update_open = $(target).closest('div').find(".update_open");
 						console.log($(target).data('opened'));
 						if($(target).data('opened') == "closed"){
 							$(remove_btn).show();
-							$(update_btn).show();
+							$(update_open).show();
 							$(target).data('opened', 'opened');
 						}else{
 							$(remove_btn).hide();
-							$(update_btn).hide();
+							$(update_open).hide();
 							$(target).data('opened', 'closed');
 						}
-					});
+					}); // List_btn ....end
+					
+			 	
+					// 수정 버튼 클릭 이벤트 
+					
+					$(".update_open").on("click", function(e){
+						var target = $(e.target).closest('button');
+						var update_btn = $(target).closest('div').find("");
+						var gomain = $(e.target).closest('li').find('.comment-main');
+					
+						console.log($(target).data('textopen'));
+						if($(target).data('textopen')=='close'){
+							console.log(gomain);
+							$(update_btn).show();
+							$(gomain).find('.c_reply').hide();
+							$(gomain).find('.c_reply_text').show();
+							$(gomain).find('.update_btn').show();
+							
+						}else{
+							
+						}
+					}); // update_open .... end 
+					
+					
+					
 				}
 			}
 		);
@@ -418,12 +487,11 @@
 		});
 	});
 		// 댓글 등록 ... end
-		
-	// 댓글 수정 start
-	
 	$(".remove_btn").hide();
 	$(".update_btn").hide();
-
+		
+	
+	// 댓글 List Btn............start
 	$(".List_btn").on("click", function(){
 		console.log($(this).alt);
 		var thisAlt = $(this).alt();
@@ -438,15 +506,36 @@
 			$(this).alt("목록열림");
 		}
 	});
-	// 댓글 수정 end
-
-
-		// 댓글 삭제 start
-	function remove_btn(codi_c_no) {
-		CodiReplyService.remove(codi_c_no, function(result){
+	// 댓글 List Btn............end
+	
+	// 댓글 수정 start
+	function update_btn(c_no){
+		var vo = {};
+		console.log(c_no);
+		var gomain = $(c_no.target).closest('li').find('.comment-main');
+		var target = $((this).target).closest('div').find('#c_reply_text');
+		
+		console.log(gomain);		
+		console.log(target);		
+		// 현재 눌려진 자신 = 수정 버튼 = this
+		/* vo.codi_c_no = codi_c_no;
+		vo.reply = $("#replytext").val();
+		console.log(vo);
+		
+		CodiReplyService.update(vo, function(result){
 			alert(result);
 			showList();
-			
+		});
+ */	};
+
+	// 댓글 수정 end
+	
+
+		// 댓글 삭제 start
+	function remove_btn(c_no) {
+		CodiReplyService.remove(c_no, function(result){
+			alert(result);
+			showList();
 		});
 	};
 
