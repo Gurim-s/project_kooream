@@ -1,43 +1,35 @@
+import {imgService} from '../service/image-service.js';
+import {styleService} from '../service/style-service.js';
+
 var pageNum, amount;
-var column = $('.list-column');
-var more = $('#more');
-var register = $('#register');
+var column = document.querySelectorAll('.list-column');
+var more = document.querySelector('#more');
+var register = document.querySelector('#register');
 
 // 페이지 초기화
-$(function() {
+(function() {
 	pageNum = 1;
 	amount = 20;
 	getList(pageNum, amount);
 	
-	$(more).on('click', function() {
+	register.addEventListener('click', function() {
+		location.href = 'register';
+	});
+	
+	more.addEventListener('click', function() {
 		pageNum++;
 		getList(pageNum, amount);
 	});
-	
-	$(register).on('click', function() {
-		location.href = 'register';
-	});
-});
+})();
 
-function getList(pageNum, amount) {
-	$.ajax({
-		url: "list/hot",
-		data: JSON.stringify({
-			pageNum: pageNum,
-			amount: amount,
-		}),
-		type: 'post',
-		dataType:"json",
-		contentType:"application/json",
-	})
-	.done(function(json) {
-		$.each(json, function(idx, style) {
-			$(column[idx % 4]).append(makeCard(style));
-		});
-	});	
+async function getList(pageNum, amount) {
+	const list = await styleService.getList(pageNum, amount);
+	list.forEach((item, i) => {
+		column[i%4].innerHTML += itemTemplate(item);
+	});
 }
 
-function makeCard(json) {
+function itemTemplate(json) {
 	var str =(
 			'<a href="/style/detail?category=hot&style_no={0}">' +
 				'<div class="card">' +
@@ -53,7 +45,7 @@ function makeCard(json) {
 					'<div class="content">{4}</div>' +
 				'<div>' +
 			'</a>'
-	).format(json.style_no, makeOriginPath(json.style_image[0]), "", "김씨", "안녕하세용 ㅎㅎ;");
+	).format(json.style_no, imgService.originPath(json.style_image[0]), "", "김씨", "안녕하세용 ㅎㅎ;");
 	
 	return str;
 }

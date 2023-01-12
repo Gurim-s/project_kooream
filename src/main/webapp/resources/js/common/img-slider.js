@@ -2,8 +2,8 @@
  * img-slider 모듈입니다.
  */
 
-var imgSlider = (x) => (function(_container) {
-	var container = _container;
+var imgSlider = () => (function() {
+	var container = document.createElement('div');
 	var ul = document.createElement('ul');
 	var idx = 0;
 	var idxContainer;
@@ -52,7 +52,7 @@ var imgSlider = (x) => (function(_container) {
 	
 	function hover(v) {
 		var length = idxContainer.childElementCount;
-		var isEnd = idx == length - 1;
+		var isEnd = (idx == length - 1) || (length == 0);
 		var isStart = idx == 0;
 		var prev = container.querySelector('button.prev');
 		var next = container.querySelector('button.next');
@@ -74,20 +74,32 @@ var imgSlider = (x) => (function(_container) {
 	}
 	
 	function addList(imgSrcList) { 
+		if(imgSrcList.length == 0) return;
+		
 		var imgTagList = Array.from(imgSrcList)
-						.reduce((str, imgSrc) => {
-							addIdx();
-							return str + '<li><img src="' + imgSrc + '"/></li>'
-						}, '');
+		.reduce((str, imgSrc) => {
+			addIdx();
+			return str + '<li><img src="' + imgSrc + '"/></li>'
+		}, '');
 		
 		ul.innerHTML += imgTagList;
 		setDefaultCss();
 		slideImg(0);
 	}
 	
+	function remove(idx) {
+		ul.children[idx].remove();
+		slideImg(idx == 0 ? 0 : idx - 1);
+		removeIdx(idx);
+	}
+	
 	function addIdx() {
 		var li = document.createElement('li');
 		container.querySelector('.idx-container').append(li);
+	}
+	
+	function removeIdx(idx) {
+		idxContainer.children[idx].remove();
 	}
 	
 	function slideImg(v) {
@@ -119,8 +131,10 @@ var imgSlider = (x) => (function(_container) {
 		container.style.width = '100%';
 		container.style.overflow = 'hidden';
 		container.style.position = 'relative';
+		container.style.backgroundColor = '#eee';
 		
 		//ul 스타일
+		ul.style.minHeight = '400px';
 		ul.style.width = liAll.length * 100 + '%';
 		ul.style.position = 'relative';
 		ul.style.display = 'flex';
@@ -175,9 +189,12 @@ var imgSlider = (x) => (function(_container) {
 	}
 	
 	return {
+		container: container,
 		add: add,
 		addList: addList,
+		remove: remove,
+		slideImg: slideImg,
 	}
-}(x));
+}());
 
 export {imgSlider};

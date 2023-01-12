@@ -9,10 +9,3 @@ if (!String.format) {
 	    return formatted;
 	};
 }
-
-function makeOriginPath(imageVO) {
-	if (!imageVO) return "/resources/img/codi_test.png";
-	
-	var {uploadPath, uuid, fileName} = imageVO;
-	return "/displayStyleImage?fileName=" + encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
-}

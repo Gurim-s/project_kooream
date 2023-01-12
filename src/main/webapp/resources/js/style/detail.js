@@ -50,10 +50,11 @@ var itemTemplate = function(style) {
 	item.className = 'item';
 	item.innerHTML += str;
 	
-	//이미지 컨테이너 모듈 가져오기
+	//이미지 슬라이더 모듈 가져오기
 	var imgContainer = item.querySelector('.img-container');
-	var slider = imgSlider(imgContainer);
-	var imgSrcList = style.style_image.map(x => imgService.originPath(x)); 
+	var slider = imgSlider();
+	imgContainer.append(slider.container);
+	var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	slider.addList(imgSrcList);
 	
 	return item;
