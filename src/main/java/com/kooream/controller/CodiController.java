@@ -68,6 +68,7 @@ public class CodiController {
 		return "redirect:/codishop/list";
 	}
 	
+	// 게시글 페이지 이동
 	@GetMapping("/get")
 	public String get(@RequestParam("codi_no") int codi_no, Model model, Criteria cri) {
 		log.info("/get....gogo");
@@ -78,18 +79,33 @@ public class CodiController {
 	}
 	
 	
+	// 수정 
+	@GetMapping("/modify")
+	public String modify(@RequestParam("codi_no") int codi_no, Model model, Criteria cri) {
+		model.addAttribute("vo", service.get(codi_no));
+		model.addAttribute("cri",cri);
+		log.info(codi_no);
+		return "/codishop/modify";
+	}
 	
-//	// 삭제 
-//	@PostMapping("/remove")
-//	public String remove(@RequestParam("codi_no") int codi_no, Criteria cri, RedirectAttributes rttr) {
-//		log.info("remove ..... " + codi_no);
-//		if(service.remove(codi_no)) {
-//			rttr.addFlashAttribute("result","success");
-//		}
-//		
-//		return "redirect:/codishop/list";
-//		
-//	}// remove() .... end
+	@PostMapping("/modify")
+	public String modify(CodiVO vo, RedirectAttributes rttr) {
+		log.info("update........."+vo);
+		service.modify(vo);
+		log.info(vo);
+		return "redirect:/codishop/list";
+	}
+	
+	 // modify getMapping ... end 
+	
+	
+
+	
+	
+
+	
+	
+	
 	
 	// 삭제 
 	@RequestMapping(value = "/remove", method = RequestMethod.GET)
@@ -97,9 +113,6 @@ public class CodiController {
 		service.remove(codi_no);
 		
 		return "redirect:/codishop/list";
-	}
-	
-	
-	
+	} // remove .... end 
 	
 }

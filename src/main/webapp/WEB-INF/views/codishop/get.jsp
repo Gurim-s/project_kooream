@@ -325,7 +325,7 @@
 		
 	});
 	$("#modify_go").click(function() {
-		location.href = "/codishop/modify";
+		location.href = "/codishop/modify?codi_no=${board.codi_no}";
 		submit();
 	});
 	
@@ -517,15 +517,15 @@
 		console.log(second);
 		
 		// 현재 눌려진 자신 = 수정 버튼 = this
-		/* vo.codi_c_no = codi_c_no;
-		vo.reply = $("#replytext").val();
+		vo.codi_c_no = c_no;
+		vo.reply = second.val();
 		console.log(vo);
 		
 		CodiReplyService.update(vo, function(result){
 			alert(result);
 			showList();
 		});
- */	};
+ 	};
 
 	// 댓글 수정 end
 	
