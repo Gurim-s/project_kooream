@@ -46,7 +46,7 @@ var itemTemplate = function(style) {
 		'<div class="content"></div>'
 	);
 	
-	var item = document.createElement('div');
+	var item = document.createElement('div'); 
 	item.className = 'item';
 	item.innerHTML += str;
 	

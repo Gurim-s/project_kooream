@@ -115,7 +115,6 @@ public class StyleController {
 	
 	private void deleteImages(List<StyleImageVO> imageList) {
 		if (imageList == null || imageList.size() == 0) return ;
-		
 		log.info("delete image files........");
 		
 		imageList.forEach(image -> {

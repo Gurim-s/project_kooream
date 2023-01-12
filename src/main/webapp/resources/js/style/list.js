@@ -31,21 +31,21 @@ async function getList(pageNum, amount) {
 
 function itemTemplate(json) {
 	var str =(
-			'<a href="/style/detail?category=hot&style_no={0}">' +
+			'<a href="/style/detail?category=hot&style_no='+json.style_no+'">' +
 				'<div class="card">' +
 					'<div class="img-container">' +
-						'<img src="{1}"/>' +
+						'<img src="'+imgService.originPath(json.style_image[0])+'"/>' +
 					'</div>' +
 					'<div class="summary">' +
 						'<div class="user_info">' +
-							'<div class="profile"><img src="{2}" /></div>' +
-							'<div class="user_id">{3}</div>'+
+							'<div class="profile"><img src="" /></div>' +
+							'<div class="user_id">김씨</div>'+
 						'</div>' +
 					'</div>' +
-					'<div class="content">{4}</div>' +
+					'<div class="content">안녕하세용 ㅎㅎ;</div>' +
 				'<div>' +
 			'</a>'
-	).format(json.style_no, imgService.originPath(json.style_image[0]), "", "김씨", "안녕하세용 ㅎㅎ;");
+	);
 	
 	return str;
 }

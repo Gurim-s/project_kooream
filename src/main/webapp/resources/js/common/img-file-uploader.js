@@ -80,7 +80,7 @@ var imgFileUploader = (function() {
 	}
 	
 	/* ========================
-	 * Method
+	 * Public Method
 	 * ========================*/
 	function removeTempFile(target) {
 		var li = target.closest('li');
