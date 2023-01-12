@@ -64,6 +64,7 @@ var CodiReplyService = (function(){
    		
    		function update(reply, callback, error){
    			console.log("update reply...." + reply.codi_c_no);
+   			console.log("update reply...." + reply.reply);
    			
    				$.ajax({
 			type : 'put',
