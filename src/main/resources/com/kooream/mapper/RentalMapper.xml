@@ -29,12 +29,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getList" parameterType="com.kooream.domain.RentalMenuVO" resultType="com.kooream.domain.ProductVO">
 		<![CDATA[
 		SELECT (SELECT B.UPLOADPATH || '\' || B.UUID || '_' || B.FILENAME 
-        FROM product_image B WHERE B.P_NO = A.P_NO AND ROWNUM <= 1) AS img_url,
-		A.*
-		FROM product A
-		where P_CLASS = 'rental'
-		AND R_CHECK = 'y'
-		]]>
+              FROM product_image B WHERE B.P_NO = A.P_NO AND ROWNUM <= 1) AS img_url,
+      	]]>
+            (SELECT C.B_NAME
+            FROM BRAND_MEMBER C WHERE C.B_NO = A.B_NO) AS p_brand,
+         	A.*
+     		FROM product A
+      		where P_CLASS = 'rental'
+      		AND R_CHECK = 'y'
 		<if test="brandType != null and brandType.size != 0">
 			AND A.B_NO
 	    	<foreach collection="brandType" item="item" separator="," open="IN (" close=")">
@@ -64,7 +66,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 렌탕 상품 상세보기 -->
 	<select id="viewPrdt" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.ProductVO">
-		SELECT * FROM PRODUCT WHERE P_NO = #{p_no}
+		SELECT 
+			(SELECT B.B_NAME 
+			FROM BRAND_MEMBER B
+			WHERE A.B_NO = B.B_NO) AS p_brand,
+		A.* 
+		FROM PRODUCT A 
+		WHERE P_NO = #{p_no}
 	</select>
 	
 	<!-- 상품 수정에서 해당 상품에 업로드 되어있는 이미지파일 가져오기 -->
