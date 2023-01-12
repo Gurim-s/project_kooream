@@ -46,7 +46,7 @@ public class BrandProductController {
   
 	@GetMapping("/register")	// 등록 페이지 단순 이동
 	public String register(Model model) {
-		return "brandshop/register";
+		return "brandshop/register";	// brandshop 폴더 안에 register.jsp 로 이동 
 	}
   
   
@@ -96,15 +96,48 @@ public class BrandProductController {
 		  
 	  }
 	  
-	  @GetMapping("/modify")
+	  @GetMapping("/modify")	// 수정버트은을 누르면 수정 페이지로 이동
 	  public String modify(ProductVO vo, Model model, Criteria cri) {
-		  log.info("modify...." + vo );
+		  
 		  model.addAttribute("cri", cri);
 		  model.addAttribute("vo", service.get(vo));
 		  
-		  return "brandshop/modify";
+		  return "brandshop/modify";	//.jsp
 	  }
 	  
+	  @PostMapping("/modify")	// 수정페이지에서 수정하고 수정한 결과 저장
+	  public String modify(ProductVO vo, RedirectAttributes rttr, Criteria cri) {
+		  log.info("modify...." + vo );
+		  rttr.addAttribute("pageNum", cri.getPageNum());
+		  rttr.addAttribute("amount", cri.getAmount());
+			/*
+			 * log.info("======================="+vo.getB_no());
+			 * log.info("======================="+vo.getP_no());
+			 * log.info("======================="+vo.getP_name_ko());
+			 * log.info("======================="+vo.getP_name_en());
+			 * log.info("======================="+vo.getP_model_no());
+			 * log.info("======================="+vo.getP_release_price());
+			 * log.info("======================="+vo.getP_category());
+			 * log.info("======================="+vo.getP_size());
+			 */
+
+		  service.modify(vo);
+		 // int result = service.modify(vo);
+		 // log.info("-----------------------"+result);
+		  return "redirect:/brandshop/view";		// controller 탐
+			/* return "redirect:/brandshop/get?"+vo.getP_no();  pno 값을 가지고 이동*/
+	  }
+	  
+	  @PostMapping("/remove")
+	  public String remove(ProductVO vo, RedirectAttributes rttr, Criteria cri) {
+		  
+/*		  rttr.addAttribute("pageNum", cri.getPageNum());
+		  rttr.addAttribute("amount", cri.getAmount());
+		*/
+		  service.remove(vo);
+		return "redirect:/brandshop/view";
+		  
+	  }
 	 
 	
 	
