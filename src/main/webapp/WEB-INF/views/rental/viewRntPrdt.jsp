@@ -75,7 +75,10 @@
 <div id="prdtInfo">
 	<table id="infoBox">
 		<tr>
-			<td colspan="2">
+			<td>
+				<span>${pvo.p_brand}</span>
+			</td>
+			<td style="text-align: right;">
 				<c:choose>
 					<c:when test="${interestVO.cnt > 0}">
 						<span class="interest" >♥</span>

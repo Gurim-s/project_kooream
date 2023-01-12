@@ -148,6 +148,7 @@
 </div>
 <div id="stDayView">대여시작일 : <span id="stDayValue"></span></div>
 <div id="edDayView">대여종료일 : <span id="edDayValue"></span></div>
+<div>대여금액 : <span>${pVO.r_price}</span></div>
 <form action="">
 	<input type="hidden" name="start">
 	<input type="hidden" name="end">
@@ -224,24 +225,28 @@ function calendarInit() {
             calendar.innerHTML = calendar.innerHTML + '<div class="day prev disable">' + i + '</div>';
         }
         // 이번달
+        var date = new Date(thisMonth)
         var originMonth = today.getMonth();
+        if(currentMonth == originMonth){
+        	date = today;
+        }
         for (var i = 1; i <= nextDate; i++) {
-        	
         	if(i<today.getDate() && currentMonth == originMonth){ // currentMonth: 달력에서 보이는 달-1, originMonth: 현재 달-1
         		calendar.innerHTML = calendar.innerHTML + '<div class="day prev disable">' + i + '</div>';	// 현재일 기준 이전날짜
         	}else{
-        		thisMonth.setDate(thisMonth.getDate()+1);
-	        	calendar.innerHTML = calendar.innerHTML + '<div class="day choose current" value="'+ thisMonth.toJSON().substring(0,10) +'">' + i + '</div>';
-	        	
+        		
+	        	calendar.innerHTML = calendar.innerHTML + '<div class="day choose current" value="'+ date.toJSON().substring(0,10) +'">' + i + '</div>';
 	        	// thisMonth.toJSON().substring(0,10) : 2022-10-11로 Date에서 문자열로 변환됨. 문자열이어도 >,<등으로 비교가능함
+	        	date.setDate(date.getDate()+1);
         	}
         	
         }
+
         // 다음달
         for (var i = 1; i <= (7 - nextDay == 7 ? 0 : 7 - nextDay); i++) {
-        	thisMonth.setDate(thisMonth.getDate()+1); 
-            calendar.innerHTML = calendar.innerHTML + '<div class="day choose next disable" value="'+ thisMonth.toJSON().substring(0,10) +'">' + i + '</div>';
-            
+        	
+            calendar.innerHTML = calendar.innerHTML + '<div class="day choose next disable" value="'+ date.toJSON().substring(0,10) +'">' + i + '</div>';
+            date.setDate(date.getDate()+1); 
         }
         
         // 이전달 혹은 다음달로 넘어갔다가 돌아왔을때 선택된 날짜가 남아있도록 하게 하기
@@ -375,12 +380,12 @@ function calendarInit() {
         	$("#edDayValue").text($("input[name='end']").val());
         });
     
-    	
+    	// 다음달 혹은 이전달 눌렀다가 돌아오는 경우 for문 돌때 today가 변해서 아래쪽에서 today값 다시정의
         date = new Date(); // 현재 날짜(로컬 기준) 가져오기
         utc = date.getTime() + (date.getTimezoneOffset() * 60 * 1000); // uct 표준시 도출
         kstGap = 9 * 60 * 60 * 1000; // 한국 kst 기준시간 더하기
         today = new Date(utc + kstGap); // 한국 시간으로 date 객체 만들기(오늘)
-    
+    	//today.setDate(today.getDate()-1);
     
     
     
@@ -393,19 +398,19 @@ function calendarInit() {
     
     // 이전달로 이동
     $('.go-prev').on('click', function() {
-        thisMonth = new Date(currentYear, currentMonth - 1, 1);
-        if(thisMonth.getFullYear() == today.getFullYear() && thisMonth.getMonth() == today.getMonth()){
-        	thisMonth = today;
-        }
+        thisMonth = new Date(currentYear, currentMonth - 1, 2);
+        //if(thisMonth.getFullYear() == today.getFullYear() && thisMonth.getMonth() == today.getMonth()){
+        //	thisMonth = today;
+        //}
         renderCalender(thisMonth);
     });
 
     // 다음달로 이동
     $('.go-next').on('click', function() {
-        thisMonth = new Date(currentYear, currentMonth + 1, 1);
-        if(thisMonth.getFullYear() == today.getFullYear() && thisMonth.getMonth() == today.getMonth()){
-        	thisMonth = today;
-        }
+        thisMonth = new Date(currentYear, currentMonth + 1, 2);
+        //if(thisMonth.getFullYear() == today.getFullYear() && thisMonth.getMonth() == today.getMonth()){
+        //	thisMonth = today;
+        //}
         renderCalender(thisMonth); 
     });
     

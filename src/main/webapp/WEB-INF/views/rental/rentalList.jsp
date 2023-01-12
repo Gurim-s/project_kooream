@@ -296,7 +296,7 @@
 					str += '<a href="/rental/viewRntPrdt?p_no='+result[i].p_no+'">';
 					str += '<div class="product" style="display: inline-block;width:225px;height: 330px;float:left;padding:15px">';
 					str += '<img src="/display/'+result[i].img_url+'">';
-					str += '<div></div>';
+					str += '<div>'+result[i].p_brand+'</div>';
 					str += '<div style="font-size:13px">'+result[i].p_name_en+'</div>';
 					str += '<div style="font-size:10px;color: #808080bd;">'+result[i].p_name_ko+'</div>';
 					str += '<div style="font-size: 13px;">'+result[i].r_price+'원</div>';
