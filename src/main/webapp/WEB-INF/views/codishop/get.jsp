@@ -512,11 +512,10 @@
 	function update_btn(c_no){
 		var vo = {};
 		console.log(c_no);
-		var gomain = $(c_no.target).closest('li').find('.comment-main');
-		var target = $((this).target).closest('div').find('#c_reply_text');
+		var second = $('#c_reply_text');
 		
-		console.log(gomain);		
-		console.log(target);		
+		console.log(second);
+		
 		// 현재 눌려진 자신 = 수정 버튼 = this
 		/* vo.codi_c_no = codi_c_no;
 		vo.reply = $("#replytext").val();
