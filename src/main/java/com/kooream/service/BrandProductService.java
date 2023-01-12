@@ -16,7 +16,9 @@ public interface BrandProductService {
 
 	public List<AttachFileVO> getAttachList(int p_no);
 	
-	public boolean modify(ProductVO vo);
+	public int modify(ProductVO vo);
+	
+	public int remove(ProductVO vo);
 	
 	/*
 	 * public List<BrandAdminVO> brandGetList();

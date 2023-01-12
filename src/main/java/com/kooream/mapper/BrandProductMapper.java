@@ -17,6 +17,7 @@ public interface BrandProductMapper {
 	
 	public int update(ProductVO vo);
 
+	public int remove(ProductVO vo);
 
 
 	
