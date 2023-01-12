@@ -2,8 +2,20 @@ package com.kooream.service;
 
 import java.util.List;
 
-import com.kooream.domain.OriginalBrandVO;
+import com.kooream.domain.OriginalAttachVO;
+import com.kooream.domain.OriginalVO;
 
 public interface OriginalService {
-	public List<OriginalBrandVO> getOriBrandList();
+	// 브랜드 셀렉트 리스트
+	//public List<OriginalBrandVO> getOriBrandList();
+	
+	
+	// 정품 판별 게시판 리스트
+	public List<OriginalVO> oriList();
+	
+	// 정품 판별 게시판 인서트
+	public void oriRegister(OriginalVO vo);
+	
+	// 첨부파일
+	public List<OriginalAttachVO> getAttList(int orino);
 }

@@ -4,7 +4,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kooream.mapper.OriginalMapper">
+	<select id="oriList" resultType="com.kooream.domain.OriginalVO">
+		SELECT * FROM original_pro ORDER BY orino DESC
+	</select>
 
+	<insert id="oriInsert">
+		INSERT INTO original_pro(orino, m_no, brandname, oriname, oricon, orititle, oridate)
+		VALUES (seq_original.nextval, #{m_no}, #{brandname}, #{oriname}, #{oricon}, #{orititle}, sysdate)
+	</insert>
+	
+	<select id="getOrino" resultType="int">
+		SELECT MAX(orino) FROM original_pro
+	</select>
 	
 	
 </mapper>
