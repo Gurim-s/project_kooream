@@ -77,6 +77,7 @@
 				<form action="/brandshop/modify" method="get" id="operForm">
 				<input type="hidden" name="pageNum" value="${cri.pageNum }">
 				<input type="hidden" name="amount" value="${cri.amount }">
+				
 			</form>
 			
 			</div>
@@ -118,13 +119,45 @@
 
 <script type="text/javascript">
 
+$(function() {		// 메인이미지 (한장만 보여주기)
+ 		$.ajax({
+ 			url:'/brandshop/getList',
+ 			type: 'get',
+ 			dataType:"json",
+ 			contentType:"application/json",
+ 		})
+ 		.done(function(json) {
+			var str='<ul id="container">';
+			console.log(json);
+			for(var i=0; i<json.length; i++) {
+				str += '<li class="product_list">';
+				
+				// 이미지 하나만 보여주기 
+				if(json[i].attachList.length > 0) {
+					var uploadPath = json[i].attachList[0].uploadPath;
+					var uuid = json[i].attachList[0].uuid;
+					var fileName = json[i].attachList[0].fileName;
+					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+					str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
+				}
+				
+				str += '</li>';
+			}
+			
+			str += '</ul>';
+			$('.brand').append(str);
+		});	
+ 	});
 
-$(function() {
+
+
+$(function() {	// 상품 여러이미지 보여주기
 	$.ajax({
 		url:'/brandshop/getList',
 		type: 'get',
-		dataType:{p_no:p_noValue]}",
+		dataType:"json",
 		contentType:"application/json;  charset=utf-8",
+	})
 	.done(function(json) {
 		var str='<ul id="container">';
 		console.log(json);
@@ -155,52 +188,25 @@ $(function() {
 	$('.brands').append(str);
 	});	
 });
-});
-$(function name() {
+
+$(function name() {	// 수정페이지로 이동
 	var p_noValue = '${vo.p_no}';
 	
 	var operForm = $("#operForm");
 	
 	$("#product_modify").click(function () {
-		var str = '<input type="hidden" name="pageNum" value="'+${cri.pageNum }+'">';
+		location.href="/brandshop/modify?p_no=${vo.p_no}"
+/* 		var str = '<input type="hidden" name="pageNum" value="'+${cri.pageNum }+'">';
 			str += '<input type="hidden" name="amount" value="'+${cri.amount }+'">';
 			str += '<input type="hidden" name="p_no" value="'+${vo.p_no }+'">';
 			operForm.html(str);
 			operForm.submit();
 			/* operForm.attr("action", "/brandshop/modify"); */
-		}); 
 		
-});	
+		
+	});
+});
 
-$(function() {
-	$.ajax({
-		url : '/brandshop/getList',
-		type : 'get',
-		data : {p_no:p_noValue},
-		contentType : 'application/json; charset=utf-8',
-		success : function (arr) {				// 리스트로 넘어옴
-			console.log(arr);
-		
-			var str = '';	// 태그들을 한번에 동적으로 실행
-	            
-				for(var i=0; i<arr.length; i++){	// 리스트 갯수만큼 li를 만들어서 동적으로 넣는다	// 게시글 상세보기하면 파일첨부 리스트 보임
-					var obj = arr[i];
-	               
-					var fileCallPath = encodeURIComponent(obj.uploadPath + "/" +		// 인코딩
-	                                             obj.uuid + "_" + 
-	                                             obj.fileName);
-	               
-	               //console.log(fileCallPath);
-	               
-					str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
-					str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
-	               //str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
-				}
-					str += '</ul>';
-		$('.brand').append(str);
-	}
-	})
-});	
 
 
 

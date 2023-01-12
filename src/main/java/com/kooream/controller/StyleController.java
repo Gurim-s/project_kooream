@@ -68,7 +68,7 @@ public class StyleController {
 				 produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<List<StyleVO>> detailList(@PathVariable("category") String category, @PathVariable("style_no") long style_no) {
 		
-		return new ResponseEntity<List<StyleVO>>(service.getList(new Criteria(1, 1)), HttpStatus.OK);
+		return new ResponseEntity<List<StyleVO>>(service.getList(new Criteria(1, 3)), HttpStatus.OK);
 	}
 	
 	@GetMapping("/register")

@@ -1,15 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.modify{
+		margin-left:auto;
+		margin-right:auto; 
+		padding: 50px;
+		width: 100%;
+		height: 100%;
+	}
+	.modify td{
+		height: 50px;
+		width: 100px;
+		font-size: 20px;
+		font-weight: bold ;
+	}
+	.modify td input{
+		width: 90%;
+	}
+</style>
+
 </head>
 <body>
-	<h1>상품등록</h1><br/>
+	<h1>상품 수정 / 삭제 + 수정할때 사이즈 꼭 선택해주고 수정하기,,,</h1><br/>
 	<div class="container">
-		<form action="/brandshop/modify"method="post" id="operFrom">
+		<form action="/brandshop/modify" method="post" id="operForm">
 			<table class = "modify">
 
 			<tr>
@@ -26,11 +46,11 @@
 				</tr>	
 				<tr>
 					<td>상품명_한글</td>
-					<td><input type="text" name="p_name_ko"></td>
+					<td><input type="text" name="p_name_ko" value="${vo.p_name_ko}"></td>
 				</tr>
 			<tr>
 				<td>상품명_영문</td>
-				<td><input type="text" name="p_name_en"></td>
+				<td><input type="text" name="p_name_en" value="${vo.p_name_en}"></td>
 			</tr>
 			<tr>		
 				<td>상품분류</td>
@@ -67,11 +87,11 @@
 			</tr>
 			<tr>
 				<td>모델번호</td>
-				<td><input type="text" name="p_model_no"></td>
+				<td><input type="text" name="p_model_no" value="${vo.p_model_no}"></td>
 			</tr>
 			<tr>
 				<td>판매금액</td>
-				<td><input type="number" name="p_release_price"></td>
+				<td><input type="number" name="p_release_price" value="${vo.p_release_price}"></td>
 			</tr>
 
 			<tr>
@@ -101,6 +121,7 @@
 					<button type="submit" data-oper="remove">삭제</button>
 					<input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
 					<input type="hidden" name="amount" value="${cri.amount}"/> 
+					<input type="hidden" name="p_no" value="${vo.p_no }"/>
 				</td>
 			</tr>		
 	</table>
@@ -109,19 +130,52 @@
 	
 	<script type="text/javascript">
 // 수정할 때 첨부파일 추가 삭제	-> 첨부파일은 수정이란 의미는 없고 추가아니면 삭제// 수정은 미완성
+		
+// 사이즈 선택-----------------------------------------------------------------
+
+	$('#Category1').change(function () {
+		var result =$('#Category1 option:selected').val();
+		if(result == 'top'){
+			$('.T_Category').show();
+			$('.T_Category').attr('name','p_size');	// name='p_size' 가 들어간다
+			$('.B_Category').hide();
+			$('.S_Category').hide();
+			$('.A_Category').hide();
+			
+		}else if(result == 'bottom'){
+			$('.B_Category').show();
+			$('.B_Category').attr('name','p_size');
+			$('.T_Category').hide();
+			$('.S_Category').hide();
+			$('.A_Category').hide();
+		}else if(result == 'shoes'){
+			$('.S_Category').show();
+			$('.S_Category').attr('name','p_size');
+			$('.T_Category').hide();
+			$('.B_Category').hide();
+			$('.A_Category').hide();
+		}else{
+			$('.A_Category').show();
+			$('.A_Category').attr('name','p_size');
+			$('.T_Category').hide();
+			$('.B_Category').hide();
+			$('.S_Category').hide();	
+		};
+	});
+//사이즈 선택 끝-----------------------------------------------------------	
 
 	$(function(){
 		var operForm = $("#operForm");
-		var bnoValue = '${vo.bno}';
+		var p_noValue = '${vo.p_no}';
 		$("button").on("click", function(e){
 			e.preventDefault();
 			
 			var operation = $(this).data("oper");
 			
 			if(operation == 'remove'){
-				operForm.attr("action", "/board/remove");
+				operForm.attr("action", "/brandshop/remove");
 			}else if(operation == 'list'){
-				operForm.attr("action", "/board/list");
+				operForm.attr("action", "/brandshop/view");
 				operForm.attr("method", "get");
 				
 				var pageNumTag = $("input[name=pageNum]").clone();
@@ -137,9 +191,9 @@
 		});
 		
 		$.ajax({
-			url : '/brandshop/getAttachList',
+			url : '/brandshop/getList',
 			type : 'get',
-			data : {p_no:p_noValue},
+			data : "json",
 			contentType : 'application/json; charset=utf-8',
 			success : function (arr) {				// 리스트로 넘어옴
 				console.log(arr);
@@ -157,7 +211,7 @@
 		               
 		               str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
 		              // str += '<a href="/download?fileName='+fileCallPath+'">';	// 다운로드에 매개변수 던지는 중
-		               str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>;
+		               str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
 		              // str += '</a>';
 		               str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
 		               str += '</li>';
@@ -185,12 +239,12 @@
             });
             
          });   
-		
-		
-		
 	});
+		
+
 
 </script>
 
 </body>
 </html>
+<jsp:include page="../include/footer.jsp"/>

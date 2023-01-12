@@ -15,11 +15,4 @@ var styleService = (function() {
 	}
 })();
 
-var styleImgService = (function() {
-	
-	return {
-		
-	}
-})();
-
 export {styleService}

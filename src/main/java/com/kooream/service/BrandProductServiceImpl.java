@@ -19,85 +19,82 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j 
-  public class BrandProductServiceImpl implements BrandProductService{
+public class BrandProductServiceImpl implements BrandProductService{
   
-  @Setter(onMethod_ = @Autowired ) 
-  private BrandProductMapper mapper;
-	
-  @Setter(onMethod_ = @Autowired )
-  private BrandProductUploadMapper uploadmapper;
-	
-  @Setter(onMethod_ = @Autowired )
-  private BrandAdminMapper adminmapper;
-
-  
-  @Transactional
-  @Override 
-  public void register(ProductVO vo) { 
-	  mapper.insert(vo);
+	@Setter(onMethod_ = @Autowired ) 
+	private BrandProductMapper mapper;
+			
+	@Setter(onMethod_ = @Autowired )
+	private BrandProductUploadMapper uploadmapper;
+			
+	@Setter(onMethod_ = @Autowired )
+	private BrandAdminMapper adminmapper;
 		
-		  int p_no = mapper.getPno();
 		  
-		  if(vo.getAttachList() != null && vo.getAttachList(). size()>0) {
-			  for(AttachFileVO vo2 : vo.getAttachList()) { 
-				  vo2.setP_no(p_no);
-				  uploadmapper.uploadFile(vo2); 
-				  } 
-			  }
-		 
+	@Transactional
+	@Override 
+	public void register(ProductVO vo) { 
+		mapper.insert(vo);
+				
+		int p_no = mapper.getPno();
+				  
+		if(vo.getAttachList() != null && vo.getAttachList(). size()>0) {
+			for(AttachFileVO vo2 : vo.getAttachList()) { 
+				vo2.setP_no(p_no);
+				uploadmapper.uploadFile(vo2); 
+			} 
+		}
+			 
+	}
   
-  }
-  
+	@Override
+	public List<ProductVO> getList() {
+		List<ProductVO> list = mapper.getList();
+		
+		// 상품테이블 + 상품이미지 합쳐서 불러오기
+		for (ProductVO vo : list) {
+			List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());	// 
+			vo.setAttachList(attach);
+		}
+		return list;
+	}
 
-
-@Override
-public List<ProductVO> getList() {
-	List<ProductVO> list = mapper.getList();
-	
-	// 상품테이블 + 상품이미지 합쳐서 불러오기
-	for (ProductVO vo : list) {
-		List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());	// 
-		vo.setAttachList(attach);
+	@Override
+	public List<AttachFileVO> getAttachList(int p_no) {
+		
+		return uploadmapper.findByPno(p_no);
 	}
 	
-	return list;
-}
-
-
-@Override
-public List<AttachFileVO> getAttachList(int p_no) {
+	@Override
+	public ProductVO get(ProductVO vo) {
 	
-	return uploadmapper.findByPno(p_no);
+		return mapper.read(vo);
+	}
+	
+	@Override
+	public int modify(ProductVO vo) {
+		
+		return mapper.update(vo);
+	}
+
+	@Override
+	public int remove(ProductVO vo) {
+		
+		return mapper.remove(vo);
+	}
+
+	
+	
+	
+	/*
+	 * @Override public List<BrandAdminVO> brandGetList() { List<BrandAdminVO> list2
+	 * = adminmapper.brandgetList(); return list2; }
+	 * 
+	 * 
+	 * 
+	 * @Override public BrandAdminVO get(BrandAdminVO vo2) { return
+	 * mapper.read(vo2); }
+	 */
+	  
 }
-
-
-
-@Override
-public ProductVO get(ProductVO vo) {
-
-	return mapper.read(vo);
-}
-
-
-
-@Override
-public boolean modify(ProductVO vo) {
-	int result = mapper.update(vo);
-	return result == 1 ? true : false;
-}
-
-
-
-/*
- * @Override public List<BrandAdminVO> brandGetList() { List<BrandAdminVO> list2
- * = adminmapper.brandgetList(); return list2; }
- * 
- * 
- * 
- * @Override public BrandAdminVO get(BrandAdminVO vo2) { return
- * mapper.read(vo2); }
- */
-  
-  
-  }
- 
+	 

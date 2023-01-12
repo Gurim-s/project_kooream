@@ -59,6 +59,7 @@ public class RantalController {
 		return "/rental/rentalList";
 	}
 	
+	// 상품 리스트 불러오는 ajax
 	@PostMapping(value="/ajax/rentalList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<ProductVO>> rentalList(RentalMenuVO vo) {	// required=false -> brand가 null값이어도 오류 안남
