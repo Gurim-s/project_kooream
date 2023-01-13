@@ -27,5 +27,5 @@
 			<button id="more">더 보기 +</button>
 		</div>
 	</div>
-	<script type="text/javascript" src="<c:url value='/resources/js/style/list.js'/>"></script>
+	<script type="module" src="<c:url value='/resources/js/style/list.js'/>"></script>
 <jsp:include page="../include/footer.jsp"/>

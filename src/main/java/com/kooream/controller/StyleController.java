@@ -36,7 +36,7 @@ public class StyleController {
 
 	@GetMapping("/list")
 	public String list() {
-		return "style/list";
+		return "/style/list";
 	}
 	
 	@PostMapping(value = "/list/hot",
@@ -60,7 +60,7 @@ public class StyleController {
 	public String detail(@RequestParam String category, @RequestParam long style_no, Model model) {
 		model.addAttribute("category", category);
 		model.addAttribute("style_no", style_no);
-		return "style/detail";
+		return "/style/detail";
 	}
 	
 	@GetMapping(value = {"/detail_list/{category}/{style_no}",
@@ -73,7 +73,7 @@ public class StyleController {
 	
 	@GetMapping("/register")
 	public String register() {
-		return "style/register";
+		return "/style/register";
 	}
 	
 	@PostMapping("/register")
@@ -81,13 +81,13 @@ public class StyleController {
 		log.info("register....." + vo);
 		service.register(vo);
 		
-		return "redirect:style/list";
+		return "redirect:/style/list";
 	}
 	
 	@GetMapping("/update")
 	public String update(long style_no, Model model) {
 		model.addAttribute("vo", service.get(style_no));
-		return "style/update";
+		return "/style/update";
 	}
 	
 	@PostMapping("/update")
@@ -95,7 +95,7 @@ public class StyleController {
 		log.info("register....." + vo);
 		service.register(vo);
 		
-		return "redirect:style/list";
+		return "redirect:/style/list";
 	}
 	
 	@PostMapping("/remove")
@@ -110,12 +110,11 @@ public class StyleController {
 			rttr.addFlashAttribute("result", "success");
 		}
 
-		return "redirect:style/list";
+		return "redirect:/style/list";
 	}
 	
 	private void deleteImages(List<StyleImageVO> imageList) {
 		if (imageList == null || imageList.size() == 0) return ;
-		
 		log.info("delete image files........");
 		
 		imageList.forEach(image -> {
