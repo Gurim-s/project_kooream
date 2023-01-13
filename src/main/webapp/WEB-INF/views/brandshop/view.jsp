@@ -106,7 +106,7 @@
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
 				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'"><li class="product_list">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
-				
+						// brandshop(컨트롤러) 에서 /get을 탐  
 				
 				
 				// 이미지 하나만 보여주기 
@@ -127,6 +127,7 @@
 // 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
 // 					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
 // 				}
+				/* str += '<div>{vo2.b_name}</div>' */
 				str += '<div style="font-weight: bold; font-size: 18px; ">'+json[i].p_name_en+'</div>';
 				str += '<div style="color: gray;">'+json[i].p_name_ko+'</div>';
 				str += '<div style="font-weight: bold; font-size: 18px;">'+json[i].p_release_price+'원</div>';
