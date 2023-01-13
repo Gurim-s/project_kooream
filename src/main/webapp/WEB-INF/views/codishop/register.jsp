@@ -34,24 +34,32 @@
 				
 				<div class="row">
 					<span class="title_content">모델정보</span>
-					<span>이름: </span>
+					<span class="model_info">이름: </span>
 						<input type="text" name="codimodel_name" id="textForm2">
 						
-					<span>키 :  </span>
+					<span class="model_info">키 :  </span>
 						<input type="number" name="codi_cm" id="textForm2">
 						
-					<span>무게 : </span>
+					<span class="model_info">무게 : </span>
 						<input type="number" name="codi_Kg" id="textForm2">
 				</div>
 				<div class="row">
 					<span class="title_content">사진 등록</span>
-					<div>
-						<div>
-							<input type="file" name="uploadFile" multiple="multiple" accept="image/jpeg, image/gif, image/png">
-						</div>
-						<div class="uploadResult">
-			               <ul></ul>
-			            </div>					
+			<!-- 		<div class="codi-image">
+						<input type="file" name="uploadFile" multiple="multiple" accept="image/jpeg, image/gif, image/png">
+					</div>
+			 -->		
+					
+				<div class="img-test">
+				 <input type="file" class="real-upload" accept="image/*" required multiple>
+				  <div class="upload"></div>
+				  <ul class="image-preview"></ul>
+					
+				</div>		
+					
+					
+					<div class="uploadResult">
+						<ul></ul>
 					</div>
 				</div>	<!-- row.... end -->
 			</div> <!--  insert_codi.... end -->
@@ -88,49 +96,198 @@
 				console.log("submit clicked");
 				var str = '';
 				
-				/* $(".uploadResult ul li").each(function(i, obj){
+				$(".uploadResult ul li").each(function(i, obj) {
 					var jobj = $(obj);
-					console.dir(jobj);
 					console.dir(jobj);
 					str+='<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'">';
 					str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
 					str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
 					
-				}); */
-			/* formObj.append(str); */
-			formObj.submit();
+				
+				
+				});
+				formObj.append(str);
+				formObj.submit();
 			}
 		}); // button click end 
 		
 		
+		 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");   //확장자를 포함하지 못하도록 
+         var maxSize = 20971520; //20MB
 		
-		//파일 업로드	
-		// 이미지 파일만 가능 하게 하기 
-	/* 	function fileCheck(obj) {
-			pathPoint = obj.value.lastIndexOf('.');
-			filepoint = obj.value.substring(parthpoint+1,obj.length);
-			filetype = filepoint.toLowerCase();
+         //파일 화거장자& 사이즈 체크
+         function checkExtension(fileName, fileSize) {
+        	 if(fileSize >= maxSize){
+        		 alert("파일 사이즈 초과");
+        		 return false;
+        	 }
+        	 if(regex.test(fileName)){
+        		 alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+        		 return false;
+        	 }
+        	 return true;
+         } // checkExtension end
 			
-			if(filetype=='jpg' || filetype=='gif' || filetype=='png' || filetype=='jpeg' || filetype=='bmp'){
-				// 정상적인 이미지 확장자 파일
-			}else{
-				alert('이미지 파일만 선택할 수 있습니다.');
-				parentObj = obj.parentNode;
-				node = parentObj.replaceChild(obj.cloneNode(true).obj);
-				return false;
-			};
+		$("input[type='file']").change(function() {
+			var formData = new FormData(); // 스크립트로 Form택스 생성
+			var inputFile = $("input[name='uploadFile']");
+			var files = inputFile[0].files;
+			console.log(files);
 			
-			if(filetype == 'bmp'){
-				upload = confirm('BMP파일은 웹상에서 사용하기엔 적절한 이미지 포멧이 아닙니다. 그래도 계속하시겠습니까 ?');
-				if(!upload)return false;
-			};
-	 		
-		};  */
+			for(var i=0; i<files.length; i++){
+				if(!checkExtension(files[i].name, files[i].size)){
+					return false;
+				}
+				formData.append("uploadFile", files[i]);
+			}
+			
+			$.ajax({
+				url : '/uploadAjaxAction',
+				processData : false,
+				contentType : false,
+				data : formData,
+				type : 'post',
+				dataType : 'json',
+				success : function(result) {
+					console.log(result);
+					showUploadFile(result);
+					
+				} // success end
+			}); // ajax end
+		}); // ("input[type='file']") end
+		
+		// 업로드 후 파일 화면에 보여주기 
+		var uploadResult = $(".uploadResult ul");
+		function showUploadFile(uploadResultArr) {
+			var str = '';
+			
+			for(var i=0; i<uploadResultArr.length; i++){
+				var obj = uploadResultArr[i];
+				
+				var fileCallPath = encodeURIComponent(obj.uploadPath + "/"
+														+ obj.uuid+"/"
+														+ obj.fileName);
+				
+				 str +='<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';
+	             str +='<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+	             str +='<span data-file="'+fileCallPath+'"> X </span>';
+	             str +='</li>';
+			} // for end	
+           
+			uploadResult.html(str);
+             
+		} // showUploadFile end
+		
+		uploadResult.on("click","span", function(){
+            var targetFile = $(this).data("file");
+            var targetLi = $(this).closest("li");   //파일 x를눌렀을경우 이름까지 삭제되도록함.
+            
+            $.ajax({
+               url:"/deleteFile",
+               data : {fileName: targetFile},
+               type:"post",
+               dataType : "text",
+               success : function(result){
+                  //alert(result);
+                  targetLi.remove();   //파일 x를눌렀을경우 이름까지 삭제.
+               }
+            });
+            
+         });// end uploadresult
+
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+		function getImageFiles(e) {
+	      const uploadFiles = [];
+	      const files = e.currentTarget.files;
+	      const imagePreview = document.querySelector('.image-preview');
+	      const docFrag = new DocumentFragment();
+
+	      if ([...files].length >= 7) {
+	        alert('이미지는 최대 6개 까지 업로드가 가능합니다.');
+	        return;
+	      }
+
+	      // 파일 타입 검사
+	      [...files].forEach(file => {
+	        if (!file.type.match("image/.*")) {
+	          alert('이미지 파일만 업로드가 가능합니다.');
+	          return
+	        }
+
+	        // 파일 갯수 검사
+	        if ([...files].length < 7) {
+	          uploadFiles.push(file);
+	          const reader = new FileReader();
+	          reader.onload = (e) => {
+	            const preview = createElement(e, file);
+	            imagePreview.appendChild(preview);
+	          };
+	          reader.readAsDataURL(file);
+	        }
+	      });
+	    }
+
+	    function createElement(e, file) {
+	      const li = document.createElement('li');
+	      const img = document.createElement('img');
+	      img.setAttribute('src', e.target.result);
+	      img.setAttribute('data-file', file.name);
+	      li.appendChild(img);
+
+	      return li;
+	    }
+
+	    const realUpload = document.querySelector('.real-upload');
+	    const upload = document.querySelector('.upload');
+
+	    upload.addEventListener('click', () => realUpload.click());
+
+	    realUpload.addEventListener('change', getImageFiles);
 	
 	}); // function end
 </script>
 
 <style>
+li {
+      list-style: none;
+    }
+
+    img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .real-upload {
+      display: none;
+    }
+
+    .upload {
+      width: 200px;
+      height: 200px;
+      background-color: antiquewhite;
+    }
+
+    .image-preview {
+      width: 1300px;
+      height: 200px;
+      background-color: aquamarine;
+      display: flex;
+      gap: 20px;
+    }
+/* 테스트 */
 #textForm{
 	  width: 70%;
 	  border:none;
@@ -186,6 +343,12 @@
 	transition: 0.4s;
 	display:inline;
 }
+.model_info{
+	font-size : large;
+	font-weight: bold;
+}
+
+
 
 </style>
 

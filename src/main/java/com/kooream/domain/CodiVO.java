@@ -22,10 +22,13 @@ public class CodiVO {
 	private String codimodel_name, codi_title, codi_content;
 	private Date codi_date;
 	
+	private List<CodiImageVO> codi_image;
 	
 	@Override
 	public String toString() {
 		return "CodiVO [codi_no=" + codi_no + ", m_no=" + m_no + ", codimodel_name=" + codimodel_name + ", codi_title="
 				+ codi_title + ", codi_content=" + codi_content + ", codi_date=" + codi_date + "]";
 	}
+	
+	
 }
