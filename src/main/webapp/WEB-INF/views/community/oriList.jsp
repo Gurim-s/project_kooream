@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -42,8 +43,10 @@
 		font-size: 30px;
 	}
 	button{
-		margin-left: 800px;
-		
+		margin-left: 800px;	
+	}
+	#bp{
+		height: 25px;
 	}
 </style>
 </head>
@@ -69,8 +72,23 @@
 		</select>
 	</div>
 	<div>
-		<form action="/community/oriGet" id="form">
+		<br/>
+		<form action="/community/oriRegister" id="form">
 			<table>
+				<c:forEach var="vo" items="${list }">
+					<tr>
+						<td rowspan="3">썸네일</td>
+						<td>${vo.brandname }</td>
+						<td rowspan="3">${vo.oriname }</td>
+					</tr>
+					<tr>
+						<td>${vo.orititle }</td>
+					</tr>
+					<tr>
+						<td>${vo.oricon }</td>
+					</tr>
+					<tr id="bp"><td></td></tr>
+				</c:forEach>
 			</table>
 		</form>
 	</div>
@@ -84,7 +102,6 @@
 		$("button").click(function() {
 			// 버튼 누르면 글쓰기로 이동
 			form.attr("action", "/community/oriRegister");
-			
 			form.submit();
 		})		
 		
