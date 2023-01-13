@@ -8,5 +8,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM PRODUCT WHERE P_NO = #{p_no}
 	</select>
 	
+	<insert id="rgstRsvt">
+		INSERT INTO RSVT_TBL 
+				(R_NO, 
+				M_NO, 
+				P_NO, 
+				STRT_R_DATE, 
+				RTRN_R_DATE)
+		VALUES(rsvt_seq.nextval, 
+				9999, 
+				#{p_no}, 
+				TO_DATE(#{strt_r_date}, 'YYYY/MM/DD'), 
+				TO_DATE(#{rtrn_r_date}, 'YYYY/MM/DD'))
+	</insert>
 	
+	<select id="getRsvt" resultType="com.kooream.domain.RntRsvtVO">
+		SELECT STRT_R_DATE, RTRN_R_DATE
+		FROM RSVT_TBL
+		WHERE P_NO=#{p_no} and m_no=9999;
+	</select>
 </mapper>
