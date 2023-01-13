@@ -1,12 +1,21 @@
 package com.kooream.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.ProductVO;
+import com.kooream.domain.RentalMenuVO;
 import com.kooream.domain.RntRsvtVO;
 import com.kooream.service.RntRsvtService;
 
@@ -31,5 +40,21 @@ public class RntReservationController {
 		return "/rental/rsvtPage";
 	}
 	
+	// 상품 예약 기능 & 예약 내역 확인 페이지 이동
+	@GetMapping("/rgstRsvt")
+	public String rgstRsvt(RntRsvtVO vo) {
+		service.rgstRsvt(vo);
+		
+		
+		return "/rental/RntConfirm";
+	}
+	
+	// 상품 예약 내역 가져오는 ajax
+	@PostMapping(value="/ajax/getRsvt", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<RntRsvtVO>> rentalList(RntRsvtVO vo) {
+		RntRsvtVO rvo = service.getRsvt(vo);
+		return new ResponseEntity<List<RntRsvtVO>>(rvo, HttpStatus.OK);
+	}
 	
 }

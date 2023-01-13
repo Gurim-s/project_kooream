@@ -20,4 +20,14 @@ public class RntRsvtServiceImpl implements RntRsvtService{
 		return mapper.getPrice(vo);
 	}
 
+	@Override
+	public int rgstRsvt(RntRsvtVO vo) {
+		return mapper.rgstRsvt(vo);
+	}
+
+	@Override
+	public RntRsvtVO getRsvt(RntRsvtVO vo) {
+		return mapper.getRsvt(vo);
+	}
+
 }
