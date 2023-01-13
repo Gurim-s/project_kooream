@@ -25,7 +25,7 @@
 	<div class="top-h2"><h2>KOOREAM의 더 많은 브랜드 배송을 카테고리별로 확인하세요.</h2></div>
 	<br/>
 	<div>
-		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+		<a href="/brandshop/view"><img src="C:\Users\goott\Desktop\팀프로젝트\Polar Skate Co\로고.jpg" class="product-img1"/></a>	
 	</div>
 	<hr/>
 	<br/>

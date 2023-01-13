@@ -20,10 +20,9 @@ public interface BrandProductService {
 	
 	public int remove(ProductVO vo);
 	
-	/*
-	 * public List<BrandAdminVO> brandGetList();
-	 * 
-	 * public BrandAdminVO get(BrandAdminVO vo);
-	 */
+	public BrandAdminVO member(ProductVO vo);	
+	//	보내는 값은 product vo 
+	// 리턴되는 값의 형태가 brandAdminVo vo
 	
+
 }

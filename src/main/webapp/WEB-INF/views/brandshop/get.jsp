@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
 <html>
@@ -26,9 +28,17 @@
 		height: 50px;
 	}
 	.admin_btn button{
-		width: 50%;
+		width: 100%;
 	}
-
+	.brand_member {
+		border: 1px solid black;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.full{
+		position: center;
+		
+	}
 	
 
 
@@ -45,10 +55,24 @@
 			<input name ="p_no" value="${vo.p_no }" readonly="readonly"/> --%>
 			<label>상품 메인 이미지</label>
 				<div class= "brand">
+					<ul>
+						<li>
+<%-- 							<c:url var="imgSrc" value="${vo.attachList.get(0).uploadPath + vo.attachList.get(0).uuid +vo.attachList.get(0).fileName}" /> --%>
+<%-- 							<c:out value="imgSrc"></c:out> --%>
+<!-- 							<img src="/brandfile/display?fileName=   "/> -->
+							
+							<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
+								<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
+								<!-- get(0)은 attachList가 list 형태이기 때문에 맨 처음 사진만 불러오려고 0번으로 지정해서 불러오는 중임 -->
+							</c:url>
+							<img alt="상품이미지" src="${imgSrc }">
+						</li>
+					</ul>
 				</div>
 			<%-- <div>
 			${vo.b_name }"</div> --%>
 				<div class = "p_right">
+				<div>${vo2.b_name }</div>
 				<div>${vo.p_name_en }</div>
 				<div>${vo.p_name_ko }</div>
 			<br/>
@@ -82,112 +106,62 @@
 			
 			</div>
 	</div>
+	
 	<div class = "full">
-	<label>상품 여러이미지</label>
+	<label>상품 여러이미지ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</label>
+	<ul>
+		<li>
+		<c:forEach var="index" begin="1" end="${vo.attachList.size() - 1 }" step="1"> 
+		<!-- 메인이미지 제외(0번)하고 1번부터 for문 시작해서 끝은 리스의 길이는 size라고 함 근데 -1 해줘야함 검색해보기 -->
+			<c:set var="attachDate" value="${vo.attachList.get(index) }"></c:set>
+		<!-- index가 1 부터 list 끝까지 / get안에 index를 넣어서 그 길이만큼 for문 돌리기   -->
+			<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
+				<c:param name="fileName" value="${attachDate.uploadPath }/${attachDate.uuid }_${attachDate.fileName }"></c:param>	
+			</c:url>
+			<img alt="상품이미지" src="${imgSrc }" style="float: center;">
+		</c:forEach>
+		
+		</li>
+	
+	</ul>
 	<div class = "brands">
 	</div>
 	<br/>
 
 	
 	<h3>판매자 정보</h3>
-	<table>
+	<br/>
+	<table class="brand_member" border="1" >
 		<tr>
 			<th>상호명</th>
-			<td></td>
+			<td>${vo2.b_name }</td>
 		</tr>
 		<tr>
 			<th>사업자 등록번호</th>
-			<td></td>
+			<td>${vo2.b_bnum }</td>
 		</tr>
 		<tr>
 			<th>대표자</th>
-			<td></td>
+			<td>${vo2.b_boss }</td>
 		</tr>
 		<tr>
 			<th>사업장 소재지</th>
-			<td></td>
+			<td>${vo2.b_badress }</td>
 		</tr>
 		<tr>
 			<th>고객센터</th>
-			<td></td>
+			<td>${vo2.b_managernum }</td>
 		</tr>
 		
 	</table>
 	</div>
+	<br/>
+	<br/>
 	
-	
+
 
 <script type="text/javascript">
 
-$(function() {		// 메인이미지 (한장만 보여주기)
- 		$.ajax({
- 			url:'/brandshop/getList',
- 			type: 'get',
- 			dataType:"json",
- 			contentType:"application/json",
- 		})
- 		.done(function(json) {
-			var str='<ul id="container">';
-			console.log(json);
-			for(var i=0; i<json.length; i++) {
-				str += '<li class="product_list">';
-				
-				// 이미지 하나만 보여주기 
-				if(json[i].attachList.length > 0) {
-					var uploadPath = json[i].attachList[0].uploadPath;
-					var uuid = json[i].attachList[0].uuid;
-					var fileName = json[i].attachList[0].fileName;
-					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-					str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
-				}
-				
-				str += '</li>';
-			}
-			
-			str += '</ul>';
-			$('.brand').append(str);
-		});	
- 	});
-
-
-
-$(function() {	// 상품 여러이미지 보여주기
-	$.ajax({
-		url:'/brandshop/getList',
-		type: 'get',
-		dataType:"json",
-		contentType:"application/json;  charset=utf-8",
-	})
-	.done(function(json) {
-		var str='<ul id="container">';
-		console.log(json);
-		for(var i=0; i<json.length; i++) {
-			str += '<div>'; 
-		// 이미지 하나만 보여주기 
-		
-		
-/* 		if(json[i].attachList.length > 0) {
-			var uploadPath = json[i].attachList[0].uploadPath;
-			var uuid = json[i].attachList[0].uuid;
-			var fileName = json[i].attachList[0].fileName;
-			var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-			str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
-		} */
-		//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
-			for(var j=0; j<json[i].attachList.length; j++) {
-				var uploadPath = json[i].attachList[j].uploadPath;
-				var uuid = json[i].attachList[j].uuid;
-				var fileName = json[i].attachList[j].fileName;
-				var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-				str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
-			}
-
-				str += '</div>';
-		}
-				str += '</ul>';
-	$('.brands').append(str);
-	});	
-});
 
 $(function name() {	// 수정페이지로 이동
 	var p_noValue = '${vo.p_no}';

@@ -38,7 +38,7 @@ public class BrandProductController {
 /* GetMapping은 단순 페이지 이동용*/	
 	
 	
-	@GetMapping("/index")
+	@GetMapping("/index")		// index페이지로 이동
 	public String index(Model model) {
 		return "brandshop/index";
 	}
@@ -66,50 +66,56 @@ public class BrandProductController {
 		return "redirect:/brandshop/view";
 	}
 	
-	@GetMapping("/view")
+	@GetMapping("/view")	// 리스트 페이지로 이동
 	public String view(Model model) {
 		model.addAttribute("list", service.getList());
 		return "/brandshop/view";
 	}	
 	
-	@GetMapping("/getList")
+	@GetMapping("/getList")	// 비동기 방식 mapping
 	@ResponseBody 
 	public ResponseEntity<List<ProductVO>> getList() {	
 		return new ResponseEntity<List<ProductVO>>(service.getList(),HttpStatus.OK);
 	}
 	
-	  @GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody 
+	public ResponseEntity<List<AttachFileVO>> getAttachList(int p_no) {
+		log.info("getAttachList...." + p_no); 
+		return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
 	  
-	  @ResponseBody public ResponseEntity<List<AttachFileVO>> getAttachList(int p_no) {
-		  log.info("getAttachList...." + p_no); 
-		  return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
+	}
 	  
-	  }
+	@GetMapping("/get")	// 누르면 상세페이지 이동
+	public String get(ProductVO vo, Model model, Criteria cri) {
+		log.info("getp_no"+ vo.getP_no());
+		model.addAttribute("cri", cri);
+		model.addAttribute("vo", service.get(vo));
+		model.addAttribute("vo2", service.member(vo));  // 
+		return "/brandshop/get";
+	}
+	
+	
+//	@GetMapping("/getList")
+//	@ResponseBody 
+//	public ResponseEntity<List<ProductVO>> getList() {	
+//		return new ResponseEntity<List<ProductVO>>(service.getList(),HttpStatus.OK);
+//	}
 	  
-	  @GetMapping("/get")	// 누르면 상세페이지 이동
-	  public String get(ProductVO vo, Model model, Criteria cri) {
-		 log.info("getp_no"+ vo.getP_no());
-		  model.addAttribute("cri", cri);
-		  model.addAttribute("vo", service.get(vo));
+	@GetMapping("/modify")	// 수정버트은을 누르면 수정 페이지로 이동
+	public String modify(ProductVO vo, Model model, Criteria cri) {
 		  
-		  return "/brandshop/get";
+		model.addAttribute("cri", cri);
+		model.addAttribute("vo", service.get(vo));
 		  
-	  }
+		return "brandshop/modify";	//.jsp
+	}
 	  
-	  @GetMapping("/modify")	// 수정버트은을 누르면 수정 페이지로 이동
-	  public String modify(ProductVO vo, Model model, Criteria cri) {
-		  
-		  model.addAttribute("cri", cri);
-		  model.addAttribute("vo", service.get(vo));
-		  
-		  return "brandshop/modify";	//.jsp
-	  }
-	  
-	  @PostMapping("/modify")	// 수정페이지에서 수정하고 수정한 결과 저장
-	  public String modify(ProductVO vo, RedirectAttributes rttr, Criteria cri) {
-		  log.info("modify...." + vo );
-		  rttr.addAttribute("pageNum", cri.getPageNum());
-		  rttr.addAttribute("amount", cri.getAmount());
+	@PostMapping("/modify")	// 수정페이지에서 수정하고 수정한 결과 저장
+	public String modify(ProductVO vo, RedirectAttributes rttr, Criteria cri) {
+		log.info("modify...." + vo );
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
 			/*
 			 * log.info("======================="+vo.getB_no());
 			 * log.info("======================="+vo.getP_no());
@@ -121,28 +127,28 @@ public class BrandProductController {
 			 * log.info("======================="+vo.getP_size());
 			 */
 
-		  service.modify(vo);
+		service.modify(vo);
 		 // int result = service.modify(vo);
 		 // log.info("-----------------------"+result);
-		  return "redirect:/brandshop/view";		// controller 탐
+		return "redirect:/brandshop/view";		// controller 탐
 			/* return "redirect:/brandshop/get?"+vo.getP_no();  pno 값을 가지고 이동*/
-	  }
+	}
 	  
-	  @PostMapping("/remove")
-	  public String remove(ProductVO vo, RedirectAttributes rttr, Criteria cri) {
+	@PostMapping("/remove")		// 상품 삭제
+	public String remove(ProductVO vo, RedirectAttributes rttr, Criteria cri) {
 		  
 /*		  rttr.addAttribute("pageNum", cri.getPageNum());
 		  rttr.addAttribute("amount", cri.getAmount());
 		*/
-		  service.remove(vo);
+		service.remove(vo);
 		return "redirect:/brandshop/view";
 		  
-	  }
+	}
 	 
 	
 	
   
 
-  }
+}
   
  
