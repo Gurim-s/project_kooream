@@ -1,15 +1,30 @@
 import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
+import {modal} from '../common/modal.js';
 
 (async () => {
-	var column = document.querySelector('.list-column');
-	
+	/*
+	 * 페이지 로드
+	 **/
 	const searchParams = new URLSearchParams(location.search);
 	const [category, style_no] = Array.from(searchParams).map(x => x[1]);
+	const column = document.querySelector('.list-column');
 	
 	let styleList = await styleService.get(category, style_no);
 	styleList.forEach(x => column.append(itemTemplate(x)));
+	
+	document.querySelector('.like')
+	.addEventListener('click', () => {
+		let m = modal();
+		m.open({title: '공감 목록'});
+	});
+	
+	document.querySelector('.comment')
+	.addEventListener('click', () => {
+		let m = modal();
+		m.open({title: '댓글 목록', type: 'right'});
+	})
 })();
 
 var itemTemplate = function(style) {
@@ -34,15 +49,15 @@ var itemTemplate = function(style) {
 			'<div class="comment-like">'+
 				'<div class="like">' +
 					'<img src="/resources/img/like.svg" alt="공감"/>' +
+					'<span>'+ style.count_like +'</span>'+ 
 				'</div>' +
 				'<div class="comment">' +
 					'<img src="/resources/img/comment.svg" alt="댓글"/>' +
+					'<span>'+ style.count_comment +'</span>'+ 
 				'</div>' +
 				'<div class="clearfix"></div>' +
 			'</div>' + 
 		'</div>' + 
-		'<div class="like-cnt">공감 '+ style.count_like +'개</div>' +
-		'<div class="comment-cnt">댓글 '+ style.count_comment+'개</span>' +
 		'<div class="content"></div>'
 	);
 	

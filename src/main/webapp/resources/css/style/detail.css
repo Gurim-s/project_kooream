@@ -62,11 +62,17 @@
 .item .summary .comment-like .comment,
 .item .summary .comment-like .like {
 	float: left;
+	margin-right: 20px;
 }
 .item .summary .comment-like .comment img,
 .item .summary .comment-like .like img {
-	width: 35px;
-	margin-right: 20px;
+	width: 30px;
+	margin-right:5px;
+}
+.item .summary .comment-like .comment span,
+.item .summary .comment-like .like span {
+	font-size: 24px;
+/* 	font-weight: bold; */
 }
 .item .like-cnt,
 .item .comment-cnt {

@@ -1,5 +1,7 @@
 /**
- * 
+ * 이미지 파일 업로더 입니다.
+ * 슬라이더 모듈 포함
+ * 드래그앤 드롭 기능 추가 예정
  */
 import {imgSlider} from '../common/img-slider.js';
 import {imgService} from '../service/image-service.js';
@@ -69,6 +71,9 @@ var imgFileUploader = (function() {
 		} 
 	}
 	
+	/* ========================
+	 * Method
+	 * ========================*/
 	function addTempFile(target) {
 		var files = target.files;
 		
@@ -79,9 +84,6 @@ var imgFileUploader = (function() {
 		});
 	}
 	
-	/* ========================
-	 * Public Method
-	 * ========================*/
 	function removeTempFile(target) {
 		var li = target.closest('li');
 		var idx = Array.from(li.parentNode.children).indexOf(li) - 1;

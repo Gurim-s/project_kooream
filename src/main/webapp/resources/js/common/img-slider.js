@@ -4,16 +4,20 @@
 
 var imgSlider = () => (function() {
 	var container = document.createElement('div');
+	var imgContainer = document.createElement('div');
 	var ul = document.createElement('ul');
 	var idx = 0;
 	var idxContainer;
+	var idxIndicator;
 	
 	init();
-
 	function init() {
-		container.append(ul);
-		container.append(createBtnContainer());
+		container.append(imgContainer);
+		imgContainer.append(ul);
+		imgContainer.append(createBtnContainer());
 		idxContainer = createIdxContainer();
+		idxIndicator = createIdxIndicator();
+		container.append(idxIndicator);
 		container.append(idxContainer);
 		container.addEventListener('mouseover', () => hover('on'));
 		container.addEventListener('mouseout', () => hover('out'));
@@ -43,11 +47,17 @@ var imgSlider = () => (function() {
 		idxContainer.className = 'idx-container';
 		
 		idxContainer.addEventListener('click', function(e) {
+			if (e.target.tagName != 'LI') return;
 			var idx = Array.from(e.target.parentNode.children).indexOf(e.target);
 			slideImg(idx);
 		});
 		
 		return idxContainer;
+	}
+	
+	function createIdxIndicator() {
+		var idxIndicator = document.createElement('div');
+		return idxIndicator;
 	}
 	
 	function hover(v) {
@@ -113,9 +123,9 @@ var imgSlider = () => (function() {
 		} else {
 			idx = v;
 		}
-	
 		ul.style.left = (-1 * idx * 100) + '%';
 		idxLiAll[idx].style.backgroundColor = 'black';
+		idxIndicator.innerHTML = (idx+1) + '/' + idxLiAll.length;
 	}
 	
 	
@@ -127,12 +137,15 @@ var imgSlider = () => (function() {
 		var prev = container.querySelector('.prev');
 		var next = container.querySelector('.next');
 
-		//conainer 스타일
+		//img-container 스타일
 		container.style.width = '100%';
-		container.style.overflow = 'hidden';
 		container.style.position = 'relative';
 		container.style.backgroundColor = '#eee';
+		container.style.marginBottom = '20px';
 		
+		//img-container 스타일
+		imgContainer.style.overflow = 'hidden';
+		imgContainer.style.position = 'relative';
 		//ul 스타일
 		ul.style.minHeight = '400px';
 		ul.style.width = liAll.length * 100 + '%';
@@ -156,8 +169,8 @@ var imgSlider = () => (function() {
 		[prev, next].forEach(x => {
 			x.style.position = "absolute";
 			x.style.top = "50%";
-			x.style.width = "4%";
-			x.style.height = "4%";
+			x.style.width = "20px";
+			x.style.height = "20px";
 			x.style.backgoundColor = 'rgba(255, 255, 255, 1)';
 			x.style.opacity = '0.7';
 			x.style.border = 'none';
@@ -173,19 +186,33 @@ var imgSlider = () => (function() {
 		//인덱스 컨테이너
 		var idxContainer = container.querySelector('.idx-container');
 		idxContainer.style.position = 'absolute';
-		idxContainer.style.bottom = '2%';
+		idxContainer.style.bottom = '-3%';
 		idxContainer.style.left = '50%';
 		idxContainer.style.transform = 'tanslate3d(-50%, 0, 0)';
 		
 		//인덱스
 		idxContainer.querySelectorAll('li')
 		.forEach(x => {
-			x.style.width ="7px";
-			x.style.height ="7px";
+			x.style.width ="8px";
+			x.style.height ="8px";
 			x.style.float = "left";
+			x.style.marginRight = "3px";
 			x.style.borderRadius = "50%";
 			x.style.backgroundColor = "lightgray";
 		});
+		
+		idxIndicator.style.position = 'absolute';
+		idxIndicator.style.top = '3%';
+		idxIndicator.style.right = '2%';
+		idxIndicator.style.width = '8%';
+		idxIndicator.style.height = '20px';
+		idxIndicator.style.maxWidth = '50px';
+		idxIndicator.style.textAlign = 'center';
+		idxIndicator.style.fontSize = '15px';
+		idxIndicator.style.fontWeight = '600';
+		idxIndicator.style.color = 'white';
+		idxIndicator.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+		idxIndicator.style.borderRadius = '15px';
 	}
 	
 	return {
