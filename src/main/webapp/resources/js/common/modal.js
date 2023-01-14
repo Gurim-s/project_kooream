@@ -1,5 +1,5 @@
 /**
- * 
+ * modal 모듈입니다.
  */
 
 var modal = () => (function() {
@@ -59,12 +59,16 @@ var modal = () => (function() {
 		return modal;
 	}
 	
+	/*
+	 *	CSS
+	 **/
 	function setCss(option) {
 		body.style.overflow = 'hidden';
+		
 		container.style.width = '100%';
-		container.style.height = '100vh';
-		container.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-		container.style.position = 'absolute';
+		container.style.height = '100%';
+		container.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+		container.style.position = 'fixed';
 		container.style.top = '0';
 		container.style.left = '0';
 		

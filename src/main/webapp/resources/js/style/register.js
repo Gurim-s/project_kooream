@@ -17,6 +17,14 @@ import {imgFileUploader} from '../common/img-file-uploader.js';
 		form.submit();
 	});
 	
+})();
+
+function validation() {
+	
+	return ;
+}
+
+
 	//div 입력창 만드는 함수
 //	$('.editable').each(function(_, textDiv){
 //		if ($(textDiv).prop('tagName') == 'div') return;
@@ -32,9 +40,3 @@ import {imgFileUploader} from '../common/img-file-uploader.js';
 //	    this.contentEditable = true;
 //	});
 
-})();
-
-function validation() {
-	
-	return ;
-}

@@ -116,6 +116,10 @@ var imgFileUploader = (function() {
 //		slider.slideImg;
 	}
 	
+	function countFiles() {
+		return dataTransfer.items.length;
+	}
+	
 	async function uploadImageAjax(url) {
 		var formData = new FormData();
 		Array.from(dataTransfer.files)
@@ -130,7 +134,6 @@ var imgFileUploader = (function() {
 			str += '<input type="hidden" name="style_image['+i+'].fileName" value="'+image.fileName+'">' + 
 				   '<input type="hidden" name="style_image['+i+'].uuid" value="'+image.uuid+'">' +
 				   '<input type="hidden" name="style_image['+i+'].uploadPath" value="'+image.uploadPath+'">';
-			console.log(str);
 		});
 		return str;
 	}
@@ -206,6 +209,7 @@ var imgFileUploader = (function() {
 	return {
 		container: container,
 		uploadImageAjax: uploadImageAjax,
+		countFiles: countFiles,
 	};
 })();
 

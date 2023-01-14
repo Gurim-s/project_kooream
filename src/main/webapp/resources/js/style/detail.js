@@ -13,18 +13,7 @@ import {modal} from '../common/modal.js';
 	
 	let styleList = await styleService.get(category, style_no);
 	styleList.forEach(x => column.append(itemTemplate(x)));
-	
-	document.querySelector('.like')
-	.addEventListener('click', () => {
-		let m = modal();
-		m.open({title: '공감 목록'});
-	});
-	
-	document.querySelector('.comment')
-	.addEventListener('click', () => {
-		let m = modal();
-		m.open({title: '댓글 목록', type: 'right'});
-	})
+
 })();
 
 var itemTemplate = function(style) {
@@ -71,6 +60,18 @@ var itemTemplate = function(style) {
 	imgContainer.append(slider.container);
 	var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	slider.addList(imgSrcList);
+	
+	item.querySelector('.like')
+	.addEventListener('click', () => {
+		let m = modal();
+		m.open({title: '공감 목록'});
+	});
+	
+	item.querySelector('.comment')
+	.addEventListener('click', () => {
+		let m = modal();
+		m.open({title: '댓글 목록', type: 'right'});
+	});
 	
 	return item;
 }
