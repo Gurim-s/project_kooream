@@ -9,12 +9,12 @@ var modal = () => (function() {
 		width: '440px',
 		height: '500px',
 		backgroundColor: 'white',
-		borderRadius: '0px',
+		borderRadius: '20px',
 	}
 	var body = document.getElementsByTagName('body')[0];
 	var container = document.createElement('div');
-	var modal;
 	container.className = 'modal-container';
+	var modal;
 	
 	function open(customOption) {
 		var option = (customOption != undefined)? Object.assign(defaultOption, customOption) : defaultOption;
@@ -96,21 +96,27 @@ var modal = () => (function() {
 		modalHeader.style.position = 'relative';
 		
 		var title = modalHeader.querySelector('.modal-title');
+		title.style.marginTop = '5px';
 		title.style.width = '100%';
-		title.style.fontSize = '30px';
-		title.style.fontWeight = 'bold';
+		title.style.fontSize = '25px';
+		title.style.fontWeight = '500';
 		title.style.textAlign = 'center';
 		
 		var closeBtn = modalHeader.querySelector('.close-modal-btn');
 		closeBtn.style.position = 'absolute';
 		closeBtn.style.width = '25px';
 		closeBtn.style.height = '25px';
-		closeBtn.style.fontSize = '25px';
+		closeBtn.style.fontSize = '20px';
 		closeBtn.style.backgroundColor = 'inherit';
 		closeBtn.style.border = 'none';
 		closeBtn.style.top = '50%';
-		closeBtn.style.right = '5%';
-		closeBtn.style.transform = 'translate3d(50%, -50%, 0)';
+		if (option.type == 'center') {
+			closeBtn.style.right = '5%';
+			closeBtn.style.transform = 'translate3d(50%, -50%, 0)';
+		} else if (option.type == 'right') {
+			closeBtn.style.left = '5%';
+			closeBtn.style.transform = 'translate3d(50%, -50%, 0)';
+		}
 	}
 	
 	return {

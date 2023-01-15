@@ -76,7 +76,6 @@ var imgSlider = () => (function() {
 	}
 	
 	function add(imgSrc) {
-		console.log(imgSrc);
 		ul.innerHTML += '<li><img src="' + imgSrc + '"/></li>';
 		addIdx();
 		setDefaultCss();
@@ -146,6 +145,7 @@ var imgSlider = () => (function() {
 		//img-container 스타일
 		imgContainer.style.overflow = 'hidden';
 		imgContainer.style.position = 'relative';
+		
 		//ul 스타일
 		ul.style.minHeight = '400px';
 		ul.style.width = liAll.length * 100 + '%';

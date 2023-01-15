@@ -1,31 +1,28 @@
 import {imgFileUploader} from '../common/img-file-uploader.js';
 
 (function() {
-	var uploaderContainer = document.querySelector('.uploader-container');
-	
-	//파일 업로더 모듈 	
 	var uploader = imgFileUploader;
-	uploaderContainer.append(uploader.container);
+	document.querySelector('.uploader-container')
+	.append(uploader.container);
 	
 	document.querySelector('button[type="submit"]')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
 		var form = e.target.closest('form');
 		
+		// 이미지 파일 비동기 업로드하고, 업로드 정보를 받아온다.
 		var result = await imgFileUploader.uploadImageAjax('/uploadStyleImage');
 		form.innerHTML += result;
 		form.submit();
 	});
-	
 })();
 
 function validation() {
 	
-	return ;
+	return true;
 }
 
 
-	//div 입력창 만드는 함수
 //	$('.editable').each(function(_, textDiv){
 //		if ($(textDiv).prop('tagName') == 'div') return;
 //		
