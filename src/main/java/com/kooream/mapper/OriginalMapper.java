@@ -11,4 +11,7 @@ public interface OriginalMapper {
 	
 	// 정품 판별 게시글 작성
 	public void oriInsert(OriginalVO vo);
+	
+	//등록된 게시글의 orino(글번호) 가져오기
+	public int getOrino();
 }

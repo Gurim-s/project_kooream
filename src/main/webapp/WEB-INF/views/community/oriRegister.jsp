@@ -152,7 +152,7 @@
 				type : 'post',
 				dataType : 'json',
 				success : function(result) {
-					consloe.log(result);
+					console.log(result);
 					showUploadFile(result);
 				}
 			});
