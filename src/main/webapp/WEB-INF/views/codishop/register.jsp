@@ -195,18 +195,6 @@
             
          });// end uploadresult
 
-		
-		
-		
-		
-		
-		
-		
-	
-	
-	
-	
-	
 	
 	
 		function getImageFiles(e) {
@@ -262,31 +250,31 @@
 
 <style>
 li {
-      list-style: none;
-    }
+     list-style: none;
+}
 
-    img {
-      width: 200px;
-      height: 200px;
-    }
+img {
+  width: 200px;
+  height: 200px;
+}
 
-    .real-upload {
-      display: none;
-    }
+.real-upload {
+  display: none;
+}
 
-    .upload {
-      width: 200px;
-      height: 200px;
-      background-color: antiquewhite;
-    }
+.upload {
+  width: 200px;
+  height: 200px;
+  background-color: antiquewhite;
+}
 
-    .image-preview {
-      width: 1300px;
-      height: 200px;
-      background-color: aquamarine;
-      display: flex;
-      gap: 20px;
-    }
+.image-preview {
+  width: 1300px;
+  height: 200px;
+  background-color: aquamarine;
+  display: flex;
+  gap: 20px;
+}
 /* 테스트 */
 #textForm{
 	  width: 70%;
