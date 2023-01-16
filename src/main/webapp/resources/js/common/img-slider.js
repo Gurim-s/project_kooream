@@ -1,5 +1,6 @@
 /**
  * img-slider 모듈입니다.
+ * 
  */
 
 var imgSlider = () => (function() {

@@ -5,16 +5,25 @@ import {imgFileUploader} from '../common/img-file-uploader.js';
 	document.querySelector('.uploader-container')
 	.append(uploader.container);
 	
-	document.querySelector('button[type="submit"]')
-	.addEventListener('click', async (e) => {
-		e.preventDefault();
-		var form = e.target.closest('form');
+	document.querySelectorAll('a.next-step')
+	.forEach(x => x.addEventListener('click', (e) => {
+		const target = e.target.closest('#register-list');
+		const steps = ['first-step', 'second-step', 'third-step'];
+		console.log(target.className);
 		
-		// 이미지 파일 비동기 업로드하고, 업로드 정보를 받아온다.
-		var result = await imgFileUploader.uploadImageAjax('/uploadStyleImage');
-		form.innerHTML += result;
-		form.submit();
-	});
+		target.className = steps[steps.indexOf(target.className)+1];
+	}));
+	
+//	document.querySelector('button[type="submit"]')
+//	.addEventListener('click', async (e) => {
+//		e.preventDefault();
+//		var form = e.target.closest('form');
+//		
+//		// 이미지 파일 비동기 업로드하고, 업로드 정보를 받아온다.
+//		var result = await imgFileUploader.uploadImageAjax('/uploadStyleImage');
+//		form.innerHTML += result;
+//		form.submit();
+//	});
 })();
 
 function validation() {

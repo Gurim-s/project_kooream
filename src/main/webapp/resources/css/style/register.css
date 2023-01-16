@@ -5,6 +5,7 @@
 }
 .form-wrapper {
 	max-width: 600px;
+	overflow: hidden;
 	margin: 50px auto;
 }
 .form-wrapper h2 {
@@ -13,7 +14,86 @@
 .uploader-container {
 	margin: 10px;
 }
-.uploader-container .preview-list li {
+
+.form-wrapper #register-list {
+	width: 1800px;
+	height: 800px;
+	position: relative;
+	transition: 0.5s;
+}
+.form-wrapper #register-list.first-step {
+	left: 0px;
+}
+.form-wrapper #register-list.second-step {
+	left: -600px;
+}
+.form-wrapper #register-list.third-step {
+	left: -1200px;
+}
+.form-wrapper #register-list>li {
+	width: 600px;
+	float: left;
+}
+.form-wrapper #register-list .btn-container {
+	width: 100%;
+	float: left;
+}
+.form-wrapper #register-list .btn-container .next-step{
+	width: 120px;
+	height: 30px;
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 10px;
+	font-size: 20px;
+	text-align: center;
+	line-height: 30px;
+	float: right;
+}
+#selectRatio {
+	text-align: center;
+}
+#selectImg>#selectRatio li{
+	position: relative;
+	display: inline-block;
+	border: 2px solid black;
+}
+#selectImg>#selectRatio li div{
+	width: 30px;
+	text-align: center;
+	position: relative;
+	top: 50%;
+	left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+#selectImg>#selectRatio li:hover{
+	cursor: pointer; 
+}
+#selectImg>#selectRatio li:not(:last-of-type){
+	margin-right: 20px;
+}
+#selectImg>#selectRatio li[data-ratio="1"]{
+	width: 50px;
+	height: 50px;
+}
+#selectImg>#selectRatio li[data-ratio="3/4"] {
+	width: 42px;
+	height: 56px;
+}
+#selectImg>#selectRatio li[data-ratio="4/3"] {
+	width: 64px;
+	height: 48px;
+}
+#selectImg>#selectRatio li.selected {
+	background-color: black;
+	color: white;
+}
+#selectImg>#selectRatio li.selected div{
+	color: inherit;
+}
+
+
+
+/* .uploader-container .preview-list li {
 	float: left;
 	position: relative;
 	width: 100px;
@@ -38,14 +118,14 @@
 	right: 5%;
 	width: 15px;
 	height: 15px;
-}
-.form-wrapper form .input-image-btn {
+} */
+/* .form-wrapper form .input-image-btn {
 	display: block;
 	width: 100px;
 	height: 100px;
 	border-radius: 10px;
-}
-.editable {
+} */
+/* .editable {
 	width: 650px;
 	height: 150px;
 	float: right;
@@ -53,7 +133,7 @@
 	border: 1px solid black;
 	border-radius: 5px;
 	padding: 5px;
-}
+} */
 .form-wrapper form textarea {
 	max-width: 580px;
 	width: 100%;

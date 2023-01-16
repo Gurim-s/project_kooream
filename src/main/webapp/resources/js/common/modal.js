@@ -1,5 +1,6 @@
 /**
  * modal 모듈입니다.
+ * 
  */
 
 var modal = () => (function() {

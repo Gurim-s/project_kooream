@@ -12,12 +12,14 @@ import {modal} from '../common/modal.js';
 	const column = document.querySelector('.list-column');
 	
 	let styleList = await styleService.get(category, style_no);
-	styleList.forEach(x => column.append(item(x)));
-
+	styleList.forEach(x => column.append(template(x)));
 })();
 
-var item = function(style) {
-	var html = (
+//style목록 template
+var template = function(style) {
+	var template = document.createElement('div'); 
+	template.className = 'item';
+	template.innerHTML = (
 		'<div class="item-header clearfix">' +
 			'<div class="item-header-left">' +
 				'<div class="profile-image">'+
@@ -29,8 +31,8 @@ var item = function(style) {
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
-				'<button class="follow-btn" data-user-no="'+style.m_no+'">팔로우</button>' +
-				'<button class="update">수정</button>' +
+				'<a href="#" class="follow-btn" data-user-no="'+style.m_no+'">팔로우</a>' +
+				'<a href="#" class="update-btn">수정</a>' +
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
@@ -51,12 +53,9 @@ var item = function(style) {
 		'<div class="reply-container">'+
 		'</div>'
 	);
-	var item = document.createElement('div'); 
-	item.className = 'item';
-	item.innerHTML += html;
 	
 	//이미지 슬라이더 모듈 가져오기
-	var imgContainer = item.querySelector('.img-container');
+	var imgContainer = template.querySelector('.img-container');
 	var slider = imgSlider();
 	imgContainer.append(slider.container);
 	var imgSrcList = style.style_image.map(x => imgService.originPath(x));
@@ -65,19 +64,28 @@ var item = function(style) {
 	/***********************************
 	 * addEventListener
 	 **********************************/
-	item.querySelector('.like-summary')
+	template.querySelector('.like-summary')
 	.addEventListener('click', (e) => {
 		e.preventDefault();
+		
 		let m = modal();
 		m.open({title: '공감 목록'});
 	});
 	
-	item.querySelector('.comment-summary')
+	template.querySelector('.comment-summary')
 	.addEventListener('click', (e) => {
 		e.preventDefault();
+		
 		let m = modal();
 		m.open({title: '댓글 목록', type: 'right'});
 	});
 	
-	return item;
+	template.querySelector('.update-btn')
+	.addEventListener('click', (e) => {
+		e.preventDefault();
+		
+		location.href = '/style/update?style_no=' + style.style_no;
+	});
+	
+	return template;
 }
