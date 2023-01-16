@@ -12,33 +12,37 @@
 	margin: 20px auto 10px 10px;
 }
 .uploader-container {
-	margin: 10px;
+/* 	margin: 10px; */
 }
-
-.form-wrapper #register-list {
+#register-list {
 	width: 1800px;
 	height: 800px;
 	position: relative;
 	transition: 0.5s;
 }
-.form-wrapper #register-list.first-step {
+#register-list.first-step {
 	left: 0px;
 }
-.form-wrapper #register-list.second-step {
+#register-list.second-step {
 	left: -600px;
 }
-.form-wrapper #register-list.third-step {
+#register-list.third-step {
 	left: -1200px;
 }
-.form-wrapper #register-list>li {
+#register-list>li {
 	width: 600px;
 	float: left;
 }
-.form-wrapper #register-list .btn-container {
+#register-list .btn-container {
 	width: 100%;
 	float: left;
 }
-.form-wrapper #register-list .btn-container .next-step{
+#register-list li:not(:first-of-type) .btn-container {
+	margin-bottom: 30px;
+}
+#register-list .btn-container .next-step,
+#register-list .btn-container .prev-step,
+#register-list .btn-container #submit {
 	width: 120px;
 	height: 30px;
 	background-color: white;
@@ -47,7 +51,13 @@
 	font-size: 20px;
 	text-align: center;
 	line-height: 30px;
-	float: right;
+}
+#register-list .btn-container .next-step,
+#register-list .btn-container #submit {
+	float: right;	
+}
+#register-list .btn-container .prev-step {
+	float: left;
 }
 #selectRatio {
 	text-align: center;
@@ -90,41 +100,6 @@
 #selectImg>#selectRatio li.selected div{
 	color: inherit;
 }
-
-
-
-/* .uploader-container .preview-list li {
-	float: left;
-	position: relative;
-	width: 100px;
-	height: 100px;
-	margin: 0 10px 10px 0;
-	background-color: #ddd;
-	margin-top: 10px;
-	overflow: hidden;
-}
-.uploader-container .preview-list li img {
-	position: relative;
-	top: 50%;
-	left: 50%;
-	max-width: 100%;
-	max-height: 100%;
-	object-fit: contain;
-	transform: translate3d(-50%, -50%, 0);
-}
-.uploader-container .preview-select li button {
-	position: absolute;
-	top: 5%;
-	right: 5%;
-	width: 15px;
-	height: 15px;
-} */
-/* .form-wrapper form .input-image-btn {
-	display: block;
-	width: 100px;
-	height: 100px;
-	border-radius: 10px;
-} */
 /* .editable {
 	width: 650px;
 	height: 150px;

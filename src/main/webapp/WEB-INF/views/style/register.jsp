@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/style/register.css'/>">
-	<link rel="stylesheet" type="text/css" href="">
 	<div id="title">
 		<h1>STYLE 등록</h1>
 	</div>
@@ -33,12 +32,14 @@
 						<a href="#" class="prev-step">뒤로</a>
 						<a href="#" class="next-step">다음</a>
 					</div>
+					<div class="clearfix"></div>
 					<div class="img-slider-container"></div>
+					<div class="product-tag"></div>
 				</li>
 				<li id="inputContent">
 					<div class="btn-container">
-						<a href="#" class="next-step">뒤로</a>
-						<a href="#" id="submit" class="next-step">완료</a>
+						<a href="#" class="prev-step">뒤로</a>
+						<a href="#" id="submit">완료</a>
 					</div>
 					<textarea name="content" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
 <!-- 				<div class="editable textarea" contenteditable="true"></div> -->

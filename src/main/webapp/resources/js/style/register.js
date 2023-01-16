@@ -1,17 +1,24 @@
 import {imgFileUploader} from '../common/img-file-uploader.js';
+import {imgSlider} from '../common/img-slider.js';
 
 (function() {
 	var uploader = imgFileUploader;
+	var slider = imgSlider();
 	document.querySelector('.uploader-container')
 	.append(uploader.container);
+	document.querySelector('.img-slider-container')
+	.append(slider.container);
 	
-	document.querySelectorAll('a.next-step')
+	document.querySelectorAll('a.next-step, a.prev-step')
 	.forEach(x => x.addEventListener('click', (e) => {
-		const target = e.target.closest('#register-list');
+		e.preventDefault();
+		const register = e.target.closest('#register-list');	
 		const steps = ['first-step', 'second-step', 'third-step'];
-		console.log(target.className);
+		const newStep = e.target.className == 'next-step'
+					? steps.indexOf(register.className)+1 
+					: steps.indexOf(register.className)-1;
 		
-		target.className = steps[steps.indexOf(target.className)+1];
+		register.className = steps[newStep];
 	}));
 	
 //	document.querySelector('button[type="submit"]')
