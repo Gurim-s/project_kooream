@@ -44,7 +44,7 @@
 						<input type="number" name="codi_Kg" id="textForm2">
 				</div>
 				<div class="row">
-					<span class="title_content">사진 등록</span>
+					<div><span class="title_content">사진 등록</span></div>
 			<!-- 		<div class="codi-image">
 						<input type="file" name="uploadFile" multiple="multiple" accept="image/jpeg, image/gif, image/png">
 					</div>
@@ -52,9 +52,10 @@
 					
 				<div class="img-test">
 				 <input type="file" class="real-upload" accept="image/*" required multiple>
-				  <div class="upload"></div>
-				  <ul class="image-preview"></ul>
-					
+				  <div class="upload">Upload</div>
+				  <div class="image_box">
+					  <ul class="image-preview"></ul>
+				  </div>
 				</div>		
 					
 					
@@ -75,6 +76,11 @@
 	</div> <!-- codi_box ........... end -->
 <script type="text/javascript">
 	$(function() {
+		// 이미지 클릭시 제거 
+		 $(".photo").click(function () {
+        	$(this).remove();
+    	});
+		
 		
 		// 폼 오브젝트 만들기
 		var formObj = $("form[role='form']");
@@ -157,7 +163,7 @@
 		}); // ("input[type='file']") end
 		
 		// 업로드 후 파일 화면에 보여주기 
-		var uploadResult = $(".uploadResult ul");
+		/* var uploadResult = $(".uploadResult ul");
 		function showUploadFile(uploadResultArr) {
 			var str = '';
 			
@@ -194,7 +200,7 @@
             });
             
          });// end uploadresult
-
+ */
 	
 	
 		function getImageFiles(e) {
@@ -230,8 +236,10 @@
 
 	    function createElement(e, file) {
 	      const li = document.createElement('li');
+	      li.style.display = 'block';
 	      const img = document.createElement('img');
 	      img.setAttribute('src', e.target.result);
+	      img.setAttribute('class', 'photo');
 	      img.setAttribute('data-file', file.name);
 	      li.appendChild(img);
 
@@ -249,31 +257,48 @@
 </script>
 
 <style>
-li {
-     list-style: none;
+
+.image_box{
+	width: 100%;
+	height: 200px;
+}
+ul li {
+    float: left;
+    list-style: none;
+    margin: 5px 10px;
 }
 
-img {
-  width: 200px;
-  height: 200px;
+
+li img{
+  	list-style: none;
+  	width: 100px;
+  	height: 100px;
+}
+
+.div img {
+	padding: 5px;
+  	width: 100px;
+ 	height: 100px;
 }
 
 .real-upload {
-  display: none;
+  	display: none;
 }
 
 .upload {
-  width: 200px;
-  height: 200px;
-  background-color: antiquewhite;
+  	width: 100px;
+  	height: 40px;
+  	line-height: 40px;
+  	text-align:center;
+  	display: block;
+  	border: 1px solid #ebebeb;
 }
 
 .image-preview {
-  width: 1300px;
-  height: 200px;
-  background-color: aquamarine;
-  display: flex;
-  gap: 20px;
+  	width: 399px;
+  	background-color: aquamarine;
+  	/* display: flex; */
+  	gap: 20px;
 }
 /* 테스트 */
 #textForm{
