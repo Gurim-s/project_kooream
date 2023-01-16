@@ -54,7 +54,7 @@ public class RntReservationController {
 	@ResponseBody
 	public ResponseEntity<List<RntRsvtVO>> rentalList(RntRsvtVO vo) {
 		RntRsvtVO rvo = service.getRsvt(vo);
-		return new ResponseEntity<List<RntRsvtVO>>(rvo, HttpStatus.OK);
+		return new ResponseEntity<List<RntRsvtVO>>(HttpStatus.OK);
 	}
 	
 }

@@ -12,7 +12,7 @@ public interface BrandProductUploadMapper{
 
 	public int uploadFile(AttachFileVO vo);		// 파일 업로드
 	
-	public int removeFile(String getUuid);		// 파일 삭제
+	public int removeFile(String uuid);		// 파일 삭제
 	
 	public List<AttachFileVO> findByPno(int p_no);	// 
 }
