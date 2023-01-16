@@ -129,7 +129,7 @@
 	</div>
 	
 	<script type="text/javascript">
-// 수정할 때 첨부파일 추가 삭제	-> 첨부파일은 수정이란 의미는 없고 추가아니면 삭제// 수정은 미완성
+
 		
 // 사이즈 선택-----------------------------------------------------------------
 
@@ -161,8 +161,8 @@
 			$('.B_Category').hide();
 			$('.S_Category').hide();	
 		};
-	});
-//사이즈 선택 끝-----------------------------------------------------------	
+	});//사이즈 선택 끝-----------------------------------------------------------	
+
 
 	$(function(){
 		var operForm = $("#operForm");
@@ -191,9 +191,9 @@
 		});
 		
 		$.ajax({
-			url : '/brandshop/getList',
+			url : '/brandshop/getAttachList',
 			type : 'get',
-			data : "json",
+			data : {p_no:p_noValue},
 			contentType : 'application/json; charset=utf-8',
 			success : function (arr) {				// 리스트로 넘어옴
 				console.log(arr);
@@ -209,12 +209,14 @@
 		               
 		               //console.log(fileCallPath);
 		               
-		               str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+		              str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
 		              // str += '<a href="/download?fileName='+fileCallPath+'">';	// 다운로드에 매개변수 던지는 중
-		               str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
+		              str += '<br/>'
+		              str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+		              // str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>'; 리스트형태 + 이미지 보여줌
 		              // str += '</a>';
-		               str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
-		               str += '</li>';
+		              str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
+		              str += '</li>';
 		            }
 		           	
 		           $(".uploadResult ul").html(str);	

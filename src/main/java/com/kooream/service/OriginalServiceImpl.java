@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.OriginalAttachVO;
 import com.kooream.domain.OriginalBrandVO;
@@ -35,11 +36,24 @@ public class OriginalServiceImpl implements OriginalService {
 	}
 	
 	// 정품판별 게시글 작성
+	@Transactional
 	@Override
 	public void oriRegister(OriginalVO vo) {
 		log.info("ori register......" + vo);
 		
 		mapper.oriInsert(vo);
+		
+		// 첨부파일 테이블에 넣기 위해 인서트된 게시글의 글번호(orino)을 가져오기
+		int orino = mapper.getOrino();
+		System.out.println("get orino............" + orino);
+		
+		//첨부 파일 테이블에 데이터 삽입
+		if(vo.getAttachList() != null && vo.getAttachList().size() > 0) {
+			for(OriginalAttachVO vo2 : vo.getAttachList()) {
+				vo2.setOrino(orino);
+				attachMapper.insert(vo2);
+			}
+		}
 	}
 	
 	// 첨부파일

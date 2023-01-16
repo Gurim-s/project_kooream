@@ -117,7 +117,7 @@
 		<!-- index가 1 부터 list 끝까지 / get안에 index를 넣어서 그 길이만큼 for문 돌리기   -->
 			<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
 				<c:param name="fileName" value="${attachDate.uploadPath }/${attachDate.uuid }_${attachDate.fileName }"></c:param>	
-			</c:url>
+			</c:url> <!-- if문  -->
 			<img alt="상품이미지" src="${imgSrc }" style="float: center;">
 		</c:forEach>
 		

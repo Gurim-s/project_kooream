@@ -29,8 +29,8 @@
 	width: 100%;
 }
 #styleList .list-column{
-	width: calc(25% - 15px);
-	margin-right: 20px;
+	width: calc(25% - 21px);
+	margin-right: 28px;
 	float: left;
 }
 #styleList .list-column:last-child {
