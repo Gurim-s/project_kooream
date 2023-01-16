@@ -1,19 +1,23 @@
 import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
+import {modal} from '../common/modal.js';
 
 (async () => {
-	var column = document.querySelector('.list-column');
-	
+	/*
+	 * 페이지 로드
+	 **/
 	const searchParams = new URLSearchParams(location.search);
 	const [category, style_no] = Array.from(searchParams).map(x => x[1]);
+	const column = document.querySelector('.list-column');
 	
 	let styleList = await styleService.get(category, style_no);
-	styleList.forEach(x => column.append(itemTemplate(x)));
+	styleList.forEach(x => column.append(item(x)));
+
 })();
 
-var itemTemplate = function(style) {
-	var str = (
+var item = function(style) {
+	var html = (
 		'<div class="item-header clearfix">' +
 			'<div class="item-header-left">' +
 				'<div class="profile-image">'+
@@ -30,25 +34,26 @@ var itemTemplate = function(style) {
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
-		'<div class="summary">' +
-			'<div class="comment-like">'+
-				'<div class="like">' +
-					'<img src="/resources/img/like.svg" alt="공감"/>' +
-				'</div>' +
-				'<div class="comment">' +
-					'<img src="/resources/img/comment.svg" alt="댓글"/>' +
-				'</div>' +
-				'<div class="clearfix"></div>' +
-			'</div>' + 
+		'<div class="product-container">'+
+		'</div>' +
+		'<div class="comment-like-summary">'+
+			'<a href="#" class="like-summary">' +
+				'<img src="/resources/img/like.svg" alt="공감"/>' +
+				'<span>'+ style.count_like +'</span>'+ 
+			'</a>' +
+			'<a href="#" class="comment-summary">' +
+				'<img src="/resources/img/comment.svg" alt="댓글"/>' +
+				'<span>'+ style.count_comment +'</span>'+ 
+			'</a>' +
+			'<div class="clearfix"></div>' +
 		'</div>' + 
-		'<div class="like-cnt">공감 '+ style.count_like +'개</div>' +
-		'<div class="comment-cnt">댓글 '+ style.count_comment+'개</span>' +
-		'<div class="content"></div>'
+		'<div class="content">'+ style.style_content +'</div>' +
+		'<div class="reply-container">'+
+		'</div>'
 	);
-	
 	var item = document.createElement('div'); 
 	item.className = 'item';
-	item.innerHTML += str;
+	item.innerHTML += html;
 	
 	//이미지 슬라이더 모듈 가져오기
 	var imgContainer = item.querySelector('.img-container');
@@ -56,6 +61,23 @@ var itemTemplate = function(style) {
 	imgContainer.append(slider.container);
 	var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	slider.addList(imgSrcList);
+	
+	/***********************************
+	 * addEventListener
+	 **********************************/
+	item.querySelector('.like-summary')
+	.addEventListener('click', (e) => {
+		e.preventDefault();
+		let m = modal();
+		m.open({title: '공감 목록'});
+	});
+	
+	item.querySelector('.comment-summary')
+	.addEventListener('click', (e) => {
+		e.preventDefault();
+		let m = modal();
+		m.open({title: '댓글 목록', type: 'right'});
+	});
 	
 	return item;
 }
