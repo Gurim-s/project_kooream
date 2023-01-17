@@ -41,7 +41,7 @@
 						<input type="number" name="codi_cm" id="textForm2">
 						
 					<span class="model_info">무게 : </span>
-						<input type="number" name="codi_Kg" id="textForm2">
+						<input type="number" name="codi_kg" id="textForm2">
 				</div>
 				<div class="row">
 					<div><span class="title_content">사진 등록</span></div>
@@ -124,8 +124,8 @@
 			      	alert("키를 입력해 주십시오.");
 			      	return false;
 				  };
-				 if(codi_register.codi_Kg.value == "" ) {
-					codi_register.codi_Kg.focus();
+				 if(codi_register.codi_kg.value == "" ) {
+					codi_register.codi_kg.focus();
 			      	alert("몸무계를 입력해 주십시오.");
 			      	return false;
 				  };
