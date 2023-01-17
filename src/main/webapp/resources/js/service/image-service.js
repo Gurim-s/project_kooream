@@ -16,8 +16,7 @@ var imgService = (function() {
 		var imageVOList = await fetch(url, {
 			method: 'POST',
 			body: formData,
-		})
-		.then((response) => response.json());
+		}).then((response) => response.json());
 		
 		return imageVOList;
 	}

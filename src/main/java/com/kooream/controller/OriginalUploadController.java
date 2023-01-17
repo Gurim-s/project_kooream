@@ -100,6 +100,7 @@ public class OriginalUploadController {
 			UUID uuid = UUID.randomUUID();
 			
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
+			log.info(uuid);
 			
 			try {
 				File saveFile = new File(uploadPath, uploadFileName);
@@ -107,6 +108,9 @@ public class OriginalUploadController {
 				
 				attachVO.setUuid(uuid.toString());
 				attachVO.setUploadPath(uploadFolderPath);
+				
+				log.info(saveFile);
+				
 				
 				list.add(attachVO);
 				

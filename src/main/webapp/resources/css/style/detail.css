@@ -52,21 +52,27 @@
 }
 .item .item-header-right button{
 	float: left;
-	height: 36px;
+	height: 30px;
 	width: 100px;
 	background-color: black;
 	font-weight: bold;
 	color: white;
-	border-radius: 18px;
+	border-radius: 13px;
 }
-.item .summary .comment-like .comment,
-.item .summary .comment-like .like {
+.item .comment-like-summary .comment-summary,
+.item .comment-like-summary .like-summary {
 	float: left;
-}
-.item .summary .comment-like .comment img,
-.item .summary .comment-like .like img {
-	width: 35px;
 	margin-right: 20px;
+}
+.item .comment-like-summary .comment-summary img,
+.item .comment-like-summary .like-summary img {
+	width: 30px;
+	margin-right:5px;
+}
+.item .comment-like-summary .comment-summary span,
+.item .comment-like-summary .like-summary span {
+	font-size: 24px;
+/* 	font-weight: bold; */
 }
 .item .like-cnt,
 .item .comment-cnt {
