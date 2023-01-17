@@ -102,9 +102,11 @@
 					str += '<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'" >'; 
 				});
 				
+				
+				
 				form.append(str);				
 				form.submit();
-			}
+			} 
 			
 		});
 		
@@ -132,6 +134,7 @@
 			var formData = new FormData();	// 스크립트에서 새로운 Form 태그 생성
 			var inputFile = $("input[name='uploadFile']");	// 업로드 할 파일 태그 부분
 			var files = inputFile[0].files;
+			
 			
 			// 파일을 여러 개 첨부할 수 있기 때문에 첨부한 파일 위에 만든 함수로 검증
 			for(var i=0; i<files.length; i++){

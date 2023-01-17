@@ -33,7 +33,7 @@
 		float: right;
 	}
 	table{
-		padding-left: 150px;
+		padding-left: 0px;
 		width: 1000px;
 	}
 	hr{
@@ -48,6 +48,7 @@
 	#bp{
 		height: 25px;
 	}
+	
 </style>
 </head>
 <body>
@@ -77,7 +78,14 @@
 			<table>
 				<c:forEach var="vo" items="${list }">
 					<tr>
-						<td rowspan="3">썸네일</td>
+						<td rowspan="3">
+							<c:if test="${vo.attachList.size() ne 0 }">
+								<c:url var="imgSrc" value="/display">
+									<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
+								</c:url>
+								<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
+							</c:if>
+						</td>
 						<td>${vo.brandname }</td>
 						<td rowspan="3">${vo.oriname }</td>
 					</tr>
@@ -85,7 +93,7 @@
 						<td>${vo.orititle }</td>
 					</tr>
 					<tr>
-						<td>${vo.oricon }</td>
+						<td id="content">${vo.oricon }</td>
 					</tr>
 					<tr id="bp"><td></td></tr>
 				</c:forEach>
