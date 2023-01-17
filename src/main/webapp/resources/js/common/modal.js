@@ -22,10 +22,10 @@ var modal = () => (function() {
 		
 		body.append(container);
 		modal = createModal();
-		container.append(modal);
 		modal.querySelector('.modal-title').innerHTML = option.title;
-		setCss(option);
+		container.append(modal);
 		setEventListener();
+		setCss(option);
 	}
 	
 	function close() {
@@ -34,13 +34,18 @@ var modal = () => (function() {
 	}
 	
 	function append(element) {
-		container.append(element)
+		const div = document.createElement('div');
+		div.innerHTML = element;
+		modal.append(div);
 	}
 	
 	function setEventListener() {
-		var closeBtn = modal.querySelector('.modal-header .close-modal-btn');
-		closeBtn.addEventListener('click', () => close());
-		
+		document.querySelector('.modal-header .close-modal-btn')
+		.addEventListener('click', (e) => {
+			e.preventDefault();
+			close();
+		});
+
 		//모달창 밖의 영역을 클릭하면 모달 종료
 		body.addEventListener('click', (e) => {
 			if (e.target.className == 'modal-container') close();
@@ -48,16 +53,16 @@ var modal = () => (function() {
 	}
 	
 	function createModal() {
-		var modal = document.createElement('div');
-		var modalHeader = document.createElement('div');
+		const container = document.createElement('div');
+		const modalHeader = document.createElement('div');
 		modalHeader.className = 'modal-header';
-		var modalBody = document.createElement('div');
-		modal.append(modalHeader);
-		modal.append(modalBody);
+		const modalBody = document.createElement('div');
+		container.append(modalHeader);
+		container.append(modalBody);
 		modalHeader.innerHTML = ('<div class="modal-title">title</div>' +
-								 '<a class="close-modal-btn">X</a>');
+								 '<a href="#" class="close-modal-btn">X</a>');
 		
-		return modal;
+		return container;
 	}
 	
 	/*

@@ -10,10 +10,25 @@ const reply = (rno) => (function(rno) {
 	function init() {
 		const replyList = replyService.getList(rno);
 		replyList.forEach(reply => templage(reply));
-		
 	}
 	
-	function template(reply) {
+	function inputTemplate() {
+		const item = document.createElement('div');
+//		/*로그인 기능 추가 후에 수정*/
+		item.innerHTML = (
+			'<div class="profile-img">'+
+				'<img src="/resources/img/codi_test.png" />' +
+			'</div>' +
+			'<div class="input-reply">' +
+				'<input type="text" name="content" value="11">' +
+				'<a href="#" class="add-reply">등록</a>' +
+			'</div>'
+		);
+		
+		return item;
+	}
+	
+	function listTemplate(reply) {
 		const template = document.createElement('li');
 		template.dataset.rno = reply.rno;
 		template.innerHTML = `
@@ -51,22 +66,5 @@ const reply = (rno) => (function(rno) {
 		container: container,
 	}
 })(rno);
-
-const replyInput = (memberNo) => (function() {
-	function template() {
-		const item = document.createElement('div');
-		item.innerHTML = `
-			<form action="" method="post">
-				<input type="hidden" name="mno" value="${memberNo}">
-				
-			</form>
-		`;
-	}
-	
-	return {
-		container: container,
-		
-	}
-}());
 
 export {reply}

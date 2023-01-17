@@ -31,19 +31,30 @@ async function getList(pageNum, amount) {
 
 function item(style) {
 	var str =(
-		'<a href="/style/detail?category=hot&style_no='+style.style_no+'">' +
+		'<a class="card-link" href="/style/detail?category=hot&style_no='+style.style_no+'">' +
 			'<div class="card">' +
 				'<div class="img-container">' +
 					'<img src="'+imgService.originPath(style.style_image[0])+'"/>' +
 				'</div>' +
-				'<div class="summary">' +
+				'<div class="info">' +
 					'<div class="user_info">' +
-						'<div class="profile"><img src="" /></div>' +
+						'<div class="profile"><img src="/resources/img/codi_test.png" /></div>' +
 						'<div class="user_id">김씨</div>'+
 					'</div>' +
+					'<div class="social_info">' +
+						'<div class="like">' +
+							'<img src="/resources/img/like.svg" alt="공감"/>' +
+							'<span>'+ style.count_like +'</span>'+
+						'</div>' + 
+						'<div class="comment">' +
+							'<img src="/resources/img/comment.svg" alt="댓글"/>' +
+							'<span>'+ style.count_comment +'</span>'+
+						'</div>' + 
+					'</div>' +
+					'<div class="clearfix"></div>' +
 				'</div>' +
-				'<div class="content">안녕하세용 ㅎㅎ;</div>' +
-			'<div>' +
+				'<div class="content">'+ style.style_content +'</div>' +
+			'</div>' +
 		'</a>'
 	);
 	

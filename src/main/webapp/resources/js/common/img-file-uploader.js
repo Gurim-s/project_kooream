@@ -7,11 +7,12 @@ import {imgSlider} from '../common/img-slider.js';
 import {imgService} from '../service/image-service.js';
 
 var imgFileUploader = (function() {
-	var container = document.createElement('div');
-	var tempInput = createTempInput();
-	var previewList = createImgPreview();
-	var slider = imgSlider();
-	var dataTransfer = new DataTransfer();
+	const container = document.createElement('div');
+	const tempInput = createTempInput();
+	const previewList = createImgPreview();
+	const slider = imgSlider();
+	const option = {};
+	let dataTransfer = new DataTransfer();
 	
 	init();
 	function init() {
@@ -74,6 +75,9 @@ var imgFileUploader = (function() {
 	/* ========================
 	 * Method
 	 * ========================*/
+	function setURL(url) {
+		option.uploadURL = url;
+	}
 	function addTempFile(target) {
 		var files = target.files;
 		
@@ -99,7 +103,7 @@ var imgFileUploader = (function() {
 	
 	function pushPreview(file) {
 		var src = URL.createObjectURL(file);
-		
+
 		var li = document.createElement('li');
 		li.innerHTML = '<img src="'+src+'"/>' +
 					   '<button class="remove-img-btn"></button>';
@@ -120,14 +124,14 @@ var imgFileUploader = (function() {
 		return dataTransfer.items.length;
 	}
 	
-	async function uploadImageAjax(url) {
+	async function uploadImageAjax() {
 		var formData = new FormData();
 		Array.from(dataTransfer.files)
 		.forEach((file) => {
 			formData.append("uploadFile", file);
 		});
-
-		var uploadResult = await imgService.uploadImageAjax(url, formData);
+		
+		var uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
 		var str ='';
 		Array.from(uploadResult)
 		.forEach((image, i) => {
@@ -135,6 +139,7 @@ var imgFileUploader = (function() {
 				   '<input type="hidden" name="style_image['+i+'].uuid" value="'+image.uuid+'">' +
 				   '<input type="hidden" name="style_image['+i+'].uploadPath" value="'+image.uploadPath+'">';
 		});
+		console.log(str);
 		return str;
 	}
 	
@@ -210,6 +215,8 @@ var imgFileUploader = (function() {
 		container: container,
 		uploadImageAjax: uploadImageAjax,
 		countFiles: countFiles,
+		setURL: setURL,
+		option: option,
 	};
 })();
 

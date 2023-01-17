@@ -4,9 +4,6 @@ import {imgSlider} from '../common/img-slider.js';
 import {modal} from '../common/modal.js';
 
 (async () => {
-	/*
-	 * 페이지 로드
-	 **/
 	const searchParams = new URLSearchParams(location.search);
 	const [category, style_no] = Array.from(searchParams).map(x => x[1]);
 	const column = document.querySelector('.list-column');
@@ -70,6 +67,7 @@ var template = function(style) {
 		
 		let m = modal();
 		m.open({title: '공감 목록'});
+		m.append('helloWorld');
 	});
 	
 	template.querySelector('.comment-summary')
@@ -78,6 +76,7 @@ var template = function(style) {
 		
 		let m = modal();
 		m.open({title: '댓글 목록', type: 'right'});
+		m.append('<a href="#">helloWorld</a>');
 	});
 	
 	template.querySelector('.update-btn')

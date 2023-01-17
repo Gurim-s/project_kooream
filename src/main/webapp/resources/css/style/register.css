@@ -52,6 +52,9 @@
 	text-align: center;
 	line-height: 30px;
 }
+#register-list .btn-container .next-step.not-yet:hover{
+	cursor: default;
+}
 #register-list .btn-container .next-step,
 #register-list .btn-container #submit {
 	float: right;	

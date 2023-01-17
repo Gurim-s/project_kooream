@@ -12,8 +12,9 @@
 			<ul id="register-list" class="first-step">
 				<li id="selectImg">
 					<div class="btn-container">
-						<a href="#" class="next-step">다음</a>
+						<a href="#" class="next-step not-yet">다음</a>
 					</div>
+					<input type="hidden" name="image_ratio" value="1:1">
 					<ul id="selectRatio">
 						<li data-ratio="1" class="selected">
 							<div>1:1</div>
@@ -41,7 +42,7 @@
 						<a href="#" class="prev-step">뒤로</a>
 						<a href="#" id="submit">완료</a>
 					</div>
-					<textarea name="content" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
+					<textarea name="style_content" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
 <!-- 				<div class="editable textarea" contenteditable="true"></div> -->
 					<div class="recommend-tags"></div>
 				</li>

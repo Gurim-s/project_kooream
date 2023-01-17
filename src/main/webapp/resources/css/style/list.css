@@ -36,9 +36,55 @@
 #styleList .list-column:last-child {
 	margin-right: 0px;
 }
-.card {
+#styleList .list-column .card {
 	width: 100%;
+}
+.card-link:not(:first-child) .card{
+	margin-top: 50px;
+}
+.card .img-container {
+	margin-bottom: 3px;
 }
 .card .img-container img{
 	width: 100%;
+	border-radius: 10px;
+}
+.card .info .user_info {
+	height: 30px;
+	float:left;
+}
+.card .info .user_info>div {
+	float:left;
+	margin-left: 5px;	
+}
+.card .info .user_info .profile {
+	height: 100%;
+}
+.card .info .user_info .profile img {
+	width: 30px;
+	height: 100%;
+	border-radius: 50%;
+}
+.card .info .user_info .user_id {
+	height: 100%;
+	line-height: 30px;
+	font-weight: 550;
+	color: #777;
+}
+.card .info .social_info {
+	height: 30px;
+	float: right;
+}
+.card .info .social_info .like,
+.card .info .social_info .comment {
+	height: 100%;
+	line-height: 30px;
+	float: left;
+	margin-left: 10px;
+	font-size: 15px;
+}
+.card .info .social_info .like img,
+.card .info .social_info .comment img{
+	width: 20px;
+	padding-top: 5px;
 }

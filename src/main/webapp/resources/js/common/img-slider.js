@@ -115,7 +115,7 @@ var imgSlider = () => (function() {
 	function slideImg(v) {
 		var idxLiAll = Array.from(idxContainer.children);
 		idxLiAll[idx].style.backgroundColor = 'lightgray';
-		
+			
 		if (v == 'next') {
 			idx++;
 		} else if (v == 'prev') {
@@ -123,6 +123,7 @@ var imgSlider = () => (function() {
 		} else {
 			idx = v;
 		}
+		
 		ul.style.left = (-1 * idx * 100) + '%';
 		idxLiAll[idx].style.backgroundColor = 'black';
 		idxIndicator.innerHTML = (idx+1) + '/' + idxLiAll.length;
