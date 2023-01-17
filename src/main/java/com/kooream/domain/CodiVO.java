@@ -22,7 +22,7 @@ public class CodiVO {
 	private String codimodel_name, codi_title, codi_content;
 	private Date codi_date;
 	
-	private List<CodiImageVO> codi_image;
+	//private List<CodiImageVO> codi_image;
 	
 	@Override
 	public String toString() {

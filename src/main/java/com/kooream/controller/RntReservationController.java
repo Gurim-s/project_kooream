@@ -52,9 +52,9 @@ public class RntReservationController {
 	// 상품 예약 내역 가져오는 ajax
 	@PostMapping(value="/ajax/getRsvt", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<RntRsvtVO>> rentalList(RntRsvtVO vo) {
-		RntRsvtVO rvo = service.getRsvt(vo);
-		return new ResponseEntity<List<RntRsvtVO>>(rvo, HttpStatus.OK);
+	public List<RntRsvtVO> rentalList(RntRsvtVO vo) {
+		List<RntRsvtVO> rvo = service.getRsvt(vo);
+		return rvo;
 	}
 	
 }
