@@ -107,8 +107,13 @@
 			</div>
 	</div>
 	
-	<div class = "full">
+	<div class = "full" >
 	<label>상품 여러이미지ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</label>
+	<hr/>
+	<br/>
+	<div style="margin-left:auto; margin-right:auto;">본 상품은 '${vo2.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
+	</div>
+	<div style="margin: 100px;">
 	<ul>
 		<li>
 		<c:forEach var="index" begin="1" end="${vo.attachList.size() - 1 }" step="1"> 
@@ -124,6 +129,7 @@
 		</li>
 	
 	</ul>
+	</div>
 	<div class = "brands">
 	</div>
 	<br/>
@@ -154,7 +160,7 @@
 		</tr>
 		
 	</table>
-	</div>
+	
 	<br/>
 	<br/>
 	
