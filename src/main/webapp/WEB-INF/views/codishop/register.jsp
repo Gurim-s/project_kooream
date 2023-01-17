@@ -11,7 +11,7 @@
 		</div> <!--social_title..........end  -->
 		<hr/>
 		<br/><br/><br/>
-		<form action="/codishop/register" method="post" role="form">
+		<form name="codi_register" action="/codishop/register" method="post" role="form">
 			<div class="insert_codi">
 				<div class="row">
 					<span class="title_content">코디제목</span>
@@ -45,23 +45,14 @@
 				</div>
 				<div class="row">
 					<div><span class="title_content">사진 등록</span></div>
-			<!-- 		<div class="codi-image">
-						<input type="file" name="uploadFile" multiple="multiple" accept="image/jpeg, image/gif, image/png">
-					</div>
-			 -->		
-					
-				<div class="img-test">
-				 <input type="file" class="real-upload" accept="image/*" required multiple>
-				  <div class="upload">Upload</div>
-				  <div class="image_box">
-					  <ul class="image-preview"></ul>
-				  </div>
-				</div>		
-					
-					
-					<div class="uploadResult">
-						<ul></ul>
-					</div>
+				 <div class="panel-body">
+		            <div class="form-group uploadDiv">
+		               <input type="file" name="uploadFile" multiple="multiple">
+		            </div>
+		            <div class="uploadResult">
+		               <ul></ul>
+		            </div>
+			         </div>
 				</div>	<!-- row.... end -->
 			</div> <!--  insert_codi.... end -->
 			<hr/>
@@ -76,230 +67,151 @@
 	</div> <!-- codi_box ........... end -->
 <script type="text/javascript">
 	$(function() {
-		// 이미지 클릭시 제거 
-		 $(".photo").click(function () {
-        	$(this).remove();
-    	});
 		
-		
-		// 폼 오브젝트 만들기
+		var operForm = $('#operForm');
 		var formObj = $("form[role='form']");
-		console.log(formObj[0]);
 		
-		
-		// -----버튼 클릭 스크립트
 		$("button").on("click", function(e) {
-			e.preventDefault(); // 이벤트 막기
+			e.preventDefault();
 			
-			var oper = $(this).data("oper"); // 버튼 가지고 있는 data-oper 속성
+			var oper = $(this).data("oper");
 			
 			if(oper == 'list'){
 				location.href = '/codishop/list';
 			}else if(oper == 'reset'){
-				formObj[0].reset();
+				formObj[0].reset(); // 내용 비워주기 
 				return;
 			}else{
-				console.log("submit clicked");
+				console.log("submit_ok");
 				var str = '';
 				
-				$(".uploadResult ul li").each(function(i, obj) {
+				$('.uploadResult ul li').each(function(i, obj){
 					var jobj = $(obj);
 					console.dir(jobj);
 					str+='<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'">';
 					str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
 					str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
 					
-				
-				
 				});
+				
+				 if(codi_register.codi_title.value == "" ) {
+					codi_register.codi_title.focus();
+			        alert("제목을 입력해 주십시오.");
+			        return false;
+				    };
+				 if(codi_register.codi_content.value == "" ) {
+					codi_register.codi_content.focus();
+			      	alert("내용을 입력해 주십시오.");
+			      	return false;
+				  };
+				 if(codi_register.hashTags.value == "" ) {
+					codi_register.hashTags.focus();
+			      	alert("해시태그을 입력해 주십시오.");
+			      	return false;
+				  };
+				 if(codi_register.m_no.value == "" ) {
+					codi_register.m_no.focus();
+			      	alert("상품 태그을 입력해 주십시오.");
+			      	return false;
+				  };
+				 if(codi_register.codimodel_name.value == "" ) {
+					codi_register.codimodel_name.focus();
+			      	alert("모델 명을 입력해 주십시오.");
+			      	return false;
+				  };
+				 if(codi_register.codi_cm.value == "" ) {
+					codi_register.codi_cm.focus();
+			      	alert("키를 입력해 주십시오.");
+			      	return false;
+				  };
+				 if(codi_register.codi_Kg.value == "" ) {
+					codi_register.codi_Kg.focus();
+			      	alert("몸무계를 입력해 주십시오.");
+			      	return false;
+				  };
+				  
+				console.log(str);
 				formObj.append(str);
-				formObj.submit();
+				formObj.submit();			
+				
+				
 			}
-		}); // button click end 
-		
-		
-		 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");   //확장자를 포함하지 못하도록 
-         var maxSize = 20971520; //20MB
-		
-         //파일 화거장자& 사이즈 체크
-         function checkExtension(fileName, fileSize) {
-        	 if(fileSize >= maxSize){
-        		 alert("파일 사이즈 초과");
-        		 return false;
-        	 }
-        	 if(regex.test(fileName)){
-        		 alert("해당 종류의 파일은 업로드 할 수 없습니다.");
-        		 return false;
-        	 }
-        	 return true;
-         } // checkExtension end
-			
-		$("input[type='file']").change(function() {
-			var formData = new FormData(); // 스크립트로 Form택스 생성
-			var inputFile = $("input[name='uploadFile']");
-			var files = inputFile[0].files;
-			console.log(files);
-			
+		}); //btn click event end
+	
+	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");   //확장자를 포함하지 못하도록 
+    var maxSize = 5242880; //5MB
+    
+    //파일 확장자와 파일사이즈 체크
+    function checkExtension(fileName, fileSize){
+       if(fileSize >= maxSize){
+          alert("파일 사이즈 초과");
+          return false;
+       }
+       if(regex.test(fileName)){
+          alert("해당 종류의 파일은 업로드 할 수 없습니다.");
+          return false;
+       }            
+       return true;
+    }   // end checkExtension();
+    
+	    $("input[type='file']").change(function() {
+	    	var formData = new FormData();
+	    	var inputFile = $("input[name='uploadFile']")
+	    	console.log(inputFile[0]);
+	    	var files = inputFile[0].files
+	    	
 			for(var i=0; i<files.length; i++){
 				if(!checkExtension(files[i].name, files[i].size)){
 					return false;
 				}
 				formData.append("uploadFile", files[i]);
 			}
-			
-			$.ajax({
-				url : '/uploadAjaxAction',
-				processData : false,
-				contentType : false,
-				data : formData,
-				type : 'post',
-				dataType : 'json',
-				success : function(result) {
-					console.log(result);
-					showUploadFile(result);
-					
-				} // success end
-			}); // ajax end
-		}); // ("input[type='file']") end
-		
-		// 업로드 후 파일 화면에 보여주기 
-		/* var uploadResult = $(".uploadResult ul");
-		function showUploadFile(uploadResultArr) {
-			var str = '';
-			
-			for(var i=0; i<uploadResultArr.length; i++){
-				var obj = uploadResultArr[i];
-				
-				var fileCallPath = encodeURIComponent(obj.uploadPath + "/"
-														+ obj.uuid+"/"
-														+ obj.fileName);
-				
-				 str +='<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';
-	             str +='<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
-	             str +='<span data-file="'+fileCallPath+'"> X </span>';
-	             str +='</li>';
-			} // for end	
-           
-			uploadResult.html(str);
-             
-		} // showUploadFile end
-		
-		uploadResult.on("click","span", function(){
-            var targetFile = $(this).data("file");
-            var targetLi = $(this).closest("li");   //파일 x를눌렀을경우 이름까지 삭제되도록함.
-            
-            $.ajax({
-               url:"/deleteFile",
-               data : {fileName: targetFile},
-               type:"post",
-               dataType : "text",
-               success : function(result){
-                  //alert(result);
-                  targetLi.remove();   //파일 x를눌렀을경우 이름까지 삭제.
-               }
-            });
-            
-         });// end uploadresult
- */
+    	
+	    	
+	   	 	$.ajax({
+	    		url : '/codi-uploadAjaxAction',
+	    		processData : false,
+	    		contentType : false,
+	    		data : formData,
+	    		type : 'post',
+	    		dataType : 'json',
+	    		success : function(result){
+	    			console.log(result);
+	    			//showUploadFile(result);
+	    		}
+	    	
+	    	});
+	    	
+	    	
+	   	 	
+	   	 	
+	   	 	
+	   	 	
+    
+    	}); //$("input[type='file']").change end
 	
 	
-		function getImageFiles(e) {
-	      const uploadFiles = [];
-	      const files = e.currentTarget.files;
-	      const imagePreview = document.querySelector('.image-preview');
-	      const docFrag = new DocumentFragment();
-
-	      if ([...files].length >= 7) {
-	        alert('이미지는 최대 6개 까지 업로드가 가능합니다.');
-	        return;
-	      }
-
-	      // 파일 타입 검사
-	      [...files].forEach(file => {
-	        if (!file.type.match("image/.*")) {
-	          alert('이미지 파일만 업로드가 가능합니다.');
-	          return
-	        }
-
-	        // 파일 갯수 검사
-	        if ([...files].length < 7) {
-	          uploadFiles.push(file);
-	          const reader = new FileReader();
-	          reader.onload = (e) => {
-	            const preview = createElement(e, file);
-	            imagePreview.appendChild(preview);
-	          };
-	          reader.readAsDataURL(file);
-	        }
-	      });
-	    }
-
-	    function createElement(e, file) {
-	      const li = document.createElement('li');
-	      li.style.display = 'block';
-	      const img = document.createElement('img');
-	      img.setAttribute('src', e.target.result);
-	      img.setAttribute('class', 'photo');
-	      img.setAttribute('data-file', file.name);
-	      li.appendChild(img);
-
-	      return li;
-	    }
-
-	    const realUpload = document.querySelector('.real-upload');
-	    const upload = document.querySelector('.upload');
-
-	    upload.addEventListener('click', () => realUpload.click());
-
-	    realUpload.addEventListener('change', getImageFiles);
+	
 	
 	}); // function end
 </script>
 
 <style>
-
-.image_box{
-	width: 100%;
-	height: 200px;
+/* 이미지 업로드 테스트 */
+#att_zone{
+	width: 505px;
+	min-height:150px;
+	padding:10px;
+	border:1px dotted #00f;
 }
-ul li {
-    float: left;
-    list-style: none;
-    margin: 5px 10px;
-}
-
-
-li img{
-  	list-style: none;
-  	width: 100px;
-  	height: 100px;
+#att_zone:empty:before{
+	content : attr(data-placeholder);
+	color : #999;
+	font-size:.9em;
 }
 
-.div img {
-	padding: 5px;
-  	width: 100px;
- 	height: 100px;
-}
 
-.real-upload {
-  	display: none;
-}
 
-.upload {
-  	width: 100px;
-  	height: 40px;
-  	line-height: 40px;
-  	text-align:center;
-  	display: block;
-  	border: 1px solid #ebebeb;
-}
-
-.image-preview {
-  	width: 399px;
-  	background-color: aquamarine;
-  	/* display: flex; */
-  	gap: 20px;
-}
 /* 테스트 */
 #textForm{
 	  width: 70%;
