@@ -4,14 +4,14 @@ import {replyService} from '../service/reply-service.js';
  * 
  */
 const reply = (rno) => (function(rno) {
-	var container = document.createElement('ul');
-
-	init();
-	function init() {
-		const replyList = replyService.getList(rno);
-		replyList.forEach(reply => templage(reply));
-	}
+	const container = document.createElement('ul');
 	
+	container.append(inputTemplate());
+	
+	const replyList = replyService.getList(rno);
+	replyList.forEach(reply => templage(reply));
+
+
 	function inputTemplate() {
 		const item = document.createElement('div');
 //		/*로그인 기능 추가 후에 수정*/
@@ -24,7 +24,7 @@ const reply = (rno) => (function(rno) {
 				'<a href="#" class="add-reply">등록</a>' +
 			'</div>'
 		);
-		
+		console.log(item);
 		return item;
 	}
 	
@@ -51,11 +51,9 @@ const reply = (rno) => (function(rno) {
 	
 	function setEvent() {
 		container.querySelectorAll('.write-nested-reply')
-		.forEach(x => {
-			x.addEventListener('click', (e) => {
+		.forEach(x => x.addEventListener('click', (e) => {
 				const rno = e.target.closest('li').dataset('rno');
-			});
-		});
+		}));
 	}
 	
 	function setCss() {

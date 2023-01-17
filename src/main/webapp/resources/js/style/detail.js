@@ -2,6 +2,7 @@ import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
 import {modal} from '../common/modal.js';
+import {reply} from '../common/reply.js';
 
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
@@ -65,7 +66,7 @@ var template = function(style) {
 	.addEventListener('click', (e) => {
 		e.preventDefault();
 		
-		let m = modal();
+		const m = modal();
 		m.open({title: '공감 목록'});
 		m.append('helloWorld');
 	});
@@ -74,9 +75,12 @@ var template = function(style) {
 	.addEventListener('click', (e) => {
 		e.preventDefault();
 		
-		let m = modal();
+		const m = modal();
 		m.open({title: '댓글 목록', type: 'right'});
-		m.append('<a href="#">helloWorld</a>');
+		
+		let replyTemplate = reply(11);
+		console.log(replyTemplate);
+		m.append(replyTemplate.container);
 	});
 	
 	template.querySelector('.update-btn')
