@@ -3,6 +3,127 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- <link rel="stylesheet" href="/resources/css/codi/codi.css" /> -->
 <jsp:include page="../include/header.jsp"/>
+
+<body class="cordishop">
+	
+	<div class="codi_box">
+
+		<div class="social_title">
+			<h1>Codi Shop</h1>
+		</div>
+		<br/>
+		<div class="container social">
+			<div class="keyword_brand">
+				<a href="#" class="brand_keyword">#Nike</a>
+				<a href="#" class="brand_keyword">#adidas</a>
+				<a href="#" class="brand_keyword">#new balance</a>
+				<a href="#" class="brand_keyword">#nerdy</a>
+				<a href="#" class="brand_keyword">#THE NORTH FACE</a>
+				<a href="#" class="brand_keyword">#KOOREAM STANDARD</a>
+			</div>
+		</div>
+		<div class="codi_search">
+			<div class="search_btn">
+				<input type="text" class="form-control"	placeholder="검색어 입력" name="searchText" maxlength="100">
+				<a  href="#" class="btn_search">검색</a>
+			</div>
+		</div>
+		<div class="codi_insert">
+			<div class="insert_btn">
+				<a  href="/codishop/register" class="btn_search">코디 등록</a>
+			</div>
+			<hr/>
+		</div>
+		
+		<div id="codi-list" class="clearfix">
+			<div class="list-column" id="first">
+			</div>
+			<div class="list-column" id="second">
+			</div>
+			<div class="list-column" id="third">
+			</div>
+			<div class="list-column" id="force">
+			</div>
+		</div>
+		<div class="More_btn">
+			<a  href="#" class="btn_More">더보기(MORE)</a>
+		</div>
+		
+	</div>
+</body>
+
+<script type="text/javascript">
+
+var pageNum, amount;
+var column = $('.list-column');
+
+$(function() {
+	pageNum = 1;
+	amount = 20;
+	getList(pageNum, amount);
+});
+
+
+function getList(pageNum, amount) {
+	$.ajax({
+		url: "list",
+		data: JSON.stringify({
+			pageNum: pageNum,
+			amount: amount,
+		}),
+		type: 'post',
+		dataType:"json",
+		contentType:"application/json",
+	})	// $.ajax.... end 
+	.done(function(json) {
+		console.log(JSON.stringify(json));
+		$.each(json, function(idx, codi) {
+			 
+			// 1개의 코디 중 제일 큰 곳
+			var card_box = $('<a href="/codishop/get?codi_no='+ codi.codi_no + '"><div></div></a>');		//card_box div 태그 생성
+			$(card_box).attr('class', 'codi_card');  // card_box class 넣어주기
+			
+			var img_box = $('<div></div>');		//img_box div 태그 생성
+			$(img_box).attr('class', 'codi_img_box');	// img_box class 넣어주기
+			
+			var text_box = $('<div></div>');		//text_box div 태그 생성
+			$(text_box).attr('class', 'codi_text');	// text_box 클래스 생성
+			
+			var img_tag = $('<img></img>');	// img_tag div 태그 생성 
+			$(img_tag).attr('class', 'codi_img');
+			console.log(codi);
+			var fileCallPath = encodeURIComponent(codi.attachList[0].uploadPath + "/"
+					+ codi.attachList[0].uuid + "_"
+					+ codi.attachList[0].fileName);
+			$(img_tag).attr('src', '/codidisplay?fileName='+fileCallPath);
+			
+			var text_Line1 = $('<div></div>');
+			$(text_Line1).append('<h3>' + codi.codi_title + '</h3>');
+			var text_Line2 = $('<div></div>');
+			$(text_Line2).append(' Model: ' + codi.codimodel_name+' ');
+			$(text_Line2).append(' Body: ' + codi.codi_cm);
+			$(text_Line2).append('/ ' +codi.codi_kg);
+			var text_Line3 = $('<div></div>');
+			$(text_Line3).text(new Intl.DateTimeFormat('kr').format(new Date(codi.codi_date)));
+			
+			
+			$(img_box).append(img_tag);	 // 이미지 박스에 이미지 태그 넣어주기 
+			$(card_box).append(img_box);	// 카드 박스에 이미지 박스 넣어주기 
+			
+			$(card_box).append(text_box);	// 카드 박스에 택스트 박스 넣어주기 
+			$(text_box).append(text_Line1);	  
+			$(text_box).append(text_Line2);	 
+			$(text_box).append(text_Line3);	 
+			
+			$(column[idx % 4]).append(card_box);	// 생성한 div를 column에 추가 -> 이 작업을 해야 view에 나옴
+			
+		}); // function(idx, codi) ... end
+	});	// .done ... end
+}	// function getList ... .end
+
+
+
+</script>
 <style type="text/css">
 	.codi_box{
 		width: 1200px;
@@ -143,123 +264,6 @@
 		height: 350px;
 	}
 </style>
-<body class="cordishop">
-	
-	<div class="codi_box">
-
-		<div class="social_title">
-			<h1>Codi Shop</h1>
-		</div>
-		<br/>
-		<div class="container social">
-			<div class="keyword_brand">
-				<a href="#" class="brand_keyword">#Nike</a>
-				<a href="#" class="brand_keyword">#adidas</a>
-				<a href="#" class="brand_keyword">#new balance</a>
-				<a href="#" class="brand_keyword">#nerdy</a>
-				<a href="#" class="brand_keyword">#THE NORTH FACE</a>
-				<a href="#" class="brand_keyword">#KOOREAM STANDARD</a>
-			</div>
-		</div>
-		<div class="codi_search">
-			<div class="search_btn">
-				<input type="text" class="form-control"	placeholder="검색어 입력" name="searchText" maxlength="100">
-				<a  href="#" class="btn_search">검색</a>
-			</div>
-		</div>
-		<div class="codi_insert">
-			<div class="insert_btn">
-				<a  href="/codishop/register" class="btn_search">코디 등록</a>
-			</div>
-			<hr/>
-		</div>
-		
-		<div id="codi-list" class="clearfix">
-			<div class="list-column" id="first">
-			</div>
-			<div class="list-column" id="second">
-			</div>
-			<div class="list-column" id="third">
-			</div>
-			<div class="list-column" id="force">
-			</div>
-		</div>
-		<div class="More_btn">
-			<a  href="#" class="btn_More">더보기(MORE)</a>
-		</div>
-		
-	</div>
-</body>
-
-<script type="text/javascript">
-
-var pageNum, amount;
-var column = $('.list-column');
-
-$(function() {
-	pageNum = 1;
-	amount = 20;
-	getList(pageNum, amount);
-});
-
-
-function getList(pageNum, amount) {
-	$.ajax({
-		url: "list",
-		data: JSON.stringify({
-			pageNum: pageNum,
-			amount: amount,
-		}),
-		type: 'post',
-		dataType:"json",
-		contentType:"application/json",
-	})	// $.ajax.... end 
-	.done(function(json) {
-		console.log(JSON.stringify(json));
-		$.each(json, function(idx, codi) {
-			 
-			// 1개의 코디 중 제일 큰 곳
-			var card_box = $('<a href="/codishop/get?codi_no='+ codi.codi_no + '"><div></div></a>');		//card_box div 태그 생성
-			$(card_box).attr('class', 'codi_card');  // card_box class 넣어주기
-			
-			var img_box = $('<div></div>');		//img_box div 태그 생성
-			$(img_box).attr('class', 'codi_img_box');	// img_box class 넣어주기
-			
-			var text_box = $('<div></div>');		//text_box div 태그 생성
-			$(text_box).attr('class', 'codi_text');	// text_box 클래스 생성
-			
-			var img_tag = $('<img></img>');	// img_tag div 태그 생성 
-			$(img_tag).attr('class', 'codi_img');
-			$(img_tag).attr('src', '/resources/img/codi_test.png');
-			
-			var text_Line1 = $('<div></div>');
-			$(text_Line1).append('<h3>' + codi.codi_title + '</h3>');
-			var text_Line2 = $('<div></div>');
-			$(text_Line2).append(' Model: ' + codi.codimodel_name+' ');
-			$(text_Line2).append(' Body: ' + codi.codi_cm);
-			$(text_Line2).append('/ ' +codi.codi_kg);
-			var text_Line3 = $('<div></div>');
-			$(text_Line3).text(new Intl.DateTimeFormat('kr').format(new Date(codi.codi_date)));
-			
-			
-			$(img_box).append(img_tag);	 // 이미지 박스에 이미지 태그 넣어주기 
-			$(card_box).append(img_box);	// 카드 박스에 이미지 박스 넣어주기 
-			
-			$(card_box).append(text_box);	// 카드 박스에 택스트 박스 넣어주기 
-			$(text_box).append(text_Line1);	  
-			$(text_box).append(text_Line2);	 
-			$(text_box).append(text_Line3);	 
-			
-			$(column[idx % 4]).append(card_box);	// 생성한 div를 column에 추가 -> 이 작업을 해야 view에 나옴
-			
-		}); // function(idx, codi) ... end
-	});	// .done ... end
-}	// function getList ... .end
-
-
-
-</script>
-
 
 </html>
 <jsp:include page="../include/footer.jsp"/>

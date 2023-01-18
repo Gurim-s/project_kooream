@@ -132,6 +132,7 @@
 				  
 				console.log(str);
 				formObj.append(str);
+				console.log(formObj);
 				formObj.submit();			
 				
 				
@@ -166,8 +167,6 @@
 				}
 				formData.append("uploadFile", files[i]);
 			}
-    	
-	    	
 	   	 	$.ajax({
 	    		url : '/codi-uploadAjaxAction',
 	    		processData : false,
@@ -177,21 +176,47 @@
 	    		dataType : 'json',
 	    		success : function(result){
 	    			console.log(result);
-	    			//showUploadFile(result);
+	    			showUploadFile(result);
 	    		}
-	    	
 	    	});
-	    	
-	    	
-	   	 	
-	   	 	
-	   	 	
-	   	 	
-    
     	}); //$("input[type='file']").change end
 	
-	
-	
+    	// 파일 업로드 후 보여주기 
+    	var uploadResult = $(".uploadResult ul");
+    	function showUploadFile(uploadResultArr){
+    		str = '';
+    		
+    		for(var i=0; i<uploadResultArr.length; i++){
+    			var obj = uploadResultArr[i];
+    			
+    			var fileCallPath = encodeURIComponent(obj.uploadPath + "/"
+    												+ obj.uuid + "_"
+    												+ obj.fileName);
+    			
+    			str +='<li data-path="'+obj.uploadPath+'"data-uuid="'+obj.uuid+'"data-filename="'+obj.fileName+'">';
+    			str +='<img src="/resources/img/attach.png" style="width:15px"/>' + obj.fileName;
+    			str +='<span data-file="'+fileCallPath+'">X</span>';
+    			str +='</li>'
+    			
+    		}
+    		uploadResult.html(str);
+    	} // showUploadFile end
+    	
+    	uploadResult.on("click","span",function(){
+    		var targetFile = $(this).data("file");
+    		var targetLi = $(this).closest("li");	
+    		
+    		$.ajax({
+    			url : "/deleteFile",
+    			data : {fileName:targetFile},
+    			type : "post",
+    			dataType : "text",
+    			success : function(result) {
+    				targetLi.remove(); // 파일 삭제 
+					
+				} // function end
+    		}); // $.ajax end
+    	}); // uploadResult end
 	
 	}); // function end
 </script>

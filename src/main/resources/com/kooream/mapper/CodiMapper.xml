@@ -41,6 +41,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		codi_no = #{codi_no}
 	</select>
 
+	<!-- codi_no 가져오기 -->
+	<select id="getcodi_no" resultType="int">
+		select codi_no from
+		(select codi_no from codi_board order by codi_no desc)
+		where rownum = 1
+	</select>
+
+
+
 	<!-- 게시글 수정 -->
 	<update id="update">
 		update codi_board 

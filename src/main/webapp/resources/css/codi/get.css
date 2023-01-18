@@ -1,0 +1,217 @@
+@charset "UTF-8";
+
+#result_card img{
+	max-width: 100%;
+    height: auto;
+    display: block;
+    padding: 5px;
+    margin-top: 10px;
+    margin: auto;	
+}
+
+
+
+.wrapper{
+	width: 800px;
+}
+.social_title{
+	text-align: center;
+}
+.brand_keyword{
+	display: inline-block;
+    padding: 8px 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    font-size: 15px;
+}
+.codi_img{
+ 	margin : auto;
+	width: 600px;
+	height: 800px;
+}
+.title>span {
+	font-weight: bold;
+	font-size: 30px;
+}
+.content>span{
+	font-size : 20px;
+}
+.form_section_title>span{
+	font-weight: bold;
+	font-size : 20px;
+}
+.codi_img{
+	text-align: center;
+}
+
+.codi_sample>span{
+	font-weight: bold;
+	font-size: 20px;
+
+}
+.date>span{
+	font-size: 10px;
+}
+.codi_model>span{
+	font-weight: bold;
+	font-size: 20px;
+}
+/* 버튼 이미지  */
+.comment-inner-text {
+   width: 100%;
+   height: 100px;
+   border: 0;
+   background: #fff;
+   padding: 0;
+   -webkit-border-radius: 0;
+   -webkit-appearance: none;
+   vertical-align: top;
+}
+textarea {
+    writing-mode: horizontal-tb !important;
+    font-style: ;
+    font-variant-ligatures: ;
+    font-variant-caps: ;
+    font-variant-numeric: ;
+    font-variant-east-asian: ;
+    font-weight: ;
+    font-stretch: ;
+    font-size: ;
+    font-family: monospace;
+    text-rendering: auto;
+    color: fieldtext;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    -webkit-rtl-ordering: logical;
+    resize: auto;
+    cursor: text;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    background-color: field;
+    column-count: initial !important;
+    margin: 0em;
+    border-width: 1px;
+    border-style: solid;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    padding: 2px;
+}
+input{
+	display: inline-block;
+    padding: 1em 2em;
+    border-radius: 0;
+  	color: #b2876f;
+    margin-top:2rem;
+    font-weight: bold;
+    font-size: 0.678rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+	  background: linear-gradient(to right, rgba(#b2876f, 0) 25%, rgba(#b2876f, .8) 75%);
+	  background-position: 1% 50%;
+	  background-size: 400% 300%;
+	  border: 1px solid #b2876f;
+	  @include transition;
+  
+	  &:hover{
+	    color: white;
+	      color: #fff;
+     	background-position: 99% 50%;
+ 		}
+}
+#goodsBtn{
+	display: inline-block;
+    padding: 1em 2em;
+    border-radius: 0;
+  	color: #b2876f;
+    margin-top:2rem;
+    font-weight: bold;
+    font-size: 0.678rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+	  background: linear-gradient(to right, rgba(#b2876f, 0) 25%, rgba(#b2876f, .8) 75%);
+	  background-position: 1% 50%;
+	  background-size: 400% 300%;
+	  border: 1px solid #b2876f;
+	  @include transition;
+  
+	  &:hover{
+	    color: white;
+	      color: #fff;
+     	background-position: 99% 50%;
+ 		}
+}
+.update_btn{
+	display: inline-block;
+    padding: 1em 2em;
+    border-radius: 0;
+  	color: #b2876f;
+    margin-top:2rem;
+    font-weight: bold;
+    font-size: 0.678rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+	  background: linear-gradient(to right, rgba(#b2876f, 0) 25%, rgba(#b2876f, .8) 75%);
+	  background-position: 1% 50%;
+	  background-size: 400% 300%;
+	  border: 1px solid #b2876f;
+	  @include transition;
+  
+	  &:hover{
+	    color: white;
+	      color: #fff;
+     	background-position: 99% 50%;
+ 		}
+}
+.remove_comment_go{
+ 	padding : 0px;
+	border: none;
+	background-color: white;
+	margin-right: 15px;
+
+}	
+
+.comment-header{
+	width: 100%;
+	height: 30px;
+	background-color: #b2876f;
+
+}
+.comment-main{
+	border: 1px solid #b2876f;
+	/* height: 50px; */
+	min-height: 50px;
+}
+.m_replyer{
+	line-height: 30px;
+	margin-left: 5px;
+}
+
+#List_img{
+	width: 24px;
+}
+.c_reply_text{
+	border: none;
+}
+.remove_btn{
+	border: none;
+	background-color: transparent;
+	
+}
+.update_open{
+	border: none;
+	background-color: transparent;
+}
+.List_btn{
+	background-color: transparent;
+	border: none;
+}

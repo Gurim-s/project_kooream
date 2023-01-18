@@ -1,16 +1,20 @@
 package com.kooream.controller;
 
 import java.io.File;
+import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,7 +65,7 @@ public class CodiFileUploadController {
 			
 			UUID uuid = UUID.randomUUID();
 			
-			uploadFileName = uuid.toString() + "-" + uploadFileName;
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
 			
 			
 			try {
@@ -90,6 +94,49 @@ public class CodiFileUploadController {
 		
 	}
 	
+	// 썸네일 데이터 전송
+	@GetMapping("/codidisplay")
+	@ResponseBody
+	public ResponseEntity<byte[]> getFile(String fileName){
+		log.info("fileName:" + fileName);
+		
+		File file = new File("c:\\upload\\" + fileName);
+		
+		log.info("file"+file);
+		
+		ResponseEntity<byte[]> result = null;
+		
+		try {
+			HttpHeaders header = new HttpHeaders();
+			
+			header.add("content-Type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),
+					header,HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	
+	
+	
+//	@PostMapping("deleteFile")
+//	@ResponseBody
+//	public ResponseEntity<String> deleteFile(String fileName){
+//		log.info("deleteFile:"+ fileName);
+//		
+//		File file = null;
+//		try {
+//			file = new File("c:\\upload\\" + URLDecoder.decode(fileName, "utf-8"));
+//			file.delete();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+//		}
+//		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+//	}
 	
 	
 }
