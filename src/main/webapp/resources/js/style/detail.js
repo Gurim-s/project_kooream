@@ -2,7 +2,7 @@ import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
 import {modal} from '../common/modal.js';
-import {reply} from '../common/reply.js';
+import {replyViewer} from '../common/reply-viewer.js';
 
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
@@ -17,6 +17,7 @@ import {reply} from '../common/reply.js';
 var template = function(style) {
 	var template = document.createElement('div'); 
 	template.className = 'item';
+	template.dataset.styleNo = style.style_no;
 	template.innerHTML = (
 		'<div class="item-header clearfix">' +
 			'<div class="item-header-left">' +
@@ -72,15 +73,17 @@ var template = function(style) {
 	});
 	
 	template.querySelector('.comment-summary')
-	.addEventListener('click', (e) => {
+	.addEventListener('click', async (e) => {
 		e.preventDefault();
 		
+		const style_no = e.target.closest('.item').dataset.styleNo;
 		const m = modal();
 		m.open({title: '댓글 목록', type: 'right'});
 		
-		let replyTemplate = reply(11);
-		console.log(replyTemplate);
-		m.append(replyTemplate.container);
+		const replyTemplate = replyViewer(style_no);
+		replyTemplate.setOption({input: true})
+		const replyList = await replyTemplate.get();
+		m.append(replyList);
 	});
 	
 	template.querySelector('.update-btn')

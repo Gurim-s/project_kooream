@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.StyleReplyMapper">
+	<select id="getList" resultType="com.kooream.domain.StyleReplyVO">
+		select *
+		from style_reply
+		where style_no=#{style_no}
+	</select>
+
+	<insert id="insert">
+		insert into style_reply
+		values (style_reply_seq.nextval,
+				#{style_no},
+				11,
+				#{content},
+				sysdate,
+				null)
+	</insert>
+	
+	<delete id="delete">
+		delete from style_reply
+		where rno=#{rno}
+	</delete>
+	
+	<delete id="deleteByStyleNo">
+		delete from style_reply
+		where style_no=#{style_no}
+	</delete>
+</mapper>

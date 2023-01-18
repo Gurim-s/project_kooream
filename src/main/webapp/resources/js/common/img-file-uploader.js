@@ -12,7 +12,7 @@ var imgFileUploader = (function() {
 	const previewList = createImgPreview();
 	const slider = imgSlider();
 	const option = {};
-	let dataTransfer = new DataTransfer();
+	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
 	
 	init();
 	function init() {

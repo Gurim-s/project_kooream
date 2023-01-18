@@ -34,9 +34,9 @@ var modal = () => (function() {
 	}
 	
 	function append(element) {
-		const div = document.createElement('div');
-		div.innerHTML = element;
-		modal.append(div);
+		/*const div = document.createElement('div');
+		div.innerHTML = element;*/
+		modal.append(element);
 	}
 	
 	function setEventListener() {
