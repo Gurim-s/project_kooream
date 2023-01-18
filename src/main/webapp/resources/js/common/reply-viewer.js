@@ -24,21 +24,21 @@ const replyViewer = (x) => (function(x) {
 	
 //	replyList.forEach(reply => listTemplage(reply));
 	async function loadReplies() {
+		listContainer.innerHTML = '';
 		const replyList = await replyService.getList(style_no);
 		if (replyList.length > 0) {
-			listContainer.innerHTML = '';
 			replyList.forEach(x => listContainer.append(listTemplate(x)));
 			
-			setListCss();
-			setListEvent();
-			
 		} else {
-			const noneReplyTemplate = document.createElement('div');
+			const noneReplyTemplate = document.createElement('li');
 			noneReplyTemplate.className = 'reply-none';
 			noneReplyTemplate.innerHTML += '<span>댓글이 없습니다.</span>';
 			
-			container.append(noneReplyTemplate);
+			listContainer.append(noneReplyTemplate);
 		}
+		setListCss();
+		setListEvent();
+		
 	}
 	
 	function inputTemplate() {
@@ -97,7 +97,6 @@ const replyViewer = (x) => (function(x) {
 			};
 			
 			const result = await replyService.register(reply);
-			alert(result);
 			loadReplies();
 		});
 	};
@@ -109,7 +108,6 @@ const replyViewer = (x) => (function(x) {
 			const rno = e.target.closest('li').dataset.rno;
 
 			const result = await replyService.remove(rno);
-			alert(result);
 			loadReplies();
 		});
 	}
@@ -127,14 +125,14 @@ const replyViewer = (x) => (function(x) {
 	
 	function setInputCss() {
 		const inputContainer = container.querySelector('.input-container');
-		inputContainer.style.height = '60px';
 		inputContainer.style.width = '100%';
-		inputContainer.style.padding = '5px 10px';
+		inputContainer.style.height = '55px';
+		inputContainer.style.padding = '10px 24px';
 		inputContainer.style.backgroundColor = 'lightgray';
 		
 		const profile = inputContainer.querySelector('.profile-img');
-		profile.style.width = '50px';
-		profile.style.height = '50px';
+		profile.style.width = '34px';
+		profile.style.height = '34px';
 		profile.style.overflow = 'hidden';
 		profile.style.borderRadius = '50%';
 		profile.style.float = 'left';
@@ -145,23 +143,43 @@ const replyViewer = (x) => (function(x) {
 		img.style.objectFit = 'cover';
 		
 		const inputReply = inputContainer.querySelector('.input-reply');
-		inputReply.style.width = '300px';
-		inputReply.style.float = 'left';
+		inputReply.style.width = 'calc(100% - 40px)';
+		inputReply.style.height = '100%';
+		inputReply.style.float = 'right';
+		inputReply.style.position = 'relative';
+		
+		const input = inputContainer.querySelector('.input-reply input');
+		input.style.width = '100%';
+		input.style.height = '100%';
+		input.style.paddingLeft = '10px'; 
+		input.style.borderRadius = '25px';
+		input.style.border = '1px solid #999';
+		input.style.backgroundColor = '#ccc';
+		
+		const registerBtn = inputContainer.querySelector('.input-reply .add-reply');
+		registerBtn.style.color = 'black';
+		registerBtn.style.fontSize = '15px';
+		registerBtn.style.fontWeight = 'bold';
+		registerBtn.style.position = 'absolute';
+		registerBtn.style.top = '50%';
+		registerBtn.style.right = '10px';
+		registerBtn.style.transform = 'translate3d(0, -50%, 0)';
+//		registerBtn.style.display = 'none';
 	}
 	
 	function setListCss() {
 		listContainer.style.width = '100%';
-		listContainer.style.padding = '20px 10px';
+		listContainer.style.padding = '20px 0px 20px 40px';
 //		listContainer.style.height
 		
 		const list = listContainer.querySelectorAll('li');
 		list.forEach( x => {
 			x.style.width = '100%';
-			x.style.minHeight = '40px';
+			x.style.minHeight = '34px';
 			
 			const profileImg = x.querySelector('.profile-img');
-			profileImg.style.width = '40px';
-			profileImg.style.height = '40px';
+			profileImg.style.width = '34px';
+			profileImg.style.height = '34px';
 			profileImg.style.overflow = 'hidden';
 			profileImg.style.borderRadius = '50%';
 			profileImg.style.float = 'left';
@@ -171,7 +189,6 @@ const replyViewer = (x) => (function(x) {
 			img.style.height = '100%';
 			img.style.objectFit = 'cover';
 		});
-		
 	}
 	
 	return {

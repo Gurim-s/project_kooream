@@ -25,14 +25,14 @@ const replyService = (function() {
 			},
 			body: JSON.stringify(reply),
 		});
-		return result.then();
+		return result;
 	}
 	
 	async function remove(rno) {
 		const result = await fetch('/stylereplies/'+rno, {
 			method: 'delete',
 		});
-		return result.then();
+		return result;
 	}
 	
 	return {
