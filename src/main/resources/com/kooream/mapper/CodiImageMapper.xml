@@ -3,20 +3,18 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kooream.mapper.CodiImageMapper">
+	<select id="findbycodi_no" resultType="com.kooream.domain.CodiImageVO">
+		select * from
+		codi_attach
+		where codi_no = #{codi_no}
+	</select>
+	
 	<insert id="insert">
-		insert into codi_attach(uuid, uploadPath,fileName,fileType,codi_no)
-		values(#{uuid},#{uploadPath},#{fileName},#{fileType},#{codi_no})
+		insert into codi_attach(uuid, uploadPath,fileName,codi_no)
+		values(#{uuid},#{uploadPath},#{fileName},#{codi_no})
 	</insert>
 	
 	<delete id="delete">
-		delete from codi_attach where uuid = #{uuid}
-		
+		delete from codi_attach where codi_no = #{codi_no}
 	</delete>
-
-	<select id="findbycodi_no" resultType="com.kooream.domain.CodiImageVO">
-		select * from codi_attach where codi_no=#{codi_no}
-	</select>
-
-
-
 </mapper>

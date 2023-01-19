@@ -2,6 +2,7 @@ package com.kooream.service;
 
 import java.util.List;
 
+import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleVO;
@@ -27,8 +28,7 @@ public interface CodiService {
 	//public List<CodiVO> getList();
 	public List<CodiVO> getListWithPaging(Criteria cri);
 	
-	
-	
-	
+	// 파일 리스트 
+	public List<CodiImageVO> getCodiAttachList(int codi_no);
 
 }

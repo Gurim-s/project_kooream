@@ -40,7 +40,7 @@ public class BrandProductController {
 	
 	@GetMapping("/index")		// index페이지로 이동
 	public String index(Model model) {
-		return "brandshop/index";	// brandshop 폴더 안에 index.jsp 로 이동 
+		return "brandshop/index";
 	}
 
   
