@@ -14,7 +14,7 @@
 		height: 500px;
 		width: 130px;
 	}
-	span{
+	#head{
 		font-size: 30px;
 	}
 </style>
@@ -26,7 +26,7 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>구림톡</span>
+		<span id="head">구림톡</span>
 	</div>
 	<br/>
 	<hr/>

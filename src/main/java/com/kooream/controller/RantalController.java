@@ -94,7 +94,6 @@ public class RantalController {
 		// 관심상품 여부 보여주는 쿼리
 		RntInterestVO interestVO = interestService.countInterest(vo);
 		
-		
 		model.addAttribute("interestVO", interestVO);
 		model.addAttribute("reviewVO", reviewVO);
 		model.addAttribute("imageList", imageList);

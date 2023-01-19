@@ -1,15 +1,18 @@
 /**
- * 
+ * 이미지 파일 업로더 입니다.
+ * 슬라이더 모듈 포함
+ * 드래그앤 드롭 기능 추가 예정
  */
 import {imgSlider} from '../common/img-slider.js';
 import {imgService} from '../service/image-service.js';
 
 var imgFileUploader = (function() {
-	var container = document.createElement('div');
-	var tempInput = createTempInput();
-	var previewList = createImgPreview();
-	var slider = imgSlider();
-	var dataTransfer = new DataTransfer();
+	const container = document.createElement('div');
+	const tempInput = createTempInput();
+	const previewList = createImgPreview();
+	const slider = imgSlider();
+	const option = {};
+	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
 	
 	init();
 	function init() {
@@ -69,6 +72,12 @@ var imgFileUploader = (function() {
 		} 
 	}
 	
+	/* ========================
+	 * Method
+	 * ========================*/
+	function setURL(url) {
+		option.uploadURL = url;
+	}
 	function addTempFile(target) {
 		var files = target.files;
 		
@@ -79,9 +88,6 @@ var imgFileUploader = (function() {
 		});
 	}
 	
-	/* ========================
-	 * Public Method
-	 * ========================*/
 	function removeTempFile(target) {
 		var li = target.closest('li');
 		var idx = Array.from(li.parentNode.children).indexOf(li) - 1;
@@ -97,7 +103,7 @@ var imgFileUploader = (function() {
 	
 	function pushPreview(file) {
 		var src = URL.createObjectURL(file);
-		
+
 		var li = document.createElement('li');
 		li.innerHTML = '<img src="'+src+'"/>' +
 					   '<button class="remove-img-btn"></button>';
@@ -114,22 +120,26 @@ var imgFileUploader = (function() {
 //		slider.slideImg;
 	}
 	
-	async function uploadImageAjax(url) {
+	function countFiles() {
+		return dataTransfer.items.length;
+	}
+	
+	async function uploadImageAjax() {
 		var formData = new FormData();
 		Array.from(dataTransfer.files)
 		.forEach((file) => {
 			formData.append("uploadFile", file);
 		});
-
-		var uploadResult = await imgService.uploadImageAjax(url, formData);
+		
+		var uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
 		var str ='';
 		Array.from(uploadResult)
 		.forEach((image, i) => {
 			str += '<input type="hidden" name="style_image['+i+'].fileName" value="'+image.fileName+'">' + 
 				   '<input type="hidden" name="style_image['+i+'].uuid" value="'+image.uuid+'">' +
 				   '<input type="hidden" name="style_image['+i+'].uploadPath" value="'+image.uploadPath+'">';
-			console.log(str);
 		});
+		console.log(str);
 		return str;
 	}
 	
@@ -204,6 +214,9 @@ var imgFileUploader = (function() {
 	return {
 		container: container,
 		uploadImageAjax: uploadImageAjax,
+		countFiles: countFiles,
+		setURL: setURL,
+		option: option,
 	};
 })();
 

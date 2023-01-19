@@ -1,23 +1,58 @@
 import {imgFileUploader} from '../common/img-file-uploader.js';
+import {imgSlider} from '../common/img-slider.js';
 
 (function() {
-	var uploaderContainer = document.querySelector('.uploader-container');
+	const uploader = imgFileUploader;
+	uploader.setURL('/uploadStyleImage');
+	document.querySelector('.uploader-container')
+	.append(uploader.container);
 	
-	//파일 업로더 모듈 	
-	var uploader = imgFileUploader;
-	uploaderContainer.append(uploader.container);
+	const slider = imgSlider();
+	document.querySelector('.img-slider-container')
+	.append(slider.container);
 	
-	document.querySelector('button[type="submit"]')
+	document.querySelector('#selectRatio')
+	.addEventListener('click', (e) => {
+		const selected = e.target.closest('ul#selectRatio').querySelector('li.selected');
+		const newSelect = e.target.closest('#selectRatio li');
+		if (!newSelect) return;
+		
+		selected.className = '';
+		newSelect.className = 'selected';
+	});
+	
+	document.querySelectorAll('a.next-step, a.prev-step')
+	.forEach(x => x.addEventListener('click', (e) => {
+		e.preventDefault();
+		const register = e.target.closest('#register-list');	
+		const steps = ['first-step', 'second-step', 'third-step'];
+		const newStep = e.target.classList[0] == 'next-step'
+					? steps.indexOf(register.className)+1 
+					: steps.indexOf(register.className)-1;
+		
+		register.className = steps[newStep];
+	}));
+	
+	document.querySelector('a#submit')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
 		var form = e.target.closest('form');
 		
-		var result = await imgFileUploader.uploadImageAjax('/uploadStyleImage');
-		form.innerHTML += result;
+		// 이미지 파일 비동기 업로드하고, 업로드 정보를 받아온다.
+		var result = await imgFileUploader.uploadImageAjax();
+		var div = document.createElement('div');
+		div.innerHTML = result;
+		
+		form.append(div);
 		form.submit();
 	});
+})();
+
+function validation() {
 	
-	//div 입력창 만드는 함수
+	return true;
+}
+
 //	$('.editable').each(function(_, textDiv){
 //		if ($(textDiv).prop('tagName') == 'div') return;
 //		
@@ -32,9 +67,3 @@ import {imgFileUploader} from '../common/img-file-uploader.js';
 //	    this.contentEditable = true;
 //	});
 
-})();
-
-function validation() {
-	
-	return ;
-}

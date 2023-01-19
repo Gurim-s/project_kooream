@@ -71,13 +71,13 @@ public class BrandProductController {
 		model.addAttribute("list", service.getList());
 		return "/brandshop/view";
 	}	
-	
+	// 상품 리스트 보여주기
 	@GetMapping("/getList")	// 비동기 방식 mapping
 	@ResponseBody 
 	public ResponseEntity<List<ProductVO>> getList() {	
 		return new ResponseEntity<List<ProductVO>>(service.getList(),HttpStatus.OK);
 	}
-	
+	// 이미지 리스트 보여주기
 	@GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody 
 	public ResponseEntity<List<AttachFileVO>> getAttachList(int p_no) {
