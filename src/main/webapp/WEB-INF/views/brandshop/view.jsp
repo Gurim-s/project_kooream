@@ -132,7 +132,7 @@
 				str += '<div style="color: gray;">'+json[i].p_name_ko+'</div>';
 				str += '<div style="font-weight: bold; font-size: 18px;">'+json[i].p_release_price+'원</div>';
 				str += '<br/>'
-				str += '<div>'+json[i].p_brand+'</div>';
+				
 				
 				str += '</li></a>';
 			}
@@ -141,7 +141,26 @@
 			$('.brand').append(str);
 		});	
  	});
- 
+   	var result = '<c:out value="${result}"/>';
+	// rttr 객체를 통해 받아온 값이 빈 값이 아닐 때(데이터 변경) 알림 메소드 실행
+	if(result != ''){
+		checkResult(result);
+	}
+	// 뒤로 가기 할 때 문제가 될 수 있으므로,
+	// history 객체를 조작({정보를 담은 객체}, 뒤로 가기 버튼 문자열 형태의 제목, 바꿀 url)
+	history.replaceState({}, null, null);
+	function checkResult(result){
+		if(result === '' || history.state){	// 뒤로가기 방지
+			return;
+		}
+		if(result === 'success'){	// 수정 및 삭제
+			alert("처리가 완료되었습니다.");
+			return;
+		}
+		if(result === 'ok'){	// 삽입
+			alert("게시글이 등록되었습니다.");
+		}
+	}
  
  
  
