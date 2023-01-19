@@ -81,7 +81,7 @@ var template = function(style) {
 		m.open({title: '댓글 목록', type: 'right'});
 		
 		const replyTemplate = replyViewer(style_no);
-		replyTemplate.setOption({input: true})
+		replyTemplate.setOption({input: true, nestedReply: true});
 		const replyList = await replyTemplate.get();
 		m.append(replyList);
 	});

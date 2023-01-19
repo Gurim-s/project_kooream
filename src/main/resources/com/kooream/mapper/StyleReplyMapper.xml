@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				11,
 				#{content},
 				sysdate,
-				null)
+				#{nested_from})
 	</insert>
 	
 	<delete id="delete">
