@@ -20,7 +20,6 @@ public class StyleReplyServiceImpl implements StyleReplyService{
 		
 		return list;
 	}
-	
 	@Override
 	public int register(StyleReplyVO vo) {
 		return mapper.insert(vo);		
@@ -29,5 +28,10 @@ public class StyleReplyServiceImpl implements StyleReplyService{
 	@Override
 	public int remove(long rno) {
 		return mapper.delete(rno);
+	}
+	
+	@Override
+	public int removeNested(long rno) {
+		return mapper.deleteNested(rno);
 	}
 }

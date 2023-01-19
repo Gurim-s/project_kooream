@@ -8,4 +8,6 @@ public interface StyleReplyMapper {
 	public List<StyleReplyVO> getList(long style_no);
 	public int insert(StyleReplyVO vo);
 	public int delete(long rno);
+	public int deleteByStyleNo(long style_no);
+	public int deleteNested(long rno);
 }

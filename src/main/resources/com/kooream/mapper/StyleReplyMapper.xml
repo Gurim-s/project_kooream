@@ -29,4 +29,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from style_reply
 		where style_no=#{style_no}
 	</delete>
+	
+	<delete id="deleteNested">
+		delete from style_reply
+		where nested_from=#{rno}
+	</delete>
 </mapper>

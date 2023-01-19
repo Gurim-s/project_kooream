@@ -110,7 +110,10 @@ const replyViewer = (x) => (function(x) {
 			};
 			
 			await replyService.register(reply);
+			
 			loadReplies();
+			content.value = '';
+			nested_from.value = 0;
 		});
 	};
 	
@@ -127,6 +130,7 @@ const replyViewer = (x) => (function(x) {
 		if (option.nestedReply == false) return;
 		container.querySelectorAll('.write-nested-reply')
 		.forEach(x => x.addEventListener('click', (e) => {
+			e.preventDefault();
 			const rno = e.target.closest('li').dataset.nestedFrom == 0
 						? e.target.closest('li').dataset.rno
 						: e.target.closest('li').dataset.nestedFrom;
