@@ -17,6 +17,7 @@ public class ProductVO {
 	private String p_name_ko, p_name_en, p_size, p_brand, p_model_no, p_category, p_class, r_check,strUuid;
 	private Date p_release_date;
 	private String img_url;
+	private String strt_r_date, rtrn_r_date;
 	
 	private List<AttachFileVO> attachList;
 }

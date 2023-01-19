@@ -1,5 +1,7 @@
 package com.kooream.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,14 @@ public class RntRsvtServiceImpl implements RntRsvtService{
 	}
 
 	@Override
-	public RntRsvtVO getRsvt(RntRsvtVO vo) {
-		return mapper.getRsvt(vo);
+	public List<RntRsvtVO> getRsvt(RntRsvtVO vo) {
+		List<RntRsvtVO> result = mapper.getRsvt(vo);
+		return result;
+	}
+
+	@Override
+	public List<ProductVO> checkRnt(int m_no) {
+		return mapper.checkRnt(m_no);
 	}
 
 }

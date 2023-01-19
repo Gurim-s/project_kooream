@@ -123,6 +123,13 @@
 	.selectionDay{
 		background-color: rgb(242 242 242);
 	}
+	
+	.rnt{
+		background-color: pink;
+	}
+	input[type=button],.choose{
+		cursor: pointer;
+	}
 </style>
 
 </head>
@@ -164,13 +171,19 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function() {
+	var list='';
 	
 	calendarInit();
     
+	// 결제하기 버튼 클릭이벤트
 	$("#payBtn").on("click",function(){
-		$("#myForm").submit();
+		if($("input[name='strt_r_date']").val() && $("input[name='rtrn_r_date']").val()){
+			$("#myForm").submit();
+		}else{
+			alert("예약 하실 날짜를 선택해주세요.");
+			return; 
+		}
 	});
-	
 	
 	
 	
@@ -245,9 +258,10 @@ function calendarInit() {
 
         // 지난달 회색으로 표시
         for (var i = prevDate - prevDay + 1; i <= prevDate; i++) {	// i = 26; 6번 진행(26~31)
-        	if($("input[name='strt_r_date']").val()){
+        	if(myDate.toJSON().substring(0,10) > today.toJSON().substring(0,10)){
 	        	myDate.setDate(myDate.getDate()+1);
-	        	calendar.innerHTML = calendar.innerHTML + '<div class="day color prev disable" value="'+myDate.toJSON().substring(0,10)+'">' + i + '</div>';
+	        	calendar.innerHTML = calendar.innerHTML + '<div class="day choose color prev disable" value="'+myDate.toJSON().substring(0,10)+'">' + i + '</div>';
+ 				       	
         	}else{
         		calendar.innerHTML = calendar.innerHTML + '<div class="day color prev disable">' + i + '</div>';
         	}
@@ -277,31 +291,39 @@ function calendarInit() {
             date.setDate(date.getDate()+1); 
         }
         
-        // 예약 내역 불러와서 색칠해주는 ajax
+        // 예약 내역 불러와서 색칠해주는 ajax. 월이 변경되어도 불어올수 있도록 ajax로 만듦
         $.ajax({
         	   type : "POST",            
-               url : "/rental/ajax/getRsvt",      
+               url : "/rsvt/ajax/getRsvt",      
                data : {p_no:"${p_no}", m_no:9999}, 
                dataType : 'json',
                success : function(result){
-               		 var stVal = result.strt_r_date.toJSON().substring(0,10);
-               		 var edVal = result.rtrn_r_date.toJSON().substring(0,10);
-					 
-               		 $(div[value=stval]).addClass("rnt");
-               	 	 $(div[value=edVal]).addClass("rnt");
-               		 
-               	 	 var tagIdx = $(div[value=stval]);
-               		 while(tagIdx.next().hasClass("rnt") && tagIdx.next().length){
-               			 
-               		 }
-               
-               
+               		 list = result; // list 전역변수에 result 대입
+            	   var stVal = '';
+            	   var edVal = '';
+            	   for(var i=0; i<result.length; i++){
+  					 	stVal = result[i].strt_r_date;
+  					 	edVal = result[i].rtrn_r_date;
+            		   
+                 		$("div[value="+stVal+"]").addClass("rnt");
+                 	 	$("div[value="+edVal+"]").addClass("rnt");
+                 		
+                 	 	var stagIdx = $("div[value="+stVal+"]");
+                 	 	var etagIdx = $("div[value="+edVal+"]");
+                 		
+                 	 	if($("div[value="+stVal+"]").length){
+	                 	 	while(!(stagIdx.next().hasClass("rnt")) && stagIdx.next().length){
+	                 			stagIdx.next().addClass("rnt");
+	                 			stagIdx = stagIdx.next();
+	                 		}
+                 		}else{
+                 			while(!(etagIdx.prev().hasClass("rnt")) && etagIdx.prev().length){
+	                 			etagIdx.prev().addClass("rnt");
+	                 			etagIdx = etagIdx.prev();
+                 			}
+                 		}
+            	   }
                }
-        	
-        	
-        	
-        	
-        	
         });
         
         
@@ -373,8 +395,14 @@ function calendarInit() {
             // 지난날짜는 위에서 html이 다시 그려지므로 remove는 필요 없음
         }
     
-        // 날짜 선택시 클릭 이벤트
+        // 날짜 선택시 클릭 이벤트=====================================================
         $(".day.choose").on("click", function(){
+        	// 클릭한 날짜가 예약날짜이면 return
+        	if($(this).hasClass("rnt")){
+        		alert("해당 날짜에는 예약이 되어있어 선택하실 수 없습니다.");
+        		return;
+        	}
+        	
         	// value 값이 문자열로 들어가 있기 때문에 날짜로 변환해야함
         	var thisValue = $(this).attr("value");
         	var startValue = $("input[name='strt_r_date']").val();
@@ -387,7 +415,15 @@ function calendarInit() {
     	    	$("input[name='strt_r_date']").change();	// change 이벤트를 타게 하기 위해 강제로 change함수 걸어줌
         	
         	}else if(!endValue && startValue < thisValue){
-        	// start만 선택되어 있을때 end값을 선택한 경우
+        	// start만 선택되어 있을때 end값을 선택하는 경우
+        		
+        		for(var i=0; i<list.length; i++){
+        			if(startValue < list[i].strt_r_date && thisValue > list[i].rtrn_r_date){
+        				alert("선택하신 날짜 사이에 예약날짜가 있어 해당날짜는 선택하실 수 없습니다.");
+        				return;
+        			}
+        		}
+        	
         		this.classList.add("gray");
         		$("input[name='rtrn_r_date']").val(thisValue);
         		$("input[name='rtrn_r_date']").change();
@@ -397,6 +433,7 @@ function calendarInit() {
         		var idx = $("div[value=" + startValue + "]").length ? $("div[value=" + startValue + "]") : $($(".startTag")[0]); 
         		//$($(".day")[0]) -> $(".day")[0]가 태그형태로 가져오기 떄문에 제이쿼리로 한번더 감싸서 제이쿼리형태로 변환해줘야함
         		var wCnt = 0;
+        		
         		while(!idx.next().hasClass("gray")){
         			if(wCnt==31){
     					alert("31일 이상은 선택하실 수 없습니다.");
@@ -452,6 +489,13 @@ function calendarInit() {
         			return;
         		}else{
         		// 선택할 end 날짜가 현재일과 먼저 선택된 start날짜 사이일 경우
+        			for(var i=0; i<list.length; i++){
+            			if(thisValue < list[i].strt_r_date && startValue > list[i].rtrn_r_date){
+            				alert("선택하신 날짜 사이에 예약날짜가 있어 해당날짜는 선택하실 수 없습니다.");
+            				return;
+            			}
+            		}
+        		
         			this.classList.add("gray");
         			$("input[name='strt_r_date']").val(thisValue);
         			$("input[name='strt_r_date']").change();
@@ -518,7 +562,6 @@ function calendarInit() {
     
     }//-----------------------------------------------------------------------renderCalender() end
 	
-   
     
     
     // 이전달로 이동

@@ -42,19 +42,27 @@ public class RntReservationController {
 	
 	// 상품 예약 기능 & 예약 내역 확인 페이지 이동
 	@GetMapping("/rgstRsvt")
-	public String rgstRsvt(RntRsvtVO vo) {
+	public String rgstRsvt(RntRsvtVO vo, Model model) {
+		// 상품 예약
 		service.rgstRsvt(vo);
 		
+		// 예약 내역 불러오기
+		int m_no=9999;
+		List<ProductVO> list = service.checkRnt(m_no);
 		
+		model.addAttribute("list", list);
 		return "/rental/RntConfirm";
 	}
-//	
-//	// 상품 예약 내역 가져오는 ajax
-//	@PostMapping(value="/ajax/getRsvt", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	@ResponseBody
-//	public ResponseEntity<List<RntRsvtVO>> rentalList(RntRsvtVO vo) {
-//		RntRsvtVO rvo = service.getRsvt(vo);
-//		return new ResponseEntity<List<RntRsvtVO>>(rvo, HttpStatus.OK);
-//	}
+	
+	// 캘린더로 상품 예약 내역 가져오는 ajax
+	@PostMapping(value="/ajax/getRsvt", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public List<RntRsvtVO> rentalList(RntRsvtVO vo) {
+		List<RntRsvtVO> rvo = service.getRsvt(vo);
+		return rvo;
+	}
+	
+	
+	
 	
 }
