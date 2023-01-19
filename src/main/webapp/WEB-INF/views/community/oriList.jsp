@@ -90,10 +90,10 @@
 						<td rowspan="3">${vo.oriname }</td>
 					</tr>
 					<tr>
-						<td>${vo.orititle }</td>
+						<td><a class="get" href="${vo.orino }">${vo.orititle }</a></td>
 					</tr>
 					<tr>
-						<td id="content">${vo.oricon }</td>
+						<td id="content"><a class="get" href="${vo.orino }">${vo.oricon }</a></td>
 					</tr>
 					<tr id="bp"><td></td></tr>
 				</c:forEach>
@@ -112,6 +112,21 @@
 			form.attr("action", "/community/oriRegister");
 			form.submit();
 		})		
+		
+		
+		//게시글 상세 보기 ---------------------------------------------
+		$(".get").click(function(e) { //<a> 태그 클릭 시 페이지 이동이 되지 않게 막아둠
+			e.preventDefault();
+			form.attr("action", "/community/oriGet");
+			
+			form.append('<input type="hidden" name="orino" value="'+$(this).attr("href")+'">');
+			form.submit();
+			
+			
+		})
+		
+		
+		
 		
 		
 	})

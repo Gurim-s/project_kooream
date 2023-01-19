@@ -66,13 +66,25 @@ public class OriginalController {
 		return "/community/oriList";
 	}
 	
-	
+
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<OriginalAttachVO>> getAttachList(int orino) {
 		log.info("getAttachList....." + orino);
 		return new ResponseEntity<List<OriginalAttachVO>>(service.getAttList(orino), HttpStatus.OK);
 	}
+	
+	// 정품판별 게시글 조회
+	@GetMapping("/oriGet")
+	public String oriGet(int orino, Model model) {
+		log.info("original Get................" + orino);
+		
+		model.addAttribute("vo", service.oriGet(orino));
+		return "/community/oriGet";
+	}
+	
+	
+	
 	
 	
 }

@@ -72,6 +72,12 @@ public class OriginalServiceImpl implements OriginalService {
 		}
 	}
 	
-
+	// 정품판별 게시글 조회
+	@Override
+	public OriginalVO oriGet(int orino) {
+		log.info("origonal Get.................." + orino);
+		
+		return mapper.oriGet(orino);
+	}
 	
 }

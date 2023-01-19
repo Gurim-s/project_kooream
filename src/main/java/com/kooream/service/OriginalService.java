@@ -10,12 +10,15 @@ public interface OriginalService {
 	//public List<OriginalBrandVO> getOriBrandList();
 	
 	
-	// 정품 판별 게시판 리스트
+	// 정품판별 게시판 리스트
 	public List<OriginalVO> oriList();
 	
-	// 정품 판별 게시판 인서트
+	// 정품판별 게시판 인서트
 	public void oriRegister(OriginalVO vo);
 	
 	// 첨부파일
 	public List<OriginalAttachVO> getAttList(int orino);
+	
+	// 정품판별 게시글 조회
+	public OriginalVO oriGet (int orino);
 }
