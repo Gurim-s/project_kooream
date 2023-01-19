@@ -78,6 +78,9 @@ var imgFileUploader = (function() {
 	function setURL(url) {
 		option.uploadURL = url;
 	}
+	function setSaveName(name) {
+		option.saveName = name;
+	}
 	function addTempFile(target) {
 		var files = target.files;
 		
@@ -135,9 +138,9 @@ var imgFileUploader = (function() {
 		var str ='';
 		Array.from(uploadResult)
 		.forEach((image, i) => {
-			str += '<input type="hidden" name="style_image['+i+'].fileName" value="'+image.fileName+'">' + 
-				   '<input type="hidden" name="style_image['+i+'].uuid" value="'+image.uuid+'">' +
-				   '<input type="hidden" name="style_image['+i+'].uploadPath" value="'+image.uploadPath+'">';
+			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
 		});
 		console.log(str);
 		return str;
@@ -216,6 +219,7 @@ var imgFileUploader = (function() {
 		uploadImageAjax: uploadImageAjax,
 		countFiles: countFiles,
 		setURL: setURL,
+		setSaveName: setSaveName,
 		option: option,
 	};
 })();
