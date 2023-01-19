@@ -22,8 +22,15 @@ public class BidShopController {
 	
 	@GetMapping("/shop_introduce")
 	public String shop_introduce() {
-		log.info("list...");
+		log.info("introduce...");
 		
 		return "shop/shop_introduce";
+	}
+	
+	@GetMapping("/shop_bidpage")
+	public String shop_bidpage() {
+		log.info("bidpage...");
+		
+		return "shop/shop_bidpage";
 	}
 }

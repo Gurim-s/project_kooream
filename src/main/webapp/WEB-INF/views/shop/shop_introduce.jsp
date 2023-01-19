@@ -12,14 +12,14 @@
 	.product_photo {
 		float:left;
 		width: 50%;
-		height: 2000px;
+		height: 4000px;
 		border: 1px solid black;
 	}
 	
 	.product_introduce{
 		float:left;
 		width: 50%;
-		height: 2000px;
+		height: 4000px;
 		border: 1px solid black;
 		position: relative;
 		padding-left: 2%;
@@ -323,20 +323,21 @@
 		letter-spacing: -.15px;
 	}
 	
-	.dropdown_head{
+	.dropdown_head, .confirm_info, .refund_head{
 		padding: 18px 0 17px;
 		border-bottom: 1px solid #ebebeb;
 		cursor: pointer;
 		width: 100%;
 	}
 	
-	.dropdown_content{
+	.dropdown_content, .confirm_txt, .refund_txt{
 		padding: 20px 0;
 		border-bottom: 1px solid #ebebeb;
 		border-top: 1px solid #222;
+		display: none;
 	}
 	
-	.title_txt{
+	.title_txt, .content_item{
 		font-size: 13px;
 		letter-spacing: -.07px;
 		color: rgba(34,34,34,.8);
@@ -349,6 +350,57 @@
 	
 	.buy_txt{
 		margin-top: 20px;
+	}
+	
+	.title_head{
+		font-weight: bold;
+		font-size: 13px;
+	}
+	
+	.main_txt_bold{
+		font-weight: bold;
+	}
+	
+	.confirm_txt_body{
+		margin-top: 38px;
+	}
+	
+	.point_guidebox{
+	padding-top: 40px;
+	}
+	
+	.binfo_p{
+		float: left;
+		margin-right: 14px;
+	}
+	
+	.bottom_info2{
+	margin-top: 20px;
+	}
+	
+	.text_area{
+		display: block;
+		line-height: 16px;
+		font-size: 13px;
+		letter-spacing: -.07px;
+		font-weight: 600;
+		letter-spacing: normal;	
+	}
+	
+	.text_desc{
+		margin-top: 1px;
+		line-height: 16px;
+		font-size: 13px;
+		letter-spacing: normal;
+		color: rgba(34,34,34,.5);
+	}
+	
+	.notice_product{
+		margin-top: 20px;
+		padding-top: 40px;
+		border-top: 1px solid #f0f0f0;
+		font-size: 12px;
+		color: #909090
 	}
 
 /* 보여줄 구간의 높이와 넓이 설정 */
@@ -562,7 +614,7 @@
 						<p class="title">배송 기간 안내</p>
 					</div>
 					<div class="dropdown_content">
-						<strong>KREAM은 최대한 빠르게 모든 상품을 배송하기 위해 노력하고 있습니다. 
+						<strong class="title_head">KREAM은 최대한 빠르게 모든 상품을 배송하기 위해 노력하고 있습니다. 
 						배송 시간은 판매자가 검수를 위하여 상품을 검수센터로 보내는 속도에 따라 차이가 있습니다.</strong>
 						<div class="title_txt">
 							<p>[빠른배송 구매]</p>
@@ -571,8 +623,61 @@
 							<p class="buy_txt">[일반 구매]</p>
 							<p class="main_txt">- 거래가 체결된 시점부터 48시간(일요일•공휴일 제외) 내에 판매자가 상품을 발송해야 하며, 통상적으로 발송 후 1-2일 내에 KREAM 검수센터에 도착합니다.</p>
 						</div>
+						<div class="content_item">
+							<p class="main_txt">- 검수센터에 도착한 상품은 입고 완료 후 3영업일 이내에 검수를 진행합니다. 검수 합격시 배송을 준비합니다.</p>
+							<p>* 상품 종류 및 상태에 따라 검수 소요 시간은 상이할 수 있으며, 구매의사 확인에 해당할 경우 구매자와 상담 진행으로 인해 지연이 발생할 수 있습니다.</p>
+						</div>
+					</div>
+					<div class="confirm_head">
+						<p class="confirm_info">검수 안내</p>
+					</div>
+					<div class="confirm_txt">
+						<strong class="title_head">판매자의 상품이 검수센터에 도착하면 전담 검수팀이 철저한 분석과 검사로 정가품 확인을 진행합니다.</strong>
+						<div class="title_txt">
+							<p class="main_txt">- 검수센터에서는 정가품 여부를 확인하기 위하여, 지속적으로 데이터를 쌓고 분석하여 기록하고 있습니다.</p>
+							<p class="main_txt">- 업계 전문가로 구성된 검수팀은 박스와 상품의 라벨에서 바느질, 접착, 소재 등 모든 것을 검수합니다.</p>
+						<div class="confirm_txt_body">
+							<p class="main_txt_bold">검수 결과는 불합격•검수 보류•합격의 세가지 상태로 결과가 변경됩니다. (검수기준 보기)</p>
+						</div>
+						</div>
+						<div class="content_item">
+							<p class="content_txt">* 검수 합격: KREAM 검수택(Tag)이 부착되어 배송을 준비함</p>
+							<p class="content_txt">* 검수 보류: 앱에서 사진으로 상품의 상태 확인 및 구매 여부를 선택. (24시간 이후 자동 검수 합격)</p>
+							<p class="content_txt">* 검수 불합격: 즉시 거래가 취소되고 구매하신 금액을 환불 처리함.(환불 수단은 결제 수단과 동일)</p>
+						</div>
+					</div>
+					<div class="refund_head">
+						<p class="refund_info">구매 환불/취소/교환 안내</p>
+					</div>
+					<div class="refund_txt">
+						<strong class="title_head">KREAM은 익명 거래를 기반으로 판매자가 판매하는 상품을 구매자가 실시간으로 구매하여 거래를 체결합니다.</strong>
+						<div class="title_txt">
+							<p class="main_txt">- 단순 변심이나 실수에 의한 취소/교환/반품이 불가능합니다. 상품을 원하지 않으시는 경우 언제든지 KREAM에서 재판매를 하실 수 있습니다.</p>
+							<p class="main_txt">- 상품 수령 후, 이상이 있는 경우 KREAM 고객센터로 문의해주시기 바랍니다.</p>
+						</div>
 					</div>
 				</div>
+			<div class="point_guidebox">
+				<div class="bottom_info">
+					<img class="binfo_p" src="../resources/img/guide_icon1.png" style="width:40px; height: 35px;">
+					<div class="text_area">100% 정품 보증</div>
+					<p class="text_desc">KREAM에서 검수한 상품이 정품이 아닐 경우, 구매가의 3배를 보상합니다.</p>
+				</div>
+				<div class="bottom_info2">
+					<img class="binfo_p" src="../resources/img/guide_icon2.png" style="width:40px; height: 35px;">
+					<div class="text_area">엄격한 다중 검수</div>
+					<p class="text_desc">모든 상품은 검수센터에 도착한 후, 상품별 전문가 그룹의 체계적인 시스템을 거쳐 검수를 진행합니다.</p>
+				</div>
+				<div class="bottom_info2">
+					<img class="binfo_p" src="../resources/img/guide_icon3.png" style="width:40px; height: 35px;">
+					<div class="text_area">정품 인증 패키지</div>
+					<p class="text_desc">검수에 합격한 경우에 한하여 KREAM의 정품 인증 패키지가 포함된 상품이 배송됩니다.</p>
+				</div>
+			</div>
+		</div>
+			<div class="notice_product">
+				크림(주)는 통신판매 중개자로서 통신판매의 당사자가 아닙니다. 본 상품은 개별판매자가 등록한 상품으로 상품, 상품정보, 거래에 관한 의무와 책임은 각 판매자에게 있습니다. 
+				단, 거래과정에서 검수하고 보증하는 내용에 대한 책임은 크림(주)에 있습니다.
 			</div>
 		</div>
 	</div>
@@ -612,5 +717,42 @@
 		if (currentIdx !== slideCount - 1) {
 			moveSlide(currentIdx + 1);
 		}
+	});
+	
+	// 배송기간 안내 접기 펼치기
+	$(".dropdown_head").click(function(){
+		if($(".dropdown_content").css("display") == "none")
+	    {
+	        $(".dropdown_content").show();
+	        $(".dropdown_head").css({"font-weight": "bold"})
+	        
+	    } else {
+	        $(".dropdown_content").hide();
+	        $(".dropdown_head").css({"font-weight": "normal"})
+	    }
+	});
+	
+	$(".confirm_head").click(function(){
+		if($(".confirm_txt").css("display") == "none")
+	    {
+	        $(".confirm_txt").show();
+	        $(".confirm_info").css({"font-weight": "bold"})
+	        
+	    } else {
+	        $(".confirm_txt").hide();
+	        $(".confirm_info").css({"font-weight": "normal"})
+	    }
+	});
+	
+	$(".refund_head").click(function(){
+		if($(".refund_txt").css("display") == "none")
+	    {
+	        $(".refund_txt").show();
+	        $(".refund_info").css({"font-weight": "bold"})
+	        
+	    } else {
+	        $(".refund_txt").hide();
+	        $(".refund_info").css({"font-weight": "normal"})
+	    }
 	});
 </script>
