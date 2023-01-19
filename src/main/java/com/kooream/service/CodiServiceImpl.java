@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
+import com.kooream.mapper.codi_TagMapper;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -25,6 +27,9 @@ public class CodiServiceImpl implements CodiService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private CodiImageMapper attachmapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private codi_TagMapper tagmapper;
 	
 	
 	@Override
@@ -104,5 +109,21 @@ public class CodiServiceImpl implements CodiService{
 		
 		return list;
 	}
+	
+	@Override
+	public List<Codi_TagVO> getCodi_TagList(int codi_no) {
+		log.info("getCodi_TagList ::::::::::::");
+		List<Codi_TagVO> list = tagmapper.TagBycodi_no(codi_no);
+		
+		System.out.println("Tag list null ??" + list);
+		System.out.println("Tag list size ??" + list.size());
+		System.out.println("Tag list String ??" + list.toString());
+		
+		return list;
+	}
+	
+	
+	
+	
 	
 }

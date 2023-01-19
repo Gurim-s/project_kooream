@@ -15,21 +15,26 @@
 			<div class="insert_codi">
 				<div class="row">
 					<span class="title_content">코디제목</span>
-					<input type="text" name="codi_title" id="textForm">
+					<input type="text" name="codi_title" id="textForm" placeholder="제목입력">
 				</div>
 				<div class="row">
 					<span class="title_content">코디소개</span>
-					<input type="text" name="codi_content" id="textForm">
+					<input type="text" name="codi_content" id="textForm" placeholder="코디입력">
 				</div>
 				
 				<div class="row">
 					<span class="title_content">해시태그</span>
-					<input type="text" name="hashTags" id="textForm">
+					
+					<input type="text" class="tag" id="tag" placeholder="엔터로 해시태그를 등록해주세요.">
+				</div>
+				<div class="row">
+            		<ul id="tag-list">
+            		</ul>
 				</div>
 				
 				<div class="row">
 					<span class="title_content">상품태그</span>
-					<input type="text" name="m_no" id="textForm">
+					<input type="text" name="m_no" id="textForm" placeholder="상품 번호 입력">
 				</div>
 				
 				<div class="row">
@@ -47,7 +52,7 @@
 					<div><span class="title_content">사진 등록</span></div>
 				 <div class="panel-body">
 		            <div class="form-group uploadDiv">
-		               <input type="file" name="uploadFile" multiple="multiple">
+<!-- 		               <input type="file" id="uploadFile" name="uploadFile" multiple="multiple"> -->
 		            </div>
 		            <div class="uploadResult">
 		               <ul></ul>
@@ -65,160 +70,13 @@
 		</form>
 		
 	</div> <!-- codi_box ........... end -->
+<script type="module" src="/resources/js/codi/register.js"></script>
 <script type="text/javascript">
-	$(function() {
-		
-		var operForm = $('#operForm');
-		var formObj = $("form[role='form']");
-		
-		$("button").on("click", function(e) {
-			e.preventDefault();
-			
-			var oper = $(this).data("oper");
-			
-			if(oper == 'list'){
-				location.href = '/codishop/list';
-			}else if(oper == 'reset'){
-				formObj[0].reset(); // 내용 비워주기 
-				return;
-			}else{
-				console.log("submit_ok");
-				var str = '';
-				
-				$('.uploadResult ul li').each(function(i, obj){
-					var jobj = $(obj);
-					console.dir(jobj);
-					str+='<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'">';
-					str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
-					str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
-					
-				});
-				
-				 if(codi_register.codi_title.value == "" ) {
-					codi_register.codi_title.focus();
-			        alert("제목을 입력해 주십시오.");
-			        return false;
-				    };
-				 if(codi_register.codi_content.value == "" ) {
-					codi_register.codi_content.focus();
-			      	alert("내용을 입력해 주십시오.");
-			      	return false;
-				  };
-				 if(codi_register.hashTags.value == "" ) {
-					codi_register.hashTags.focus();
-			      	alert("해시태그을 입력해 주십시오.");
-			      	return false;
-				  };
-				 if(codi_register.m_no.value == "" ) {
-					codi_register.m_no.focus();
-			      	alert("상품 태그을 입력해 주십시오.");
-			      	return false;
-				  };
-				 if(codi_register.codimodel_name.value == "" ) {
-					codi_register.codimodel_name.focus();
-			      	alert("모델 명을 입력해 주십시오.");
-			      	return false;
-				  };
-				 if(codi_register.codi_cm.value == "" ) {
-					codi_register.codi_cm.focus();
-			      	alert("키를 입력해 주십시오.");
-			      	return false;
-				  };
-				 if(codi_register.codi_kg.value == "" ) {
-					codi_register.codi_kg.focus();
-			      	alert("몸무계를 입력해 주십시오.");
-			      	return false;
-				  };
-				  
-				console.log(str);
-				formObj.append(str);
-				console.log(formObj);
-				formObj.submit();			
-				
-				
-			}
-		}); //btn click event end
-	
-	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");   //확장자를 포함하지 못하도록 
-    var maxSize = 5242880; //5MB
-    
-    //파일 확장자와 파일사이즈 체크
-    function checkExtension(fileName, fileSize){
-       if(fileSize >= maxSize){
-          alert("파일 사이즈 초과");
-          return false;
-       }
-       if(regex.test(fileName)){
-          alert("해당 종류의 파일은 업로드 할 수 없습니다.");
-          return false;
-       }            
-       return true;
-    }   // end checkExtension();
-    
-	    $("input[type='file']").change(function() {
-	    	var formData = new FormData();
-	    	var inputFile = $("input[name='uploadFile']")
-	    	console.log(inputFile[0]);
-	    	var files = inputFile[0].files
-	    	
-			for(var i=0; i<files.length; i++){
-				if(!checkExtension(files[i].name, files[i].size)){
-					return false;
-				}
-				formData.append("uploadFile", files[i]);
-			}
-	   	 	$.ajax({
-	    		url : '/codi-uploadAjaxAction',
-	    		processData : false,
-	    		contentType : false,
-	    		data : formData,
-	    		type : 'post',
-	    		dataType : 'json',
-	    		success : function(result){
-	    			console.log(result);
-	    			showUploadFile(result);
-	    		}
-	    	});
-    	}); //$("input[type='file']").change end
-	
-    	// 파일 업로드 후 보여주기 
-    	var uploadResult = $(".uploadResult ul");
-    	function showUploadFile(uploadResultArr){
-    		str = '';
-    		
-    		for(var i=0; i<uploadResultArr.length; i++){
-    			var obj = uploadResultArr[i];
-    			
-    			var fileCallPath = encodeURIComponent(obj.uploadPath + "/"
-    												+ obj.uuid + "_"
-    												+ obj.fileName);
-    			
-    			str +='<li data-path="'+obj.uploadPath+'"data-uuid="'+obj.uuid+'"data-filename="'+obj.fileName+'">';
-    			str +='<img src="/resources/img/attach.png" style="width:15px"/>' + obj.fileName;
-    			str +='<span data-file="'+fileCallPath+'">X</span>';
-    			str +='</li>'
-    			
-    		}
-    		uploadResult.html(str);
-    	} // showUploadFile end
-    	
-    	uploadResult.on("click","span",function(){
-    		var targetFile = $(this).data("file");
-    		var targetLi = $(this).closest("li");	
-    		
-    		$.ajax({
-    			url : "/deleteFile",
-    			data : {fileName:targetFile},
-    			type : "post",
-    			dataType : "text",
-    			success : function(result) {
-    				targetLi.remove(); // 파일 삭제 
-					
-				} // function end
-    		}); // $.ajax end
-    	}); // uploadResult end
-	
-	}); // function end
+
+
+
+
+
 </script>
 
 <style>
@@ -250,6 +108,24 @@
 	  text-align: center;
 	  
 }
+.tag{
+	  width: 70%;
+	  border:none;
+	  border-bottom : 3px solid #ebebeb;
+	  outline:none;
+	  color: #636e72;
+	  font-size:16px;
+	  height:25px;
+	  background: none;
+	  text-align: center;
+	  
+}
+.del-btn{
+	border: 1px solid #ebebeb;
+
+
+}
+
 #textForm2{
 	  width: 18%;
 	  border:none;
@@ -271,6 +147,7 @@
 }
 .row {
 	width : 50%;
+	min-width: 600px;
     display: flex;
     padding: 10px 0;
     margin: auto;
@@ -298,6 +175,17 @@
 	font-weight: bold;
 }
 
+ul{
+	
+	list-style: none;
+}
+li {
+	display: inline-block;
+    padding: 8px 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    font-size: 15px;	
+}
 
 
 </style>

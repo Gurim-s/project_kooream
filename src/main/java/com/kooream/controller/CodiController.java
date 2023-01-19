@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
 import com.kooream.service.CodiService;
 
@@ -65,6 +66,15 @@ public class CodiController {
 		service.register(vo);
 		
 		List<CodiImageVO> list = vo.getAttachList();
+		List<Codi_TagVO> tagList = vo.getCodiTagVO();
+		
+		if(tagList != null) {
+			for(Codi_TagVO vo3 : tagList) {
+				log.info("::::getTag_name::::"+vo3.getTag_name());
+				log.info("::::getTag_cnt::::"+vo3.getTag_cnt());
+				log.info("::::getCodi_no::::"+vo3.getCodi_no());
+			}
+		}
 		
 		if(list != null && list.size()>0) {
 			for(CodiImageVO vo2 : list) {

@@ -46,7 +46,7 @@
 			</div>
 		</div>
 		<div class="More_btn">
-			<a  href="#" class="btn_More">더보기(MORE)</a>
+			<a  href="#" id="load" class="btn_More">더보기(MORE)</a>
 		</div>
 		
 	</div>
@@ -59,8 +59,17 @@ var column = $('.list-column');
 
 $(function() {
 	pageNum = 1;
-	amount = 20;
+	amount = 12;
 	getList(pageNum, amount);
+ 	
+	$('#load').on('click', function(e) {
+		e.preventDefault();
+		pageNum++;
+		getList(pageNum, amount);
+		
+	});
+	
+	
 });
 
 
@@ -125,6 +134,7 @@ function getList(pageNum, amount) {
 
 </script>
 <style type="text/css">
+	
 	.codi_box{
 		width: 1200px;
 	
