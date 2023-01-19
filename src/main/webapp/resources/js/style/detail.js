@@ -2,22 +2,23 @@ import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
 import {modal} from '../common/modal.js';
+import {replyViewer} from '../common/reply-viewer.js';
 
 (async () => {
-	/*
-	 * 페이지 로드
-	 **/
 	const searchParams = new URLSearchParams(location.search);
 	const [category, style_no] = Array.from(searchParams).map(x => x[1]);
 	const column = document.querySelector('.list-column');
 	
 	let styleList = await styleService.get(category, style_no);
-	styleList.forEach(x => column.append(item(x)));
-
+	styleList.forEach(x => column.append(template(x)));
 })();
 
-var item = function(style) {
-	var html = (
+//style목록 template
+var template = function(style) {
+	var template = document.createElement('div'); 
+	template.className = 'item';
+	template.dataset.styleNo = style.style_no;
+	template.innerHTML = (
 		'<div class="item-header clearfix">' +
 			'<div class="item-header-left">' +
 				'<div class="profile-image">'+
@@ -29,8 +30,8 @@ var item = function(style) {
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
-				'<button class="follow-btn" data-user-no="'+style.m_no+'">팔로우</button>' +
-				'<button class="update">수정</button>' +
+				'<a href="#" class="follow-btn" data-user-no="'+style.m_no+'">팔로우</a>' +
+				'<a href="#" class="update-btn">수정</a>' +
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
@@ -51,12 +52,9 @@ var item = function(style) {
 		'<div class="reply-container">'+
 		'</div>'
 	);
-	var item = document.createElement('div'); 
-	item.className = 'item';
-	item.innerHTML += html;
 	
 	//이미지 슬라이더 모듈 가져오기
-	var imgContainer = item.querySelector('.img-container');
+	var imgContainer = template.querySelector('.img-container');
 	var slider = imgSlider();
 	imgContainer.append(slider.container);
 	var imgSrcList = style.style_image.map(x => imgService.originPath(x));
@@ -65,19 +63,35 @@ var item = function(style) {
 	/***********************************
 	 * addEventListener
 	 **********************************/
-	item.querySelector('.like-summary')
+	template.querySelector('.like-summary')
 	.addEventListener('click', (e) => {
 		e.preventDefault();
-		let m = modal();
+		
+		const m = modal();
 		m.open({title: '공감 목록'});
+		m.append('helloWorld');
 	});
 	
-	item.querySelector('.comment-summary')
+	template.querySelector('.comment-summary')
+	.addEventListener('click', async (e) => {
+		e.preventDefault();
+		
+		const style_no = e.target.closest('.item').dataset.styleNo;
+		const m = modal();
+		m.open({title: '댓글 목록', type: 'right'});
+		
+		const replyTemplate = replyViewer(style_no);
+		replyTemplate.setOption({input: true})
+		const replyList = await replyTemplate.get();
+		m.append(replyList);
+	});
+	
+	template.querySelector('.update-btn')
 	.addEventListener('click', (e) => {
 		e.preventDefault();
-		let m = modal();
-		m.open({title: '댓글 목록', type: 'right'});
+		
+		location.href = '/style/update?style_no=' + style.style_no;
 	});
 	
-	return item;
+	return template;
 }

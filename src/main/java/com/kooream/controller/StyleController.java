@@ -98,7 +98,7 @@ public class StyleController {
 		return "redirect:/style/list";
 	}
 	
-	@PostMapping("/remove")
+	@GetMapping("/remove")
 	public String delete(@RequestParam("style_no") long style_no, RedirectAttributes rttr) {
 		log.info("remove....." + style_no);
 		
