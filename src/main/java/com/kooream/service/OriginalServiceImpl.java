@@ -30,9 +30,25 @@ public class OriginalServiceImpl implements OriginalService {
 	// 정품판별 게시판 리스트
 	@Override
 	public List<OriginalVO> oriList() {
+		List<OriginalVO> list = mapper.oriList();
+		
+		// 썸네일 게시글 합쳐서 가져오기
+		for(OriginalVO vo : list) {
+			List<OriginalAttachVO> attach = attachMapper.findByOrino(vo.getOrino());
+			vo.setAttachList(attach);
+		}
+		
 		log.info("ori list......");
 		
-		return mapper.oriList();
+		//return mapper.oriList();
+		return list;
+	}
+	
+	// 첨부파일
+	@Override
+	public List<OriginalAttachVO> getAttList(int orino) {
+		log.info("get Attach List...................");
+		return attachMapper.findByOrino(orino);
 	}
 	
 	// 정품판별 게시글 작성
@@ -56,11 +72,12 @@ public class OriginalServiceImpl implements OriginalService {
 		}
 	}
 	
-	// 첨부파일
+	// 정품판별 게시글 조회
 	@Override
-	public List<OriginalAttachVO> getAttList(int orino) {
-		log.info("get Attach List...................");
-		return attachMapper.findByOrino(orino);
+	public OriginalVO oriGet(int orino) {
+		log.info("origonal Get.................." + orino);
+		
+		return mapper.oriGet(orino);
 	}
 	
 }

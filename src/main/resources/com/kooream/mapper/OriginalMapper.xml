@@ -17,5 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT MAX(orino) FROM original_pro
 	</select>
 	
+	<select id="oriGet" resultType="com.kooream.domain.OriginalVO">
+		SELECT * FROM original_pro WHERE orino = #{orino}
+	</select>
 	
 </mapper>

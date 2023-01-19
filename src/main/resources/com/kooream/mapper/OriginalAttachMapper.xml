@@ -5,15 +5,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.kooream.mapper.OriginalAttachMapper">
 	<insert id="insert">
-		INSERT INTO original_attach(uuid, uploadPath, fileName, fileType, orino)
-		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{orino})
+		INSERT INTO original_attach(uuid, uploadPath, fileName, orino)
+		VALUES (#{uuid}, #{uploadPath}, #{fileName}, #{orino})
 	</insert>
 	
 	<delete id="delete">
 		DELETE FROM original_attach WHERE uuid = #{uuid}
 	</delete>
 	
-	<select id="findByBno" resultType="com.kooream.domain.OriginalAttachVO">
+	<select id="findByOrino" resultType="com.kooream.domain.OriginalAttachVO">
 		SELECT * FROM original_attach WHERE orino = #{orino}
 	</select>
 
