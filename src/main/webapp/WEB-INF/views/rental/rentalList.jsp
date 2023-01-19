@@ -95,6 +95,15 @@
 			</ul>
 		</form>
 	</div>
+	<div>
+		<button id="rPrdtBtn">상품 등록</button>
+	</div>
+	<!-- 배너 이미지-------------------------------------------------------- -->
+	<div class="slick" style="width:502px">
+		<c:forEach var="image" items="${imageList }">
+			<div style="width:700px"><img src="/display/${image.img_url }"/></div>
+		</c:forEach>
+	</div>
 	<!-- 상품 리스트-------------------------------------------------------------- -->
 	<div id="productList" style="display:inline-block;width:75%;margin-top:155px; magin-bottom:50px;">
 	
@@ -106,8 +115,32 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script  type="text/javascript">
 	$(function(){ //------------------------------------------------------------------------------------onload start
-		
-		
+		/*
+		// 사진 슬라이드 효과 주기위한 옵션---배너----
+		$('.slick').slick({
+			  dots: true, //페이지 네비게이션
+			  arrows:true, // next, prev 이동 버튼
+			  autoplay:true, // 자동 넘김 여부
+			  infinite: false, //반복설정
+			  speed: 300, //슬라이드 속도
+			  autoplaySpeed : 10000,   // 자동 넘김시 슬라이드 시간
+			  pauseOnHover : true,// 마우스 hover시 슬라이드 멈춤
+			  vertical : false,  // 세로 방향 슬라이드 옵션
+			  prevArrow : "<button type='button' class='slick-prev' value=←>Previous</button>",        
+			  nextArrow : "<button type='button' class='slick-next'value=→>Next</button>", //화살표 커스텀
+			  slidesToShow: 1, //보여질 슬라이드 수
+			  slidesToScroll: 1, //넘겨질 슬라이드 수
+			  responsive: [ // -> 반응형 옵션
+			    {
+			      breakpoint: 480,// 반응형 ~ 480
+			      settings: {
+			        slidesToShow: 1,
+			        slidesToScroll: 1
+			      }
+			    }
+			 ]
+		});
+		*/
 		// 카테고리 클릭 이벤트------------------------------------------------------
 		$(".category").on("click", function(e){
 			if($(this).next().css("display") == "none"){
@@ -266,7 +299,9 @@
 		getList();
 		
 		
-		
+		$("#rPrdtBtn").on("click",function(){
+			location.href="/rental/addRntPrdtPage";
+		});
 		
 		
 		

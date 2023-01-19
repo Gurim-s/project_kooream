@@ -12,4 +12,5 @@ public interface RntRsvtMapper {
 	public ProductVO getPrice(RntRsvtVO vo);
 	public int rgstRsvt(RntRsvtVO vo);
 	public List<RntRsvtVO> getRsvt(RntRsvtVO vo);
+	public List<ProductVO> checkRnt(int m_no);
 }

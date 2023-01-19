@@ -33,4 +33,9 @@ public class RntRsvtServiceImpl implements RntRsvtService{
 		return result;
 	}
 
+	@Override
+	public List<ProductVO> checkRnt(int m_no) {
+		return mapper.checkRnt(m_no);
+	}
+
 }

@@ -175,8 +175,14 @@ $(document).ready(function() {
 	
 	calendarInit();
     
+	// 결제하기 버튼 클릭이벤트
 	$("#payBtn").on("click",function(){
-		$("#myForm").submit();
+		if($("input[name='strt_r_date']").val() && $("input[name='rtrn_r_date']").val()){
+			$("#myForm").submit();
+		}else{
+			alert("예약 하실 날짜를 선택해주세요.");
+			return; 
+		}
 	});
 	
 	

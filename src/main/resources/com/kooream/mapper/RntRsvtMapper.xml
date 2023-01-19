@@ -27,4 +27,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM RSVT_TBL
 		WHERE P_NO=#{p_no} and m_no=9999
 	</select>
+	
+	<select id="checkRnt" parameterType="int" resultType="com.kooream.domain.ProductVO">
+		SELECT A.* ,(SELECT B.UPLOADPATH || '\' || B.UUID || '_' || B.FILENAME
+						FROM PRODUCT_IMAGE B
+						WHERE A.P_NO = B.P_NO AND ROWNUM =1) AS img_url
+					,TO_CHAR(STRT_R_DATE, 'YYYY/MM/DD') AS strt_r_date
+					,TO_CHAR(RTRN_R_DATE, 'YYYY/MM/DD') AS rtrn_r_date
+		FROM PRODUCT A JOIN RSVT_TBL C
+		ON A.P_NO = C.P_NO
+		WHERE M_NO = #{m_no}
+		
+		
+	</select>
 </mapper>
