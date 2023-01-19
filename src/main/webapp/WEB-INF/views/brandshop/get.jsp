@@ -39,6 +39,41 @@
 		position: center;
 		
 	}
+     .modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: none;
+
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal.show {
+        display: block;
+      }
+
+      .modal_body {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: 400px;
+        height: 600px;
+
+        padding: 40px;
+
+        text-align: center;
+
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+        transform: translateX(-50%) translateY(-50%);
+      }
 	
 
 
@@ -77,8 +112,17 @@
 				<div>${vo.p_name_ko }</div>
 			<br/>
 			<div><span>옵션</span></div>
-			<div><a href ="#" class = "btn_size">
-			<span style="font-size: 20px; float: right;">옵션선택</span></a></div>
+			<div class = "modal">
+				<div class="modal_body">사이즈 선택
+					<div>
+						<hr/>
+						<br/><br/><br/>
+						<button style="width: 300px;">FREE</button>
+					</div>
+				</div>
+			</div>
+			<button class="btn_size">옵션선택</button>
+			<!-- <span style="font-size: 20px; float: right;">옵션선택</span></a></div> -->
 			<br/>
 			<br/>
 			<hr/>
@@ -91,7 +135,11 @@
 			<div class = "btn">
 			<button id = "product_cart" style="background: red; color: white;">구매하기</button><br/>
 			<br/>
-			<button id = "product_cart">장바구니</button><br/>
+			<form action="/brandCart/addCart" method="post">
+				<input type="hidden" name="p_no" value="${vo.p_no }">
+				<button id = "product_cart">장바구니</button><br/>
+			</form>
+			
 			<br/>
 			</div>
 			<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
@@ -102,13 +150,20 @@
 				<input type="hidden" name="pageNum" value="${cri.pageNum }">
 				<input type="hidden" name="amount" value="${cri.amount }">
 				
+				
+				
 			</form>
 			
 			</div>
 	</div>
 	
-	<div class = "full">
+	<div class = "full" >
 	<label>상품 여러이미지ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</label>
+	<hr/>
+	<br/>
+	<div style="margin-left:auto; margin-right:auto;">본 상품은 '${vo2.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
+	</div>
+	<div style="margin: 100px;">
 	<ul>
 		<li>
 		<c:forEach var="index" begin="1" end="${vo.attachList.size() - 1 }" step="1"> 
@@ -124,6 +179,7 @@
 		</li>
 	
 	</ul>
+	</div>
 	<div class = "brands">
 	</div>
 	<br/>
@@ -154,7 +210,7 @@
 		</tr>
 		
 	</table>
-	</div>
+	
 	<br/>
 	<br/>
 	
@@ -162,8 +218,30 @@
 
 <script type="text/javascript">
 
+	const body = document.querySelector('body');
+	const modal = document.querySelector('.modal');
+	const btn_size = document.querySelector('.btn_size');
+	
+	btn_size.addEventListener('click', () => {
+	  modal.classList.toggle('show');
+	
+	  if (modal.classList.contains('show')) {
+	    body.style.overflow = 'hidden';
+	  }
+	});
+	
+	modal.addEventListener('click', (event) => {
+	  if (event.target === modal) {
+	    modal.classList.toggle('show');
+	
+	    if (!modal.classList.contains('show')) {
+	      body.style.overflow = 'auto';
+	    }
+	  }
+	});
 
-$(function name() {	// 수정페이지로 이동
+
+$(function () {	// 수정페이지로 이동
 	var p_noValue = '${vo.p_no}';
 	
 	var operForm = $("#operForm");
@@ -180,6 +258,28 @@ $(function name() {	// 수정페이지로 이동
 		
 	});
 });
+	
+	var pno = '${vo.p_no}'	
+			
+	$("#product_cart").click(function () {
+		
+		$.ajax({
+			url : "/brandcart/addCart",
+			type : 'Post'
+			data : {pno},
+			success : function () {
+				alert("카트담기 성공")
+			},
+			error : function () {
+				alert("카트 담기 실패")
+			}
+					
+			})
+			
+		})
+		
+		
+
 
 
 
