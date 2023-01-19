@@ -36,9 +36,8 @@ const replyViewer = (x) => (function(x) {
 			
 			listContainer.append(noneReplyTemplate);
 		}
-		setListCss();
+		 setListCss();
 		setListEvent();
-		
 	}
 	
 	function inputTemplate() {
@@ -96,28 +95,32 @@ const replyViewer = (x) => (function(x) {
 				content: content,
 			};
 			
-			const result = await replyService.register(reply);
+			await replyService.register(reply);
 			loadReplies();
 		});
 	};
 	
 	function setListEvent() {
-		listContainer.querySelector('.reply-etc a.remove')
-		.addEventListener('click', async (e) => {
+		listContainer.querySelectorAll('.reply-etc a.remove')
+		.forEach(x => x.addEventListener('click', async (e) => {
 			e.preventDefault();
 			const rno = e.target.closest('li').dataset.rno;
 
-			const result = await replyService.remove(rno);
+			await replyService.remove(rno);
 			loadReplies();
-		});
-	}
-	
-	function setNestedReplyEvent() {
+		}));
+		
 		container.querySelectorAll('.write-nested-reply')
 		.forEach(x => x.addEventListener('click', (e) => {
 			const rno = e.target.closest('li').dataset('rno');
+			const subjectName = e.target.closest('li').querySelector('.user-name')
+			const input = container.querySelector('.input-container input');
+			input.value = '@' + subjectName + ' ';
+			
+			
 		}));
 	}
+	
 	
 	function setCss() {
 		
