@@ -33,4 +33,31 @@ public class BidShopController {
 		
 		return "shop/shop_bidpage";
 	}
+	
+	@GetMapping("/shop_buypage")
+	public String shop_buypage() {
+		log.info("shop_buypage...");
+		
+		return "shop/shop_buypage";
+	}
+	
+//	@GetMapping("/shop_buypage2")
+//	public String shop_buypage2() {
+//		log.info("shop_buypage...");
+//		
+//		return "shop/shop_buypage2";
+//	}
+	
+	@GetMapping("/shop_register")
+	public String shop_register() {
+		log.info("shop_register...");
+		
+		return "shop/shop_register";
+	}
+	
+	
+	
+	
+	
+	
 }
