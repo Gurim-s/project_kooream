@@ -14,6 +14,7 @@ import lombok.Setter;
 public class RentalMenuVO {
 	private List<String> brandType, ctgrType;
 	private String price;
-	
+	private String keyword;
+	private String order;
 	
 }
