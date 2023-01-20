@@ -76,8 +76,14 @@ public class OriginalServiceImpl implements OriginalService {
 	@Override
 	public OriginalVO oriGet(int orino) {
 		log.info("origonal Get.................." + orino);
+		OriginalVO vo = mapper.oriGet(orino);				// 조회 하려는 게시글 하나를 가져오기
+		vo.setAttachList(attachMapper.findByOrino(orino));	// 해당 게시글의 첨부 파일 가져오기
 		
-		return mapper.oriGet(orino);
+		
+		return vo;
 	}
+
+	
+	
 	
 }
