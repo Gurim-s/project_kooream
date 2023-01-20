@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BrandCartVO {
-	private int m_no, p_no;
+	private int cart_no, m_no, p_no ;
 	
 	
 
