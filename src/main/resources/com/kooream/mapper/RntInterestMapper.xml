@@ -17,4 +17,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="intrstRemove" parameterType="com.kooream.domain.ProductVO">
 		DELETE FROM INTEREST_TBL WHERE M_NO=1 AND P_NO=#{p_no}
 	</delete>
+	
+	<!-- 관심상품 리스트 조회 -->
+	<select id="interestList" parameterType="int" resultType="com.kooream.domain.ProductVO">
+		SELECT A.*, (SELECT B.UPLOADPATH || '\' || B.UUID || '_' || B.FILENAME
+						FROM PRODUCT_IMAGE B
+						WHERE A.P_NO = B.P_NO AND ROWNUM =1) AS img_url
+		FROM PRODUCT A 
+		WHERE P_NO = (SELECT P_NO
+						FROM INTEREST_TBL
+						WHERE M_NO=#{m_no})
+	</select>
 </mapper>

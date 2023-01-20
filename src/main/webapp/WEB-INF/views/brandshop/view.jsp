@@ -38,6 +38,7 @@
 </head>
 <body>
 	<div>
+	<div></div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div>
 	<br/><a class="register" href="/brandshop/register">등록</a></div><br/><br/>
 	
 
@@ -131,6 +132,7 @@
 				str += '<div style="font-weight: bold; font-size: 18px; ">'+json[i].p_name_en+'</div>';
 				str += '<div style="color: gray;">'+json[i].p_name_ko+'</div>';
 				str += '<div style="font-weight: bold; font-size: 18px;">'+json[i].p_release_price+'원</div>';
+				str += '<div style="font-weight: bold; font-size: 18px;">'+json[i].b_name+'</div>';
 				str += '<br/>'
 				
 				

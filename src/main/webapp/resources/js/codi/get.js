@@ -1,8 +1,8 @@
 import {imgSlider} from '../common/img-slider.js'; // 이미지 슬라이더 모듈 가져오기
 import {imgService} from '../service/image-service.js';
 
+var codi_no = $('.codi_box').data('codi-no');
 $(function() {
-	var codi_no = $('.codi_box').data('codi-no');
 	console.log(codi_no);
 	
 	$.ajax({
@@ -47,12 +47,12 @@ $("#List_go").click(function() {
 	
 });
 $("#modify_go").click(function() {
-	location.href = "/codishop/modify?codi_no=${board.codi_no}";
+	location.href = "/codishop/modify?codi_no="+codi_no;
 	submit();
 });
 
 $("#remove_go").click(function() {
-	location.href = "/codishop/remove?codi_no=${board.codi_no}";
+	location.href = "/codishop/remove?codi_no="+codi_no;
 	submit();
 });
 
@@ -60,7 +60,7 @@ var codi_c_no = "";
 
 // 화면 이동 스크립트 --- end
 var replyUL = $(".chat");
-var codi_noValue = '${board.codi_no}';
+var codi_noValue = codi_no;
 
 
 // 댓글 달기 버튼 이벤트
@@ -84,7 +84,7 @@ $("#goodsBtn").on("click", function(){
 function showList() {
 	CodiReplyService.getList({codi_no:codi_noValue, page:1},
 		function(result) {
-			str = '';
+			var str = '';
 				
 			if(result == null || result.length == 0){
 				replyUL.html("");

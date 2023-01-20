@@ -18,4 +18,5 @@ public class StyleReplyVO {
 	private String content;
 	private Date regdate;
 	private long nested_from;
+	private long count_nested;
 }

@@ -1,20 +1,18 @@
 package com.kooream.domain;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RentalMenuVO {
-	private List<String> brandType, ctgrType;
-	private String price;
-	private String keyword;
-	private String order;
-	
+public class Codi_TagVO {
+	private int codi_no;
+	private int tag_cnt;
+	private String tag_name;
 }

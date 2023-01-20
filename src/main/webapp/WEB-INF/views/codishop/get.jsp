@@ -109,4 +109,5 @@
 <script type="text/javascript" src="/resources/js/codi/codiReply.js"></script>
 <script type="text/javascript" src="/resources/js/codi/util.js"></script>
 <script type="module" src="/resources/js/codi/get.js"></script>
+
 <jsp:include page="../include/footer.jsp"/>

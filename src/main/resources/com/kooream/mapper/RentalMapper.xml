@@ -33,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       	]]>
             (SELECT C.B_NAME
             FROM BRAND_MEMBER C WHERE C.B_NO = A.B_NO) AS p_brand,
+            (SELECT COUNT(*) FROM INTEREST_TBL D WHERE A.P_NO = D.P_NO) AS cnt,
          	A.*
      		FROM product A
       		where P_CLASS = 'rental'
@@ -54,6 +55,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	AND A.R_PRICE <= #{price}
 	    	]]>
 	    </if>
+	    <if test="keyword != null and keyword != ''">
+	    	AND P_NAME_KO LIKE '%'||#{keyword}||'%' OR (LOWER(P_NAME_EN) LIKE '%'|| LOWER(#{keyword}) ||'%')
+	    </if>
+	    
 	</select>
 	
 	<!-- 렌탈 상품 상세보기에서 이미지 불러오기 -->
@@ -64,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
-	<!-- 렌탕 상품 상세보기 -->
+	<!-- 렌탈 상품 상세보기 -->
 	<select id="viewPrdt" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.ProductVO">
 		SELECT 
 			(SELECT B.B_NAME 
