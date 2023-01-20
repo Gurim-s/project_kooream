@@ -4,6 +4,7 @@ const replyViewer = (x) => (function(x) {
 	const style_no = x;
 	let option = {
 		input: false,			/*댓글 입력창 여부*/
+		nestedReply: false,
 	}
 	const container = document.createElement('div');
 	container.className = 'reply-viewer';
@@ -22,12 +23,20 @@ const replyViewer = (x) => (function(x) {
 		return container;
 	}
 	
-//	replyList.forEach(reply => listTemplage(reply));
 	async function loadReplies() {
 		listContainer.innerHTML = '';
 		const replyList = await replyService.getList(style_no);
-		if (replyList.length > 0) {
-			replyList.forEach(x => listContainer.append(listTemplate(x)));
+		if (replyList.length > 0 && option.nestedReply == false) {
+			replyList.forEach(x => listContainer.append(replyTemplate(x)));
+			
+		} else if (replyList.length > 0 && option.nestedReply == true) {
+			const nestedReply = replyList.sort((x, y) => x.nested_from < y.nested_from)
+				.filter(x => x.nested_from != 0);		
+			
+			replyList.filter(x => x.nested_from == 0)
+				.map(x => [x, ...nestedReply.filter(y => y.nested_from == x.rno)])
+				.flat()
+				.forEach(x => listContainer.append(replyTemplate(x)));
 			
 		} else {
 			const noneReplyTemplate = document.createElement('li');
@@ -36,8 +45,9 @@ const replyViewer = (x) => (function(x) {
 			
 			listContainer.append(noneReplyTemplate);
 		}
-		 setListCss();
-		setListEvent();
+		
+		setReplyCss();
+		setReplyEvent();
 	}
 	
 	function inputTemplate() {
@@ -49,7 +59,8 @@ const replyViewer = (x) => (function(x) {
 				'<img src="/resources/img/codi_test.png" />' +
 			'</div>' +
 			'<div class="input-reply">' +
-				'<input type="text" name="content" value="11">' +
+				'<input type="text" name="content" value="">' +
+				'<input type="hidden" name="nested_from" value="0">' +
 				'<a href="#" class="add-reply">등록</a>' +
 			'</div>'
 		);
@@ -57,12 +68,13 @@ const replyViewer = (x) => (function(x) {
 		return item;
 	}
 	
-	function listTemplate(reply) {
+	function replyTemplate(reply) {
 		const template = document.createElement('li');
+		if (option.nestedReply) template.dataset.nestedFrom = reply.nested_from;
 		template.dataset.rno = reply.rno;
 		template.innerHTML = (
 			'<div class="profile-img" data-mno="'+reply.mno+'">' +
-				'<img src="/resources/img/codi_test.png" />' +
+				'<img src="/resources/img/codi_test.png"/>' +
 			'</div>' + 
 			'<div class="reply-detail">' +
 				'<div class="reply-content">' +
@@ -71,7 +83,7 @@ const replyViewer = (x) => (function(x) {
 				'</div>' +
 				'<div class="reply-etc">' +
 					'<span class="regdate">'+reply.regdate+'</span>' +
-					'<a class="write-nested-reply" href="#">답글쓰기</a>' +
+					(option.nestedReply? '<a class="write-nested-reply" href="#">답글쓰기</a>': '') +
 					'<a class="remove" href="#">삭제</a>' +
 				'</div>' +
 			'</div>'
@@ -86,38 +98,50 @@ const replyViewer = (x) => (function(x) {
 	
 	function setInputEvent() {
 		container.querySelector('.input-container .add-reply')
-		.addEventListener('click', async (e) => {
-			e.preventDefault();
-			const content = container.querySelector('.input-reply input').value;
-			const reply = {
-				style_no: style_no,
-				mno: 11,
-				content: content,
-			};
-			
-			await replyService.register(reply);
-			loadReplies();
+			.addEventListener('click', async (e) => {
+				e.preventDefault();
+				const content = container.querySelector('.input-reply input[name="content"]');
+				const nested_from = container.querySelector('.input-reply input[name="nested_from"]');
+				const reply = {
+					style_no: style_no,
+					mno: 11,
+					content: content.value,
+					nested_from: nested_from.value,
+				};
+				
+				await replyService.register(reply);
+				
+				loadReplies();
+				content.value = '';
+				nested_from.value = 0;
 		});
 	};
 	
-	function setListEvent() {
+	function setReplyEvent() {
 		listContainer.querySelectorAll('.reply-etc a.remove')
-		.forEach(x => x.addEventListener('click', async (e) => {
-			e.preventDefault();
-			const rno = e.target.closest('li').dataset.rno;
-
-			await replyService.remove(rno);
-			loadReplies();
+			.forEach(x => x.addEventListener('click', async (e) => {
+				e.preventDefault();
+				const rno = e.target.closest('li').dataset.rno;
+	
+				await replyService.remove(rno);
+				loadReplies();
 		}));
 		
+		if (option.nestedReply == false) return;
 		container.querySelectorAll('.write-nested-reply')
-		.forEach(x => x.addEventListener('click', (e) => {
-			const rno = e.target.closest('li').dataset('rno');
-			const subjectName = e.target.closest('li').querySelector('.user-name')
-			const input = container.querySelector('.input-container input');
-			input.value = '@' + subjectName + ' ';
-			
-			
+			.forEach(x => x.addEventListener('click', (e) => {
+				e.preventDefault();
+				const rno = e.target.closest('li').dataset.nestedFrom == 0
+							? e.target.closest('li').dataset.rno
+							: e.target.closest('li').dataset.nestedFrom;
+				const subjectName = e.target.closest('li').querySelector('.user-name').innerText;
+				const inputContent = container.querySelector('.input-reply input[name="content"]');
+				const inputNestedFrom = container.querySelector('.input-reply input[name="nested_from"]'); 
+				
+				inputContent.value = '@' + subjectName+ ' ';
+				inputNestedFrom.value = rno;
+				
+				inputContent.focus();
 		}));
 	}
 	
@@ -170,9 +194,9 @@ const replyViewer = (x) => (function(x) {
 //		registerBtn.style.display = 'none';
 	}
 	
-	function setListCss() {
+	function setReplyCss() {
 		listContainer.style.width = '100%';
-		listContainer.style.padding = '20px 0px 20px 40px';
+		listContainer.style.padding = '20px 0px 20px 24px';
 //		listContainer.style.height
 		
 		const list = listContainer.querySelectorAll('li');
@@ -191,6 +215,12 @@ const replyViewer = (x) => (function(x) {
 			img.style.width = '100%';
 			img.style.height = '100%';
 			img.style.objectFit = 'cover';
+			
+			if (!option.nestedReply) return;
+			if (x.dataset.nestedFrom != 0) {
+				x.style.paddingLeft =  '30px';
+			}
+			
 		});
 	}
 	

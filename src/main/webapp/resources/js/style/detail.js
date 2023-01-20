@@ -30,21 +30,21 @@ var template = function(style) {
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
-				'<a href="#" class="follow-btn" data-user-no="'+style.m_no+'">팔로우</a>' +
+				'<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>' +
 				'<a href="#" class="update-btn">수정</a>' +
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
 		'<div class="product-container">'+
 		'</div>' +
-		'<div class="comment-like-summary">'+
+		'<div class="reply-like-summary">'+
 			'<a href="#" class="like-summary">' +
 				'<img src="/resources/img/like.svg" alt="공감"/>' +
 				'<span>'+ style.count_like +'</span>'+ 
 			'</a>' +
-			'<a href="#" class="comment-summary">' +
-				'<img src="/resources/img/comment.svg" alt="댓글"/>' +
-				'<span>'+ style.count_comment +'</span>'+ 
+			'<a href="#" class="reply-summary">' +
+				'<img src="/resources/img/reply.svg" alt="댓글"/>' +
+				'<span>'+ style.count_reply +'</span>'+ 
 			'</a>' +
 			'<div class="clearfix"></div>' +
 		'</div>' + 
@@ -72,7 +72,7 @@ var template = function(style) {
 		m.append('helloWorld');
 	});
 	
-	template.querySelector('.comment-summary')
+	template.querySelector('.reply-summary')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
 		
@@ -81,7 +81,7 @@ var template = function(style) {
 		m.open({title: '댓글 목록', type: 'right'});
 		
 		const replyTemplate = replyViewer(style_no);
-		replyTemplate.setOption({input: true})
+		replyTemplate.setOption({input: true, nestedReply: true});
 		const replyList = await replyTemplate.get();
 		m.append(replyList);
 	});
