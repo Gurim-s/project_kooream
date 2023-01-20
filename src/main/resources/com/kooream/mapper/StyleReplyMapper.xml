@@ -9,16 +9,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from style_reply
 		where style_no=#{style_no}
 	</select>
-
+	
+	<select id="get" resultType="com.kooream.domain.StyleReplyVO">
+		select *
+		from style_reply
+		where rno=#{rno}
+	</select>
+	
+	<select id="getStyleNo" resultType="long">
+		select style_no
+		from style_reply
+		where rno=#{rno}
+	</select>
+	
+	<select id="getRnoNestedFrom" resultType="long">
+		select NVL(max(rno), 0)
+		from style_reply
+		where rno = (select nested_from
+					 from style_reply
+					 where rno = #{rno})
+	</select>
+	
+	<select id="getCountNested" resultType="int">
+		select NVL(count_nested, 0)
+		from style_reply
+		where rno=#{rno}
+	</select>
+	
 	<insert id="insert">
 		insert into style_reply
 		values (style_reply_seq.nextval,
 				#{style_no},
-				11,
+				#{mno},
 				#{content},
 				sysdate,
-				#{nested_from})
+				#{nested_from},
+				0)
 	</insert>
+	
+	<update id="updateCountNested">
+		update style_reply
+		set count_nested = count_nested + #{amount}
+		where rno = #{rnoNestedFrom}
+	</update>
 	
 	<delete id="delete">
 		delete from style_reply

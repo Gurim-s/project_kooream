@@ -62,22 +62,22 @@
 	text-align: center;
     line-height: 30px;
 }
-.item .comment-like-summary .comment-summary,
-.item .comment-like-summary .like-summary {
+.item .reply-like-summary .reply-summary,
+.item .reply-like-summary .like-summary {
 	float: left;
 	margin-right: 20px;
 }
-.item .comment-like-summary .comment-summary img,
-.item .comment-like-summary .like-summary img {
+.item .reply-like-summary .reply-summary img,
+.item .reply-like-summary .like-summary img {
 	width: 30px;
 	margin-right:5px;
 }
-.item .comment-like-summary .comment-summary span,
-.item .comment-like-summary .like-summary span {
+.item .reply-like-summary .reply-summary span,
+.item .reply-like-summary .like-summary span {
 	font-size: 24px;
 /* 	font-weight: bold; */
 }
 .item .like-cnt,
-.item .comment-cnt {
+.item .reply-cnt {
 	font-size: 14px;
 }

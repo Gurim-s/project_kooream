@@ -26,10 +26,10 @@ const replyViewer = (x) => (function(x) {
 	async function loadReplies() {
 		listContainer.innerHTML = '';
 		const replyList = await replyService.getList(style_no);
-		if (replyList.length > 0 && !option.nestedReply) {
+		if (replyList.length > 0 && option.nestedReply == false) {
 			replyList.forEach(x => listContainer.append(replyTemplate(x)));
 			
-		} else if (replyList.length > 0 && option.nestedReply) {
+		} else if (replyList.length > 0 && option.nestedReply == true) {
 			const nestedReply = replyList.sort((x, y) => x.nested_from < y.nested_from)
 				.filter(x => x.nested_from != 0);		
 			
@@ -59,7 +59,7 @@ const replyViewer = (x) => (function(x) {
 				'<img src="/resources/img/codi_test.png" />' +
 			'</div>' +
 			'<div class="input-reply">' +
-				'<input type="text" name="content" value="11">' +
+				'<input type="text" name="content" value="">' +
 				'<input type="hidden" name="nested_from" value="0">' +
 				'<a href="#" class="add-reply">등록</a>' +
 			'</div>'
@@ -98,50 +98,50 @@ const replyViewer = (x) => (function(x) {
 	
 	function setInputEvent() {
 		container.querySelector('.input-container .add-reply')
-		.addEventListener('click', async (e) => {
-			e.preventDefault();
-			const content = container.querySelector('.input-reply input[name="content"]').value;
-			const nested_from = container.querySelector('.input-reply input[name="nested_from"]').value;
-			const reply = {
-				style_no: style_no,
-				mno: 11,
-				content: content,
-				nested_from: nested_from,
-			};
-			
-			await replyService.register(reply);
-			
-			loadReplies();
-			content.value = '';
-			nested_from.value = 0;
+			.addEventListener('click', async (e) => {
+				e.preventDefault();
+				const content = container.querySelector('.input-reply input[name="content"]');
+				const nested_from = container.querySelector('.input-reply input[name="nested_from"]');
+				const reply = {
+					style_no: style_no,
+					mno: 11,
+					content: content.value,
+					nested_from: nested_from.value,
+				};
+				
+				await replyService.register(reply);
+				
+				loadReplies();
+				content.value = '';
+				nested_from.value = 0;
 		});
 	};
 	
 	function setReplyEvent() {
 		listContainer.querySelectorAll('.reply-etc a.remove')
-		.forEach(x => x.addEventListener('click', async (e) => {
-			e.preventDefault();
-			const rno = e.target.closest('li').dataset.rno;
-
-			await replyService.remove(rno);
-			loadReplies();
+			.forEach(x => x.addEventListener('click', async (e) => {
+				e.preventDefault();
+				const rno = e.target.closest('li').dataset.rno;
+	
+				await replyService.remove(rno);
+				loadReplies();
 		}));
 		
 		if (option.nestedReply == false) return;
 		container.querySelectorAll('.write-nested-reply')
-		.forEach(x => x.addEventListener('click', (e) => {
-			e.preventDefault();
-			const rno = e.target.closest('li').dataset.nestedFrom == 0
-						? e.target.closest('li').dataset.rno
-						: e.target.closest('li').dataset.nestedFrom;
-			const subjectName = e.target.closest('li').querySelector('.user-name').innerText;
-			const inputContent = container.querySelector('.input-reply input[name="content"]');
-			const inputNestedFrom = container.querySelector('.input-reply input[name="nested_from"]'); 
-			
-			inputContent.value = '@' + subjectName+ ' ';
-			inputNestedFrom.value = rno;
-			
-			inputContent.focus();
+			.forEach(x => x.addEventListener('click', (e) => {
+				e.preventDefault();
+				const rno = e.target.closest('li').dataset.nestedFrom == 0
+							? e.target.closest('li').dataset.rno
+							: e.target.closest('li').dataset.nestedFrom;
+				const subjectName = e.target.closest('li').querySelector('.user-name').innerText;
+				const inputContent = container.querySelector('.input-reply input[name="content"]');
+				const inputNestedFrom = container.querySelector('.input-reply input[name="nested_from"]'); 
+				
+				inputContent.value = '@' + subjectName+ ' ';
+				inputNestedFrom.value = rno;
+				
+				inputContent.focus();
 		}));
 	}
 	

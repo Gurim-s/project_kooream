@@ -24,7 +24,7 @@ var imgFileUploader = (function() {
 	}
 	
 	function createTempInput() {
-		var input = document.createElement('input');
+		const input = document.createElement('input');
 		input.type = 'file';
 		input.multiple='multiple';
 		input.id = 'tempInput';
@@ -33,11 +33,11 @@ var imgFileUploader = (function() {
 	}
 	
 	function createImgPreview() {
-		var div = document.createElement('div');
-		var ul = document.createElement('ul');
+		const div = document.createElement('div');
+		const ul = document.createElement('ul');
 		ul.className = 'preview-list';
 		
-		var str = (
+		const str = (
 				'<li class="input-img">' +
 						'<span>+</span>'+ 
 				'</li>');
@@ -82,7 +82,7 @@ var imgFileUploader = (function() {
 		option.saveName = name;
 	}
 	function addTempFile(target) {
-		var files = target.files;
+		const files = target.files;
 		
 		Array.from(files)
 		.forEach(file => {
@@ -92,12 +92,12 @@ var imgFileUploader = (function() {
 	}
 	
 	function removeTempFile(target) {
-		var li = target.closest('li');
-		var idx = Array.from(li.parentNode.children).indexOf(li) - 1;
+		const li = target.closest('li');
+		const idx = Array.from(li.parentNode.children).indexOf(li) - 1;
 		li.remove();
 		slider.remove(idx);
 		
-		var newFiles = new DataTransfer();
+		const newFiles = new DataTransfer();
 		Array.from(dataTransfer.files)
 		.filter((_, i) => i !== idx)
 		.forEach(file => newFiles.items.add(file));
@@ -105,9 +105,9 @@ var imgFileUploader = (function() {
 	}
 	
 	function pushPreview(file) {
-		var src = URL.createObjectURL(file);
+		const src = URL.createObjectURL(file);
 
-		var li = document.createElement('li');
+		const li = document.createElement('li');
 		li.innerHTML = '<img src="'+src+'"/>' +
 					   '<button class="remove-img-btn"></button>';
 		
@@ -128,14 +128,14 @@ var imgFileUploader = (function() {
 	}
 	
 	async function uploadImageAjax() {
-		var formData = new FormData();
+		const formData = new FormData();
 		Array.from(dataTransfer.files)
 		.forEach((file) => {
 			formData.append("uploadFile", file);
 		});
 		
-		var uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
-		var str ='';
+		const uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
+		const str ='';
 		Array.from(uploadResult)
 		.forEach((image, i) => {
 			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
