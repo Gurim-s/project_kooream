@@ -148,4 +148,26 @@ public class RantalController {
 	
 		return result;
 	}
+	
+	// 관심상품 내역 불러오기(마이페이지)
+	@GetMapping("/interestList")
+	public String interestList(Model model) {
+		
+		//session.getAttribute()
+		int m_no=1;
+		List<ProductVO> list = interestService.interestList(m_no);
+		
+		model.addAttribute("list", list);
+		return "/rental/interestList";
+	}
+	
+	// 관심상품 삭제(마이페이지)
+	@GetMapping("/removeInterest")
+	public String removeInterest(ProductVO vo) {
+		
+		interestService.intrstRemove(vo);
+		
+		return "/rental/interestList";
+	}
+	
 }

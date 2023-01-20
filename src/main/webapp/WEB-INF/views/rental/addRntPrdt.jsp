@@ -19,7 +19,7 @@
 </style>
 <div id="title"><h1>렌탈 상품 등록</h1></div>
 <div id="addBox">
-	<form action="/rental/addRntPrdt" method="post">
+	<form action="/rental/addRntPrdt" id="MyForm" method="post">
 		<table>
 			<tr>
 				<td style="width: 100px;">브랜드</td>
@@ -77,7 +77,7 @@
 			<tr>
 				<td colspan="2" id="btn">
 					<input type="reset"  value="다시 작성"/>
-					<input type="submit" value="상품 등록"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
+					<input type="button" id="registBtn" value="상품 등록"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
 					<input type="button" onclick="history.go(-1)" value="목록으로 이동"/>
 					<input type="hidden" id="strUuid" name="strUuid"/>
 				</td>
@@ -143,7 +143,7 @@ $(function() {
 			
 			var fileCallPath = encodeURIComponent(obj.uploadPath + '/' + obj.uuid + "_" + obj.fileName);	// 인코딩
 			
-            str += '<br/><a href="/download?fileName='+fileCallPath+'">';
+            str += '<br/><a class="fileCheck" href="/download?fileName='+fileCallPath+'">';
             //str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
             str += obj.fileName;
             str += '</a>';
@@ -177,7 +177,29 @@ $(function() {
 		
 	});
 
-
+	//상품 등록 버튼 클릭시 이벤트
+	$("#registBtn").on("click", function(){
+		
+		var check = 0;
+		$("input[type='text'], input[type='number']").each(function(index, item){ // foreach문과 동일. 같은 태그가 여러개일때 j쿼리로 가져오는 경우 사용가능
+			if(!$(item).val()){ // val이 없으면
+				var str = $(item).parent().prev().text() // item 부모의 형제가 가지고 있는 text
+				alert(str + "을(를) 입력해주세요.");
+				check=1;
+				return false; // .each() 사용시 return은 이렇게 적어줘야함!
+			}
+		});
+		if(!$(".fileCheck").length){
+			alert("파일을 등록해주세요.");
+			check=1;
+			return;
+		}
+		if(check==0){
+			$("#MyForm").submit();
+		}
+	});
+	
+	
 
 });
 </script>
