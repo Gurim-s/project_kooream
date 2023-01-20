@@ -62,12 +62,14 @@ public class CodiController {
 	@PostMapping("/register")
 	public String register(CodiVO vo, RedirectAttributes rttr) {
 		log.info("register........" + vo);
+
 		System.out.println(vo.getAttachList().size());
 		System.out.println(vo.getCodiTagList().size());
 		for(int i=0; i<vo.getCodiTagList().size(); i++ ) {
 			
 			log.error(vo.getCodiTagList().get(i).getTag_name());
 		}
+
 		service.register(vo);
 		
 		List<CodiImageVO> list = vo.getAttachList();

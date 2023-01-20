@@ -101,9 +101,11 @@ function getList(pageNum, amount) {
 			var img_tag = $('<img></img>');	// img_tag div 태그 생성 
 			$(img_tag).attr('class', 'codi_img');
 			console.log(codi);
+			console.log("attachList[0] >> " + codi.attachList[0]);
+			console.log("attachList[0].uploadPath >> " + codi.attachList[0].uploadPath);
 			var fileCallPath = encodeURIComponent(codi.attachList[0].uploadPath + "/"
-					+ codi.attachList[0].uuid + "_"
-					+ codi.attachList[0].fileName);
+													+ codi.attachList[0].uuid + "_"
+													+ codi.attachList[0].fileName);
 			$(img_tag).attr('src', '/codidisplay?fileName='+fileCallPath);
 			
 			var text_Line1 = $('<div></div>');
