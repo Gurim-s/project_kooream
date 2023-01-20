@@ -125,27 +125,37 @@
 		
 			
 		})
+		
+		// 모달창 관련 스크립트 ----------------------------------- start
+		var my_modal = $("#my_modal")
 		// 정품 같아요 클릭
 		$("#dec_ok").click(function(e) {
 			e.preventDefault();
 			
-			$("#my_modal").show();
+			// 모달창 열기
+			my_modal.show();
 			
 		});
 		
 		// 가품 같아요 클릭
 		$("#dec_no").click(function(e) {
 			e.preventDefault();
+			// 모달창 열기
+			my_modal.show();
 			
-			$("#my_modal").show();
-		
 		});
 		
 		// 모달창 닫기(취소 버튼)
 		$("#replyReset").click(function() {
-			$("#my_modal").hide();
+			my_modal.hide();
 		});
 		
+		// 모달창 등록
+		$("#replyRegister").click(function() {
+		
+			// 댓글 달기 비동기??
+			
+		})
 		
 			
 		
