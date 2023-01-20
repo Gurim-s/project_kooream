@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.OriginalAttachVO;
 import com.kooream.domain.OriginalVO;
 import com.kooream.service.OriginalService;
@@ -43,6 +45,16 @@ public class OriginalController {
 
 		return "/community/oriRegister";
 	}
+	
+	// 게시글 이미지 비동기로 가져오기
+	@GetMapping(value = "/getImages/{orino}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<OriginalAttachVO>> getImages(@PathVariable("orino") int orino) {
+		List<OriginalAttachVO> list = service.getAttList(orino);
+		System.out.println("list : " + list.size());
+		
+		return new ResponseEntity<List<OriginalAttachVO>>(list, HttpStatus.OK);
+	}
+	
 
 	// 정품 판별 게시글 인서트
 	@PostMapping("/oriRegister")
@@ -81,7 +93,9 @@ public class OriginalController {
 		System.out.println("-----" + vo.getAttachList().size());
 
 		model.addAttribute("vo",vo);
+		System.out.println("==========" + vo);
 		model.addAttribute("list", vo.getAttachList());
+		System.out.println("============" + vo.getAttachList());
 		return "/community/oriGet";
 	}
 }
