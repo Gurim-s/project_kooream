@@ -192,7 +192,7 @@
 		
 		$.ajax({
 			url : '/brandshop/getAttachList',
-			type : 'get',
+			type : 'GET',
 			data : {p_no:p_noValue},
 			contentType : 'application/json; charset=utf-8',
 			success : function (arr) {				// 리스트로 넘어옴
