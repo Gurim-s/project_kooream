@@ -63,10 +63,15 @@ public class CodiController {
 	public String register(CodiVO vo, RedirectAttributes rttr) {
 		log.info("register........" + vo);
 		System.out.println(vo.getAttachList().size());
+		System.out.println(vo.getCodiTagList().size());
+		for(int i=0; i<vo.getCodiTagList().size(); i++ ) {
+			
+			log.error(vo.getCodiTagList().get(i).getTag_name());
+		}
 		service.register(vo);
 		
 		List<CodiImageVO> list = vo.getAttachList();
-		List<Codi_TagVO> tagList = vo.getCodiTagVO();
+		List<Codi_TagVO> tagList = vo.getCodiTagList();
 		
 		if(tagList != null) {
 			for(Codi_TagVO vo3 : tagList) {

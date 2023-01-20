@@ -168,68 +168,71 @@ function checkExtension(fileName, fileSize){
 //		}); // $.ajax end
 //	}); // uploadResult end
 
+
 // 해시태그 
 	var tag = {};
     var counter = 0;
 
-    // 입력한 값을 태그로 생성한다.
-    function addTag (value) {
+	function addTag (value) {
         tag[counter] = value;
         counter++; // del-btn 의 고유 id 가 된다.
     }
 
-    // tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
-    function marginTag () {
-        return Object.values(tag).filter(function (word) {
-            return word !== "";
-        });
-    }
 
-    // 서버에 제공
-    $("#tag-form").on("submit", function (e) {
-        var value = marginTag(); // return array
-        $("#rdTag").val(value); 
 
-        $(this).submit();
-    });
+	$("#tag").on("keypress", function(e){
+		var self = $(this);
+		var formData = new FormData();
+		var inputTag = $("input[name='tag_name']");
+		console.log(inputTag);
+		console.log(self.val());
+		console.log(self);
+		
+		if(e.keyCode === 13 || e.keyCode == 32){ // 13엔터 32스페이스 눌렀을시 
+			var tagValue = self.val();
+			var tagStr= '';
+			
+			if(tagValue !== ""){ // tagValue의 내용이 있을 경우
+			 	console.log(counter);
+				tagStr += '<li class="tag_name" name="tag_name">'+tagValue;
+				tagStr += '<span class="del_tag" idx="'+counter+'">X</span>';
+				tagStr += '</li>';
+				tagStr += '<input type="hidden" name="codiTagList['+counter+'].tag_cnt" value="0" >'
+				tagStr += '<input type="hidden" name="codiTagList['+counter+'].tag_name" value="'+tagValue+'" >'
+				
+				addTag(tagValue);
+				
+				$("#tag-list").append(tagStr);
+				
+				self.val("");
+				
+			}else{
+				alert("값이 없습니다.");
+			}
+		
+			
+			e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
+			
+			
+		}
+		
+	});
+	
+	// 삭제 버튼 클릭시 지우기 
+	$(document).on("click",".del_tag", function(e){
+		var index = $(this).attr("idx");
+		tag[index] = '';
+		$(this).parent().remove();
+		
+	});
 
-    $("#tag").on("keypress", function (e) {
-        var self = $(this);
 
-        //엔터나 스페이스바 눌렀을때 실행
-        if (e.key === "Enter" || e.keyCode == 32) { // 키코드 32번 = 스페이스 
 
-            var tagValue = '#'+self.val(); // 값 가져오기
 
-            // 해시태그 값 없으면 실행X
-            if (tagValue !== "") {
 
-                // 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
-                var result = Object.values(tag).filter(function (word) {
-                    return word === tagValue;
-                });
-                // 해시태그가 중복되었는지 확인
-                if (result.length == 0) { 
-					var tagstr = "";
-					 
-                    $("#tag-list").append("<li class='tag_name' name='tag_name'>"+tagValue+"<span class='del-btn' idx='"+counter+"'>x</span></li>");
-                    addTag(tagValue);
-                    self.val("");
-                } else {
-                    alert("태그값이 중복됩니다.");
-                }
-            }
-            e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
-        }
-    });
 
-    // 삭제 버튼 
-    // 인덱스 검사 후 삭제
-    $(document).on("click", ".del-btn", function (e) {
-        var index = $(this).attr("idx");
-        tag[index] = "";
-        $(this).parent().remove();
-    });
+
+
 
 
 }); // function end

@@ -12,7 +12,7 @@ import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
-import com.kooream.mapper.codi_TagMapper;
+import com.kooream.mapper.Codi_TagMapper;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -29,7 +29,7 @@ public class CodiServiceImpl implements CodiService{
 	private CodiImageMapper attachmapper;
 	
 	@Setter(onMethod_ = @Autowired)
-	private codi_TagMapper tagmapper;
+	private Codi_TagMapper tagmapper;
 	
 	
 	@Override
@@ -70,7 +70,13 @@ public class CodiServiceImpl implements CodiService{
 				attachmapper.insert(vo2);
 			}
 		}
-		
+		if(vo.getCodiTagList() != null && vo.getCodiTagList().size() >0) {
+			for(Codi_TagVO vo3 : vo.getCodiTagList()) {
+				vo3.setCodi_no(codi_no);
+				tagmapper.insert(vo3);
+			}
+			
+		}
 		
 		
 	}

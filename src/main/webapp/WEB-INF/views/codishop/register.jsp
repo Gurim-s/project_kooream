@@ -27,7 +27,7 @@
 					
 					<input type="text" class="tag" id="tag" placeholder="엔터로 해시태그를 등록해주세요.">
 				</div>
-				<div class="row">
+				<div class="row tagResult">
             		<ul id="tag-list">
             		</ul>
 				</div>
@@ -173,18 +173,6 @@
 .model_info{
 	font-size : large;
 	font-weight: bold;
-}
-
-ul{
-	
-	list-style: none;
-}
-li {
-	display: inline-block;
-    padding: 8px 10px;
-    border: 1px solid #ebebeb;
-    border-radius: 12px;
-    font-size: 15px;	
 }
 
 

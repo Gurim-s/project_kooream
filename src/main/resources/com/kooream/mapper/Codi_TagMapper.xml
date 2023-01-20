@@ -2,8 +2,7 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-
-<mapper namespace="com/kooream/mapper/Codi_Tag.xml">
+<mapper namespace="com.kooream.mapper.Codi_TagMapper">
 	<select id="TagBycodi_no" resultType="com.kooream.domain.Codi_TagVO">
 		select * from
 		codi_tag
@@ -16,8 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<delete id="delete">
-		delete from codi_tag where codi_no = #{codi_no}
+		delete from codi_tag where tag_name = #{tag_name}
 	</delete>
-	
+
+
 
 </mapper>

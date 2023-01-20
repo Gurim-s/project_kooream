@@ -23,7 +23,7 @@ public class CodiVO {
 	private Date codi_date;
 	
 	private List<CodiImageVO> attachList;
-	private List<Codi_TagVO> codiTagVO;
+	private List<Codi_TagVO> codiTagList;
 	
 	@Override
 	public String toString() {

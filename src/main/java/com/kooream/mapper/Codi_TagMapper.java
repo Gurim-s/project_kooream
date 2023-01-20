@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.kooream.domain.Codi_TagVO;
 
-public interface codi_TagMapper {
+public interface Codi_TagMapper {
 
 	// 해시 태그 추가 
 	public void insert(Codi_TagVO vo);
