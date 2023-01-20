@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleVO;
 
@@ -30,5 +31,10 @@ public interface CodiService {
 	
 	// 파일 리스트 
 	public List<CodiImageVO> getCodiAttachList(int codi_no);
+	
+	// 해시태그 리스트 
+	public List<Codi_TagVO> getCodi_TagList(int codi_no);
+
+	
 
 }
