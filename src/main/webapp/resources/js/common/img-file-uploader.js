@@ -99,8 +99,8 @@ var imgFileUploader = (function() {
 		
 		const newFiles = new DataTransfer();
 		Array.from(dataTransfer.files)
-		.filter((_, i) => i !== idx)
-		.forEach(file => newFiles.items.add(file));
+			.filter((_, i) => i !== idx)
+			.forEach(file => newFiles.items.add(file));
 		dataTransfer = newFiles;
 	}
 	
@@ -130,19 +130,18 @@ var imgFileUploader = (function() {
 	async function uploadImageAjax() {
 		const formData = new FormData();
 		Array.from(dataTransfer.files)
-		.forEach((file) => {
-			formData.append("uploadFile", file);
+			.forEach((file) => {
+				formData.append("uploadFile", file);
 		});
 		
 		const uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
 		const str ='';
 		Array.from(uploadResult)
-		.forEach((image, i) => {
-			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
+			.forEach((image, i) => {
+				str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
+					   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
+					   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
 		});
-		console.log(str);
 		return str;
 	}
 	

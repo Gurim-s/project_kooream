@@ -8,20 +8,20 @@ import {imgSlider} from '../common/img-slider.js';
 	var uploader = imgFileUploader;
 	var slider = imgSlider();
 	document.querySelector('.uploader-container')
-	.append(uploader.container);
+		.append(uploader.container);
 	document.querySelector('.img-slider-container')
-	.append(slider.container);
+		.append(slider.container);
 	
 	document.querySelectorAll('a.next-step, a.prev-step')
-	.forEach(x => x.addEventListener('click', (e) => {
-		e.preventDefault();
-		const register = e.target.closest('#register-list');	
-		const steps = ['first-step', 'second-step', 'third-step'];
-		const newStep = e.target.className == 'next-step'
-					? steps.indexOf(register.className)+1 
-					: steps.indexOf(register.className)-1;
-		
-		register.className = steps[newStep];
+		.forEach(x => x.addEventListener('click', (e) => {
+			e.preventDefault();
+			const register = e.target.closest('#register-list');	
+			const steps = ['first-step', 'second-step', 'third-step'];
+			const newStep = e.target.className == 'next-step'
+						? steps.indexOf(register.className)+1 
+						: steps.indexOf(register.className)-1;
+			
+			register.className = steps[newStep];
 	}));
 	
 //	document.querySelector('button[type="submit"]')

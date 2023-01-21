@@ -3,7 +3,7 @@ import {replyService} from '../service/reply-service.js';
 const replyViewer = (x) => (function(x) {
 	const style_no = x;
 	let option = {
-		input: false,			/*댓글 입력창 여부*/
+		input: false,
 		nestedReply: false,
 	}
 	const container = document.createElement('div');
@@ -220,7 +220,6 @@ const replyViewer = (x) => (function(x) {
 			if (x.dataset.nestedFrom != 0) {
 				x.style.paddingLeft =  '30px';
 			}
-			
 		});
 	}
 	

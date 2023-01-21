@@ -64,33 +64,33 @@ var template = function(style) {
 	 * addEventListener
 	 **********************************/
 	template.querySelector('.like-summary')
-	.addEventListener('click', (e) => {
-		e.preventDefault();
-		
-		const m = modal();
-		m.open({title: '공감 목록'});
-		m.append('helloWorld');
+		.addEventListener('click', (e) => {
+			e.preventDefault();
+			
+			const m = modal();
+			m.open({title: '공감 목록'});
+			m.append('helloWorld');
 	});
 	
 	template.querySelector('.reply-summary')
-	.addEventListener('click', async (e) => {
-		e.preventDefault();
-		
-		const style_no = e.target.closest('.item').dataset.styleNo;
-		const m = modal();
-		m.open({title: '댓글 목록', type: 'right'});
-		
-		const replyTemplate = replyViewer(style_no);
-		replyTemplate.setOption({input: true, nestedReply: true});
-		const replyList = await replyTemplate.get();
-		m.append(replyList);
+		.addEventListener('click', async (e) => {
+			e.preventDefault();
+			
+			const style_no = e.target.closest('.item').dataset.styleNo;
+			const m = modal();
+			m.open({title: '댓글 목록', type: 'right'});
+			
+			const replyTemplate = replyViewer(style_no);
+			replyTemplate.setOption({input: true, nestedReply: true});
+			const replyList = await replyTemplate.get();
+			m.append(replyList);
 	});
 	
 	template.querySelector('.update-btn')
-	.addEventListener('click', (e) => {
-		e.preventDefault();
-		
-		location.href = '/style/update?style_no=' + style.style_no;
+		.addEventListener('click', (e) => {
+			e.preventDefault();
+			
+			location.href = '/style/update?style_no=' + style.style_no;
 	});
 	
 	return template;
