@@ -65,8 +65,11 @@
 	<br/>
 	<form action="">
 		<div>
-			<span>${vo.oriname }</span>
+			<span>${vo.orititle }</span>
 			<span id="oriDate">${vo.oridate }</span>
+		</div>
+		<div>
+			<span>${vo.oriname }</span>
 		</div>
 		<div>
 			<div class="img-container"></div>
@@ -109,6 +112,7 @@
 	
 </body>
 
+<script type="text/javascript" src="/resources/js/community/orireply.js"></script>
 <script type="module" src="/resources/js/community/oriGet.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -153,7 +157,18 @@
 		// 모달창 등록
 		$("#replyRegister").click(function() {
 		
-			// 댓글 달기 비동기??
+			// 댓글 달기 (상세 내용 수정해야함 복붙만 한 상황임!!!!!!!!)
+			replyService.add(
+					{orireplycon:modalInputReply.val(), orireplyname:modalInputReplyer.val(), orino:orinoValue},
+					
+					function(result) {
+						showList();
+						
+					}
+				);
+			
+			
+			
 			
 		})
 		

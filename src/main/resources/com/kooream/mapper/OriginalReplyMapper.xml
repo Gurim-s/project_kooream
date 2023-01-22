@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.OriginalReplyMapper">
+	<insert id="insert">
+		INSERT INTO originalreply  (orireplyno, orino, m_no, orireplyname, orireplycon, oridecision, orireplydate)
+		VALUES (seq_originalreply.nextval, #{orino}, #{m_no}, #{orireplyname}, #{orireplycon}, #{oridecision}, sysdate)
+	</insert>
+
+</mapper>
