@@ -85,9 +85,9 @@ var imgFileUploader = (function() {
 		const files = target.files;
 		
 		Array.from(files)
-		.forEach(file => {
-			pushPreview(file);
-			dataTransfer.items.add(file);
+			.forEach(file => {
+				pushPreview(file);
+				dataTransfer.items.add(file);
 		});
 	}
 	

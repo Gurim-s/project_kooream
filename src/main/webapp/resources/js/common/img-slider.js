@@ -4,6 +4,7 @@
  */
 
 var imgSlider = () => (function() {
+	var option = {};
 	var container = document.createElement('div');
 	var imgContainer = document.createElement('div');
 	var ul = document.createElement('ul');
@@ -34,10 +35,10 @@ var imgSlider = () => (function() {
 
 		btnContainer.innerHTML = str;
 		btnContainer.querySelectorAll('button')
-		.forEach(x => x.addEventListener('click', (e) => {
-			e.preventDefault();
-			slideImg(e.target.className);
-			hover('on');
+			.forEach(x => x.addEventListener('click', (e) => {
+				e.preventDefault();
+				slideImg(e.target.className);
+				hover('on');
 		}));
 		
 		return btnContainer;
@@ -60,7 +61,7 @@ var imgSlider = () => (function() {
 		var idxIndicator = document.createElement('div');
 		return idxIndicator;
 	}
-	
+		
 	function hover(v) {
 		var length = idxContainer.childElementCount;
 		var isEnd = (idx == length - 1) || (length == 0);
@@ -76,6 +77,17 @@ var imgSlider = () => (function() {
 		}
 	}
 	
+	/*************************************
+	 * --Method--
+	 ************************************/
+	function changeRatio(ratio) {
+		
+	}
+	
+	function setOption(customOption) {
+		option = Object.assign(option, customOption);
+	}
+	
 	function add(imgSrc) {
 		ul.innerHTML += '<li><img src="' + imgSrc + '"/></li>';
 		addIdx();
@@ -87,9 +99,9 @@ var imgSlider = () => (function() {
 		if(imgSrcList.length == 0) return;
 		
 		var imgTagList = Array.from(imgSrcList)
-		.reduce((str, imgSrc) => {
-			addIdx();
-			return str + '<li><img src="' + imgSrc + '"/></li>'
+			.reduce((str, imgSrc) => {
+				addIdx();
+				return str + '<li><img src="' + imgSrc + '"/></li>'
 		}, '');
 		
 		ul.innerHTML += imgTagList;
@@ -160,11 +172,11 @@ var imgSlider = () => (function() {
 		//list 스타일
 		var liWidth = (100 / liAll.length) + '%';
 		ul.querySelectorAll('li')
-		.forEach(li => {
-			li.style.float = 'left';
-			li.style.width = liWidth;
-			//이미지 스타일
-			li.querySelector('img').style.width = '100%';
+			.forEach(li => {
+				li.style.float = 'left';
+				li.style.width = liWidth;
+				//이미지 스타일
+				li.querySelector('img').style.width = '100%';
 		});
 		
 		//버튼 스타일
@@ -194,13 +206,13 @@ var imgSlider = () => (function() {
 		
 		//인덱스
 		idxContainer.querySelectorAll('li')
-		.forEach(x => {
-			x.style.width ="8px";
-			x.style.height ="8px";
-			x.style.float = "left";
-			x.style.marginRight = "3px";
-			x.style.borderRadius = "50%";
-			x.style.backgroundColor = "lightgray";
+			.forEach(x => {
+				x.style.width ="8px";
+				x.style.height ="8px";
+				x.style.float = "left";
+				x.style.marginRight = "3px";
+				x.style.borderRadius = "50%";
+				x.style.backgroundColor = "lightgray";
 		});
 		
 		idxIndicator.style.position = 'absolute';
@@ -219,6 +231,8 @@ var imgSlider = () => (function() {
 	
 	return {
 		container: container,
+		changeRatio: changeRatio,
+		setOption: setOption,
 		add: add,
 		addList: addList,
 		remove: remove,
