@@ -14,15 +14,15 @@
 					<div class="btn-container">
 						<a href="#" class="next-step not-yet">다음</a>
 					</div>
-					<input type="hidden" name="image_ratio" value="1:1">
+					<input type="hidden" name="ratio" value="1">
 					<ul id="selectRatio">
 						<li data-ratio="1" class="selected">
 							<div>1:1</div>
 						</li>
-						<li data-ratio="3/4">
+						<li data-ratio="1.33">
 							<div>3:4</div>
 						</li>
-						<li data-ratio="4/3">
+						<li data-ratio="0.75">
 							<div>4:3</div>
 						</li>
 					</ul>

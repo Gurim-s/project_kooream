@@ -3,8 +3,12 @@
  * 
  */
 
-var imgSlider = () => (function() {
-	var option = {};
+var imgSlider = (customOption) => (function(customOption) {
+	var option = {
+		ratio: 1,
+		ratioFix: false,
+		editMode: false,
+	};
 	var container = document.createElement('div');
 	var imgContainer = document.createElement('div');
 	var ul = document.createElement('ul');
@@ -14,6 +18,7 @@ var imgSlider = () => (function() {
 	
 	init();
 	function init() {
+		option = Object.assign(option, customOption);
 		container.append(imgContainer);
 		imgContainer.append(ul);
 		imgContainer.append(createBtnContainer());
@@ -80,8 +85,9 @@ var imgSlider = () => (function() {
 	/*************************************
 	 * --Method--
 	 ************************************/
-	function changeRatio(ratio) {
-		
+	function setRatio(ratio) {
+		option.ratio = ratio;
+		setDefaultCss();
 	}
 	
 	function setOption(customOption) {
@@ -155,10 +161,16 @@ var imgSlider = () => (function() {
 		container.style.position = 'relative';
 		container.style.backgroundColor = '#eee';
 		container.style.marginBottom = '20px';
+		if (option.ratioFix == true) {
+			container.style.paddingTop = (100 * option.ratio) + '%';
+		}
 		
 		//img-container 스타일
 		imgContainer.style.overflow = 'hidden';
-		imgContainer.style.position = 'relative';
+		imgContainer.style.position = 'absolute';
+		imgContainer.style.width = '100%';
+		imgContainer.style.top = '0';
+		imgContainer.style.left = '0';
 		
 		//ul 스타일
 		ul.style.minHeight = '400px';
@@ -171,12 +183,25 @@ var imgSlider = () => (function() {
 		
 		//list 스타일
 		var liWidth = (100 / liAll.length) + '%';
-		ul.querySelectorAll('li')
-			.forEach(li => {
-				li.style.float = 'left';
-				li.style.width = liWidth;
-				//이미지 스타일
-				li.querySelector('img').style.width = '100%';
+		var liPaddingTop = (100 / liAll.length * option.ratio) + '%';
+		liAll.forEach(li => {
+			li.style.float = 'left';
+			li.style.width = liWidth;
+			//이미지 스타일
+			var liImg = li.querySelector('img');
+			
+			// 비율 고정
+			if (option.ratioFix == false) return;
+			li.style.position = 'relative';
+			li.style.top = '0';
+			li.style.paddingTop = liPaddingTop;
+			li.style.overflow = 'hidden';
+			
+			liImg.style.position = 'absolute';
+			liImg.style.top = '0';
+			liImg.style.left = '0';
+			liImg.style.width = 'auto';
+			liImg.style.height = '100%';
 		});
 		
 		//버튼 스타일
@@ -231,13 +256,13 @@ var imgSlider = () => (function() {
 	
 	return {
 		container: container,
-		changeRatio: changeRatio,
+		setRatio: setRatio,
 		setOption: setOption,
 		add: add,
 		addList: addList,
 		remove: remove,
 		slideImg: slideImg,
 	}
-}());
+}(customOption));
 
 export {imgSlider};

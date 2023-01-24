@@ -10,14 +10,14 @@ var imgFileUploader = (function() {
 	const container = document.createElement('div');
 	const tempInput = createTempInput();
 	const previewList = createImgPreview();
-	const slider = imgSlider();
-	const option = {};
+	let slider;
 	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
+	let option = {};
 	
-	init();
 	function init() {
 		container.prepend(previewList);
 		container.prepend(tempInput);
+		slider = imgSlider(option.slider);
 		container.append(slider.container);
 		addEvent();
 		defaultCss();
@@ -38,9 +38,9 @@ var imgFileUploader = (function() {
 		ul.className = 'preview-list';
 		
 		const str = (
-				'<li class="input-img">' +
-						'<span>+</span>'+ 
-				'</li>');
+			'<li class="input-img">' +
+				'<span>+</span>'+ 
+			'</li>');
 		ul.innerHTML = str;
 		div.append(ul);
 		return div;
@@ -78,8 +78,17 @@ var imgFileUploader = (function() {
 	function setURL(url) {
 		option.uploadURL = url;
 	}
+	
 	function setSaveName(name) {
 		option.saveName = name;
+	}
+	
+	function setOption(customOption) {
+		option = Object.assign(option, customOption);
+	}
+	
+	function setRatio(ratio) {
+		slider.setRatio(ratio);
 	}
 	function addTempFile(target) {
 		const files = target.files;
@@ -214,12 +223,14 @@ var imgFileUploader = (function() {
 	}
 	
 	return {
+		init: init,
 		container: container,
 		uploadImageAjax: uploadImageAjax,
 		countFiles: countFiles,
 		setURL: setURL,
+		setRatio: setRatio,
 		setSaveName: setSaveName,
-		option: option,
+		setOption: setOption,
 	};
 })();
 

@@ -3,49 +3,55 @@ import {imgSlider} from '../common/img-slider.js';
 
 (function() {
 	const uploader = imgFileUploader;
-	uploader.setURL('/uploadStyleImage');
-	uploader.setSaveName('style_image');
+	uploader.setOption({
+		url: '/uploadStyleImage',
+		saveName: 'style_image',
+		slider: {
+			ratio: 1,
+			ratioFix: true,
+			editMode: true,	
+		}
+	});
+	uploader.init();
 	document.querySelector('.uploader-container')
-		.append(uploader.container);
-	
-	const slider = imgSlider();
-	document.querySelector('.img-slider-container')
-		.append(slider.container);
+	.append(uploader.container);
 	
 	document.querySelector('#selectRatio')
-		.addEventListener('click', (e) => {
-			const selected = e.target.closest('ul#selectRatio').querySelector('li.selected');
-			const newSelect = e.target.closest('#selectRatio li');
-			if (!newSelect) return;
-			
-			selected.className = '';
-			newSelect.className = 'selected';
+	.addEventListener('click', (e) => {
+		const selected = e.target.closest('ul#selectRatio').querySelector('li.selected');
+		const newSelect = e.target.closest('#selectRatio li');
+		if (!newSelect) return;
+		
+		selected.className = '';
+		newSelect.className = 'selected';
+		uploader.setRatio(Number(newSelect.dataset.ratio));
+		document.querySelector('input[name="ratio"]').value = newSelect.dataset.ratio;
+		console.log(uploader.countFiles());
 	});
 	
 	document.querySelectorAll('a.next-step, a.prev-step')
-		.forEach(x => x.addEventListener('click', (e) => {
-			e.preventDefault();
-			const register = e.target.closest('#register-list');	
-			const steps = ['first-step', 'second-step', 'third-step'];
-			const newStep = e.target.classList[0] == 'next-step'
-						? steps.indexOf(register.className)+1 
-						: steps.indexOf(register.className)-1;
-			
-			register.className = steps[newStep];
+	.forEach(x => x.addEventListener('click', (e) => {
+		e.preventDefault();
+		const register = e.target.closest('#register-list');	
+		const steps = ['first-step', 'second-step', 'third-step'];
+		const newStep = e.target.classList[0] == 'next-step'
+					? steps.indexOf(register.className)+1 
+					: steps.indexOf(register.className)-1;
+		
+		register.className = steps[newStep];
 	}));
 	
 	document.querySelector('a#submit')
-		.addEventListener('click', async (e) => {
-			e.preventDefault();
-			var form = e.target.closest('form');
-			
-			// 이미지 파일 비동기 업로드하고, 업로드 정보를 받아온다.
-			var result = await imgFileUploader.uploadImageAjax();
-			var div = document.createElement('div');
-			div.innerHTML = result;
-			
-			form.append(div);
-			form.submit();
+	.addEventListener('click', async (e) => {
+		e.preventDefault();
+		var form = e.target.closest('form');
+		
+		var result = await imgFileUploader.uploadImageAjax();
+		var div = document.createElement('div');
+		div.innerHTML = result;
+		
+		form.append(div);
+		form.submit();
 	});
 })();
 
