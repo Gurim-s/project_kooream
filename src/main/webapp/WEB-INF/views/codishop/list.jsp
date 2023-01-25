@@ -14,12 +14,9 @@
 		<br/>
 		<div class="container social">
 			<div class="keyword_brand">
-				<a href="#" class="brand_keyword">#Nike</a>
-				<a href="#" class="brand_keyword">#adidas</a>
-				<a href="#" class="brand_keyword">#new balance</a>
-				<a href="#" class="brand_keyword">#nerdy</a>
-				<a href="#" class="brand_keyword">#THE NORTH FACE</a>
-				<a href="#" class="brand_keyword">#KOOREAM STANDARD</a>
+				<div id="tag_List">
+									
+				</div>
 			</div>
 		</div>
 		<div class="codi_search">
@@ -101,8 +98,7 @@ function getList(pageNum, amount) {
 			var img_tag = $('<img></img>');	// img_tag div 태그 생성 
 			$(img_tag).attr('class', 'codi_img');
 			console.log(codi);
-			console.log("attachList[0] >> " + codi.attachList[0]);
-			console.log("attachList[0].uploadPath >> " + codi.attachList[0].uploadPath);
+			console.log(codi.attachList[0].uuid);
 			var fileCallPath = encodeURIComponent(codi.attachList[0].uploadPath + "/"
 													+ codi.attachList[0].uuid + "_"
 													+ codi.attachList[0].fileName);

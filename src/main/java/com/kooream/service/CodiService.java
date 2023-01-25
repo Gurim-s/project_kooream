@@ -33,8 +33,7 @@ public interface CodiService {
 	public List<CodiImageVO> getCodiAttachList(int codi_no);
 	
 	// 해시태그 리스트 
-	public List<Codi_TagVO> getCodi_TagList(int codi_no);
+	public List<Codi_TagVO> getTagList(int codi_no);
 
-	
 
 }

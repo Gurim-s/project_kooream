@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper>
+	<select id="ItemByP_no">
+			select * from 
+			codi_item
+			where codi_no = #{codi_no}
+	</select>
+	
+	<insert id="insert">
+		insert into codi_item
+		values(#{codi_no}, #{p_no})
+	</insert>
+	
+	<delete id="delete">
+		delete from codi_item where codi_no = #{codi_no}
+	</delete>
+
+
+</mapper>

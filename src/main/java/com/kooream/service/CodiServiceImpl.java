@@ -115,9 +115,10 @@ public class CodiServiceImpl implements CodiService{
 		
 		return list;
 	}
+
 	
 	@Override
-	public List<Codi_TagVO> getCodi_TagList(int codi_no) {
+	public List<Codi_TagVO> getTagList(int codi_no) {
 		log.info("getCodi_TagList ::::::::::::");
 		List<Codi_TagVO> list = tagmapper.TagBycodi_no(codi_no);
 		
@@ -127,7 +128,6 @@ public class CodiServiceImpl implements CodiService{
 		
 		return list;
 	}
-	
 	
 	
 	
