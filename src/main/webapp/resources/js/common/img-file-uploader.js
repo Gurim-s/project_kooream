@@ -19,7 +19,7 @@ var imgFileUploader = (function() {
 		container.prepend(tempInput);
 		slider = imgSlider(option.slider);
 		container.append(slider.container);
-		addEvent();
+		setEvent();
 		defaultCss();
 	}
 	
@@ -49,9 +49,13 @@ var imgFileUploader = (function() {
 	/* ========================
 	 * addEventListener
 	 * ========================*/
-	function addEvent() {
+	function setEvent() {
 		tempInput.addEventListener('change', ({target}) => addTempFile(target));
 		previewList.addEventListener('click', (e) => previewEventHandler(e));
+	}
+	
+	function addInputEventListener(callback) {
+		tempInput.addEventListener('change', callback);
 	}
 	
 	function previewEventHandler(event) {
@@ -90,13 +94,14 @@ var imgFileUploader = (function() {
 	function setRatio(ratio) {
 		slider.setRatio(ratio);
 	}
+	
 	function addTempFile(target) {
 		const files = target.files;
 		
 		Array.from(files)
-			.forEach(file => {
-				pushPreview(file);
-				dataTransfer.items.add(file);
+		.forEach(file => {
+			pushPreview(file);
+			dataTransfer.items.add(file);
 		});
 	}
 	
@@ -108,14 +113,13 @@ var imgFileUploader = (function() {
 		
 		const newFiles = new DataTransfer();
 		Array.from(dataTransfer.files)
-			.filter((_, i) => i !== idx)
-			.forEach(file => newFiles.items.add(file));
+		.filter((_, i) => i !== idx)
+		.forEach(file => newFiles.items.add(file));
 		dataTransfer = newFiles;
 	}
 	
 	function pushPreview(file) {
 		const src = URL.createObjectURL(file);
-
 		const li = document.createElement('li');
 		li.innerHTML = '<img src="'+src+'"/>' +
 					   '<button class="remove-img-btn"></button>';
@@ -139,17 +143,20 @@ var imgFileUploader = (function() {
 	async function uploadImageAjax() {
 		const formData = new FormData();
 		Array.from(dataTransfer.files)
-			.forEach((file) => {
-				formData.append("uploadFile", file);
+		.forEach((file) => {
+			formData.append("uploadFile", file);
 		});
 		
 		const uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
-		const str ='';
+		let str ='';
+		
 		Array.from(uploadResult)
-			.forEach((image, i) => {
-				str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
-					   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
-					   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
+		.forEach((image, i) => {
+			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">' +
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetX" value="'+slider.offsetX(i) +'">' +
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetY" value="'+slider.offsetY(i) +'">';
 		});
 		return str;
 	}
@@ -231,6 +238,7 @@ var imgFileUploader = (function() {
 		setRatio: setRatio,
 		setSaveName: setSaveName,
 		setOption: setOption,
+		addInputEventListener: addInputEventListener,
 	};
 })();
 

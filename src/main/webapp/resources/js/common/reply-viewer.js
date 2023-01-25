@@ -31,12 +31,12 @@ const replyViewer = (x) => (function(x) {
 			
 		} else if (replyList.length > 0 && option.nestedReply == true) {
 			const nestedReply = replyList.sort((x, y) => x.nested_from < y.nested_from)
-				.filter(x => x.nested_from != 0);		
+			.filter(x => x.nested_from != 0);		
 			
 			replyList.filter(x => x.nested_from == 0)
-				.map(x => [x, ...nestedReply.filter(y => y.nested_from == x.rno)])
-				.flat()
-				.forEach(x => listContainer.append(replyTemplate(x)));
+			.map(x => [x, ...nestedReply.filter(y => y.nested_from == x.rno)])
+			.flat()
+			.forEach(x => listContainer.append(replyTemplate(x)));
 			
 		} else {
 			const noneReplyTemplate = document.createElement('li');
@@ -98,33 +98,33 @@ const replyViewer = (x) => (function(x) {
 	
 	function setInputEvent() {
 		container.querySelector('.input-container .add-reply')
-			.addEventListener('click', async (e) => {
-				e.preventDefault();
-				const content = container.querySelector('.input-reply input[name="content"]');
-				const nested_from = container.querySelector('.input-reply input[name="nested_from"]');
-				const reply = {
-					style_no: style_no,
-					mno: 11,
-					content: content.value,
-					nested_from: nested_from.value,
-				};
-				
-				await replyService.register(reply);
-				
-				loadReplies();
-				content.value = '';
-				nested_from.value = 0;
+		.addEventListener('click', async (e) => {
+			e.preventDefault();
+			const content = container.querySelector('.input-reply input[name="content"]');
+			const nested_from = container.querySelector('.input-reply input[name="nested_from"]');
+			const reply = {
+				style_no: style_no,
+				mno: 11,
+				content: content.value,
+				nested_from: nested_from.value,
+			};
+			
+			await replyService.register(reply);
+			
+			loadReplies();
+			content.value = '';
+			nested_from.value = 0;
 		});
 	};
 	
 	function setReplyEvent() {
 		listContainer.querySelectorAll('.reply-etc a.remove')
-			.forEach(x => x.addEventListener('click', async (e) => {
-				e.preventDefault();
-				const rno = e.target.closest('li').dataset.rno;
-	
-				await replyService.remove(rno);
-				loadReplies();
+		.forEach(x => x.addEventListener('click', async (e) => {
+			e.preventDefault();
+			const rno = e.target.closest('li').dataset.rno;
+
+			await replyService.remove(rno);
+			loadReplies();
 		}));
 		
 		if (option.nestedReply == false) return;

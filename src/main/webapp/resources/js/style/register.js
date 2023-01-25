@@ -4,7 +4,7 @@ import {imgSlider} from '../common/img-slider.js';
 (function() {
 	const uploader = imgFileUploader;
 	uploader.setOption({
-		url: '/uploadStyleImage',
+		uploadURL: '/uploadStyleImage',
 		saveName: 'style_image',
 		slider: {
 			ratio: 1,
@@ -16,6 +16,7 @@ import {imgSlider} from '../common/img-slider.js';
 	document.querySelector('.uploader-container')
 	.append(uploader.container);
 	
+	//이미지 비율 선택
 	document.querySelector('#selectRatio')
 	.addEventListener('click', (e) => {
 		const selected = e.target.closest('ul#selectRatio').querySelector('li.selected');
@@ -26,9 +27,9 @@ import {imgSlider} from '../common/img-slider.js';
 		newSelect.className = 'selected';
 		uploader.setRatio(Number(newSelect.dataset.ratio));
 		document.querySelector('input[name="ratio"]').value = newSelect.dataset.ratio;
-		console.log(uploader.countFiles());
 	});
 	
+	//다음 입력폼
 	document.querySelectorAll('a.next-step, a.prev-step')
 	.forEach(x => x.addEventListener('click', (e) => {
 		e.preventDefault();
@@ -73,4 +74,3 @@ function validation() {
 //		});
 //	    this.contentEditable = true;
 //	});
-

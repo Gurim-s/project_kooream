@@ -37,13 +37,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원번호는 임시 데이터 -->
 	<insert id="insert">
-		insert into style(style_no, mno, style_regdate, style_content, count_like, count_reply)
+		insert into style(style_no, mno, style_regdate, style_content, count_like, count_reply, ratio)
 		values( style_seq.nextval,
 				0,
 				sysdate,
 				#{style_content},
 				0,
-				0)
+				0,
+				#{ratio})
 	</insert>
 	
 	<update id="updateCountReply">

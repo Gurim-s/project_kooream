@@ -8,6 +8,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		ratio: 1,
 		ratioFix: false,
 		editMode: false,
+		offset: false,
 	};
 	var container = document.createElement('div');
 	var imgContainer = document.createElement('div');
@@ -26,9 +27,9 @@ var imgSlider = (customOption) => (function(customOption) {
 		idxIndicator = createIdxIndicator();
 		container.append(idxIndicator);
 		container.append(idxContainer);
-		container.addEventListener('mouseover', () => hover('on'));
-		container.addEventListener('mouseout', () => hover('out'));
+		setEvent();
 		setDefaultCss();
+		if (option.editMode) dragImageEvent();
 	}
 	
 	function createBtnContainer() {
@@ -40,10 +41,10 @@ var imgSlider = (customOption) => (function(customOption) {
 
 		btnContainer.innerHTML = str;
 		btnContainer.querySelectorAll('button')
-			.forEach(x => x.addEventListener('click', (e) => {
-				e.preventDefault();
-				slideImg(e.target.className);
-				hover('on');
+		.forEach(x => x.addEventListener('click', (e) => {
+			e.preventDefault();
+			slideImg(e.target.className);
+			hover('on');
 		}));
 		
 		return btnContainer;
@@ -82,6 +83,54 @@ var imgSlider = (customOption) => (function(customOption) {
 		}
 	}
 	
+	function setEvent() {
+		container.addEventListener('mouseover', () => hover('on'));
+		container.addEventListener('mouseout', () => hover('out'));
+		
+	}
+	
+	function dragImageEvent() {
+		ul.ondragstart = function() {return false;}
+		let isPressed = false;
+		let oldX = 0;
+		let oldY = 0;
+		
+		ul.onmousedown = start;
+		ul.onmouseup = end;
+		ul.onmouseout = end;
+		onmousemove = move;
+		
+		function start(e) {
+			oldX = e.clientX;
+			oldY = e.clientY;
+			isPressed = true;
+		} 
+		
+		function end() {
+			isPressed = false;
+		}
+		
+		function move(e) {
+			if (isPressed == false) return;
+			const img = e.target.closest('img');
+			const li = img.closest('li');
+			const offsetX = e.clientX - oldX;
+			const offsetY = e.clientY - oldY;
+			
+			oldX = e.clientX;
+			img.style.left = (img.offsetLeft + offsetX) + 'px';
+			oldY = e.clientY;
+			img.style.top = (img.offsetTop + offsetY) + 'px';
+			
+			if (img.offsetLeft > 0) img.style.left = '0px';
+			if (img.offsetLeft < li.clientWidth - img.width) img.style.left = (li.clientWidth - img.width) + 'px';
+			if (img.offsetTop > 0) img.style.top = '0px';
+			if (img.offsetTop < li.clientHeight - img.height) img.style.top = (li.clientHeight - img.height) + 'px';
+			img.dataset.offsetX = img.style.left;
+			img.dataset.offsetY = img.style.top;
+		}
+	}
+	
 	/*************************************
 	 * --Method--
 	 ************************************/
@@ -95,7 +144,7 @@ var imgSlider = (customOption) => (function(customOption) {
 	}
 	
 	function add(imgSrc) {
-		ul.innerHTML += '<li><img src="' + imgSrc + '"/></li>';
+		ul.innerHTML += '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>';
 		addIdx();
 		setDefaultCss();
 		slideImg(idxContainer.childElementCount-1);
@@ -105,12 +154,30 @@ var imgSlider = (customOption) => (function(customOption) {
 		if(imgSrcList.length == 0) return;
 		
 		var imgTagList = Array.from(imgSrcList)
-			.reduce((str, imgSrc) => {
-				addIdx();
-				return str + '<li><img src="' + imgSrc + '"/></li>'
+		.reduce((str, imgSrc) => {
+			addIdx();
+			return str + '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>'
 		}, '');
 		
 		ul.innerHTML += imgTagList;
+		setDefaultCss();
+		slideImg(0);
+	}
+	
+	function addImgTag() {
+		
+	}
+	
+	function addImgTagList(imgTagList) {
+		if (imgTagList.length == 0) return;
+		
+		imgTagList.forEach(imgTag => {
+			const li = document.createElement('li');
+			li.append(imgTag);
+			ul.append(li);
+			addIdx();
+		});
+		
 		setDefaultCss();
 		slideImg(0);
 	}
@@ -147,6 +214,13 @@ var imgSlider = (customOption) => (function(customOption) {
 		idxIndicator.innerHTML = (idx+1) + '/' + idxLiAll.length;
 	}
 	
+	function offsetX(idx) {
+		return ul.querySelectorAll('li img')[idx].dataset.offsetX;
+	}
+	
+	function offsetY(idx) {
+		return ul.querySelectorAll('li img')[idx].dataset.offsetY;
+	}
 	
 	//********************* */
 	//--CSS--
@@ -156,7 +230,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		var prev = container.querySelector('.prev');
 		var next = container.querySelector('.next');
 
-		//img-container 스타일
+		//container 스타일
 		container.style.width = '100%';
 		container.style.position = 'relative';
 		container.style.backgroundColor = '#eee';
@@ -167,10 +241,12 @@ var imgSlider = (customOption) => (function(customOption) {
 		
 		//img-container 스타일
 		imgContainer.style.overflow = 'hidden';
-		imgContainer.style.position = 'absolute';
-		imgContainer.style.width = '100%';
-		imgContainer.style.top = '0';
-		imgContainer.style.left = '0';
+		if (option.ratioFix == true) {
+			imgContainer.style.width = '100%';
+			imgContainer.style.top = '0';
+			imgContainer.style.left = '0';
+			imgContainer.style.position = 'absolute';
+		}
 		
 		//ul 스타일
 		ul.style.minHeight = '400px';
@@ -189,7 +265,7 @@ var imgSlider = (customOption) => (function(customOption) {
 			li.style.width = liWidth;
 			//이미지 스타일
 			var liImg = li.querySelector('img');
-			
+			liImg.style.width = '100%';
 			// 비율 고정
 			if (option.ratioFix == false) return;
 			li.style.position = 'relative';
@@ -198,10 +274,19 @@ var imgSlider = (customOption) => (function(customOption) {
 			li.style.overflow = 'hidden';
 			
 			liImg.style.position = 'absolute';
-			liImg.style.top = '0';
-			liImg.style.left = '0';
-			liImg.style.width = 'auto';
-			liImg.style.height = '100%';
+			liImg.style.top = liImg.dataset.offsetY;
+			liImg.style.left = liImg.dataset.offsetX;
+			liImg.onload = function() {
+				const imgRatio = liImg.naturalHeight / liImg.naturalWidth;
+				if (imgRatio >= option.ratio) {
+					liImg.style.width = '100%';
+					liImg.style.height = 'auto';
+				} else {
+					liImg.style.width = 'auto';
+					liImg.style.height = '100%';
+				}
+			}
+			if (option.editMode == false) return;
 		});
 		
 		//버튼 스타일
@@ -231,13 +316,13 @@ var imgSlider = (customOption) => (function(customOption) {
 		
 		//인덱스
 		idxContainer.querySelectorAll('li')
-			.forEach(x => {
-				x.style.width ="8px";
-				x.style.height ="8px";
-				x.style.float = "left";
-				x.style.marginRight = "3px";
-				x.style.borderRadius = "50%";
-				x.style.backgroundColor = "lightgray";
+		.forEach(x => {
+			x.style.width ="8px";
+			x.style.height ="8px";
+			x.style.float = "left";
+			x.style.marginRight = "3px";
+			x.style.borderRadius = "50%";
+			x.style.backgroundColor = "lightgray";
 		});
 		
 		idxIndicator.style.position = 'absolute';
@@ -260,8 +345,11 @@ var imgSlider = (customOption) => (function(customOption) {
 		setOption: setOption,
 		add: add,
 		addList: addList,
+		addImgTagList: addImgTagList,
 		remove: remove,
 		slideImg: slideImg,
+		offsetX: offsetX,
+		offsetY: offsetY,
 	}
 }(customOption));
 

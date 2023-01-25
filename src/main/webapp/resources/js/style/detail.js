@@ -55,42 +55,46 @@ var template = function(style) {
 	
 	//이미지 슬라이더 모듈 가져오기
 	var imgContainer = template.querySelector('.img-container');
-	var slider = imgSlider();
+	var slider = imgSlider({
+		ratio: style.ratio? style.ratio : 1,
+		ratioFix: true,
+		offset: true,
+	});
 	imgContainer.append(slider.container);
-	var imgSrcList = style.style_image.map(x => imgService.originPath(x));
-	slider.addList(imgSrcList);
+	var imgSrcList = style.style_image.map(x => imgService.getImageEl(x));
+	slider.addImgTagList(imgSrcList);
 	
 	/***********************************
 	 * addEventListener
 	 **********************************/
 	template.querySelector('.like-summary')
-		.addEventListener('click', (e) => {
-			e.preventDefault();
-			
-			const m = modal();
-			m.open({title: '공감 목록'});
-			m.append('helloWorld');
+	.addEventListener('click', (e) => {
+		e.preventDefault();
+		
+		const m = modal();
+		m.open({title: '공감 목록'});
+		m.append('helloWorld');
 	});
 	
 	template.querySelector('.reply-summary')
-		.addEventListener('click', async (e) => {
-			e.preventDefault();
-			
-			const style_no = e.target.closest('.item').dataset.styleNo;
-			const m = modal();
-			m.open({title: '댓글 목록', type: 'right'});
-			
-			const replyTemplate = replyViewer(style_no);
-			replyTemplate.setOption({input: true, nestedReply: true});
-			const replyList = await replyTemplate.get();
-			m.append(replyList);
+	.addEventListener('click', async (e) => {
+		e.preventDefault();
+		
+		const style_no = e.target.closest('.item').dataset.styleNo;
+		const m = modal();
+		m.open({title: '댓글 목록', type: 'right'});
+		
+		const replyTemplate = replyViewer(style_no);
+		replyTemplate.setOption({input: true, nestedReply: true});
+		const replyList = await replyTemplate.get();
+		m.append(replyList);
 	});
 	
 	template.querySelector('.update-btn')
-		.addEventListener('click', (e) => {
-			e.preventDefault();
-			
-			location.href = '/style/update?style_no=' + style.style_no;
+	.addEventListener('click', (e) => {
+		e.preventDefault();
+		
+		location.href = '/style/update?style_no=' + style.style_no;
 	});
 	
 	return template;
