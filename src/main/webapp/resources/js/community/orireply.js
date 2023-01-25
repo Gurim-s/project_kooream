@@ -3,11 +3,11 @@ console.log("Reply Module......");
 var replyService = (function(){
 
 	function add(reply, callback){
-		console.log("reply insert.....");
+		console.log("Original reply insert.....");
 		
 		$.ajax({
 			type:'post',
-			url : '/replies/new',
+			url : '/oriReplies/new',
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success:function(result){
@@ -26,11 +26,11 @@ var replyService = (function(){
 
 
 	function getList(param, callback, error){
-		var talkno = param.no;
+		var orino = param.orino;
 		
 		$.ajax({
 			type:'get',
-			url : '/replies/pages/' + talkno + '.json',
+			url : '/oriReplies/pages/' + orino + '.json',
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
@@ -46,10 +46,10 @@ var replyService = (function(){
 	
 	
 	
-	function remove(talkreplyno, callback, error){
+	function remove(orireplyno, callback, error){
 		$.ajax({
 			type:'delete',
-			url : '/replies/' + talkreplyno,
+			url : '/oriReplies/' + orireplyno,
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
@@ -64,11 +64,11 @@ var replyService = (function(){
 	} // --------------------------- function remove end
 	
 	function update(reply, callback, error){
-		console.log("update reply..." + reply.talkreplyno);
+		console.log("update reply..." + reply.orireplyno);
 		
 		$.ajax({
 			type:'put',
-			url : '/replies/' + reply.talkreplyno,
+			url : '/oriReplies/' + orireply.orireplyno,
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success:function(result, status, xhr){
@@ -87,12 +87,12 @@ var replyService = (function(){
 	
 	
 	
-	function get(talkreplyno, callback, error){
-		console.log("get reply..." + talkreplyno);
+	function get(orireplyno, callback, error){
+		console.log("get reply..." + orireplyno);
 		
 		$.ajax({
 			type:'get',
-			url : '/replies/' + talkreplyno + '.json',
+			url : '/oriReplies/' + orireplyno + '.json',
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
@@ -106,8 +106,44 @@ var replyService = (function(){
 		});
 		
 	}
-
 	
+	function countOriOk(orino, callback, error){
+		console.log("get ori OK reply...." + orino);
+		
+		$.ajax({
+			type:'get',
+			url:'/oriReplies/' + orireplyno + '.json',
+			success:function(result, status, xhr){
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er){
+				if(er){
+					error(er);
+				}
+			}
+		});
+	} // --------------------------- function countOriOk end
+
+	function countOriNo(orino, callback, error){
+		console.log("get ori NO reply...." + orino);
+		
+		$.ajax({
+			type:'get',
+			url:'/oriReplies/' + orireplyno + '.json',
+			success:function(result, status, xhr){
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er){
+				if(er){
+					error(er);
+				}
+			}
+		});
+	} // --------------------------- function countOriNo end
 	
 	
 	
@@ -117,7 +153,9 @@ var replyService = (function(){
 			getList:getList,
 			remove:remove,
 			update:update,
-			get:get
+			get:get,
+			countOriOk:countOriOk,
+			countOriNo:countOriNo
 			};
 
 })();

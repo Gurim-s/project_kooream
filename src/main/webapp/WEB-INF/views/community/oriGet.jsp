@@ -89,19 +89,30 @@
 			<span><a><img src="/resources/img/smiling_icon.png" class="ori_icon" id="dec_ok"></a></span>
 			<span><a><img src="/resources/img/worried_icon.png" class="ori_icon" id="dec_no"></a></span>
 		</div>
+		<div>
+			<span>진품같아요.</span><span>가품같아요.</span>
+		</div>
+		<div>
+			<span>진품같아요.</span><span>가품같아요.</span>
+		</div>
 	</form>
 	
 	<!-- 정품판별 댓글 내용 출력 폼 -->
-	<div>구리머들의 판정</div>
-	
+	<div><strong>구리머들의 판정</strong></div>
+	<div class="replyList">
+		<div>
+			<span>댓글쓴이</span><span>작성날짜</span>
+		</div>
+		<div>댓글 내용</div>
+	</div>
 	
 	<!-- 판정 클릭시 뜨는 모달창 -->
 	<div id="my_modal">
-		<div><input name="orireplyname">
+		<div><input name="orireplyname" value="replyer">
 		</div>
 		<div id="title" data-orino="${vo.orino }">판별 내용</div>
 		<div>
-			<textarea rows="10" cols="25" placeholder="정품 혹은 가품이라 생각하는 이유를 적어주세요." style="resize: none;"></textarea>
+			<textarea id="oricon" rows="10" cols="25" placeholder="정품 혹은 가품이라 생각하는 이유를 적어주세요." style="resize: none;"></textarea>
 		</div>
 		<div>
 			<button id="replyRegister">등록</button>
@@ -130,22 +141,66 @@
 			
 		})
 		
+		// 가품, 진품 댓글 갯수 스크립트 ---------------------------- start
+		
+		
+		
+		
+		
+		
 		// 모달창 관련 스크립트 ----------------------------------- start
 		var my_modal = $("#my_modal")
+		var modalInputReply = $("#oricon")
+		var modalInputReplyer = my_modal.find("input[name='orireplyname']");
+		var orinoValue = '${vo.orino}';
+		var m_no = '1';
+		
 		// 정품 같아요 클릭
 		$("#dec_ok").click(function(e) {
 			e.preventDefault();
+			var oridec = "oriOk";
 			
 			// 모달창 열기
+			modalInputReply.val('');	// 댓글 내용 창 비우기
 			my_modal.show();
 			
+			// 모달창 등록
+			$("#replyRegister").click(function() {
+				// 댓글 달기
+				replyService.add(
+						{orino:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
+						
+						function(result) {
+							showList();
+							my_modal.hide();
+						}
+					);
+			});
+		
 		});
 		
 		// 가품 같아요 클릭
 		$("#dec_no").click(function(e) {
 			e.preventDefault();
+			var oridec = "oriNo";
+			
 			// 모달창 열기
+			modalInputReply.val('');	// 댓글 내용 창 비우기
 			my_modal.show();
+			
+			// 모달창 등록
+			$("#replyRegister").click(function() {
+			
+				// 댓글 달기
+				replyService.add(
+						{no:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
+						
+						function(result) {
+							showList();
+							my_modal.hide();
+						}
+					);
+			});
 			
 		});
 		
@@ -154,28 +209,38 @@
 			my_modal.hide();
 		});
 		
-		// 모달창 등록
-		$("#replyRegister").click(function() {
+		var replyList = $(".replyList");
 		
-			// 댓글 달기 (상세 내용 수정해야함 복붙만 한 상황임!!!!!!!!)
-			replyService.add(
-					{orireplycon:modalInputReply.val(), orireplyname:modalInputReplyer.val(), orino:orinoValue},
-					
+		// 댓글 리스트 함수
+		showList();
+		
+		function showList() {
+			replyService.getList({orino:orinoValue},
 					function(result) {
-						showList();
+						var str = '';
 						
+						if(result == null || result.length==0){
+							// 댓글이 없으면
+							replyList.html("");
+							return;
+						}else{
+							// 댓글이 있으면
+							for(var i=0; i<result.length; i++){
+								str += '<div><span>'+ result[i].orireplyname +'</span><span>'+ result[i].orireplydate +'</span></div>'
+								str += '<div>'+ result[i].orireplycon+'</div>'
+							}
+							replyList.html(str);
+						}
 					}
 				);
 			
 			
-			
-			
-		})
+		}
 		
 			
 		
 		
-	})
+	});
 </script>
 </html>
 <jsp:include page="../include/footer.jsp"/>
