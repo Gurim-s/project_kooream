@@ -7,17 +7,18 @@ import {imgSlider} from '../common/img-slider.js';
 import {imgService} from '../service/image-service.js';
 
 var imgFileUploader = (function() {
+	const publisherList = [];
 	const container = document.createElement('div');
 	const tempInput = createTempInput();
 	const previewList = createImgPreview();
-	let slider;
+	let slider = imgSlider();
 	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
 	let option = {};
 	
 	function init() {
 		container.prepend(previewList);
 		container.prepend(tempInput);
-		slider = imgSlider(option.slider);
+		slider.setOption(option.slider);
 		container.append(slider.container);
 		setEvent();
 		defaultCss();
@@ -26,6 +27,7 @@ var imgFileUploader = (function() {
 	function createTempInput() {
 		const input = document.createElement('input');
 		input.type = 'file';
+		input.accept='image/jpeg, image/png, image/jpg';
 		input.multiple='multiple';
 		input.id = 'tempInput';
 		
@@ -79,6 +81,10 @@ var imgFileUploader = (function() {
 	/* ========================
 	 * Method
 	 * ========================*/
+	function publish(target) {
+		publisherList.push(target);
+	}
+	
 	function setURL(url) {
 		option.uploadURL = url;
 	}
@@ -100,9 +106,14 @@ var imgFileUploader = (function() {
 		
 		Array.from(files)
 		.forEach(file => {
+			if (!checkFileType(file)) return;
+			if (!checkFileCountMax()) return;
 			pushPreview(file);
 			dataTransfer.items.add(file);
 		});
+		
+		target.value = '';
+		update();
 	}
 	
 	function removeTempFile(target) {
@@ -116,6 +127,8 @@ var imgFileUploader = (function() {
 		.filter((_, i) => i !== idx)
 		.forEach(file => newFiles.items.add(file));
 		dataTransfer = newFiles;
+		
+		update();
 	}
 	
 	function pushPreview(file) {
@@ -140,6 +153,26 @@ var imgFileUploader = (function() {
 		return dataTransfer.items.length;
 	}
 	
+	function checkFileType(file) {
+		const fileType = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+		if (!file.name.match(fileType)) {
+			alert('이미지 파일만 업로드 가능합니다.');
+			return false;
+		};
+		
+		return true;
+	}
+	
+	function checkFileCountMax() {
+		if (!option.max) return true;
+		if (countFiles()+1 > option.max) {
+			alert('이미지는 최대 5개까지 첨부할 수 있습니다.');
+			return false;
+		} 
+		
+		return true;
+	}
+	
 	async function uploadImageAjax() {
 		const formData = new FormData();
 		Array.from(dataTransfer.files)
@@ -161,6 +194,13 @@ var imgFileUploader = (function() {
 		return str;
 	}
 	
+	function update() {
+		previewList.querySelector('li.input-img').style
+		.display = countFiles() == option.max ? 'none': 'list-item';
+		
+		const count = countFiles();
+		publisherList.forEach(x => x.update(count));
+	}
 	/* =======================
 	 * CSS
 	 * =======================*/
@@ -231,6 +271,8 @@ var imgFileUploader = (function() {
 	
 	return {
 		init: init,
+		publish: publish,
+		slider: slider,
 		container: container,
 		uploadImageAjax: uploadImageAjax,
 		countFiles: countFiles,

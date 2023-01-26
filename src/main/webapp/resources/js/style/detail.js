@@ -70,7 +70,6 @@ var template = function(style) {
 	template.querySelector('.like-summary')
 	.addEventListener('click', (e) => {
 		e.preventDefault();
-		
 		const m = modal();
 		m.open({title: '공감 목록'});
 		m.append('helloWorld');
@@ -79,7 +78,6 @@ var template = function(style) {
 	template.querySelector('.reply-summary')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
-		
 		const style_no = e.target.closest('.item').dataset.styleNo;
 		const m = modal();
 		m.open({title: '댓글 목록', type: 'right'});

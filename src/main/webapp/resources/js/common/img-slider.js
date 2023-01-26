@@ -67,7 +67,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		var idxIndicator = document.createElement('div');
 		return idxIndicator;
 	}
-		
+	
 	function hover(v) {
 		var length = idxContainer.childElementCount;
 		var isEnd = (idx == length - 1) || (length == 0);
@@ -86,7 +86,6 @@ var imgSlider = (customOption) => (function(customOption) {
 	function setEvent() {
 		container.addEventListener('mouseover', () => hover('on'));
 		container.addEventListener('mouseout', () => hover('out'));
-		
 	}
 	
 	function dragImageEvent() {
@@ -141,6 +140,9 @@ var imgSlider = (customOption) => (function(customOption) {
 	
 	function setOption(customOption) {
 		option = Object.assign(option, customOption);
+		setEvent();
+		setDefaultCss();
+		if (option.editMode) dragImageEvent();
 	}
 	
 	function add(imgSrc) {
@@ -164,22 +166,26 @@ var imgSlider = (customOption) => (function(customOption) {
 		slideImg(0);
 	}
 	
-	function addImgTag() {
-		
+	function addImgTag(imgTag) {
+		const li = document.createElement('li');
+		li.append(imgTag);
+		ul.append(li);
+		addIdx();
 	}
 	
 	function addImgTagList(imgTagList) {
 		if (imgTagList.length == 0) return;
 		
-		imgTagList.forEach(imgTag => {
-			const li = document.createElement('li');
-			li.append(imgTag);
-			ul.append(li);
-			addIdx();
-		});
-		
+		imgTagList.forEach(addImgTag);
 		setDefaultCss();
 		slideImg(0);
+	}
+	
+	function getImgTagList() {
+		const imgTagList = Array.from(ul.querySelectorAll('li img'))
+		.map(x => x.cloneNode());
+		
+		return imgTagList;
 	}
 	
 	function remove(idx) {
@@ -188,6 +194,9 @@ var imgSlider = (customOption) => (function(customOption) {
 		removeIdx(idx);
 	}
 	
+	function empty() {
+		ul.innerHTML = '';
+	}
 	function addIdx() {
 		var li = document.createElement('li');
 		container.querySelector('.idx-container').append(li);
@@ -347,9 +356,11 @@ var imgSlider = (customOption) => (function(customOption) {
 		addList: addList,
 		addImgTagList: addImgTagList,
 		remove: remove,
+		empty: empty,
 		slideImg: slideImg,
 		offsetX: offsetX,
 		offsetY: offsetY,
+		getImgTagList: getImgTagList,
 	}
 }(customOption));
 
