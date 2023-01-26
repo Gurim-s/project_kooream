@@ -27,7 +27,7 @@ public class BidTests {
 		vo.setBID_SELL(30000);
 		vo.setBID_BUY(20000);
 		
-		mapper.insert(vo);
+		/* mapper.insert(vo); */
 		
 		log.info(vo);
 	}

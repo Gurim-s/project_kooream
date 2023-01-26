@@ -490,9 +490,10 @@
 		transform: translateX(10px);
 	}
 </style>
+	<button id="modify_btn" onclick="modiPage(${vo.p_no})">상품 수정</button>
+	<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
 	<div class="wrap clearfix">
 		<div class="product_photo">
-		
 			<div id="slideShow">
 			<ul class="slides">
 				<li><img class="product_image" src="../resources/img/iphone.png"></li>
@@ -509,9 +510,9 @@
 		</div>
 		<div class="product_introduce">
 			<div class="introduce_box">
-				<div class="brand_name">Apple</div>
-				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
-				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="brand_name">${vo.p_brand }</div>
+				<div class="product_name_eng">${vo.p_name_en }</div>
+				<div class="product_name_kor">${vo.p_name_ko }</div>
 			</div>
 			<div class="detail_size">
 				<span class="size_text">사이즈</span>
@@ -521,7 +522,7 @@
 					<span class="recent_price">최근 거래가</span>
 				<div class="price">
 					<div class="amount">
-						<span class="product_price">501,000</span>
+						<span class="product_price">${vo.p_release_price }</span> 
 						<span class="won">원</span>
 							<p class="fluctuation">99,000원 (+24.6%)</p>
 					</div>
@@ -557,11 +558,11 @@
 			<div class="detail_product_wrap">
 				<div class="model_box">
 					<div class="product_title">모델번호</div>
-					<div class="model_num">555088-711</div>
+					<div class="model_num">${vo.p_model_no }</div>
 				</div>
 				<div class="model_box">
 					<div class="product_title">출시일</div>
-					<div class="model_intro">22/08/08</div>
+					<div class="model_intro">${vo.p_release_date }</div>
 				</div>
 				<div class="model_box">
 					<div class="product_title">컬러</div>
@@ -569,7 +570,7 @@
 				</div>
 				<div class="model_box">
 					<div class="product_title">발매가</div>
-					<div class="model_intro">209,000원</div>
+					<div class="model_intro">${vo.p_release_price }원</div>
 				</div>
 			</div>
 			<h3 class="bsinfo">배송정보</h3>
@@ -755,4 +756,17 @@
 	        $(".refund_info").css({"font-weight": "normal"})
 	    }
 	});
+	
+	function modiPage(pno) {
+		location.href="/shop/shop_modify/" + pno;
+	}
+	
+	function remove(pno) {
+		if (confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+			alert("삭제 되었습니다.");
+			location.href = "/shop/remove/" + pno;
+		} else {
+			alert("취소되었습니다.");
+		}
+	}
 </script>

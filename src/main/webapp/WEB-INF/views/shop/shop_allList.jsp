@@ -75,7 +75,7 @@
 		display: block;
 	}
 	
-	.category_menu{s
+	.category_menu{
 		display: none;
 	}
 	
@@ -88,6 +88,8 @@
 		border: 1px solid black;
 		width: calc(25% - 10px);
 		height : 410px;
+		cursor:pointer;
+		
 	}
 	
 	.filter_box{
@@ -155,7 +157,9 @@
 </style>
 	<div class="shop_title" style="height: 110px; width: 100%;">
 		<h2 class="shop_text">SHOP</h2>
+		<button id="p_i_btn">상품 등록</button>
 	</div>
+	
 	<div class="main-content-box clearfix">
 		<div class="filter_box" style="border : 1px solid black; width : 210px;">
 			<div class="filter_status" style="padding : 23px 0 15px;">
@@ -204,7 +208,20 @@
 			</div>
 		</div>
 		<div class="product_all">
-			<div class="product_box">
+			<c:forEach items="${bidList}" var="bid">
+				<div class="product_box" onclick="getPage(${bid.p_no})">
+					<img class="product_image" src="../resources/img/ps5.png">
+					<div class="brand_name" >${bid.p_brand}</div>
+					<div class="product_name_eng">${bid.p_name_en}</div>
+					<div class="product_name_kor">${bid.p_name_ko}</div>		
+					<div class="badge_product">빠른 배송</div>
+					<div class="view_price">${bid.p_release_price}원</div>
+					<div class="buy_price">즉시 구매가</div>
+					<div class="buy_price">${bid.p_no}</div>
+				</div>
+				
+			</c:forEach>
+<!-- 		<div class="product_box">
 				<img class="product_image" src="../resources/img/ps5.png">
 				<div class="brand_name">Sony</div>
 				<div class="product_name_eng">Sony Playstation 5 Blu-ray Edition (SIEK 220V)</div>
@@ -221,70 +238,7 @@
 				<div class="badge_product">빠른 배송</div>
 				<div class="view_price">1,553,000원</div>
 				<div class="buy_price">즉시 구매가</div>
-			</div>
-			<div class="product_box">
-				<img class="product_image" src="../resources/img/ps5.png">
-				<div class="brand_name">Sony</div>
-				<div class="product_name_eng">Sony Playstation 5 Blu-ray Edition (SIEK 220V)</div>
-				<div class="product_name_kor">소니 플레이스테이션 5 블루레이 에디션 (국내 정식 발매 제품)</div>
-				<div class="badge_product">빠른 배송</div>
-				<div class="view_price">637,000원</div>
-				<div class="buy_price">즉시 구매가</div>
-			</div>
-			<div class="product_box">
-				<img class="product_image" src="../resources/img/iphone.png">
-				<div class="brand_name">Apple</div>
-				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
-				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
-				<div class="badge_product">빠른 배송</div>
-				<div class="view_price">1,553,000원</div>
-				<div class="buy_price">즉시 구매가</div>
-			</div>
-			<div class="product_box">
-				<img class="product_image" src="../resources/img/iphone.png">
-				<div class="brand_name">Apple</div>
-				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
-				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
-				<div class="badge_product">빠른 배송</div>
-				<div class="view_price">1,553,000원</div>
-				<div class="buy_price">즉시 구매가</div>
-			</div>
-			<div class="product_box">
-				<img class="product_image" src="../resources/img/iphone.png">
-				<div class="brand_name">Apple</div>
-				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
-				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
-				<div class="badge_product">빠른 배송</div>
-				<div class="view_price">1,553,000원</div>
-				<div class="buy_price">즉시 구매가</div>
-			</div>
-			<div class="product_box">
-				<img class="product_image" src="../resources/img/iphone.png">
-				<div class="brand_name">Apple</div>
-				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
-				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
-				<div class="badge_product">빠른 배송</div>
-				<div class="view_price">1,553,000원</div>
-				<div class="buy_price">즉시 구매가</div>
-			</div>
-			<div class="product_box">
-				<img class="product_image" src="../resources/img/ps5.png">
-				<div class="brand_name">Sony</div>
-				<div class="product_name_eng">Sony Playstation 5 Blu-ray Edition (SIEK 220V)</div>
-				<div class="product_name_kor">소니 플레이스테이션 5 블루레이 에디션 (국내 정식 발매 제품)</div>
-				<div class="badge_product">빠른 배송</div>
-				<div class="view_price">637,000원</div>
-				<div class="buy_price">즉시 구매가</div>
-			</div>
-			<div class="product_box">
-				<img class="product_image" src="../resources/img/iphone.png">
-				<div class="brand_name">Apple</div>
-				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
-				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
-				<div class="badge_product">빠른 배송</div>
-				<div class="view_price">1,553,000원</div>
-				<div class="buy_price">즉시 구매가</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	
@@ -323,4 +277,35 @@
 				});
 		});
 	});
+	
+	$("#p_i_btn").on("click",function(){
+		location.href="/shop/shop_register";
+	});
+	
+// 	$(".product_box").on("click",function(){
+// 		location.href="/shop/shop_bidpage/";
+		
+/* 		actionForm.attr("action", "/shop/shop_bidpage");
+		
+		var str ='';
+		str += '<input type="hidden" name="p_no" value="'${bid.p_no}'">';
+		
+		actionForm.html(str);
+		actionForm.submit(); */
+// 	});
+	
+	function getPage(pno) {
+		location.href="/shop/shop_introduce/" + pno;
+	}
+/* 	$(".product_box").click(function(e) {
+		// <a> 클릭 시 페이지 이동이 이루어지지 않게 하기 위해
+		e.preventDefault();	// 기본 href 경로 이동 방지	
+		actionForm.attr("action", "/shop/shop_allList");
+		
+		var str ='';
+		str += '<input type="hidden" name="p_no" value="'+$(this).attr("href")+'">';
+		
+		actionForm.html(str);
+		actionForm.submit();
+	}); */
 </script>

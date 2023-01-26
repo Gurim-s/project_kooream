@@ -3,11 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.kooream.mapper.BidShopMapper">
-	<insert id="insert">
-		INSERT INTO BIDDING VALUES(#{M_NO}, #{P_NO}, #{BID_SELL}, #{BID_BUY})
-	</insert>
-	
+<mapper namespace="com.kooream.mapper.BidShopProductMapper">
 	<select id="getList" resultType="com.kooream.domain.ProductVO">
 		select A.* from product A order by p_no desc
 	</select>

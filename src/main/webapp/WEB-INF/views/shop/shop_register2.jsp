@@ -30,9 +30,9 @@
 </style>
 </head>
 <body>
-	<h1>샵 상품등록</h1><br/>
+	<h1>상품등록</h1><br/>
 	<div class="container">
-		<form action="/shop/shop_register" method="post">
+		<form action="/brandshop/register"method="post">
 			<table class = "register">
 			<tr>
 				<td>이미지 등록</td>
@@ -44,12 +44,12 @@
 			<tr>
 				<td>브랜드</td>
 					<td class="form-inline">
-						<select id="brand_select" name="b_no" onchange="ChangeValue()">
-							<option value="1">Nike</option>
-							<option value="2">New Balance</option>
-							<option value="3">Adidas</option>
-							<option value="4">Converse</option>
-							<option value="5">Apple</option>
+						<select id="brand_select" name="b_no">
+							<option value="51">LE17SEPTEMBRE</option>
+							<option value="52">Polar Skate Co.</option>
+							<option value="53">Punch Drunk Parties</option>
+							<option value="54">THE IDENTITY PROJECT</option>
+							<option value="55">The Museum Visitor</option>
 						</select>
 					</td>
 				</tr>
@@ -91,6 +91,7 @@
 							<select class="A_Category" name="">
 								<option value="FREE">FREE</option>
 							</select> 
+
 				</td>
 				</tr>
 				<tr>
@@ -115,11 +116,7 @@
 					</select></td>
 			</tr>
 			<tr>
-					<td>출시일</td>
-					<td class="date_set"><input type="date" name="p_release_date"></td>
-			</tr>
-			<tr>
-					<td class="Brand_name"></td>
+					<td class = "Brand_name"><input type="hidden" name ="p_brand" value=""></td>
 			</tr>
 			<tr>
 				<td class="register_button">
@@ -129,14 +126,14 @@
 					<input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
 					<input type="hidden" name="amount" value="${cri.amount}"/> 
 				</td>
-			</tr>
+			</tr>		
 	</table>	
 	</form>
 	</div>
 
 		<script type="text/javascript">
 		  //-------------------------버튼 클릭 스크립트-----------------------------------
-/*
+
 		   $(function(){
 			      var formObj = $("form");
 			      
@@ -174,8 +171,6 @@
 			      
 			      
 			   });
-		  */
-		  
 	// 업로드 전 제약
 		$(function () {
 			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");		// 확장자 (정규식) 업로드할수없는 파일
@@ -315,23 +310,26 @@
 			}else{
 				
 			};
+				
+		
+		
+		
 		});
  */
 			
-	function ChangeValue() {
-		var target = document.getElementById("brand_select");
-		var brand = target.options[target.selectedIndex].text;
-		var a = '<input type="hidden" name ="p_brand" value="'+ brand +'">';
-		
-// 		var test = $('<input/>'); // 인풋 태그 생성;
-// 		$(test).val(brand);
-		
-		console.log(brand);
-		$('.Brand_name').html(a);
-	}
 	
 	
-</script>
+	
+	
+		
+
+
+	
+
+	</script>
+	
+		
+
 </body>
 </html>
 <jsp:include page="../include/footer.jsp"/>
