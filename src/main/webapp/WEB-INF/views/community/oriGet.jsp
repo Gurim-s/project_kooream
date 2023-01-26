@@ -93,12 +93,16 @@
 			<span>진품같아요.</span><span>가품같아요.</span>
 		</div>
 		<div>
-			<span>진품같아요.</span><span>가품같아요.</span>
+			<span id="oriOk">진품 갯수</span><span id="oriNo">가품 갯수</span>
 		</div>
 	</form>
 	
 	<!-- 정품판별 댓글 내용 출력 폼 -->
-	<div><strong>구리머들의 판정</strong></div>
+	<div>
+		<strong>구리머들의 판정</strong>
+		<span><input type="checkbox" name="decOk" value="decOk" id="ckOk" class="oriDec">진품 같아요.</span>
+		<span><input type="checkbox" name="decNo" value="decNo" id="ckNo" class="oriDec">가품 같아요.</span>
+	</div>
 	<div class="replyList">
 		<div>
 			<span>댓글쓴이</span><span>작성날짜</span>
@@ -128,6 +132,8 @@
 <script type="text/javascript">
 	$(function() {
 		//var form = $("#form");
+		var orinoValue = '${vo.orino}';
+		var m_no = '1';
 		
 		// 버튼 클릭 시 해당 작업 수행
 		$("button").click(function(e) {
@@ -141,10 +147,110 @@
 			
 		})
 		
+		// 진품 댓글 갯수 함수 호출
+		countOk();
+		// 가품 댓글 갯수 함수 호출
+		countNo();
+		
+		var oriOk = $("#oriOk");
+		var oriNo = $("#oriNo");
 		// 가품, 진품 댓글 갯수 스크립트 ---------------------------- start
 		
+		//진품 댓글 갯수
+		function countOk() {
+			
+			replyService.countOriOk({no:orinoValue},
+				function(result) {
+					console.log(result);
+					var str = '';
+					
+					str += '<span id="oriOk">'+ result +'</span>'
+					
+					oriOk.html(str);
+				}
+			)
+		}
+		
+		//가품 댓글 갯수
+		function countNo() {
+			
+			replyService.countOriNo({no:orinoValue},
+				function(result) {
+					console.log(result);
+					var str = '';
+					
+					str += '<span id="oriNo">'+ result +'</span>'
+					
+					oriNo.html(str);
+				}
+			)
+		}
+		
+		// 정품, 가품 댓글 라디오 체크 관련
+		$('.oriDec').click(function(){
+		var chOk = $('#ckOk').is(':checked');
+		var chNo = $('#ckNo').is(':checked');
+		
+			if(chOk){
+				replyService.okList({no:orinoValue},
+					function(result) {
+						console.log(result);
+						var str = '';
+						
+						if(result == null || result.length==0){
+							// 댓글이 없으면
+							replyList.html("");
+							return;
+						}else{
+							// 댓글이 있으면
+							for(var i=0; i<result.length; i++){
+								str += '<div><span>'+ result[i].orireplyname +'</span><span>'+ result[i].orireplydate +'</span></div>'
+								str += '<div>'+ result[i].orireplycon+'</div>'
+							}
+							replyList.html(str);
+						}
+						
+						
+					}
+				)
+			}
+			if(chNo){
+				replyService.noList({no:orinoValue},
+					function(result) {
+						console.log(result);
+						var str='';
+						
+						if(result == null || result.length==0){
+							// 댓글이 없으면
+							replyList.html("");
+							return;
+						}else{
+							// 댓글이 있으면
+							for(var i=0; i<result.length; i++){
+								str += '<div><span>'+ result[i].orireplyname +'</span><span>'+ result[i].orireplydate +'</span></div>'
+								str += '<div>'+ result[i].orireplycon+'</div>'
+							}
+							replyList.html(str);
+						}//---------------------------------- 댓글 유무 확인 end
+						
+					} //------------------------------------- 댓글 유무 확인 함수 end
+				)
+			} // -------------------------------------------- chNo if문 end
+			if(chNo || chOk){
+				showList();
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+		});
 		
 		
+			
 		
 		
 		
@@ -152,8 +258,6 @@
 		var my_modal = $("#my_modal")
 		var modalInputReply = $("#oricon")
 		var modalInputReplyer = my_modal.find("input[name='orireplyname']");
-		var orinoValue = '${vo.orino}';
-		var m_no = '1';
 		
 		// 정품 같아요 클릭
 		$("#dec_ok").click(function(e) {
@@ -171,6 +275,7 @@
 						{orino:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
 						
 						function(result) {
+							countOk();
 							showList();
 							my_modal.hide();
 						}
@@ -196,6 +301,7 @@
 						{no:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
 						
 						function(result) {
+							countNo();
 							showList();
 							my_modal.hide();
 						}

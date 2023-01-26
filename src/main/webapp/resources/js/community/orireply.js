@@ -1,4 +1,4 @@
-console.log("Reply Module......");
+console.log("Original Reply Module......");
 
 var replyService = (function(){
 
@@ -107,12 +107,14 @@ var replyService = (function(){
 		
 	}
 	
-	function countOriOk(orino, callback, error){
-		console.log("get ori OK reply...." + orino);
+	function countOriOk(param, callback, error){
 		
+		var orino = param.no
+		console.log("get ori OK reply...." + orino);
+		console.log(orino);
 		$.ajax({
 			type:'get',
-			url:'/oriReplies/' + orireplyno + '.json',
+			url:'/oriReplies/' + orino +'.json',
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
@@ -126,12 +128,14 @@ var replyService = (function(){
 		});
 	} // --------------------------- function countOriOk end
 
-	function countOriNo(orino, callback, error){
+	function countOriNo(param, callback, error){
+		
+		var orino = param.no
 		console.log("get ori NO reply...." + orino);
 		
 		$.ajax({
 			type:'get',
-			url:'/oriReplies/' + orireplyno + '.json',
+			url:'/oriReplies/oriCountNo/' + orino + '.json',
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
@@ -145,7 +149,43 @@ var replyService = (function(){
 		});
 	} // --------------------------- function countOriNo end
 	
+	function okList(param, callback, error){
+		var orino = param.no;
+		console.log(orino);
+		$.ajax({
+			type:'get',
+			url : '/oriReplies/okList/' + orino + '.json',
+			success:function(result, status, xhr){
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er){
+				if(er){
+					error(er);
+				}
+			}
+		});
+	} // --------------------------- function okList end
 	
+	function noList(param, callback, error){
+		var orino = param.no;
+		
+		$.ajax({
+			type:'get',
+			url : '/oriReplies/noList/' + orino + '.json',
+			success:function(result, status, xhr){
+				if(callback){
+					callback(result);
+				}
+			},
+			error : function(xhr, status, er){
+				if(er){
+					error(er);
+				}
+			}
+		});
+	} // --------------------------- function noList end
 	
 	
 	return {
@@ -155,7 +195,9 @@ var replyService = (function(){
 			update:update,
 			get:get,
 			countOriOk:countOriOk,
-			countOriNo:countOriNo
+			countOriNo:countOriNo,
+			okList:okList,
+			noList:noList
 			};
 
 })();

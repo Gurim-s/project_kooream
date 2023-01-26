@@ -36,15 +36,30 @@ public class OriginalReplySeviceImpl implements OriginalReplyService{
 	
 	// 진품 같아요 댓글 갯수
 	@Override
-	public int countOriOk() {
-		return mapper.countOriOk();
+	public int countOriOk(int orino) {
+		log.info("original OK....." + orino);
+		return mapper.countOriOk(orino);
 	}
 	
 	// 가품 같아요 댓글 갯수
 	@Override
-	public int countOriNo() {
-		return mapper.countOriNo();
+	public int countOriNo(int orino) {
+		log.info("original NO....." + orino);
+		return mapper.countOriNo(orino);
 	}
 	
+	// 진품 댓글 셀렉트
+	@Override
+	public List<OriginalReplyVO> chOk(int orino) {
+		log.info("original reply OK List......" + orino);
+		return mapper.chOk(orino);
+	}
+	
+	// 가품 댓글 셀렉트
+	@Override
+	public List<OriginalReplyVO> chNo(int orino) {
+		log.info("original reply NO List......" + orino);
+		return mapper.chNo(orino);
+	}
 	
 }

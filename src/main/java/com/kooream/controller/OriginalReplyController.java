@@ -38,7 +38,7 @@ public class OriginalReplyController {
 		
 		
 		return insertCount == 1?
-				new ResponseEntity<String>("successs", HttpStatus.ACCEPTED.OK) :
+				new ResponseEntity<String>("success", HttpStatus.ACCEPTED.OK) :
 					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
@@ -52,12 +52,43 @@ public class OriginalReplyController {
 	}
 	
 	// 진품 같아요 댓글 갯수
-	@GetMapping(value = "{orino}",
+	@GetMapping(value = "/{orino}",
 			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public int countOriOk(int orino) {
-		return 0;
+	public int countOriOk(@PathVariable("orino") int orino) {
+		log.info("Original OK reply count....." + orino);
+		
+		int result = service.countOriOk(orino);
+		
+		return result;
 	};
-
 	
+	// 진품 같아요 댓글 갯수
+	@GetMapping(value = "/oriCountNo/{orino}",
+			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public int countOriNo(@PathVariable("orino") int orino) {
+		log.info("Original No reply count....." + orino);
+		
+		int result = service.countOriNo(orino);
+			
+		return result;
+	};
+	
+	// 진품 같아요 댓글 셀렉트
+	@GetMapping(value = "/okList/{orino}",
+			produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<List<OriginalReplyVO>> okList(@PathVariable("orino") int orino){
+		log.info("original reply OK list.................");
+		
+		return new ResponseEntity<List<OriginalReplyVO>>(service.chOk(orino), HttpStatus.OK);
+	}
+	
+	// 가품 같아요 댓글 셀렉트
+		@GetMapping(value = "/noList/{orino}",
+				produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+		public ResponseEntity<List<OriginalReplyVO>> noList(@PathVariable("orino") int orino){
+			log.info("original reply OK list.................");
+			
+			return new ResponseEntity<List<OriginalReplyVO>>(service.chOk(orino), HttpStatus.OK);
+		}
 	
 }

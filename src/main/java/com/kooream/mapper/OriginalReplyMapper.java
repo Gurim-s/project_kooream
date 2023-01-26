@@ -13,9 +13,16 @@ public interface OriginalReplyMapper {
 	public List<OriginalReplyVO> getList(int orino);
 	
 	// 가품 같아요 댓글 갯수
-	public int countOriOk();
+	public int countOriOk(int orino);
 	
 	// 진품 같아요 댓글 갯수
-	public int countOriNo();
+	public int countOriNo(int orino);
+	
+	// 진품 댓글 셀렉트
+	public List<OriginalReplyVO> chOk(int orino);
+	
+	// 가품 댓글 셀렉트
+	public List<OriginalReplyVO> chNo(int orino);
+	
 	
 }

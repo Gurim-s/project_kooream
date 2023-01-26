@@ -15,12 +15,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="countOriOk" resultType="int">
-		SELECT COUNT(*) FROM originalreply where orino = #{orino} and oridecision='oriOk';
+		SELECT COUNT(*) FROM originalreply WHERE orino = #{orino} AND oridecision='oriOk'
 	</select>
 	
 	<select id="countOriNo" resultType="int">
-		SELECT COUNT(*) FROM originalreply where orino = #{orino} and oridecision='oriNo';
+		SELECT COUNT(*) FROM originalreply WHERE orino = #{orino} AND oridecision='oriNo'
 	</select>
 	
+	<select id="chOk" resultType="com.kooream.domain.OriginalReplyVO">
+		SELECT * FROM originalreply WHERE orino = #{orino} AND oridecision = 'oriOk'
+	</select>
 	
+	<select id="chNo" resultType="com.kooream.domain.OriginalReplyVO">
+		SELECT * FROM originalreply WHERE orino = #{orino} AND oridecision = 'oriNo'
+	</select>
 </mapper>
