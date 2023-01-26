@@ -21,7 +21,7 @@
 </style>
 <div id="title"><h1>렌탈 상품 수정</h1></div>
 <div id="addBox">
-	<form action="/rental/updateRntPrdt" method="post">
+	<form action="/rental/updateRntPrdt" id="MyForm" method="post">
 		<input type="hidden" name="p_no" value="${pvo.p_no }"/>
 		<table>
 			<tr>
@@ -76,18 +76,17 @@
 					<input id="file" type="file" name="uploadFile" multiple="multiple"/>
 					<!-- 기존 저장되어 있는 파일 보여주기 -->
 					<div id="fileResult">
-					<c:forEach var="fvo" items="${fvoList }">
-						<a href="/download?fileName=${fvo.uploadPath }/${fvo.uuid}_${fvo.fileName}">${fvo.fileName }</a>
-						<span data-file="${fvo.uploadPath }/${fvo.uuid}_${fvo.fileName}" data-uuid="${fvo.uuid }">X</span><br/>
-						
-					</c:forEach>
+						<c:forEach var="fvo" items="${fvoList }">
+							<a class="fileCheck" href="/download?fileName=${fvo.uploadPath }/${fvo.uuid}_${fvo.fileName}">${fvo.fileName }</a>
+							<span data-file="${fvo.uploadPath }/${fvo.uuid}_${fvo.fileName}" data-uuid="${fvo.uuid }">X</span><br/>
+						</c:forEach>
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2" id="btn">
 					<input type="reset"  value="다시 작성"/>
-					<input type="submit" value="상품 수정"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
+					<input type="button" id="modifyBtn" value="상품 수정"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
 					<input type="button" onclick="history.go(-1)" value="상세페이지로 이동"/>
 					<input type="hidden" id="strUuid" name="strUuid"/>
 				</td>
@@ -153,7 +152,7 @@ $(function() {
 			
 			var fileCallPath = encodeURIComponent(obj.uploadPath + '/' + obj.uuid + "_" + obj.fileName);	// 인코딩
 			
-            str += '<a href="/download?fileName='+fileCallPath+'">';
+            str += '<a class="fileCheck" href="/download?fileName='+fileCallPath+'">';
             //str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
             str += obj.fileName;
             str += '</a>';
@@ -188,8 +187,29 @@ $(function() {
 		
 		
 	});
+	// 상품 수정 버튼 클릭 이벤트
+	$("#modifyBtn").on("click", function(){
+		var check = 0;
+		$("input[type='text'], input[type='number']").each(function(index, item){ // foreach문과 동일. 같은 태그가 여러개일때 j쿼리로 가져오는 경우 사용가능
+			if(!$(item).val()){ // val이 없으면
+				var str = $(item).parent().prev().text() // item 부모의 형제가 가지고 있는 text
+				alert(str + "을(를) 입력해주세요.");
+				check=1;
+				return false; // .each() 사용시 return은 이렇게 적어줘야함!
+			}
+		});
+		
+		if(check==0){
+			if(!$(".fileCheck").length){
+				alert("파일을 등록해주세요.");
+				return;
+			}
+			$("#MyForm").submit();
+		}
+	});
 
-
+	
+	
 
 });
 </script>

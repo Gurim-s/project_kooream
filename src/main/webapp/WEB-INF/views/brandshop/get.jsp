@@ -133,12 +133,11 @@
 			<br/>
 			<br/>
 			<div class = "btn">
-			<button id = "product_cart" style="background: red; color: white;">구매하기</button><br/>
+			<button id = "product_buy" style="background: red; color: white;">구매하기</button><br/>
 			<br/>
-			<form action="/brandCart/addCart" method="post">
-				<input type="hidden" name="p_no" value="${vo.p_no }">
-				<button id = "product_cart">장바구니</button><br/>
-			</form>
+
+				<button type="button" id="product_cart">장바구니</button><br/>
+
 			
 			<br/>
 			</div>
@@ -218,65 +217,65 @@
 
 <script type="text/javascript">
 
-	const body = document.querySelector('body');
-	const modal = document.querySelector('.modal');
-	const btn_size = document.querySelector('.btn_size');
+//	const body = document.querySelector('body');
+//	const modal = document.querySelector('.modal');
+//	const btn_size = document.querySelector('.btn_size');
 	
-	btn_size.addEventListener('click', () => {
-	  modal.classList.toggle('show');
+//	btn_size.addEventListener('click', () => {
+//	  modal.classList.toggle('show');
 	
-	  if (modal.classList.contains('show')) {
-	    body.style.overflow = 'hidden';
-	  }
-	});
+//	  if (modal.classList.contains('show')) {
+//	    body.style.overflow = 'hidden';
+//	  }
+//	});
 	
-	modal.addEventListener('click', (event) => {
-	  if (event.target === modal) {
-	    modal.classList.toggle('show');
+//	modal.addEventListener('click', (event) => {
+//	  if (event.target === modal) {
+//	    modal.classList.toggle('show');
 	
-	    if (!modal.classList.contains('show')) {
-	      body.style.overflow = 'auto';
-	    }
-	  }
-	});
+//	    if (!modal.classList.contains('show')) {
+//	      body.style.overflow = 'auto';
+//	    }
+//	  }
+//	});
 
 
 $(function () {	// 수정페이지로 이동
-	var p_noValue = '${vo.p_no}';
-	
+
 	var operForm = $("#operForm");
+	
+	var pno = '${vo.p_no}';	
+	var bno = '${vo.b_no}';	
+
+
 	
 	$("#product_modify").click(function () {
 		location.href="/brandshop/modify?p_no=${vo.p_no}"
-/* 		var str = '<input type="hidden" name="pageNum" value="'+${cri.pageNum }+'">';
-			str += '<input type="hidden" name="amount" value="'+${cri.amount }+'">';
-			str += '<input type="hidden" name="p_no" value="'+${vo.p_no }+'">';
-			operForm.html(str);
-			operForm.submit();
-			/* operForm.attr("action", "/brandshop/modify"); */
-		
-		
+
 	});
-});
-	
-	var pno = '${vo.p_no}'	
-			
-	$("#product_cart").click(function () {
-		
+
+
+	$("#product_cart").click(function (e) {
+		e.preventDefault();
+		//var formData = $("#form1").serialize();
+		console.log("gggggggggggggggggggggggggg");
 		$.ajax({
-			url : "/brandcart/addCart",
-			type : 'Post'
-			data : {pno},
-			success : function () {
+			url : "/brandCart/addCart",	
+			type : "POST",	// post or get
+			//datetype :'form',	// form이 아닐 경우에만 json
+			data : {p_no:pno, b_no:bno}, // 가지고 갈 값 적기 // 컬럼명 값
+			dataType : 'json',
+			success : function (result) {
 				alert("카트담기 성공")
 			},
 			error : function () {
 				alert("카트 담기 실패")
 			}
 					
-			})
+			});
 			
-		})
+		});
+});
 		
 		
 

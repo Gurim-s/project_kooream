@@ -4,6 +4,7 @@ import {imgSlider} from '../common/img-slider.js';
 (function() {
 	const uploader = imgFileUploader;
 	uploader.setURL('/uploadStyleImage');
+	uploader.setSaveName('style_image');
 	document.querySelector('.uploader-container')
 	.append(uploader.container);
 	

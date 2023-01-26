@@ -88,7 +88,7 @@ public class BrandProductController {
 	  
 	@GetMapping("/get")	// 누르면 상세페이지 이동
 	public String get(ProductVO vo, Model model, Criteria cri) {
-		log.info("getp_no"+ vo.getP_no());
+		log.info("getp_no============"+ vo.getP_no());
 		model.addAttribute("cri", cri);
 		model.addAttribute("vo", service.get(vo));
 		model.addAttribute("vo2", service.member(vo));  // 
@@ -96,11 +96,6 @@ public class BrandProductController {
 	}
 	
 	
-//	@GetMapping("/getList")
-//	@ResponseBody 
-//	public ResponseEntity<List<ProductVO>> getList() {	
-//		return new ResponseEntity<List<ProductVO>>(service.getList(),HttpStatus.OK);
-//	}
 	  
 	@GetMapping("/modify")	// 수정버트은을 누르면 수정 페이지로 이동
 	public String modify(ProductVO vo, Model model, Criteria cri) {
