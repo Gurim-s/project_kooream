@@ -14,16 +14,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 게시물 전체 목록 조회  -->
 	<select id="getList" resultType="com.kooream.domain.CodiVO">
 			<![CDATA[
-			
-			select 
-			     rownum rn, codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg
-			from
-				(select
-			    codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg
+			select codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg  
+			from (
+			    select /*+index_desc(codi_board PK_CODI_BOARD)*/
+			    rownum rn, codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg
 			    from codi_board
-			    where rownum <= #{pageNum}*#{amount}
-			     order by codi_no desc)
-				where rownum > (#{pageNum}-1) * #{amount}
+			    where rownum <= #{pageNum} * #{amount})
+			where rn > (#{pageNum} - 1) * #{amount}
 			]]>
 		</select>	
 

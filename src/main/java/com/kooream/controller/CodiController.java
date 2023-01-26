@@ -48,6 +48,7 @@ public class CodiController {
 			MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<List<CodiVO>> list(@RequestBody Criteria cri){
 		List<CodiVO> list = service.getList(cri);
+		
 		log.info(cri.getAmount()+""+cri.getPageNum());
 		return new ResponseEntity<List<CodiVO>>(list, HttpStatus.OK);
 	}

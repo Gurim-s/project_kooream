@@ -45,7 +45,9 @@ public class CodiServiceImpl implements CodiService{
 		for(CodiVO codivo : list) {								// 게시글 목록 순환
 			int codi_no = codivo.getCodi_no();					// 게시글 번호
 			List<CodiImageVO> images = attachmapper.findbycodi_no(codi_no);	//게시글 번호로 첨부파일 가져옴
+			List<Codi_TagVO> tags = tagmapper.TagBycodi_no(codi_no); // 태그 가져오기 
 			
+			codivo.setCodiTagList(tags);
 			codivo.setAttachList(images);	//첨부파일경로를 codivo에 넣어줌 
 		}
 		
