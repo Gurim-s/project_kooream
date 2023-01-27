@@ -44,8 +44,10 @@
 	}
 	button{
 		margin-left: 800px;
-		
+		border: none;
+		background-color: #fff;	
 	}
+	
 </style>
 <script type="text/javascript">
 	
@@ -59,7 +61,7 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>구림톡</span>
+		<span><strong>구림톡</strong></span>
 		<button>글쓰기</button>
 	</div>
 	<br/>

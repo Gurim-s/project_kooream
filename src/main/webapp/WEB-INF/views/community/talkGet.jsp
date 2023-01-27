@@ -11,18 +11,28 @@
 <style type="text/css">
 	#menu_list{
 		float: left;
-		height: 500px;
+		height: 100%;
+		margin-bottom: 100%;
 		width: 130px;
 	}
 	#head{
 		font-size: 30px;
+	}
+	#talk-con{
+		background-color: #EEEEEE;
+		height: 300px;
+		vertical-align: top;
+	}
+	button{
+		border: none;
+		background-color: #fff;
 	}
 </style>
 </head>
 <body>
 	<ul id="menu_list">
 		<li>뉴스</li>
-		<li>정품판별</li>
+		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
@@ -49,7 +59,7 @@
 				<!-- <td><input type="hidden" name="talkname" value="talkname"></td> -->
 			</tr>
 			<tr>
-				<td colspan="2"><textarea rows="15" cols="30" readonly="readonly">${vo.talkcon }</textarea></td>
+				<td colspan="2" id="talk-con">${vo.talkcon }</td>
 			</tr>
 			<tr>
 				<td><button class="btn-insert" data-oper="talkupdate">수정</button></td>
@@ -96,6 +106,7 @@
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
 <script type="text/javascript" src="/resources/js/community/reply.js"></script>
+<script type="text/javascript" src="/resources/js/community/util.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var form = $("#form");
@@ -183,11 +194,11 @@
 						// 댓글이 있으면
 						for(var i=0; i<result.length; i++){
 							str += '<tr>';
-							str += '<td>'+ result[i].talkreplyname +'</td>';
+							str += '<td><strong>'+ result[i].talkreplyname +'</strong></td>';
 							str += '<td>'+result[i].talkreplyno+'</td>';
 							str += '<td><button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno	+ '">수정</button></td>';
 							str += '<td><button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno	+ '">삭제</button></td>';
-							str += '<td>'+result[i].talkreplydate+'</td>';
+							str += '<td><small>'+displayTime(result[i].talkreplydate)+'</small></td>';
 							str += '</tr>';
 							str += '<tr>';
 							str += '<td class="reply-con">'+ result[i].talkreplycon +'</td>';
