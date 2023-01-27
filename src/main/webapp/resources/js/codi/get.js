@@ -24,7 +24,7 @@ $(function() {
 // 	    					+ result[i].fileName);
     			imgSrcList.push(imgService.originPath(result[i]));
     		}
-    		console.log(imgSrcList);
+//    		console.log(imgSrcList);
 // 	    		var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	    		//	result[i]
 	    		
@@ -38,6 +38,34 @@ $(function() {
         	error(er);
 		}
 	});
+	
+	$.ajax({
+		type: 'get',
+		url : '/codishop/getTag/'+codi_no ,
+		success : function(result){
+			console.log(result);
+			var tag = $('#uploadTag');
+			console.log(tag);
+			
+			var str = '';
+		for(var i=0; i<result.length; i++){
+			var tag = result[i];
+			console.log(tag.tag_name);
+			
+			str += '<a href="#" class="brand_keyword">'+tag.tag_name+'</a>'		
+			}
+			
+			 $("#uploadTag").html(str);
+		}
+		
+	});
+	
+	
+	
+	
+	
+	
+	
 });
 
 // 화면 이동 스크립트 --- start
