@@ -1,5 +1,7 @@
 package com.kooream.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,11 @@ public class RntInterestServiceImpl implements RntInterestService{
 	@Override
 	public int intrstRemove(ProductVO vo) {
 		return mapper.intrstRemove(vo);
+	}
+
+	@Override
+	public List<ProductVO> interestList(int m_no) {
+		return mapper.interestList(m_no);
 	}
 
 }

@@ -49,8 +49,10 @@ public class BrandProductServiceImpl implements BrandProductService{
 	
   
 	@Override
-	public List<ProductVO> getList() {
-		List<ProductVO> list = mapper.getList();
+	public List<ProductVO> getList(ProductVO vo2) {
+		List<ProductVO> list = mapper.getList(vo2);
+		log.info(vo2 + "서비스임플~");
+		log.info(list + "서비스 임플 리스트~");
 		
 		// 상품테이블 + 상품이미지 합쳐서 불러오기
 		for (ProductVO vo : list) {

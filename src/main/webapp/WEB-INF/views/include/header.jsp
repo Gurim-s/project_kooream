@@ -22,8 +22,18 @@
 				<ul>
 					<li><a href="#">고객센터</a></li>
 					<li><a href="#">관심상품</a></li>
-					<li><a href="#">마이페이지</a></li>
-					<li><a href="#">로그인</a></li>
+          <li><a href="#">장바구니</a></li>
+					<li><a href="/member/myPage">마이페이지</a></li>
+					<li>
+						<c:choose>
+							<c:when test="${mvo.m_id ne null }">
+								<a href="/member/logout">로그아웃</a>
+							</c:when>
+							<c:otherwise>
+								<a href="/member/loginPage">로그인</a>
+							</c:otherwise>
+						</c:choose>
+					</li>
 				</ul>
 			</div>
 		</div>

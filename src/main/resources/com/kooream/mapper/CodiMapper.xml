@@ -14,16 +14,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 게시물 전체 목록 조회  -->
 	<select id="getList" resultType="com.kooream.domain.CodiVO">
 			<![CDATA[
-			select 
-				 codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg
-			from
-				(select /*+index_desc(codi_board SYS_C007347)*/
-				rownum rn, codi_no, m_no, codimodel_name, codi_date, codi_title, codi_content, codi_cm, codi_kg
-				from codi_board
-				where rownum <= #{pageNum}*#{amount})
-			where rn > (#{pageNum}-1) * #{amount}
+				select *
+				from (
+				    select /*+index_desc(codi_board PK_CODI_BOARD)*/
+				    ROWNUM RN, A.*
+				    FROM (SELECT *
+				    		FROM CODI_BOARD
+				    WHERE
 			]]>
-		</select>	
+			   <if test="searchType == 'codi_title'" >codi_title LIKE '%'||#{serchName}||'%'</if>
+			   <if test="searchType == 'codi_content'" >codi_content LIKE '%'||#{serchName}||'%'</if>
+			   <if test="searchType == 'titcont'" >codi_title LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
+			   <if test="searchType == 'codimodel_name'" >codimodel_name LIKE '%'||#{serchName}||'%'</if>
+			   <if test="searchType == null or searchType == '' ">1 = 1</if>
+			<![CDATA[ 
+				ORDER BY CODI_NO DESC)A)
+				WHERE RN > (#{pageNum} - 1) * #{amount} AND RN <= #{pageNum} * #{amount}
+			]]>
+	</select>	
+	
+	<select id="getTotal" resultType="int">
+		select count(*) as total from codi_board
+		where 
+			<if test="searchType == 'codi_title'" >codi_title LIKE '%'||#{serchName}||'%'</if>
+			<if test="searchType == 'codi_content'" >codi_content LIKE '%'||#{serchName}||'%'</if>
+			<if test="searchType == 'titcont'" >codi_title LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
+			<if test="searchType == 'codimodel_name'" >codimodel_name LIKE '%'||#{serchName}||'%'</if>
+			<if test="searchType == null or searchType == '' ">1 = 1</if>
+			
+	</select>	
+		
 
 	<!-- 게시글 등록 -->
 	<insert id="insert" parameterType="com.kooream.domain.CodiVO">
@@ -44,7 +64,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- codi_no 가져오기 -->
 	<select id="getcodi_no" resultType="int">
 		select codi_no from
-		(select codi_no from codi_board order by codi_no desc)
+		(select codi_no from codi_board 
+		order by codi_no desc)
 		where rownum = 1
 	</select>
 
@@ -62,6 +83,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete">
 		delete codi_board where codi_no = #{codi_no}
 	</delete>
+
+
+
+
 
 
 </mapper>

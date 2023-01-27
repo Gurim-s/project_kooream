@@ -74,7 +74,20 @@
 		font-size: 11px;
 		letter-spacing: -.33px;
 		height: 20px;
-		
+	}
+	
+	.size_product{
+		margin-top: 5px;
+		font-size: 14px;
+		height: 20px;
+		text-align: center;
+	}
+	
+	.size_price{
+		color: #f15746;
+		margin-top: 1px;
+    	font-size: 12px;
+    	text-align: center;
 	}
 	
 	.badge_logo{
@@ -94,10 +107,49 @@
 		background-color: #fff;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
+		font-weight: normal;
 	}
 	
 	.all_box{
-	margin-top: 20px;
+		padding: 20px 0;
+	}
+	
+	.bid_or_buy{
+		display: flex;
+		padding-top: 20px;
+		border-top: 1px solid #ebebeb;
+		background-color: #fff;
+	}
+	
+	.buy_box{
+		background-color: #333;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 16px 18px 16px 14px;
+		border-radius: 10px;
+		color: #fff;
+		box-sizing: border-box;
+		position: relative;
+		width: 100%;
+		height : 64px;
+	}
+	
+	.buy_price{
+		font-weight: bold;
+		font-size: 16px;
+	}
+	
+	.buy_price, .buy_badge{
+		color: white;
+	}
+	
+	.btn_box{
+		text-align: center;
+	}
+	
+	.buy_badge{
+		font-size: 13px;
 	}
 	
 </style>
@@ -118,14 +170,78 @@
 				</div>
 			</div>
 			<div class="all_box">
-				<div class="select_box"></div>
-				<div class="select_box"></div>
-				<div class="select_box"></div>
-				<div class="select_box"></div>
-				<div class="select_box"></div>
-				<div class="select_box"></div>
+				<div class="select_box">
+					<div class="size_product">
+						<img class="badge_logo" src="../resources/img/badge_logo.png">225
+					</div>
+					<div class="size_price">
+						410,600
+					</div>
+				</div>
+				<div class="select_box">
+					<div class="size_product">
+						<img class="badge_logo" src="../resources/img/badge_logo.png">225
+					</div>
+					<div class="size_price">
+						410,600
+					</div>
+				</div>
+				<div class="select_box">
+					<div class="size_product">
+						<img class="badge_logo" src="../resources/img/badge_logo.png">225
+					</div>
+					<div class="size_price">
+						410,600
+					</div>
+				</div>
+				<div class="select_box">
+					<div class="size_product">
+						<img class="badge_logo" src="../resources/img/badge_logo.png">225
+					</div>
+					<div class="size_price">
+						410,600
+					</div>
+				</div>
+				<div class="select_box">
+					<div class="size_product">
+						<img class="badge_logo" src="../resources/img/badge_logo.png">225
+					</div>
+					<div class="size_price">
+						410,600
+					</div>
+				</div>
+				<div class="select_box">
+					<div class="size_product">
+						<img class="badge_logo" src="../resources/img/badge_logo.png">225
+					</div>
+					<div class="size_price">
+						410,600
+					</div>
+				</div>
+			</div> <!-- box_all -->
+			<div class="bid_or_buy">
+				<div class="buy_box">
+					<div class="btn_box">
+						<div class="buy_price">999,000</div>
+						<div class="buy_badge">일반 배송</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+
+	$(".select_box").click(function(){
+		if($(".select_box").css("font-weight") != "nomal")
+	    {
+	        $(".select_box").css({"font-weight": "bold"})
+	        $(".select_box").css({"border": "1px solid black"})
+	    } else { 
+	        $(".select_box").css({"border": "normal"})
+	    }
+	});
+
+</script>
 <jsp:include page="../include/footer.jsp"/>

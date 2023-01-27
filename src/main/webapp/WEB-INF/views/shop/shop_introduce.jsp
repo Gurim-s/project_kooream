@@ -125,6 +125,7 @@
 		border: 1px solid black;
 		background-color: #ef6253;
 		border-radius: 7px;
+		cursor: pointer;
 	}
 
 	.buy_box {
@@ -174,6 +175,7 @@
 		background-color: #41b979;
 		border-radius: 7px;
 		margin-left: 11px;
+		cursor: pointer;
 	}
 	
 	.interest_p{
@@ -300,7 +302,7 @@
 	}
 	
 	.graph{
-		height: 593px;
+		height: 200px;
 		width: 100%;
 		border: 1px solid black;
 		text-align: center;
@@ -490,9 +492,10 @@
 		transform: translateX(10px);
 	}
 </style>
+	<button id="modify_btn" onclick="modiPage(${vo.p_no})">상품 수정</button>
+	<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
 	<div class="wrap clearfix">
 		<div class="product_photo">
-		
 			<div id="slideShow">
 			<ul class="slides">
 				<li><img class="product_image" src="../resources/img/iphone.png"></li>
@@ -509,41 +512,41 @@
 		</div>
 		<div class="product_introduce">
 			<div class="introduce_box">
-				<div class="brand_name">Apple</div>
-				<div class="product_name_eng">Apple iPhone 14 Pro 128GB Space Black (Korean Ver.)</div>
-				<div class="product_name_kor">애플 아이폰 14 프로 128기가 스페이스 블랙 (국내 정식 발매 제품)</div>
+				<div class="brand_name">${vo.p_brand }</div>
+				<div class="product_name_eng">${vo.p_name_en }</div>
+				<div class="product_name_kor">${vo.p_name_ko }</div>
 			</div>
 			<div class="detail_size">
 				<span class="size_text">사이즈</span>
 				<span class="all_size">모든 사이즈</span>
 			</div>
 			<div class="detail_price">
-					<span class="recent_price">최근 거래가</span>
+					<span class="recent_price">즉시 구매가</span>
 				<div class="price">
 					<div class="amount">
-						<span class="product_price">501,000</span>
+						<span class="product_price">${vo.max_bid_sell }</span> 
 						<span class="won">원</span>
-							<p class="fluctuation">99,000원 (+24.6%)</p>
+							<!-- <p class="fluctuation">99,000원 (+24.6%)</p> -->
 					</div>
 				</div>
 			</div>
 			<div class="btn_inter_box">
 				<div class="btn_box">
-					<div class="btn_buy">
+					<div class="btn_buy" onclick="getPage(${vo.p_no})">
 						<div class="buy_box">
 							<strong class="buy_text">구매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">402,000원</div>
+							<div class="buy_price">${vo.max_bid_sell }원</div>
 							<div class="buy_now">즉시 구매가</div>
 						</div>
 					</div>
-					<div class="btn_sell">
+					<div class="btn_sell" onclick="getSell(${vo.p_no})">
 						<div class="sell_box">
 							<strong class="buy_text">판매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">412,000원</div>
+							<div class="buy_price">${vo.min_bid_buy }원</div>
 							<div class="buy_now">즉시 판매가</div>
 						</div>
 					</div>
@@ -557,11 +560,11 @@
 			<div class="detail_product_wrap">
 				<div class="model_box">
 					<div class="product_title">모델번호</div>
-					<div class="model_num">555088-711</div>
+					<div class="model_num">${vo.p_model_no }</div>
 				</div>
 				<div class="model_box">
 					<div class="product_title">출시일</div>
-					<div class="model_intro">22/08/08</div>
+					<div class="model_intro">${vo.p_release_date }</div>
 				</div>
 				<div class="model_box">
 					<div class="product_title">컬러</div>
@@ -569,7 +572,7 @@
 				</div>
 				<div class="model_box">
 					<div class="product_title">발매가</div>
-					<div class="model_intro">209,000원</div>
+					<div class="model_intro">${vo.p_release_price }원</div>
 				</div>
 			</div>
 			<h3 class="bsinfo">배송정보</h3>
@@ -579,7 +582,7 @@
 					<div class="way_desc">
 						<span class="delivery">빠른배송</span>
 						<span class="delivery_won"> 5,000원</span>
-						<div class="sub_text">지금 결제시 <span class="delivery_est">내일 1/11(수) 도착 예정</span></div>
+						<div class="sub_text">지금 결제시 <span class="delivery_est">1일 ~ 2일 후 도착 예정</span></div>
 					</div>
 				</div>
 			</div>
@@ -755,4 +758,24 @@
 	        $(".refund_info").css({"font-weight": "normal"})
 	    }
 	});
+	
+	function modiPage(pno) {
+		location.href="/shop/shop_modify/" + pno;
+	}
+	
+	function remove(pno) {
+		if (confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+			alert("삭제 되었습니다.");
+			location.href = "/shop/remove/" + pno;
+		} else {
+			alert("취소되었습니다.");
+		}
+	}
+	function getPage(pno) {
+		location.href="/shop/shop_buypage/" + pno;
+	}
+	
+	function getSell(pno) {
+		location.href="/shop/shop_sellpage/" + pno;
+	}
 </script>

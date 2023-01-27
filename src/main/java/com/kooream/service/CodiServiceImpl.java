@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
+import com.kooream.mapper.Codi_TagMapper;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -26,6 +28,9 @@ public class CodiServiceImpl implements CodiService{
 	@Setter(onMethod_ = @Autowired)
 	private CodiImageMapper attachmapper;
 	
+	@Setter(onMethod_ = @Autowired)
+	private Codi_TagMapper tagmapper;
+	
 	
 	@Override
 	public List<CodiVO> getListWithPaging(Criteria cri) {
@@ -40,12 +45,21 @@ public class CodiServiceImpl implements CodiService{
 		for(CodiVO codivo : list) {								// 게시글 목록 순환
 			int codi_no = codivo.getCodi_no();					// 게시글 번호
 			List<CodiImageVO> images = attachmapper.findbycodi_no(codi_no);	//게시글 번호로 첨부파일 가져옴
+			List<Codi_TagVO> tags = tagmapper.TagBycodi_no(codi_no); // 태그 가져오기 
 			
+			codivo.setCodiTagList(tags);
 			codivo.setAttachList(images);	//첨부파일경로를 codivo에 넣어줌 
 		}
 		
 		return list;
 	}
+	
+	@Override
+	public int getTotal(Criteria cri) {
+		
+		return mapper.getTotal(cri);
+	}
+	
 	
 	@Transactional
 	@Override
@@ -65,7 +79,13 @@ public class CodiServiceImpl implements CodiService{
 				attachmapper.insert(vo2);
 			}
 		}
-		
+		if(vo.getCodiTagList() != null && vo.getCodiTagList().size() >0) {
+			for(Codi_TagVO vo3 : vo.getCodiTagList()) {
+				vo3.setCodi_no(codi_no);
+				tagmapper.insert(vo3);
+			}
+			
+		}
 		
 		
 	}
@@ -104,5 +124,21 @@ public class CodiServiceImpl implements CodiService{
 		
 		return list;
 	}
+
+	
+	@Override
+	public List<Codi_TagVO> getTagList(int codi_no) {
+		log.info("getCodi_TagList ::::::::::::");
+		List<Codi_TagVO> list = tagmapper.TagBycodi_no(codi_no);
+		
+		System.out.println("Tag list null ??" + list);
+		System.out.println("Tag list size ??" + list.size());
+		System.out.println("Tag list String ??" + list.toString());
+		
+		return list;
+	}
+	
+	
+	
 	
 }

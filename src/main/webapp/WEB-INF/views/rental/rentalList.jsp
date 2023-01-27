@@ -34,19 +34,37 @@
 	img{
 		width: 195px;
 	}
+	#serachBox{
+		width: 423px;
+		margin: auto;
+	}
+	#serachValue{
+		width: 387px;
+	}
+	#rPrdtBtn{
+		margin-left: 815px;
+	}
 </style>
+	<!-- 검색버튼 -->
+	<div id="serachBox">
+		<input type="text" id="serachValue">
+		<button id="serchBtn">검색</button>
+	</div>
+		<button id="rPrdtBtn">상품 등록</button>
 	<!-- 좌측 카테고리 박스------------------------------------------------------- -->
 	<div id="categroyBox">
 		<form id="myForm" action="/rental/rentalList">
+		<input type="hidden" id="searchKeyword" name="keyword"> <!-- 검색키워드 저장 -->
+		<input type="hidden" id="orderValue" name="order"> <!-- 순서 저장 -->
 			<ul>
 				<li class="category">카테고리<span id="cSpan">+</span></li>
 				<li class="hideMenu">
 					<ul>
 						<li>
-							<input type="checkbox" class="ctgrType" value ="bag"/>&nbsp;&nbsp;가방<br/>
+							<input type="checkbox" class="ctgrType" id ="bag" value ="bag"/>&nbsp;&nbsp;<label for="bag">가방</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="ctgrType" value ="accessories">&nbsp;&nbsp;패션잡화<br/>
+							<input type="checkbox" class="ctgrType" id ="accessories" value ="accessories">&nbsp;&nbsp;<label for="accessories">패션잡화</label><br/>
 						</li>
 					</ul>
 				</li>
@@ -55,22 +73,22 @@
 				<li class="hideMenu">
 					<ul>
 						<li>
-							<input type="checkbox" id="allSlctBtn">&nbsp;&nbsp;전체보기<br/>
+							<input type="checkbox" id="allSlctBtn">&nbsp;&nbsp;<label for="allSlctBtn">전체보기</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9999">&nbsp;&nbsp;GUCCI<br/>
+							<input type="checkbox" class="brandType" id ="9999" value ="9999">&nbsp;&nbsp;<label for="9999">GUCCI</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9998">&nbsp;&nbsp;DIOR<br/>
+							<input type="checkbox" class="brandType" id ="9998" value ="9998">&nbsp;&nbsp;<label for="9998">DIOR</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9997">&nbsp;&nbsp;LOUISVUITTON<br/>
+							<input type="checkbox" class="brandType" id ="9997" value ="9997">&nbsp;&nbsp;<label for="9997">LOUISVUITTON</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9996">&nbsp;&nbsp;CHANEL<br/>
+							<input type="checkbox" class="brandType" id ="9996" value ="9996">&nbsp;&nbsp;<label for="9996">CHANEL</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9995">&nbsp;&nbsp;PRADA<br/>
+							<input type="checkbox" class="brandType" id ="9995" value ="9995">&nbsp;&nbsp;<label for="9995">PRADA</label><br/>
 						</li>
 					</ul>
 				</li>
@@ -79,31 +97,38 @@
 				<li class="hideMenu">
 					<ul>
 						<li>
-							<input type="checkbox" class="price" value ="50000">&nbsp;&nbsp;5만원이하<br/>
+							<input type="checkbox" class="price" id ="50000" value ="50000">&nbsp;&nbsp;<label for="50000">5만원이하</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="price" value ="100000">&nbsp;&nbsp;10만원이하<br/>
+							<input type="checkbox" class="price" id ="100000" value ="100000">&nbsp;&nbsp;<label for="100000">10만원이하</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="price" value ="150000">&nbsp;&nbsp;15만원이하<br/>
+							<input type="checkbox" class="price" id ="150000" value ="150000">&nbsp;&nbsp;<label for="150000">15만원이하</label><br/>
 						</li>
 					</ul>
 				</li>
-				<li>
+				<li> 
 					<input type="button" id="sbmBtn" value="조회">
 				</li>
 			</ul>
 		</form>
 	</div>
+	<!-- 리스트 순서 필터 ----------------------------------------------------->
 	<div>
-		<button id="rPrdtBtn">상품 등록</button>
+		<select id="selectOrderID" name="selectOrder">
+			<option value="popularity">인기순</option>
+			<option value="recent">최신순</option>
+			<option value="rowPrice">가격낮은순</option>
+		</select>
 	</div>
+	
 	<!-- 배너 이미지-------------------------------------------------------- -->
 	<div class="slick" style="width:502px">
 		<c:forEach var="image" items="${imageList }">
 			<div style="width:700px"><img src="/display/${image.img_url }"/></div>
 		</c:forEach>
 	</div>
+	
 	<!-- 상품 리스트-------------------------------------------------------------- -->
 	<div id="productList" style="display:inline-block;width:75%;margin-top:155px; magin-bottom:50px;">
 	
@@ -152,7 +177,7 @@
 			}
 		});
 
-		// 필터 별 조회 버튼 클릭 이벤트-----------------------------------------------
+		// 카테고리 별 조회 버튼 클릭 이벤트-----------------------------------------------
 		$(".brandType").on("click", function(){		// class brandType 클릭 시
 			if($(this).is(":checked")){				// 그 brandType이 체크일 경우				
 				$(this).attr("name","brandType")	// name속성에 brandType을 넣어준다.
@@ -258,11 +283,11 @@
 			</c:choose>
 		</c:forEach> // 안쓰는데 나중에 참고될것같아 남김--------------------------end
 		
-		// 스크롤 내리면 삼품 불러오는 ajax
+		// 스크롤 내리면 삼품 불러오는 ajax-----------------------------------------------
 		$(window).scroll(function(){
 			var scrT = $(window).scrollTop();
 				console.log(scrT); //스크롤 값 확인용
-			if(scrT >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
+			if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
 				// 페이지 전체크기 =< 스크롤크기(아래 내려갈 공간) + 화면상 보이는 크기 --> 상품 더보기되면서 페이지 전체크기 늘어남
 				idx += 1; //스크롤이 끝에 도달했을때 실행될 이벤트
 				getList();
@@ -298,10 +323,39 @@
 		// 처음 상품 리스트 보여주기 위해서 getList 에이젝스함수 실행해줌-----------
 		getList();
 		
-		
+		// 상품등록 버튼 클릭이벤트-----------------------------------------
 		$("#rPrdtBtn").on("click",function(){
 			location.href="/rental/addRntPrdtPage";
 		});
+		
+		// 검색버튼 클릭이벤트---------------------------------------------
+		$("#serchBtn").on("click", function(){
+			
+			var str = $("#serachValue").val().trim();
+			
+			if(!str){
+				alert("검색할 키워드를 입력해주세요.");
+				return;
+			}
+			$("#searchKeyword").val(str);
+			getList();
+		});
+		
+		// 검색 키워드 입력후 enter 눌렀을때 이벤트------------------------------
+		$('#serachValue').on('keydown', function(e){
+			if (e.code == 'Enter'){
+				$('#serchBtn').click()
+			}
+		})
+		
+		// 상품 리스트 순서 보여주기-----------------------------------------------
+		$("#selectOrderID").on('change',function(e){
+			
+			var selectOrder = $("#selectOrderID").val();
+			$("#orderValue").val(selectOrder);
+			getList();
+		});
+		
 		
 		
 		

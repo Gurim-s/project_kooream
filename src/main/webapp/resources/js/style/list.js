@@ -47,8 +47,8 @@ function item(style) {
 							'<span>'+ style.count_like +'</span>'+
 						'</div>' + 
 						'<div class="comment">' +
-							'<img src="/resources/img/comment.svg" alt="댓글"/>' +
-							'<span>'+ style.count_comment +'</span>'+
+							'<img src="/resources/img/reply.svg" alt="댓글"/>' +
+							'<span>'+ style.count_reply +'</span>'+
 						'</div>' + 
 					'</div>' +
 					'<div class="clearfix"></div>' +

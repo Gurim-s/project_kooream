@@ -8,7 +8,7 @@ import com.kooream.domain.ProductVO;
 
 public interface BrandProductService {
 
-	public List<ProductVO> getList();
+	public List<ProductVO> getList(ProductVO vo2);
 	
 	public void register(ProductVO vo);
 	
