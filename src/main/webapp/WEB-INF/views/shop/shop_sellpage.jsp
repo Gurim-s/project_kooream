@@ -122,7 +122,7 @@
 		width:50%;
 		border: 1px solid black;
 		cursor:pointer;
-		background-color: #ef6253;
+		background-color: #41b979;
 		color:white;
 		font-weight: 700;
 	}
@@ -152,7 +152,7 @@
 		width:50%;
 		border: 1px solid black;
 		cursor:pointer;
-		background-color: #ef6253;
+		background-color: #41b979;
 		color:white;
 		
 	}
@@ -240,7 +240,7 @@
 		color: #909090;
     }
     
-    .now_buy_btn, .buy_bid_btn{
+    .btn_confirm{
     	border: 1px solid black;
     	font-weight: 600;
 	}
@@ -314,18 +314,18 @@
 					<div class="select_box">
 						<div class="box_test">
 							<div class="bid_box">
-								즉시 구매
+								즉시 판매
 							</div>
 							<div class="sell_box">
-								구매 입찰
+								판매 입찰
 							</div>
 						</div>
 					</div>
 					<div class="price_now">
 						<dl class="price_now_box">
-							<dt class="price_now_title">즉시 구매가</dt>
+							<dt class="price_now_title">즉시 판매가</dt>
 							<dd class="price">
-								<span class="amount">${vo.max_bid_sell }</span>
+								<span class="amount">${vo.min_bid_buy }</span>
 								<span class="won">원</span>
 							</dd>
 						</dl>
@@ -340,21 +340,21 @@
 					<div class="price_bind">
 						<p class="price_bind_empty">총 결제금액은 다음 화면에서 계산됩니다.</p>
 					</div>
-				<div class="buy_total_confirm">
-					<div class="price_total">
-						<dl class="price_box">
-							<dt class="price_title">총 결제금액</dt>
-							<dd class="price_empty_desc">다음 화면에서 확인</dd>
-						</dl>
+					<div class="buy_total_confirm">
+						<div class="price_total">
+							<dl class="price_box">
+								<dt class="price_title">정산 금액</dt>
+								<dd class="price_empty_desc">다음 화면에서 확인</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="now_buy_btn">
+						<div class="btn_box full">즉시 판매 하기</div>
+					</div>
+					<div class="buy_bid_btn">
+						<div class="btn_box full">판매 입찰 하기</div>
 					</div>
 				</div>
-				<div class="now_buy_btn">
-					<div class="btn_box full" onclick="buyNowPage(${vo.p_no})">즉시 구매 하기</div>
-				</div>
-				<div class="buy_bid_btn">
-					<div class="btn_box full">구매 입찰 하기</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -376,10 +376,5 @@
 		$(".buy_bid_btn").show();
 		$(".now_buy_btn").hide();
 	});
-	
-	function buyNowPage(pno) {
-		location.href="/shop/shop_bidbuy/" + pno;
-	}
-	
 </script>
 <jsp:include page="../include/footer.jsp"/>

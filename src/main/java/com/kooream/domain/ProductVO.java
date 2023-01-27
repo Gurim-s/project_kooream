@@ -19,5 +19,6 @@ public class ProductVO {
 	private String img_url;
 	private String strt_r_date, rtrn_r_date;
 	
+	private int max_bid_sell, min_bid_buy;
 	private List<AttachFileVO> attachList;
 }
