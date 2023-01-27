@@ -22,10 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				    		FROM CODI_BOARD
 				    WHERE
 			]]>
-			   <if test="searchType == 'codi_title'" >TITLE LIKE '%'||#{serchName}||'%'</if>
+			   <if test="searchType == 'codi_title'" >codi_title LIKE '%'||#{serchName}||'%'</if>
 			   <if test="searchType == 'codi_content'" >codi_content LIKE '%'||#{serchName}||'%'</if>
-			   <if test="searchType == 'titcont'" >TITLE LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
-			   <if test="searchType == 'codimodel_name'" >TITLE LIKE '%'||#{serchName}||'%'</if>
+			   <if test="searchType == 'titcont'" >codi_title LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
+			   <if test="searchType == 'codimodel_name'" >codimodel_name LIKE '%'||#{serchName}||'%'</if>
 			   <if test="searchType == null or searchType == '' ">1 = 1</if>
 			<![CDATA[ 
 				ORDER BY CODI_NO DESC)A)
@@ -33,14 +33,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			]]>
 	</select>	
 	
-	<select id="getTotal">
+	<select id="getTotal" resultType="int">
 		select count(*) as total from codi_board
 		where 
-			<if test="searchType == 'codi_title'" >TITLE LIKE '%'||#{serchName}||'%'</if>
+			<if test="searchType == 'codi_title'" >codi_title LIKE '%'||#{serchName}||'%'</if>
 			<if test="searchType == 'codi_content'" >codi_content LIKE '%'||#{serchName}||'%'</if>
-			<if test="searchType == 'titcont'" >TITLE LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
-			<if test="searchType == 'codimodel_name'" >TITLE LIKE '%'||#{serchName}||'%'</if>
+			<if test="searchType == 'titcont'" >codi_title LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
+			<if test="searchType == 'codimodel_name'" >codimodel_name LIKE '%'||#{serchName}||'%'</if>
 			<if test="searchType == null or searchType == '' ">1 = 1</if>
+			
 	</select>	
 		
 

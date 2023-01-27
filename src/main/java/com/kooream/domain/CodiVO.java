@@ -25,6 +25,10 @@ public class CodiVO {
 	private List<CodiImageVO> attachList;
 	private List<Codi_TagVO> codiTagList;
 	
+	
+	
+	
+	
 	@Override
 	public String toString() {
 		return "CodiVO [codi_no=" + codi_no + ", m_no=" + m_no + ", codimodel_name=" + codimodel_name + ", codi_title="

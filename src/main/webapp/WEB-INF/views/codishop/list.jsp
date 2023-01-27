@@ -22,7 +22,7 @@
 		<form action="freeList" method="post" class="search-List">
 		<div class="codi_search">
 			<div class="search_btn">
-				<select name="searchType">
+				<select name="searchType" id="searchType">
 					<option value="codi_title">제목</option>
 					<option value="codi_content">내용</option>
 					<option value="titcont">제목+내용</option>
@@ -32,6 +32,7 @@
 				<button  type="submit" class="btn_search search-btn">검색</button>
 			</div>
 		</div>
+			<input type="hidden" name="searchName" value="${pageMake.cri.searchName}">
 			<input type="hidden" name="pageNum" value="1">
 			<input type="hidden" name="amount" value="12">
 		</form>

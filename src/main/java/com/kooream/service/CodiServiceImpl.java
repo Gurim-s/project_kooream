@@ -56,8 +56,8 @@ public class CodiServiceImpl implements CodiService{
 	
 	@Override
 	public int getTotal(Criteria cri) {
-		mapper.getList(cri);
-		return 0;
+		
+		return mapper.getTotal(cri);
 	}
 	
 	

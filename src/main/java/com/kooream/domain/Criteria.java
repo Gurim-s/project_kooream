@@ -22,4 +22,10 @@ public class Criteria {
 	private String searchName; // 검색어 
 	
 	
+	
+	@Override
+	public String toString() {
+		return "Criteria [pageNum"+pageNum+", amount"+amount+",searchType"+searchType+",searchName"+searchName+"]";
+	}
+	
 }

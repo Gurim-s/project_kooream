@@ -26,6 +26,7 @@ import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.PageDTO;
 import com.kooream.service.CodiService;
 
 
@@ -49,9 +50,28 @@ public class CodiController {
 	public ResponseEntity<List<CodiVO>> list(@RequestBody Criteria cri){
 		List<CodiVO> list = service.getList(cri);
 		
+		int total = service.getTotal(cri);
+		
 		log.info(cri.getAmount()+""+cri.getPageNum());
 		return new ResponseEntity<List<CodiVO>>(list, HttpStatus.OK);
 	}
+
+	
+
+	@PostMapping(value = "/freelist", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<List<CodiVO>> list1(@RequestBody Criteria cri){
+		List<CodiVO> list1 = service.getList(cri);
+		
+		int total = service.getTotal(cri);
+		
+		log.info(cri.getAmount()+""+cri.getPageNum());
+		return new ResponseEntity<List<CodiVO>>(list1, HttpStatus.OK);
+	}
+	
+	
+	
+	
 	
 	@GetMapping("/register")
 	public String register() {
