@@ -26,4 +26,14 @@ public class MemberServiceImpl implements MemberService{
 	public int goJoin(MemberVO vo) {
 		return mapper.goJoin(vo);
 	}
+
+	@Override
+	public int goLogin(Map<String,Object> map) {
+		return mapper.goLogin(map);
+	}
+
+	@Override
+	public MemberVO getMemberInfo(Map<String, Object> map) {
+		return mapper.getMemberInfo(map);
+	}
 }

@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</where>
 	</select>
 	
+	<!-- 회원가입 -->
 	<insert id="goJoin" parameterType="com.kooream.domain.MemberVO">
 		INSERT INTO MEMBER
 		VALUES(MEMBER_SEQ.NEXTVAL, 
@@ -29,4 +30,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{m_email},
 			#{m_phone})
 	</insert>
+	
+	<!-- 로그인시 아이디,비번 있는지 확인 -->
+	<select id="goLogin" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE M_ID=#{m_id} AND M_PW=#{m_pw}
+	</select>
+	
+	<!-- 세션에 저장할 회원정보 가져오기 -->
+	<select id="getMemberInfo" parameterType="map" resultType="com.kooream.domain.MemberVO">
+		SELECT * FROM MEMBER WHERE M_ID=#{m_id}
+	</select>
+	
 </mapper>
