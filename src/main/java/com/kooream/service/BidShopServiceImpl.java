@@ -28,7 +28,7 @@ public class BidShopServiceImpl implements BidShopService {
 		for (ProductVO product : list) {
 			int max_bid_sell = biddingMapper.getMaxBidding(product.getP_no());
 			int min_bid_buy = biddingMapper.getMinBidding(product.getP_no());
-			
+
 			product.setMax_bid_sell(max_bid_sell);
 			product.setMin_bid_buy(min_bid_buy);
 		}
@@ -59,19 +59,27 @@ public class BidShopServiceImpl implements BidShopService {
 	// 1개 상품 보기
 	public ProductVO read(int p_no) {
 		log.info("get..." + p_no);
-		return mapper.read(p_no);
+		ProductVO product = mapper.read(p_no);
+		int max_bid_sell = biddingMapper.getMaxBidding(product.getP_no());
+		int min_bid_buy = biddingMapper.getMinBidding(product.getP_no());
+		
+		product.setMax_bid_sell(max_bid_sell);
+		product.setMin_bid_buy(min_bid_buy);
+		return product;
 	}
-	
+
+	// 상품 삭제하기
 	@Override
 	public void remove(int p_no) {
 		log.info("remove..." + p_no);
 		mapper.remove(p_no);
 	}
 
+	// 상품 추가하기
 	@Override
 	public void insertProduct(ProductVO vo) {
 		log.info("register..." + vo);
-		
+
 		mapper.insertProduct(vo);
 	}
 }

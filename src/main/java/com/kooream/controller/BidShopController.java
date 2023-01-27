@@ -88,6 +88,10 @@ public class BidShopController {
     public String get(@PathVariable("p_no") int p_no, Model model) {
 
         ProductVO vo = service.read(p_no);
+        System.out.println("+++++++++++++++++++++");
+        System.out.println(vo.getMax_bid_sell());
+        System.out.println(vo.getMin_bid_buy());
+        System.out.println("+++++++++++++++++++++");
         model.addAttribute("vo", vo);
         return "shop/shop_introduce";
     }
@@ -103,18 +107,29 @@ public class BidShopController {
 	@PostMapping("/shop_modify")	
 	public String modify(ProductVO vo) {
 		log.info("modify...." + vo );
-		
 		service.modify(vo);
-		
 		return "redirect:/shop/shop_allList";
 	}
 	
 	@GetMapping(value = "/remove/{p_no}")	
 	public String remove(@PathVariable("p_no") int p_no) {
-		
 		service.remove(p_no);
 		return "redirect:/shop/shop_allList";
-		  
 	}
 	
+	@GetMapping(value = "/shop_buypage/{p_no}")
+    public String get1(@PathVariable("p_no") int p_no, Model model) {
+
+        ProductVO vo = service.read(p_no);
+        model.addAttribute("vo", vo);
+        return "shop/shop_buypage";
+    }
+	
+	@GetMapping(value = "/shop_sellpage/{p_no}")
+    public String get2(@PathVariable("p_no") int p_no, Model model) {
+
+        ProductVO vo = service.read(p_no);
+        model.addAttribute("vo", vo);
+        return "shop/shop_sellpage";
+    }
 }

@@ -57,42 +57,42 @@
 					<td>상품명_한글</td>
 					<td><input type="text" name="p_name_ko"></td>
 				</tr>
-			<tr>
-				<td>상품명_영문</td>
-				<td><input type="text" name="p_name_en"></td>
-			</tr>
-			<tr>		
-				<td>상품분류</td>
-				<td class="form-inline">
-						<select id="Category1">
-							<option value="">선택</option>
-							<option value="top">1. 상의</option>
-							<option value="bottom">2. 하의</option>
-							<option value="shoes">3. 신발</option>
-							<option value="acc">4. 패션잡화</option>
-						</select>
-							<select class="T_Category" name="">
-								<option value="S">S</option>
-								<option value="M">M</option>
-								<option value="L">L</option>
-							</select>
-							<select class="B_Category" name="">
-								<option value="46">46</option>
-								<option value="48">48</option>
-								<option value="50">50</option>
-							</select>
-							<select class="S_Category" name="">
-								<option value="230">230</option>
-								<option value="240">240</option>
-								<option value="250">250</option>
-								<option value="260">260</option>
-							</select>
-
-							<select class="A_Category" name="">
-								<option value="FREE">FREE</option>
-							</select> 
-				</td>
+				<tr>
+					<td>상품명_영문</td>
+					<td><input type="text" name="p_name_en"></td>
 				</tr>
+				<tr>		
+					<td>상품분류</td>
+					<td class="form-inline">
+							<select id="Category1">
+								<option value="">선택</option>
+								<option value="top">1. 상의</option>
+								<option value="bottom">2. 하의</option>
+								<option value="shoes">3. 신발</option>
+								<option value="acc">4. 패션잡화</option>
+							</select>
+								<select class="T_Category" name="">
+									<option value="S">S</option>
+									<option value="M">M</option>
+									<option value="L">L</option>
+								</select>
+								<select class="B_Category" name="">
+									<option value="46">46</option>
+									<option value="48">48</option>
+									<option value="50">50</option>
+								</select>
+								<select class="S_Category" name="">
+									<option value="230">230</option>
+									<option value="240">240</option>
+									<option value="250">250</option>
+									<option value="260">260</option>
+								</select>
+	
+								<select class="A_Category" name="">
+									<option value="FREE">FREE</option>
+								</select> 
+					</td>
+					</tr>
 				<tr>
 					<td>모델번호</td>
 					<td><input type="text" name="p_model_no"></td>

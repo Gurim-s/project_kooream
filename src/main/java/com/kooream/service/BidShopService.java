@@ -10,7 +10,6 @@ public interface BidShopService {
 	
 	public List<ProductVO> getList();
 	
-	
 	public ProductVO modiread(int p_no);
 	
 	public void modify(ProductVO vo);

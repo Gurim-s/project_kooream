@@ -125,6 +125,7 @@
 		border: 1px solid black;
 		background-color: #ef6253;
 		border-radius: 7px;
+		cursor: pointer;
 	}
 
 	.buy_box {
@@ -174,6 +175,7 @@
 		background-color: #41b979;
 		border-radius: 7px;
 		margin-left: 11px;
+		cursor: pointer;
 	}
 	
 	.interest_p{
@@ -300,7 +302,7 @@
 	}
 	
 	.graph{
-		height: 593px;
+		height: 200px;
 		width: 100%;
 		border: 1px solid black;
 		text-align: center;
@@ -519,32 +521,32 @@
 				<span class="all_size">모든 사이즈</span>
 			</div>
 			<div class="detail_price">
-					<span class="recent_price">최근 거래가</span>
+					<span class="recent_price">즉시 구매가</span>
 				<div class="price">
 					<div class="amount">
-						<span class="product_price">${vo.p_release_price }</span> 
+						<span class="product_price">${vo.max_bid_sell }</span> 
 						<span class="won">원</span>
-							<p class="fluctuation">99,000원 (+24.6%)</p>
+							<!-- <p class="fluctuation">99,000원 (+24.6%)</p> -->
 					</div>
 				</div>
 			</div>
 			<div class="btn_inter_box">
 				<div class="btn_box">
-					<div class="btn_buy">
+					<div class="btn_buy" onclick="getPage(${vo.p_no})">
 						<div class="buy_box">
 							<strong class="buy_text">구매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">402,000원</div>
+							<div class="buy_price">${vo.max_bid_sell }원</div>
 							<div class="buy_now">즉시 구매가</div>
 						</div>
 					</div>
-					<div class="btn_sell">
+					<div class="btn_sell" onclick="getSell(${vo.p_no})">
 						<div class="sell_box">
 							<strong class="buy_text">판매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">412,000원</div>
+							<div class="buy_price">${vo.min_bid_buy }원</div>
 							<div class="buy_now">즉시 판매가</div>
 						</div>
 					</div>
@@ -580,7 +582,7 @@
 					<div class="way_desc">
 						<span class="delivery">빠른배송</span>
 						<span class="delivery_won"> 5,000원</span>
-						<div class="sub_text">지금 결제시 <span class="delivery_est">내일 1/11(수) 도착 예정</span></div>
+						<div class="sub_text">지금 결제시 <span class="delivery_est">1일 ~ 2일 후 도착 예정</span></div>
 					</div>
 				</div>
 			</div>
@@ -768,5 +770,12 @@
 		} else {
 			alert("취소되었습니다.");
 		}
+	}
+	function getPage(pno) {
+		location.href="/shop/shop_buypage/" + pno;
+	}
+	
+	function getSell(pno) {
+		location.href="/shop/shop_sellpage/" + pno;
 	}
 </script>

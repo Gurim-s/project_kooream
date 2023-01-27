@@ -31,7 +31,6 @@
 	<div class="container">
 		<form action="/shop/shop_modify" method="post" id="operForm">
 			<table class = "modify">
-
 			<tr>
 				<td>브랜드</td>
 					<td class="form-inline">
