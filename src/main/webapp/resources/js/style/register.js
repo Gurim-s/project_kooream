@@ -32,24 +32,40 @@ const slider = imgSlider();
 	document.querySelector('#selectRatio')
 	.addEventListener('click', selectRatio);
 	
-	console.log(document.querySelectorAll('a.next-btn:not(:last-child)'));
 	document.querySelectorAll('a.next-btn:not(#submit), a.prev-btn')
 	.forEach(x => x.addEventListener('click', changeStep));
 	
 	document.querySelector('a#submit')
 	.addEventListener('click', regist);
 	
-	document.querySelector('.editable')
-	.addEventListener('input', function(e) {
-		
-	});
+	document.querySelector('[name="style_content"]')
+	.addEventListener('input', countText);
+	
+//	document.querySelector('.editable')
+//	.addEventListener('input', function(e) {
+//		console.log(e.target.innerText);
+//	});
+	
 })();
 
 function countImgFile(count) {
 	const btn = document.querySelector('a.next-btn:nth-child(1)');
-	count == 0 
-		? btn.className = 'next-btn not-yet'
-		: btn.className = 'next-btn';
+	count == 0 	? btn.className = 'next-btn not-yet'
+				: btn.className = 'next-btn';
+}
+
+function countText(e) {
+	const btn = document.querySelector('a.next-btn#submit');
+	const text = e.target.value;
+	
+	text.length == 0? btn.className = 'next-btn not-yet'
+				  	: btn.className = 'next-btn';
+			
+	if(text.length >= 100) {
+		alert('글내용은 100자까지만 입력가능합니다.');
+		const cutText = text.substring(0, 100);
+		e.target.value = cutText;
+	}
 }
 
 function changeStep(e) {
@@ -57,7 +73,7 @@ function changeStep(e) {
 	if (e.target.classList[1] == 'not-yet') return;
 	
 	const register = e.target.closest('#register-list');
-	const steps = ['first', 'second', 'third']
+	const steps = ['first', 'second', 'third'];
 	if (register.className == 'first') {
 		const imgTagList = uploader.slider.getImgTagList();
 		slider.empty();
@@ -85,18 +101,37 @@ function selectRatio(e) {
 
 async function regist(e) {
 	e.preventDefault();
-	if (e.target.classList[1] == 'not-yet') return;
+	const text = document.querySelector('[name="style_content"]').value;
+	if (uploader.countFiles == 0 
+		&& alert('이미지는 한장 이상 첨부해야합니다.')) return; 
+	if (text.length == 0
+		&& alert('글 내용을 입력해주세요.')) return;
+	if (text.length >= 100
+		&& alert('글 내용은 100자 까지 입니다..')) return;
 	
 	const form = e.target.closest('form');
-	if (!isValid(form)) return;
-	
-	const result = await imgFileUploader.uploadImageAjax();
+	const imgUploadResult = await imgFileUploader.uploadImageAjax();
+	const hashTagList = extractHashTag(text);
 	const div = document.createElement('div');
-	div.innerHTML = result;
+	div.innerHTML += imgUploadResult;
+	div.innerHTML += hashTagList;
 	
 	form.append(div);
 	form.submit();
 }
+
+function extractHashTag(text) {
+	const type = /#[^\s^#]+/g;
+	const strToInput = (str, i) => '<input type="hidden" name="hashtags['+i+']" value="'+str+'">'
+	
+	const list = text.match(type)
+	.map(x => x.substring(1))
+	.map(strToInput)
+	.reduce((str, x) => str + x, '');
+	return list; 
+}
+
+
 
 //	$('.editable').each(function(_, textDiv){
 //		if ($(textDiv).prop('tagName') == 'div') return;
@@ -107,6 +142,8 @@ async function regist(e) {
 //			console.log(data);
 //			if (data == '#') alert('#을 누르셨습니다.');
 //			$(html).val(target.innerHTML);
+//			str = '<div></div>';
+//			
 //			$(text).val(target.innerText);
 //		});
 //	    this.contentEditable = true;

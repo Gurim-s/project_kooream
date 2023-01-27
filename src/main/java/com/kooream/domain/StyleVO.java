@@ -22,4 +22,5 @@ public class StyleVO {
 	private double ratio; 
 	
 	private List<StyleImageVO> style_image;
+	private List<String> hashtags;
 }

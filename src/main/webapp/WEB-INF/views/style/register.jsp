@@ -46,6 +46,7 @@
 					</div>
 					<textarea name="style_content" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
 					<div class="editable" contenteditable="true"></div>
+					<span contenteditable="true"></span>
 					<div class="recommend-tags"></div>
 				</li>
 			</ul>

@@ -7,10 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleImageVO;
+import com.kooream.domain.StyleTagVO;
 import com.kooream.domain.StyleVO;
 import com.kooream.mapper.StyleImageMapper;
 import com.kooream.mapper.StyleMapper;
 import com.kooream.mapper.StyleReplyMapper;
+import com.kooream.mapper.StyleTagMapper;
+import com.kooream.mapper.HashtagMapper;
 
 import lombok.AllArgsConstructor;
 
@@ -20,6 +23,8 @@ public class StyleServiceImpl implements StyleService{
 	private StyleMapper mapper;
 	private StyleImageMapper imageMapper;
 	private StyleReplyMapper replyMapper;
+	private StyleTagMapper styleTagMapper;
+	private HashtagMapper hashtagMapper;
 	
 	@Override
 	public List<StyleVO> getList(Criteria cri) {
@@ -44,13 +49,30 @@ public class StyleServiceImpl implements StyleService{
 	}
 	
 	@Override
+	@Transactional
 	public void register(StyleVO vo) {
 		mapper.insert(vo);		
 		long style_no = mapper.getStyle_no();
-		if (vo.getStyle_image() != null && vo.getStyle_image().size() > 0) {
+		if (vo.getStyle_image() != null) {
 			for (StyleImageVO image : vo.getStyle_image()) {
 				image.setStyle_no(style_no);
 				imageMapper.insert(image);
+			}
+		}
+		
+//		피드백
+		if (vo.getHashtags() != null) {
+			for (String hashtag : vo.getHashtags()) {
+				long tag_no = hashtagMapper.getTagNo(hashtag);
+				if (tag_no == 0) {
+					hashtagMapper.insert(hashtag);
+					tag_no = hashtagMapper.getTagNo(hashtag);
+				}
+				
+				StyleTagVO styleTag = new StyleTagVO();
+				styleTag.setTag_no(tag_no);
+				styleTag.setStyle_no(style_no);
+				styleTagMapper.insert(styleTag);
 			}
 		}
 	}
@@ -62,6 +84,9 @@ public class StyleServiceImpl implements StyleService{
 			replyMapper.deleteByStyleNo(style_no);
 		}
 		imageMapper.deleteAll(style_no);
+//		if (styleTagMapper.getCountTags(style_no) > 0) {
+//			styleTagMapper.deleteByStyleNo(style_no);
+//		}
 		return mapper.delete(style_no) == 1;
 	}
 	

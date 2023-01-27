@@ -79,8 +79,6 @@ public class StyleController {
 	@PostMapping("/register")
 	public String register(StyleVO vo, RedirectAttributes rttr) {
 		log.info("register....." + vo);
-		System.out.println("+++++++++++" + vo.getRatio());
-		System.out.println("+++++++++++" + vo.getStyle_image().get(0).getOffsetX());
 		service.register(vo);
 		
 		return "redirect:/style/list";
