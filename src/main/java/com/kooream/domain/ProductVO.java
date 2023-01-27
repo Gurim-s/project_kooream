@@ -18,6 +18,7 @@ public class ProductVO {
 	private Date p_release_date;
 	private String img_url;
 	private String strt_r_date, rtrn_r_date;
+	private String interest_cnt;
 	
 	private List<AttachFileVO> attachList;
 }

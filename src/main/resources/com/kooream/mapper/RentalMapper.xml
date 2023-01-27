@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       	]]>
             (SELECT C.B_NAME
             FROM BRAND_MEMBER C WHERE C.B_NO = A.B_NO) AS p_brand,
-            (SELECT COUNT(*) FROM INTEREST_TBL D WHERE A.P_NO = D.P_NO) AS cnt,
+            (SELECT COUNT(*) FROM INTEREST_TBL D WHERE A.P_NO = D.P_NO) AS interest_cnt,
          	A.*
      		FROM product A
       		where P_CLASS = 'rental'
@@ -58,6 +58,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <if test="keyword != null and keyword != ''">
 	    	AND P_NAME_KO LIKE '%'||#{keyword}||'%' OR (LOWER(P_NAME_EN) LIKE '%'|| LOWER(#{keyword}) ||'%')
 	    </if>
+	    <choose>
+	    	<when test="order.equals('recent')">
+	    		ORDER BY P_NO DESC
+	    	</when>
+	    	<when test="order.equals('rowPrice')">
+	    		ORDER BY R_PRICE
+	    	</when>
+	    	<otherwise>
+	    		ORDER BY INTEREST_CNT DESC NULLS LAST
+	    	</otherwise>
+	    </choose>
 	    
 	</select>
 	
