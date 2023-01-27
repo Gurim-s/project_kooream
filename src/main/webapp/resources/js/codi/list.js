@@ -64,7 +64,7 @@ function getList(pageNum, amount) {
 			
 			var tags = '';
 			for(var i=0; i<codi.codiTagList.length; i++){
-				tags += '<a href="#" class="tag_a">'+codi.codiTagList[i].tag_name+'</a>'	
+				tags += '<a href="#" class="tag_a">#'+codi.codiTagList[i].tag_name+'</a>'	
 			};
 			
 			var text_Line4 = $('<div></div>');

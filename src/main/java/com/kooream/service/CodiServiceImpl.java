@@ -54,6 +54,13 @@ public class CodiServiceImpl implements CodiService{
 		return list;
 	}
 	
+	@Override
+	public int getTotal(Criteria cri) {
+		mapper.getList(cri);
+		return 0;
+	}
+	
+	
 	@Transactional
 	@Override
 	public void register(CodiVO vo) {

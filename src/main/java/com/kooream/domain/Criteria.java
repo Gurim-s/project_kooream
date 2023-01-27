@@ -11,4 +11,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Criteria {
 	private int pageNum, amount;
+	
+	
+	
+	
+	
+	
+	// 검색용 
+	private String searchType; // 제목, 내용,.... 등등
+	private String searchName; // 검색어 
+	
+	
 }

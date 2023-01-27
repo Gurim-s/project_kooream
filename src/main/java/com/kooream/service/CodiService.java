@@ -35,5 +35,8 @@ public interface CodiService {
 	// 해시태그 리스트 
 	public List<Codi_TagVO> getTagList(int codi_no);
 
+	//검색
+	public int getTotal(Criteria cri);
+	
 
 }
