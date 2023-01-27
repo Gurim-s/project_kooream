@@ -61,10 +61,10 @@
 				<li class="hideMenu">
 					<ul>
 						<li>
-							<input type="checkbox" class="ctgrType" value ="bag"/>&nbsp;&nbsp;가방<br/>
+							<input type="checkbox" class="ctgrType" id ="bag" value ="bag"/>&nbsp;&nbsp;<label for="bag">가방</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="ctgrType" value ="accessories">&nbsp;&nbsp;패션잡화<br/>
+							<input type="checkbox" class="ctgrType" id ="accessories" value ="accessories">&nbsp;&nbsp;<label for="accessories">패션잡화</label><br/>
 						</li>
 					</ul>
 				</li>
@@ -73,22 +73,22 @@
 				<li class="hideMenu">
 					<ul>
 						<li>
-							<input type="checkbox" id="allSlctBtn">&nbsp;&nbsp;전체보기<br/>
+							<input type="checkbox" id="allSlctBtn">&nbsp;&nbsp;<label for="allSlctBtn">전체보기</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9999">&nbsp;&nbsp;GUCCI<br/>
+							<input type="checkbox" class="brandType" id ="9999" value ="9999">&nbsp;&nbsp;<label for="9999">GUCCI</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9998">&nbsp;&nbsp;DIOR<br/>
+							<input type="checkbox" class="brandType" id ="9998" value ="9998">&nbsp;&nbsp;<label for="9998">DIOR</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9997">&nbsp;&nbsp;LOUISVUITTON<br/>
+							<input type="checkbox" class="brandType" id ="9997" value ="9997">&nbsp;&nbsp;<label for="9997">LOUISVUITTON</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9996">&nbsp;&nbsp;CHANEL<br/>
+							<input type="checkbox" class="brandType" id ="9996" value ="9996">&nbsp;&nbsp;<label for="9996">CHANEL</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="brandType" value ="9995">&nbsp;&nbsp;PRADA<br/>
+							<input type="checkbox" class="brandType" id ="9995" value ="9995">&nbsp;&nbsp;<label for="9995">PRADA</label><br/>
 						</li>
 					</ul>
 				</li>
@@ -97,13 +97,13 @@
 				<li class="hideMenu">
 					<ul>
 						<li>
-							<input type="checkbox" class="price" value ="50000">&nbsp;&nbsp;5만원이하<br/>
+							<input type="checkbox" class="price" id ="50000" value ="50000">&nbsp;&nbsp;<label for="50000">5만원이하</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="price" value ="100000">&nbsp;&nbsp;10만원이하<br/>
+							<input type="checkbox" class="price" id ="100000" value ="100000">&nbsp;&nbsp;<label for="100000">10만원이하</label><br/>
 						</li>
 						<li>
-							<input type="checkbox" class="price" value ="150000">&nbsp;&nbsp;15만원이하<br/>
+							<input type="checkbox" class="price" id ="150000" value ="150000">&nbsp;&nbsp;<label for="150000">15만원이하</label><br/>
 						</li>
 					</ul>
 				</li>
@@ -115,7 +115,7 @@
 	</div>
 	<!-- 리스트 순서 필터 ----------------------------------------------------->
 	<div>
-		<select id="fruit" name="fruit">
+		<select id="selectOrderID" name="selectOrder">
 			<option value="popularity">인기순</option>
 			<option value="recent">최신순</option>
 			<option value="rowPrice">가격낮은순</option>
@@ -177,7 +177,7 @@
 			}
 		});
 
-		// 필터 별 조회 버튼 클릭 이벤트-----------------------------------------------
+		// 카테고리 별 조회 버튼 클릭 이벤트-----------------------------------------------
 		$(".brandType").on("click", function(){		// class brandType 클릭 시
 			if($(this).is(":checked")){				// 그 brandType이 체크일 경우				
 				$(this).attr("name","brandType")	// name속성에 brandType을 넣어준다.
@@ -287,7 +287,7 @@
 		$(window).scroll(function(){
 			var scrT = $(window).scrollTop();
 				console.log(scrT); //스크롤 값 확인용
-			if(scrT+2 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
+			if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
 				// 페이지 전체크기 =< 스크롤크기(아래 내려갈 공간) + 화면상 보이는 크기 --> 상품 더보기되면서 페이지 전체크기 늘어남
 				idx += 1; //스크롤이 끝에 도달했을때 실행될 이벤트
 				getList();
@@ -347,6 +347,17 @@
 				$('#serchBtn').click()
 			}
 		})
+		
+		// 상품 리스트 순서 보여주기-----------------------------------------------
+		$("#selectOrderID").on('change',function(e){
+			
+			var selectOrder = $("#selectOrderID").val();
+			$("#orderValue").val(selectOrder);
+			getList();
+		});
+		
+		
+		
 		
 	});//------------------------------------------------------------------------------------onload end
 	

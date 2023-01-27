@@ -82,11 +82,22 @@ $(function() {
 			  
 //			console.log(str);
 //			formObj.append(str);
+
+			
+			var tagList = $('.tag_name');
+			console.log(tagList);
+			console.log(tagList[0].children[0]);
+			console.log(tagList.length);
+			var tags = '';
+			for(var i=0; i<tagList.length; i++){
+				tags += '<input type="hidden" name="codiTagList['+i+'].tag_name" value="'+tagList[i].children[0].innerText+'" />';
+				tags += '<input type="hidden" name="codiTagList['+i+'].tag_cnt" value="0" />';
+				console.log(tagList[i].children[0].innerText);
+			};
+			formObj.append(tags);
 			console.log(formObj);
 			formObj.submit();			
-			
-			
-		}
+		};
 	}); //btn click event end
 
 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");   //확장자를 포함하지 못하도록 
@@ -194,11 +205,11 @@ function checkExtension(fileName, fileSize){
 			
 			if(tagValue !== ""){ // tagValue의 내용이 있을 경우
 			 	console.log(counter);
-				tagStr += '<li class="tag_name" name="tag_name">'+tagValue;
+				console.log(tagValue);
+				tagStr += '<li class="tag_name" name="tag_name">'
+				tagStr += '<span class="tag_text">'+tagValue+'</span>';
 				tagStr += '<span class="del_tag" idx="'+counter+'">X</span>';
 				tagStr += '</li>';
-				tagStr += '<input type="hidden" name="codiTagList['+counter+'].tag_cnt" value="0" >'
-				tagStr += '<input type="hidden" name="codiTagList['+counter+'].tag_name" value="'+tagValue+'" >'
 				
 				addTag(tagValue);
 				
@@ -223,7 +234,8 @@ function checkExtension(fileName, fileSize){
 		var index = $(this).attr("idx");
 		tag[index] = '';
 		$(this).parent().remove();
-		
+		console.log($(this).siblings('.tag_hidden'));
+//		$(this).siblings('.tag_hidden').remove();
 	});
 
 

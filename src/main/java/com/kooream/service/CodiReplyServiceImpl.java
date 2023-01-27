@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.CodiReplyVO;
+import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
 import com.kooream.mapper.CodiReplyMapper;
+import com.kooream.mapper.Codi_TagMapper;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -18,6 +21,12 @@ public class CodiReplyServiceImpl implements CodiReplyService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private CodiReplyMapper mapper;
+	
+	
+	@Setter(onMethod_ = @Autowired)
+	private Codi_TagMapper tagmapper;
+	
+	
 	
 	@Override
 	public int register(CodiReplyVO vo) {

@@ -26,6 +26,7 @@ import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.PageDTO;
 import com.kooream.service.CodiService;
 
 
@@ -48,9 +49,29 @@ public class CodiController {
 			MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<List<CodiVO>> list(@RequestBody Criteria cri){
 		List<CodiVO> list = service.getList(cri);
+		
+		int total = service.getTotal(cri);
+		
 		log.info(cri.getAmount()+""+cri.getPageNum());
 		return new ResponseEntity<List<CodiVO>>(list, HttpStatus.OK);
 	}
+
+	
+
+	@PostMapping(value = "/freelist", produces = {
+			MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<List<CodiVO>> list1(@RequestBody Criteria cri){
+		List<CodiVO> list1 = service.getList(cri);
+		
+		int total = service.getTotal(cri);
+		
+		log.info(cri.getAmount()+""+cri.getPageNum());
+		return new ResponseEntity<List<CodiVO>>(list1, HttpStatus.OK);
+	}
+	
+	
+	
+	
 	
 	@GetMapping("/register")
 	public String register() {
@@ -63,17 +84,22 @@ public class CodiController {
 	public String register(CodiVO vo, RedirectAttributes rttr) {
 		log.info("register........" + vo);
 
-		System.out.println(vo.getAttachList().size());
-		System.out.println(vo.getCodiTagList().size());
-		for(int i=0; i<vo.getCodiTagList().size(); i++ ) {
-			
-			log.error(vo.getCodiTagList().get(i).getTag_name());
-		}
-
-		service.register(vo);
-		
 		List<CodiImageVO> list = vo.getAttachList();
 		List<Codi_TagVO> tagList = vo.getCodiTagList();
+
+		System.out.println("Hello");
+		System.out.println(list.size());
+		System.out.println("World");
+		System.out.println(tagList.size()); 
+		
+		
+		
+		for(int i=0; i<vo.getCodiTagList().size(); i++ ) {
+		  
+		log.error(vo.getCodiTagList().get(i).getTag_name()); }
+		 
+		service.register(vo);
+		
 		
 		if(tagList != null) {
 			for(Codi_TagVO vo3 : tagList) {
@@ -114,6 +140,18 @@ public class CodiController {
 		
 		return new ResponseEntity<List<CodiImageVO>>(list, HttpStatus.OK);
 	}
+	
+	// 게시글 태그 비동기 가져오기
+	@GetMapping(value = "/getTag/{codi_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<Codi_TagVO>> getTags(@PathVariable("codi_no") int codi_no){
+		List<Codi_TagVO> list1 = service.getTagList(codi_no);
+		System.out.println("list : " + list1.size());
+		log.info("getTags..................." + codi_no); 
+		
+		return new ResponseEntity<List<Codi_TagVO>>(service.getTagList(codi_no), HttpStatus.OK);
+	}
+	
+	
 	
 	
 	// 수정 

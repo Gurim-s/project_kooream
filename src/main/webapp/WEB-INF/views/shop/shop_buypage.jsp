@@ -240,7 +240,7 @@
 		color: #909090;
     }
     
-    .btn_confirm{
+    .now_buy_btn, .buy_bid_btn{
     	border: 1px solid black;
     	font-weight: 600;
 	}
@@ -279,6 +279,10 @@
     }
     
 	input:focus {outline: none;}
+	
+	.buy_bid_btn{
+		display: none;
+	}
 
 </style>
 
@@ -288,22 +292,22 @@
 			<div class="infobox">
 				<img class="product_image" src="../resources/img/ps5.png">
 				<div class="product_infobox">
-					<div class="code">DZ5485-612</div>
-					<div class="name">Jordan 1 Retro High OG Chicago 2022</div>
-					<div class="kor_name">조던 1 레트로 하이 OG 시카고 2022</div>
-					<div class="p_size">235</div>
+					<div class="code">${vo.p_model_no }</div>
+					<div class="name">${vo.p_name_en }</div>
+					<div class="kor_name">${vo.p_name_ko }</div>
+					<div class="p_size">${vo.p_size }</div>
 				</div>
 			</div>
 			<div class="price_descision_box">
 				<div class="buy_price">
 					<div class="box_border">
 						<div class="now_buysell">즉시 구매가</div>
-						<span class="now_price">999,000</span><span class="won">원</span>
+						<span class="now_price">${vo.max_bid_sell }</span><span class="won">원</span>
 					</div>
 				</div>
 				<div class="sell_price">
 					<div class="now_buysell">즉시 판매가</div>
-					<span class="now_price">450,000</span><span class="won">원</span>
+					<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
 				</div>
 			</div>
 				<div class="instant_group">
@@ -321,7 +325,7 @@
 						<dl class="price_now_box">
 							<dt class="price_now_title">즉시 구매가</dt>
 							<dd class="price">
-								<span class="amount">990,000</span>
+								<span class="amount">${vo.max_bid_sell }</span>
 								<span class="won">원</span>
 							</dd>
 						</dl>
@@ -336,7 +340,6 @@
 					<div class="price_bind">
 						<p class="price_bind_empty">총 결제금액은 다음 화면에서 계산됩니다.</p>
 					</div>
-				</div>
 				<div class="buy_total_confirm">
 					<div class="price_total">
 						<dl class="price_box">
@@ -345,9 +348,13 @@
 						</dl>
 					</div>
 				</div>
-				<div class="btn_confirm">
-					<div class="btn_box full">즉시 구매 계속</div>
+				<div class="now_buy_btn">
+					<div class="btn_box full" onclick="buyNowPage(${vo.p_no})">즉시 구매 하기</div>
 				</div>
+				<div class="buy_bid_btn">
+					<div class="btn_box full">구매 입찰 하기</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -357,15 +364,22 @@
 	    $(".sell_box").removeClass("sell_box2");
 	    $(".bid_now_box").hide();
 		$(".price_now_box").show();
+		$(".now_buy_btn").show();
+		$(".buy_bid_btn").hide();
 	});
-
 	
 	$(".sell_box").on('click', function(){
 	    $(this).addClass("sell_box2");
 	    $(".bid_box").addClass("bid_box2");
 	    $(".price_now_box").hide();
 		$(".bid_now_box").show();
+		$(".buy_bid_btn").show();
+		$(".now_buy_btn").hide();
 	});
-
+	
+	function buyNowPage(pno) {
+		location.href="/shop/shop_bidbuy/" + pno;
+	}
+	
 </script>
 <jsp:include page="../include/footer.jsp"/>
