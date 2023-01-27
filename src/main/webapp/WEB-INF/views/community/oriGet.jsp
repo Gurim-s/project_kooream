@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -10,7 +11,8 @@
 <style type="text/css">
 	#menu_list{
 		float: left;
-		height: 500px;
+		height: 100%;
+		margin-bottom: 100%;
 		width: 130px;
 	}
 	#head{
@@ -47,6 +49,9 @@
     }
     #modalClose{
     	text-align: right;
+    }
+    #date{
+    	float: right;
     }
 </style>
 </head>
@@ -100,12 +105,14 @@
 	<!-- 정품판별 댓글 내용 출력 폼 -->
 	<div>
 		<strong>구리머들의 판정</strong>
-		<span><input type="checkbox" name="decOk" value="decOk" id="ckOk" class="oriDec">진품 같아요.</span>
-		<span><input type="checkbox" name="decNo" value="decNo" id="ckNo" class="oriDec">가품 같아요.</span>
+		<span><input type="radio" name="decCh" value="decList" id="ckList" class="oriDec">전체 보기</span>
+		<span><input type="radio" name="decCh" value="decOk" id="ckOk" class="oriDec">진품 같아요.</span>
+		<span><input type="radio" name="decCh" value="decNo" id="ckNo" class="oriDec">가품 같아요.</span>
 	</div>
 	<div class="replyList">
 		<div>
-			<span>댓글쓴이</span><span>작성날짜</span>
+			<div><span>댓글쓴이</span></div>
+			<div><span>작성날짜</span></div>
 		</div>
 		<div>댓글 내용</div>
 	</div>
@@ -129,7 +136,9 @@
 
 <script type="text/javascript" src="/resources/js/community/orireply.js"></script>
 <script type="module" src="/resources/js/community/oriGet.js"></script>
+<script type="text/javascript" src="/resources/js/community/util.js"></script>
 <script type="text/javascript">
+
 	$(function() {
 		//var form = $("#form");
 		var orinoValue = '${vo.orino}';
@@ -186,68 +195,60 @@
 			)
 		}
 		
+		
+		
 		// 정품, 가품 댓글 라디오 체크 관련
 		$('.oriDec').click(function(){
-		var chOk = $('#ckOk').is(':checked');
-		var chNo = $('#ckNo').is(':checked');
-		
+			var chOk = $('#ckOk').is(':checked');
+			var chNo = $('#ckNo').is(':checked');
+			var ckList = $('#ckList').is(':checked');
+				
 			if(chOk){
 				replyService.okList({no:orinoValue},
 					function(result) {
 						console.log(result);
 						var str = '';
-						
-						if(result == null || result.length==0){
+								
+						if(result == null){
 							// 댓글이 없으면
 							replyList.html("");
 							return;
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div><span>'+ result[i].orireplyname +'</span><span>'+ result[i].orireplydate +'</span></div>'
+								str += '<div>'+ result[i].orireplyname +'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
 								str += '<div>'+ result[i].orireplycon+'</div>'
 							}
 							replyList.html(str);
-						}
-						
-						
-					}
+						} //--------------------------------- 댓글 유무 확인 end
+					} //------------------------------------ 댓글 유무 확인 함수 end
 				)
-			}
-			if(chNo){
+			}else if (chNo){
 				replyService.noList({no:orinoValue},
 					function(result) {
 						console.log(result);
 						var str='';
 						
-						if(result == null || result.length==0){
+						if(result == null){
 							// 댓글이 없으면
 							replyList.html("");
 							return;
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div><span>'+ result[i].orireplyname +'</span><span>'+ result[i].orireplydate +'</span></div>'
+								str += '<div>'+ result[i].orireplyname +'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
 								str += '<div>'+ result[i].orireplycon+'</div>'
-							}
+							};
 							replyList.html(str);
-						}//---------------------------------- 댓글 유무 확인 end
-						
+						}//--------------------------------- 댓글 유무 확인 end
 					} //------------------------------------- 댓글 유무 확인 함수 end
 				)
-			} // -------------------------------------------- chNo if문 end
-			if(chNo || chOk){
+			}else if (ckList){
 				showList();
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-		});
+			}; // -------------------------------------------- chList if문 end
+					
+		}); // ---------------------------------------------- 댓글 셀렉트 버튼 클릭시 end
+		
 		
 		
 			
@@ -332,7 +333,7 @@
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div><span>'+ result[i].orireplyname +'</span><span>'+ result[i].orireplydate +'</span></div>'
+								str += '<div>'+ result[i].orireplyname +'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
 								str += '<div>'+ result[i].orireplycon+'</div>'
 							}
 							replyList.html(str);
@@ -341,7 +342,7 @@
 				);
 			
 			
-		}
+		};
 		
 			
 		

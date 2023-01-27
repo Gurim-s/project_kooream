@@ -86,9 +86,9 @@ public class OriginalReplyController {
 		@GetMapping(value = "/noList/{orino}",
 				produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 		public ResponseEntity<List<OriginalReplyVO>> noList(@PathVariable("orino") int orino){
-			log.info("original reply OK list.................");
+			log.info("original reply NO list.................");
 			
-			return new ResponseEntity<List<OriginalReplyVO>>(service.chOk(orino), HttpStatus.OK);
+			return new ResponseEntity<List<OriginalReplyVO>>(service.chNo(orino), HttpStatus.OK);
 		}
 	
 }
