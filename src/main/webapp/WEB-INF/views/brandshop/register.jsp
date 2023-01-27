@@ -66,7 +66,7 @@
 				<td><input type="text" name="p_name_en"></td>
 			</tr>
 			<tr>		
-				<td>상품분류</td>
+				<td>사이즈선택</td>
 				<td class="form-inline">
 						<select id="Category1">
 							<option value="">선택</option>
@@ -140,6 +140,8 @@
 
 		   $(function(){
 			      var formObj = $("form");
+			      var b_no = ${b_no};
+			     // console.log(b_no);
 			      
 			      $("button").click(function(e){   
 			         e.preventDefault();   // 기본 이벤트 삭제==기능정지
@@ -148,7 +150,7 @@
 			         var oper = $(this).data("oper");   //data-oper가 remove, list해서 ..
 			         
 			         if(oper == 'list'){
-			            location.href='/board/list?pageNum='+pageNum+'&amount='+amount;
+			            location.href='/brandshop/view?b_no=' + b_no;
 			         }else if(oper == 'reset'){
 			            formObj[0].reset();
 			         }else{
