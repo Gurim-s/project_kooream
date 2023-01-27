@@ -29,7 +29,7 @@ public interface CodiMapper {
 	// max(codi_no) 가져오기
 	public int getcodi_no();
 	
-	// 
+	// 상품 검색
 	public List<CodiVO> getList(Criteria cri);
 	
 	//게시판 총 갯수

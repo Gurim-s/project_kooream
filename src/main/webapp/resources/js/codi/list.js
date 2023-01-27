@@ -16,9 +16,9 @@ $(function() {
 	
 	
 
-	$('#search-btn').on('click',function(e){
+	$('#searchBtn').on('click',function(e){
 		e.preventDefault();
-		var url = "${pageContext.request.contextPath}/codishop/list";
+		var url = "";
 		url = url + "?searchType=" + $('#searchType').val();
 		url = url + "&searchName=" + $('#searchName').val();
 		

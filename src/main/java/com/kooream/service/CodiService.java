@@ -26,8 +26,6 @@ public interface CodiService {
 	// 목록 조회 
 	public List<CodiVO> getList(Criteria cri);
 	
-	//public List<CodiVO> getList();
-	public List<CodiVO> getListWithPaging(Criteria cri);
 	
 	// 파일 리스트 
 	public List<CodiImageVO> getCodiAttachList(int codi_no);
@@ -35,8 +33,9 @@ public interface CodiService {
 	// 해시태그 리스트 
 	public List<Codi_TagVO> getTagList(int codi_no);
 
+	//public List<CodiVO> getList();
+	public List<CodiVO> getListWithPaging(Criteria cri);
+
 	//검색
 	public int getTotal(Criteria cri);
-	
-
 }
