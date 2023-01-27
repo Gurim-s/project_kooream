@@ -1,5 +1,7 @@
 package com.kooream.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +12,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BrandCartVO {
-	private int m_no, p_no;
+	private int cart_no, m_no, p_no, p_release_price, b_no ;
+	private String P_NAME_EN, b_name, p_size;
+	
+	private List<AttachFileVO> attachList;
+	//private ProductVO product;
+	
+		
+		
+	}
+	
+	
+		
 	
 	
 
-}
+

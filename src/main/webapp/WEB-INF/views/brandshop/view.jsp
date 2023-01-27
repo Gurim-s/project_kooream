@@ -15,32 +15,86 @@
 		float: right;
 	
 	}
-	#container{
-		display :inline-flex;
-		/* flex-direction: row; */
-		/* justify-content:space-between; */
-/* flex-wrap:wrap; */
-		width: 1000px;
-		gap : 8px;
+	.cartList{
+		float : right;
+	}
+	.container{
+		display: flex;	/* 상품 한 줄 정렬 */
+		flex-direction: row; /* 가로방향으로 배치*/
+		flex-wrap: wrap;	/* 페이지 넘어가지않고 밑으로 내리기 */
+		gap : 8px;	/* 상품 간격 지정 */
 		
 
 	}
-	/*  style="display: inline-flex;  */
-	.prduct_list{
-		width : 50px;
+	.product{
+		display : inline-flex;
+		
 	}
-
-
+	.container img{
+		width : 200px;	/* 상품이미지 사이즈 */
+	}
+	#box{
+		float: left;
+		width: 200px;
+	}
+	.sub{
+		display: none;
+	}
 
 
 
 </style>
 </head>
 <body>
+<!-- ------------------------장바구니, 등록 버튼-------------------- -->
 	<div>
-	<br/><a class="register" href="/brandshop/register">등록</a></div><br/><br/>
-	
+	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div>
+	<br/><a class="register">등록</a></div><br/><br/>
+<!-- ------------------체크박스 카테고리 시작------------------------ -->
+<div id = "box">
+	<ul>
+		<li class = "menu">
+			<p>카테고리</p>
+				<ul class = "sub">
+					<li><input type ="checkbox" value = "top">  상의</li>
+					<li><input type ="checkbox" value = "bottom">  하의</li>
+					<li><input type ="checkbox" value = "shoes">  신발</li>
+					<li><input type ="checkbox" value = "acc">  패션잡화</li>
+				</ul>
+		</li>
+		
+		<li class = "menu">
+			<p>브랜드</p>
+				<ul class = "sub" >
+					<li><input type ="checkbox" value = "51">  LE17SEPTEMBRE</li>
+					<li><input type ="checkbox" value = "52">  Polar Skate Co.</li>
+					<li><input type ="checkbox" value = "53">  Punch Drunk Parties</li>
+					<li><input type ="checkbox" value = "54">  THE IDENTITY PROJECT</li>
+					<li><input type ="checkbox" value = "55">  The Museum Visitor</li>
+				</ul>
+		</li>
+		
+		<li class = "menu">
+			<p>가격</p>
+				<ul class = "sub" >
+					<li><input type ="checkbox" value = "상의">  상의</li>
+					<li><input type ="checkbox" value = "하의">  하의</li>
+					<li><input type ="checkbox" value = "패션잡화">  패션잡화</li>
+					<li><input type ="checkbox" value = "신발">  신발</li>
+				</ul>
+		</li>
+	</ul>
+</div>
+<!-- ------------------체크박스 카테고리 끝------------------------ -->	
 
+<div>
+   <img id="logo" src=logo_info()>
+    <!--    <script>document.getElementById('logo').src=logo_info()</script> -->
+                   
+   <img id="title" src="">
+      <!--  <script>document.getElementById('title').src=title_info()</script> -->
+</div>
+<!-- -----------------------상품리스트 시작--------------------------->
 	   <div class="middle_content">
          <div class="middle_content_inner">
                <div>
@@ -49,11 +103,11 @@
                </div>
          </div>
       </div>
-
-
-	<script type="text/javascript">
+<!-- -----------------------상품리스트 끝--------------------------->
+<!-- -----------------------스크립트 시작--------------------------->
+<script type="text/javascript">
 	var test = '${list}';
-	console.log(test);
+	//console.log(test);
 	
 
 	
@@ -91,21 +145,71 @@
        });  */
     
  //상품 클릭 이벤트 end------------------------------------------------------------------------------   
- // 상품 이미지 리스트에 보여주기--------------------------------------------------------
 
+ 	function logo_info() {
+    	   document.getElementById('logo').src=logo_info()
+            var b_no = ${b_no};
+            var img_src;
+            for(var i=51; i<=55; i++) {
+                if(b_no == i) {
+                img_src = '../resources/img/'+ i + '_logo.png';
+                }
+            }
+            return img_src;
+        }
  
+    function title_info() {
+    		var b_no = ${b_no};
+            var img_src;
+            for(var i=1; i<=17; i++) {
+                if(user_area == i) {
+                img_src = '../public/img/'+ i + '_title.png';
+                }
+            }
+            return img_src;
+        }
+ 
+ 
+	$(".register").click(function (e) {
+		e.preventDefault();
+		
+		var b_no = "${b_no}";
+		location.href = '/brandshop/register?b_no=' + b_no;
+		
+	})
+ 
+    // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 p 태그를 클릭했을때
+        $(".menu>p").click(function(){
+            var submenu = $(this).next("ul");
+ 
+            // submenu 가 화면상에 보일때는 위로 접고 아니면 아래로 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });
+       // 상품 이미지 리스트에 보여주기--------------------------------------------------------
  	$(function() {		// 상품이미지 보여주기
+ 		
+ 		var bno = '${b_no}';
+ 		//console.log(bno + "123454654654645");
+ 		
  		$.ajax({
  			url:'/brandshop/getList',
  			type: 'get',
+ 			data : {b_no:bno},	// 
  			dataType:"json",
  			contentType:"application/json",
  		})
  		.done(function(json) {
-			var str='<ul id="container">';
+			var str='<div class="container">';
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
-				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'"><li class="product_list">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 						// brandshop(컨트롤러) 에서 /get을 탐  
 				
 				
@@ -117,7 +221,8 @@
 					var uuid = json[i].attachList[0].uuid;
 					var fileName = json[i].attachList[0].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-					str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>';
+					str += '<div class = "product">'
+					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';	// 이미지
 				}
 				//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
 // 				for(var j=0; j<json[i].attachList.length; j++) {
@@ -128,18 +233,26 @@
 // 					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
 // 				}
 				/* str += '<div>{vo2.b_name}</div>' */
-				str += '<div style="font-weight: bold; font-size: 18px; ">'+json[i].p_name_en+'</div>';
-				str += '<div style="color: gray;">'+json[i].p_name_ko+'</div>';
-				str += '<div style="font-weight: bold; font-size: 18px;">'+json[i].p_release_price+'원</div>';
+				str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
+				str += '<div style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
+				str += '<div style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
+				str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
+				str += '</a>'
+				str += '</div>'
 				str += '<br/>'
 				
 				
-				str += '</li></a>';
+				
 			}
 			
-			str += '</ul>';
+			str += '</div>'
+			str += '<br/>';
 			$('.brand').append(str);
-		});	
+		});
+
+ 			
+ 			
+ 		
  	});
    	var result = '<c:out value="${result}"/>';
 	// rttr 객체를 통해 받아온 값이 빈 값이 아닐 때(데이터 변경) 알림 메소드 실행

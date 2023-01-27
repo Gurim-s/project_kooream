@@ -9,7 +9,7 @@ public interface BrandProductMapper {
 	
 	public void insert(ProductVO board);	// 제품 insert
 
-	public List<ProductVO> getList();		// 상품리스트 보여주기
+	public List<ProductVO> getList(ProductVO vo2);		// 상품리스트 보여주기
 
 	public int getPno();
 

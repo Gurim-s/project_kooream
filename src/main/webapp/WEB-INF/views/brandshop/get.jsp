@@ -74,6 +74,25 @@
 
         transform: translateX(-50%) translateY(-50%);
       }
+      
+      .top-menu li a{
+        display: inline-block;
+		text-align: center;
+		width: 300px;
+		padding: 20px;
+		text-decoration: none;
+		color: black;
+		font-size: 15px;
+
+	}
+	
+	.top-menu{
+		text-align: center;	/* top-menu 가운데 정렬  */
+	}
+	
+	.top-menu li{ 
+		display: inline-block;	/* top-menu 리스트 가로정렬  */
+	}
 	
 
 
@@ -88,7 +107,7 @@
 		<div >
 			<%-- <label>상품 번호</label>
 			<input name ="p_no" value="${vo.p_no }" readonly="readonly"/> --%>
-			<label>상품 메인 이미지</label>
+<!-- 			<label>상품 메인 이미지</label> -->
 				<div class= "brand">
 					<ul>
 						<li>
@@ -133,12 +152,11 @@
 			<br/>
 			<br/>
 			<div class = "btn">
-			<button id = "product_cart" style="background: red; color: white;">구매하기</button><br/>
+			<button id = "product_buy" style="background: red; color: white;">구매하기</button><br/>
 			<br/>
-			<form action="/brandCart/addCart" method="post">
-				<input type="hidden" name="p_no" value="${vo.p_no }">
-				<button id = "product_cart">장바구니</button><br/>
-			</form>
+
+				<button type="button" id="product_cart">장바구니</button><br/>
+
 			
 			<br/>
 			</div>
@@ -147,22 +165,37 @@
 			<!-- <button type="button" id = "product_remove"> 삭제하기</button> -->
 			</div>
 				<form action="/brandshop/modify" method="get" id="operForm">
-				<input type="hidden" name="pageNum" value="${cri.pageNum }">
-				<input type="hidden" name="amount" value="${cri.amount }">
-				
-				
-				
+				<%-- <input type="hidden" name="pageNum" value="${cri.pageNum }">
+				<input type="hidden" name="amount" value="${cri.amount }"> --%>
 			</form>
-			
+			<br/>
+			</div>
+			<div>
+				<p>배송정보</p>
+				<p>브랜드배송 무료</p>
+				<p>입점한 브랜드에서 직접 택배 배송</p>
 			</div>
 	</div>
 	
+	
 	<div class = "full" >
-	<label>상품 여러이미지ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</label>
-	<hr/>
 	<br/>
-	<div style="margin-left:auto; margin-right:auto;">본 상품은 '${vo2.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
+	<br/>
+		<ul class = "top-menu">
+
+		<li><a href = "#tag1">상품상세보기</a></li>
+		<li><a href = "#tag2">교환 및 반품</a></li>
+		<li><a href = "#">스타일</a></li>
+		</ul>
+
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	
+	<div  style="margin-left:auto; margin-right:auto; text-align: center;">본 상품은 '${vo2.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
 	</div>
+	<a name = "tag1"></a>
 	<div style="margin: 100px;">
 	<ul>
 		<li>
@@ -184,33 +217,73 @@
 	</div>
 	<br/>
 
-	
+	<a name = "tag2"></a>
 	<h3>판매자 정보</h3>
 	<br/>
 	<table class="brand_member" border="1" >
 		<tr>
 			<th>상호명</th>
-			<td>${vo2.b_name }</td>
+			<td>&nbsp; ${vo2.b_name }</td>
 		</tr>
 		<tr>
 			<th>사업자 등록번호</th>
-			<td>${vo2.b_bnum }</td>
+			<td>&nbsp; ${vo2.b_bnum }</td>
 		</tr>
 		<tr>
 			<th>대표자</th>
-			<td>${vo2.b_boss }</td>
+			<td>&nbsp; ${vo2.b_boss }</td>
 		</tr>
 		<tr>
 			<th>사업장 소재지</th>
-			<td>${vo2.b_badress }</td>
+			<td>&nbsp; ${vo2.b_badress }</td>
 		</tr>
 		<tr>
 			<th>고객센터</th>
-			<td>${vo2.b_managernum }</td>
+			<td>&nbsp; ${vo2.b_managernum }</td>
 		</tr>
 		
 	</table>
+	<br/>
+	<br/>
 	
+		<h3>교환 및 반품 안내</h3>
+	<br/>
+	<table class="brand_member" border="1" >
+		<tr>
+			<th>교환/반품 접수 방법 및 기간</th>
+			<td>
+				&nbsp; • 구매자 단순 변심으로 인한 교환/반품 가능 기간은 상품 수령일로부터 7일 이내이며 배송비는 구매자가 부담합니다.<br/>
+				&nbsp; • 상품이 표시/광고내용과 다르거나 제품의 하자의 경우 상품 수령일로부터 3개월 이내, 또는 사실을 알게된 날 (알 수 있었던 날)부터 30일 이내&nbsp; &nbsp; &nbsp; 에  신청 가능하며 배송비는 판매자가 부담합니다.<br/>
+				&nbsp; • 교환/반품 시 먼저 판매자와 사유, 택배사, 배송비, 반품 주소 등을 협의하신 후 반품 상품을 발송해주세요.<br/>
+				&nbsp; • 동일 상품 내 추가 금액이 없는 옵션만 교환 가능합니다.<br/>
+				&nbsp; • 출고 이후 교환/반품/환불 요청 시 상품 회수 후 처리됩니다.<br/>
+			</td>
+		</tr>
+		<tr>
+			<th>교환/반품 비용</th>
+			<td>
+				&nbsp; • 반품 배송비: 4,000원<br/>
+				&nbsp; • 교환 배송비: 4,000원<br/>
+				&nbsp; • 최초 배송비가 무료일 경우, 왕복 배송비(반품 배송비+최초 배송비)가 부과됩니다.<br/>
+				&nbsp; • 교환/반품 비용 및 지불 방식은 상품 및 교환/반품 사유에 따라 상이할 수 있으므로 반품/교환 접수 시 최종 내용을 확인하시기 바랍니다.<br/>
+				&nbsp; • 제주/도서산간 지역은 추가 운임이 발생할 수 있습니다.<br/>
+			</td>
+		</tr>
+		<tr>
+			<th>교환/반품 불가 사유</th>
+			<td>
+				&nbsp; • 구매회원의 단순변심으로 인한 교환/반품 요청이 상품 등을 수령한 날로부터 7일을 경과한 경우·구매회원의 귀책사유로 상품이 멸실·훼손된 경&nbsp; &nbsp; &nbsp; 우(다만, 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외함)<br/>
+				&nbsp; • 구매회원의 사용 또는 일부 소비 및 시간이 지나 다시 판매하기 곤란할 정도로 재화 등의 가치가 현저히 감소한 경우<br/>
+				&nbsp; • 복제가 가능한 재화 등의 포장을 훼손한 경우<br/>
+				&nbsp; • 개별적으로 주문제작되는 상품으로 재판매가 불가능한 경우<br/>
+				&nbsp; • 세트 상품 중 일부 상품만 보낸 경우<br/>
+				&nbsp; • 교환/반품 접수 없이 상품을 임의로 반송했을 경우<br/>
+				&nbsp; • 기타 관련 법령이 정하는 청약철회 제한사유에 해당하는 경우<br/>
+			</td>
+		</tr>
+
+		
+	</table>
 	<br/>
 	<br/>
 	
@@ -218,65 +291,65 @@
 
 <script type="text/javascript">
 
-	const body = document.querySelector('body');
-	const modal = document.querySelector('.modal');
-	const btn_size = document.querySelector('.btn_size');
+//	const body = document.querySelector('body');
+//	const modal = document.querySelector('.modal');
+//	const btn_size = document.querySelector('.btn_size');
 	
-	btn_size.addEventListener('click', () => {
-	  modal.classList.toggle('show');
+//	btn_size.addEventListener('click', () => {
+//	  modal.classList.toggle('show');
 	
-	  if (modal.classList.contains('show')) {
-	    body.style.overflow = 'hidden';
-	  }
-	});
+//	  if (modal.classList.contains('show')) {
+//	    body.style.overflow = 'hidden';
+//	  }
+//	});
 	
-	modal.addEventListener('click', (event) => {
-	  if (event.target === modal) {
-	    modal.classList.toggle('show');
+//	modal.addEventListener('click', (event) => {
+//	  if (event.target === modal) {
+//	    modal.classList.toggle('show');
 	
-	    if (!modal.classList.contains('show')) {
-	      body.style.overflow = 'auto';
-	    }
-	  }
-	});
+//	    if (!modal.classList.contains('show')) {
+//	      body.style.overflow = 'auto';
+//	    }
+//	  }
+//	});
 
 
 $(function () {	// 수정페이지로 이동
-	var p_noValue = '${vo.p_no}';
-	
+
 	var operForm = $("#operForm");
 	
-	$("#product_modify").click(function () {
-		location.href="/brandshop/modify?p_no=${vo.p_no}"
-/* 		var str = '<input type="hidden" name="pageNum" value="'+${cri.pageNum }+'">';
-			str += '<input type="hidden" name="amount" value="'+${cri.amount }+'">';
-			str += '<input type="hidden" name="p_no" value="'+${vo.p_no }+'">';
-			operForm.html(str);
-			operForm.submit();
-			/* operForm.attr("action", "/brandshop/modify"); */
-		
-		
-	});
-});
+	var pno = '${vo.p_no}';	
+	var bno = '${vo.b_no}';	
+
+
 	
-	var pno = '${vo.p_no}'	
-			
-	$("#product_cart").click(function () {
-		
+	$("#product_modify").click(function () {
+		location.href="/brandshop/modify?p_no=${vo.p_no}&b_no=${vo.b_no}"
+
+	});
+
+
+	$("#product_cart").click(function (e) {
+		e.preventDefault();
+		//var formData = $("#form1").serialize();
+		console.log("gggggggggggggggggggggggggg");
 		$.ajax({
-			url : "/brandcart/addCart",
-			type : 'Post'
-			data : {pno},
-			success : function () {
+			url : "/brandCart/addCart",	
+			type : "POST",	// post or get
+			//datetype :'form',	// form이 아닐 경우에만 json
+			data : {p_no:pno, b_no:bno}, // 가지고 갈 값 적기 // 컬럼명 값
+			dataType : 'json',
+			success : function (result) {
 				alert("카트담기 성공")
 			},
 			error : function () {
 				alert("카트 담기 실패")
 			}
 					
-			})
+			});
 			
-		})
+		});
+});
 		
 		
 

@@ -22,47 +22,43 @@
 			<span>${board.codi_date } </span>
 		</div>
 		<div class="form_section">
-    			<div class="form_section_title">
-    				<span>상품 이미지</span>
-    			</div>
-    			<div class="form_section_content">
+   			<div class="form_section_title">
+   				<span>상품 이미지</span>
+   			</div>
+   			<div class="form_section_content">
 				<div id="uploadReslut">
-					
 				</div>
-      			</div>
-      		</div>
-	<!-- 임시 데이터  	
-		<div class="codi_img">
-			<img style="width: 100%; height: 100%;" alt="test-img" src="/resources/img/codi_test.png">
-		</div> -->
+			</div>
+      	</div>
 		
 		<div class="model_info">
-		<div class="codi_model"><span>모델 정보</span></div>
-		<span>${board.codimodel_name }</span>
-		<span>${board.codi_cm } </span>
-		<span>${board.codi_kg } </span>
+			<div class="codi_model">
+				<span>모델 정보</span>
+			</div>
+			<span>${board.codimodel_name }</span>
+			<span>${board.codi_cm } </span>
+			<span>${board.codi_kg } </span>
 		</div>
 		
 		<div class="content">
+		
 			<span>${board.codi_content } </span>
 		</div>
 		
 		<div class="product">
-			<div class="codi_sample"><span>모델 착용 상품</span></div>
-			<span>${board.m_no } </span>
+			<div class="codi_sample">
+				<span>모델 착용 상품</span>
+			</div>
+			<span>${board.m_no }</span>
 		</div>
-	
 		<div class="container social">
 			<div class="keyword_brand">
-				<a href="#" class="brand_keyword">#겨울</a>
-				<a href="#" class="brand_keyword">#adidas</a>
-				<a href="#" class="brand_keyword">#new balance</a>
-				<a href="#" class="brand_keyword">#nerdy</a>
-				<a href="#" class="brand_keyword">#THE NORTH FACE</a>
-				<a href="#" class="brand_keyword">#KOOREAM STANDARD</a>
+				<div id="uploadTag">
+					
+				</div>
 			</div>
 		</div>
-		
+	
 		<div >
 			<input type="button" value="목록" id="List_go">
 			<input type="button" value="수정" id="modify_go">
@@ -109,4 +105,5 @@
 <script type="text/javascript" src="/resources/js/codi/codiReply.js"></script>
 <script type="text/javascript" src="/resources/js/codi/util.js"></script>
 <script type="module" src="/resources/js/codi/get.js"></script>
+
 <jsp:include page="../include/footer.jsp"/>

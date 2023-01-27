@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.BidShopProductMapper">
+	<select id="getList" resultType="com.kooream.domain.ProductVO">
+		select A.* from product A order by p_no desc
+	</select>
+	
+	<insert id="insertProduct" parameterType="com.kooream.domain.ProductVO">
+	<![CDATA[
+        insert into PRODUCT
+        (p_no, b_no, p_name_ko, p_name_en, p_size, p_model_no, p_release_date, p_release_price, p_category, p_class, p_brand)
+        values(product_no_seq.nextval, #{b_no}, #{p_name_ko, jdbcType=VARCHAR}, #{p_name_en, jdbcType=VARCHAR}, #{p_size, jdbcType=VARCHAR}, #{p_model_no, jdbcType=VARCHAR}, #{p_release_date},  #{p_release_price}, #{p_category, jdbcType=VARCHAR}, 'shop', #{p_brand, jdbcType=VARCHAR})
+    ]]>
+    </insert>
+    
+    <select id="read" resultType="com.kooream.domain.ProductVO">
+		<![CDATA[
+			select * from PRODUCT where p_no = #{p_no}
+		]]>
+	</select>
+	
+	<select id="modiread" resultType="com.kooream.domain.ProductVO">
+		select * from PRODUCT where p_no=#{p_no}
+	</select>
+	
+	<update id="modify" parameterType="com.kooream.domain.ProductVO">
+	<![CDATA[
+		update PRODUCT 
+		set
+		p_name_ko=#{p_name_ko},
+		p_name_en=#{p_name_en},
+		p_model_no = #{p_model_no},
+		p_release_price = #{p_release_price}
+		where
+			p_no=#{p_no}
+	]]>
+	</update>
+	
+	<delete id="remove">
+		delete from PRODUCT where p_no=#{p_no}
+	</delete>
+</mapper>
