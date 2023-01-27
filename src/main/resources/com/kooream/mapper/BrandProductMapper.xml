@@ -17,8 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select A.*,B.b_name
 		from product A join brand_member B
 			on A.b_no = B.b_no
+			where b.b_no = #{b_no}
 			order by p_no desc
-	</select>
+	</select>	
+
+	
 	
 	<!-- 상품 상세페이지 이동시 사용하는 mapper -->
 	<select id="read" resultType="com.kooream.domain.ProductVO">
@@ -32,7 +35,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		b_no=#{b_no},
 		p_name_ko=#{p_name_ko},
 		p_name_en=#{p_name_en},
-		p_size=#{p_size}, 
 		p_model_no=#{p_model_no}, 
 		p_release_price=#{p_release_price}, 
 		p_category=#{p_category}

@@ -27,7 +27,7 @@
 
 </head>
 <body>
-	<h1>상품 수정 / 삭제 + 수정할때 사이즈 꼭 선택해주고 수정하기,,,</h1><br/>
+	<h1>상품 수정</h1><br/>
 	<div class="container">
 		<form action="/brandshop/modify" method="post" id="operForm">
 			<table class = "modify">
@@ -52,7 +52,7 @@
 				<td>상품명_영문</td>
 				<td><input type="text" name="p_name_en" value="${vo.p_name_en}"></td>
 			</tr>
-			<tr>		
+		<!-- 	<tr>		
 				<td>상품분류</td>
 				<td class="form-inline">
 						<select id="Category1">
@@ -84,7 +84,7 @@
 							</select> 
 
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>모델번호</td>
 				<td><input type="text" name="p_model_no" value="${vo.p_model_no}"></td>
@@ -116,12 +116,13 @@
 			<tr>
 				<td class="register_button">
 					<button type="submit" data-oper="modify">수정완료</button>
-					<button data-oper="reset">취소</button>
+					<button data-oper="back">취소</button>
 					<button type ="submit" data-oper="list">목록으로</button>
 					<button type="submit" data-oper="remove">삭제</button>
-					<input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
-					<input type="hidden" name="amount" value="${cri.amount}"/> 
+					<%-- <input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
+					<input type="hidden" name="amount" value="${cri.amount}"/>  --%>
 					<input type="hidden" name="p_no" value="${vo.p_no }"/>
+					<input type="hidden" name="b_no" value="${vo.b_no }"/>
 				</td>
 			</tr>		
 	</table>
@@ -133,7 +134,7 @@
 		
 // 사이즈 선택-----------------------------------------------------------------
 
-	$('#Category1').change(function () {
+	/* $('#Category1').change(function () {
 		var result =$('#Category1 option:selected').val();
 		if(result == 'top'){
 			$('.T_Category').show();
@@ -162,11 +163,12 @@
 			$('.S_Category').hide();	
 		};
 	});//사이즈 선택 끝-----------------------------------------------------------	
-
+ */
 
 	$(function(){
 		var operForm = $("#operForm");
 		var p_noValue = '${vo.p_no}';
+		var bno = '${vo.b_no}';
 		$("button").on("click", function(e){
 			e.preventDefault();
 			
@@ -175,16 +177,20 @@
 			if(operation == 'remove'){
 				operForm.attr("action", "/brandshop/remove");
 			}else if(operation == 'list'){
-				operForm.attr("action", "/brandshop/view");
+				operForm.attr("action", "/brandshop/view?b_no=" + bno);
 				operForm.attr("method", "get");
+			}else(operation == 'back'){
+				history.go(-1);
 				
-				var pageNumTag = $("input[name=pageNum]").clone();
-				var amountTag = $("input[name=amount]").clone();
+			}
+				
+				//var pageNumTag = $("input[name=pageNum]").clone();
+				//var amountTag = $("input[name=amount]").clone();
 				
 				operForm.empty();	// 내부 비워주기	
 				
-				operForm.append(pageNumTag);
-				operForm.append(amountTag);
+				//operForm.append(pageNumTag);
+				//operForm.append(amountTag);
 			}
 			
 			operForm.submit();
