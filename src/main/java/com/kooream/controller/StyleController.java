@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class StyleController {
 	private StyleService service;
-
+	
 	@GetMapping("/list")
 	public String list() {
 		return "/style/list";
@@ -56,6 +57,14 @@ public class StyleController {
 //		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 //	}
 	
+	@GetMapping(value = "/{style_no}",
+				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<StyleVO> get(@PathVariable("style_no") long style_no) {
+		StyleVO style = service.get(style_no);
+		
+		return new ResponseEntity<StyleVO>(style, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/detail")
 	public String detail(@RequestParam String category, @RequestParam long style_no, Model model) {
 		model.addAttribute("category", category);
@@ -65,10 +74,11 @@ public class StyleController {
 	
 	@GetMapping(value = {"/detail_list/{category}/{style_no}",
 						 "/detail_list/tag/{category}/{style_no}"},
-				 produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<List<StyleVO>> detailList(@PathVariable("category") String category, @PathVariable("style_no") long style_no) {
+				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<StyleVO>> detailList(@PathVariable("category") String category, @PathVariable("style_no") long style_no,
+			@RequestBody Criteria cri) {
 		
-		return new ResponseEntity<List<StyleVO>>(service.getList(new Criteria(1, 3)), HttpStatus.OK);
+		return new ResponseEntity<List<StyleVO>>(service.getList(new Criteria(1, cri.getPageNum()*cri.getAmount())), HttpStatus.OK);
 	}
 	
 	@GetMapping("/register")
@@ -93,12 +103,12 @@ public class StyleController {
 	@PostMapping("/update")
 	public String update(StyleVO vo, RedirectAttributes rttr) {
 		log.info("register....." + vo);
-		service.register(vo);
-		
+		service.update(vo);
 		return "redirect:/style/list";
 	}
 	
 	@GetMapping("/remove")
+	@Transactional
 	public String delete(@RequestParam("style_no") long style_no, RedirectAttributes rttr) {
 		log.info("remove....." + style_no);
 		

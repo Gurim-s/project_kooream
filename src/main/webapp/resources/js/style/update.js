@@ -1,58 +1,100 @@
-/**
- * update 페이지 
- */
-import {imgFileUploader} from '../common/img-file-uploader.js';
 import {imgSlider} from '../common/img-slider.js';
+import {styleService} from '../service/style-service.js';
+import {imgService} from '../service/image-service.js';
 
+const slider = imgSlider();
+const style = await getStyle();
 (function() {
-	var uploader = imgFileUploader;
-	var slider = imgSlider();
-	document.querySelector('.uploader-container')
-		.append(uploader.container);
+	slider.setOption({
+		ratio: style.ratio != 0? style.ratio: 1,
+		ratioFix: true,
+	});
 	document.querySelector('.img-slider-container')
-		.append(slider.container);
+	.append(slider.container);
+	slider.addImgTagList(getUploadedImgElList());
 	
-	document.querySelectorAll('a.next-step, a.prev-step')
-		.forEach(x => x.addEventListener('click', (e) => {
-			e.preventDefault();
-			const register = e.target.closest('#register-list');	
-			const steps = ['first-step', 'second-step', 'third-step'];
-			const newStep = e.target.className == 'next-step'
-						? steps.indexOf(register.className)+1 
-						: steps.indexOf(register.className)-1;
-			
-			register.className = steps[newStep];
-	}));
+	document.querySelector('[name="style_content"]')
+	.value = style.style_content;
 	
-//	document.querySelector('button[type="submit"]')
-//	.addEventListener('click', async (e) => {
-//		e.preventDefault();
-//		var form = e.target.closest('form');
-//		
-//		// 이미지 파일 비동기 업로드하고, 업로드 정보를 받아온다.
-//		var result = await imgFileUploader.uploadImageAjax('/uploadStyleImage');
-//		form.innerHTML += result;
-//		form.submit();
-//	});
+	//************************** */
+	//addEventListener
+	//************************** */
+	document.querySelectorAll('a.next-btn:not(#submit), a.prev-btn')
+	.forEach(x => x.addEventListener('click', changeStep));
+	
+	document.querySelector('a#submit')
+	.addEventListener('click', regist);
+	
+	document.querySelector('[name="style_content"]')
+	.addEventListener('input', countText);
 })();
 
-function validation() {
-	
-	return true;
+async function getStyle() {
+	const searchParams = new URLSearchParams(location.search);
+	const style_no = Array.from(searchParams)[0][1];
+	 
+	return styleService.getOne(style_no); 
 }
 
+function getUploadedImgElList() {
+	const imgList = style.style_image;
+	const imgEl = imgList.map(imgService.getImageEl);
+	
+	return imgEl;
+}
 
-//	$('.editable').each(function(_, textDiv){
-//		if ($(textDiv).prop('tagName') == 'div') return;
-//		
-//		var html = $('textarea[name="style_content"]');
-//		var text = $('textarea[name="style_text_content"]');
-//		$(textDiv).on('input', function({target, data}) {
-//			console.log(data);
-//			if (data == '#') alert('#을 누르셨습니다.');
-//			$(html).val(target.innerHTML);
-//			$(text).val(target.innerText);
-//		});
-//	    this.contentEditable = true;
-//	});
+function countText(e) {
+	const btn = document.querySelector('a.next-btn#submit');
+	const text = e.target.value;
+	
+	text.length == 0? btn.className = 'next-btn not-yet'
+				  	: btn.className = 'next-btn';
+			
+	if(text.length >= 100) {
+		alert('글내용은 100자까지만 입력가능합니다.');
+		const cutText = text.substring(0, 100);
+		e.target.value = cutText;
+	}
+}
 
+function changeStep(e) {
+	e.preventDefault();
+	if (e.target.classList[1] == 'not-yet') return;
+	
+	const register = e.target.closest('#register-list');
+	const steps = ['first', 'second'];
+	const newStep = e.target.classList[0] == 'next-btn'
+					? steps.indexOf(register.className)+1 
+					: steps.indexOf(register.className)-1;
+					
+	register.className = steps[newStep];
+}
+
+async function regist(e) {
+	e.preventDefault();
+	const text = document.querySelector('[name="style_content"]').value;
+	if (text.length == 0
+		&& alert('글 내용을 입력해주세요.')) return;
+	if (text.length >= 100
+		&& alert('글 내용은 100자 까지 입니다..')) return;
+	
+	const form = e.target.closest('form');
+	const hashTagList = extractHashTag(text);
+	const div = document.createElement('div');
+	div.innerHTML += hashTagList;
+	div.innerHTML += '<input type="hidden" name="style_no" value="'+style.style_no+'">';
+	form.append(div);
+	form.submit();
+}
+
+function extractHashTag(text) {
+	const type = /#[^\s^#]+/g;
+	const strToInput = (str, i) =>
+		'<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
+	
+	const list = text.match(type)
+	.map(x => x.substring(1))
+	.map(strToInput)
+	.reduce((str, x) => str + x, '');
+	return list; 
+}

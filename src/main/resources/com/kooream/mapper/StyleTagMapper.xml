@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from style_tag
 		where style_no=#{style_no}
 	</select>
-	<select id="getCountTags">
+	<select id="getCountTags" resultType="int">
 		select count(*)
 		from style_tag
 		where style_no=#{style_no}
@@ -21,5 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteByStyleNo">
 		delete from style_tag
 		where style_no = #{style_no}
+	</delete>
+	<delete id="delete">
+		delete from style_tag
+		where style_no = #{style_no} and tag_no = #{tag_no}
 	</delete>
 </mapper>

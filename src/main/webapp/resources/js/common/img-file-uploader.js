@@ -99,6 +99,10 @@ var imgFileUploader = (function() {
 	
 	function setRatio(ratio) {
 		slider.setRatio(ratio);
+		slider.empty();
+		emptyPreview();
+		Array.from(dataTransfer.files)
+		.forEach(pushPreview);
 	}
 	
 	function addTempFile(target) {
@@ -143,6 +147,12 @@ var imgFileUploader = (function() {
 		previewList.querySelector('ul').append(li);
 		
 		slider.add(src);
+	}
+	
+	function emptyPreview() {
+		slider.empty();
+		previewList.querySelectorAll('li:not(:first-child)')
+		.forEach(x => x.remove());
 	}
 	
 	function selectPreview() {

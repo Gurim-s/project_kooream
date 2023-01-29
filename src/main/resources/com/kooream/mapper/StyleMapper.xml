@@ -6,9 +6,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.StyleMapper">
 	<select id="getList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, mno, style_regdate, style_content, count_like, count_reply
+			select style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
 			from (select /*+index_desc(style style_pk) */
-            	  rownum rn, style_no, mno, style_regdate, style_content, count_like, count_reply
+            	  rownum rn, style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
 			      from style
         		  where rownum <= #{pageNum} * #{amount})
 			where rn > (#{pageNum} - 1) * #{amount}
@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where style_no = #{style_no}
 	</select>
 	
-	<select id="getCommentCount" resultType="int">
+	<select id="getCountReply" resultType="int">
 		select count_reply
 		from style
 		where style_no = #{style_no}
@@ -47,9 +47,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{ratio})
 	</insert>
 	
+	<update id="update">
+		update style
+		set style_content = #{style_content}
+		where style_no = #{style_no}
+	</update>
+	
 	<update id="updateCountReply">
 		update style
 		set count_reply = count_reply + #{amount}
 		where style_no = #{style_no}
 	</update>
+	
+	<delete id="delete">
+		delete from style
+		where style_no = #{style_no}
+	</delete>
+	
 </mapper>

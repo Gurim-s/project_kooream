@@ -10,4 +10,5 @@ public interface StyleTagMapper {
 	public List<Long> getStyleNoList(String hashtag);
 	public int getCountTags(long style_no);
 	public void deleteByStyleNo(long style_no);
+	public void delete(StyleTagVO vo);
 }

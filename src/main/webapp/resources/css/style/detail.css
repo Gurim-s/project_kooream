@@ -54,8 +54,9 @@
 .item .item-header-right .update-btn{
 	float: left;
 	height: 30px;
-	width: 100px;
+	width: 70px;
 	background-color: black;
+	font-size: 12px;
 	font-weight: bold;
 	color: white;
 	border-radius: 13px;

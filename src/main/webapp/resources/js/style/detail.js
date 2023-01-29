@@ -6,11 +6,14 @@ import {replyViewer} from '../common/reply-viewer.js';
 
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
-	const [category, style_no] = Array.from(searchParams).map(x => x[1]);
+	const [category, style_no] = Array.from(searchParams).map(x  => x[1]);
 	const column = document.querySelector('.list-column');
 	
-	let styleList = await styleService.get(category, style_no);
-	styleList.forEach(x => column.append(template(x)));
+//	let styleList = await styleService.get(category, style_no);
+//	styleList.forEach(x => column.append(template(x)));
+	const style = await styleService.getOne(style_no);
+	console.log(style);
+	column.append(template(style));
 })();
 
 //style목록 template
@@ -32,6 +35,7 @@ var template = function(style) {
 			'<div class="item-header-right">' +
 				'<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>' +
 				'<a href="#" class="update-btn">수정</a>' +
+				'<a href="#" class="remove-btn">삭제</a>' +
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
@@ -48,7 +52,7 @@ var template = function(style) {
 			'</a>' +
 			'<div class="clearfix"></div>' +
 		'</div>' + 
-		'<div class="content">'+ style.style_content +'</div>' +
+		'<div class="content">'+ strToHashTag(style.style_content) +'</div>' +
 		'<div class="reply-container">'+
 		'</div>'
 	);
@@ -80,11 +84,13 @@ var template = function(style) {
 		e.preventDefault();
 		const style_no = e.target.closest('.item').dataset.styleNo;
 		const m = modal();
-		m.open({title: '댓글 목록', type: 'right'});
+		m.open({title: '댓글', type: 'right'});
 		
 		const replyTemplate = replyViewer(style_no);
 		replyTemplate.setOption({input: true, nestedReply: true});
 		const replyList = await replyTemplate.get();
+		const updateTarget = e.target.querySelector('span');
+		
 		m.append(replyList);
 	});
 	
@@ -95,5 +101,19 @@ var template = function(style) {
 		location.href = '/style/update?style_no=' + style.style_no;
 	});
 	
+	template.querySelector('.remove-btn')
+	.addEventListener('click', (e) => {
+		e.preventDefault();
+		
+		location.href = '/style/remove?style_no=' + style.style_no;
+	});
+	
 	return template;
+}
+
+function strToHashTag(text) {
+	const type = /#[^\s^#]+/g;
+	const strToA = str => '<a href="#" style="color:#3022ff;">'+str+'</a>';
+	
+	return text.replace(type, strToA);
 }

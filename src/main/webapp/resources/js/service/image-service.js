@@ -14,8 +14,8 @@ var imgService = (function() {
 	function getImageEl(imageVO) {
 		const img = document.createElement('img');
 		img.src = originPath(imageVO);
-		img.dataset.offsetX = imageVO.offsetX;
-		img.dataset.offsetY = imageVO.offsetY; 
+		img.dataset.offsetX = imageVO.offsetX? imageVO.offsetX : 0;
+		img.dataset.offsetY = imageVO.offsetY? imageVO.offsetY : 0; 
 		return img;
 	}
 	
@@ -30,6 +30,7 @@ var imgService = (function() {
 	
 	return {
 		originPath: originPath,
+//		getImageFile: getImageFile,
 		uploadImageAjax: uploadImageAjax,
 		getImageEl: getImageEl,
 	}

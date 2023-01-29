@@ -125,8 +125,8 @@ var imgSlider = (customOption) => (function(customOption) {
 			if (img.offsetLeft < li.clientWidth - img.width) img.style.left = (li.clientWidth - img.width) + 'px';
 			if (img.offsetTop > 0) img.style.top = '0px';
 			if (img.offsetTop < li.clientHeight - img.height) img.style.top = (li.clientHeight - img.height) + 'px';
-			img.dataset.offsetX = img.style.left;
-			img.dataset.offsetY = img.style.top;
+			img.dataset.offsetX = (100 * img.style.left.slice(0, -2) / img.width) + '%';
+			img.dataset.offsetY = (100 * img.style.top.slice(0, -2) / img.height) + '%';
 		}
 	}
 	
@@ -155,7 +155,7 @@ var imgSlider = (customOption) => (function(customOption) {
 	function addList(imgSrcList) { 
 		if(imgSrcList.length == 0) return;
 		
-		var imgTagList = Array.from(imgSrcList)
+		const imgTagList = Array.from(imgSrcList)
 		.reduce((str, imgSrc) => {
 			addIdx();
 			return str + '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>'
@@ -192,11 +192,15 @@ var imgSlider = (customOption) => (function(customOption) {
 		ul.children[idx].remove();
 		slideImg(idx == 0 ? 0 : idx - 1);
 		removeIdx(idx);
+		refreshIndicator();
 	}
 	
 	function empty() {
 		ul.innerHTML = '';
+		idxContainer.innerHTML = '';
+		idx = 0;
 	}
+	
 	function addIdx() {
 		var li = document.createElement('li');
 		container.querySelector('.idx-container').append(li);
@@ -207,7 +211,7 @@ var imgSlider = (customOption) => (function(customOption) {
 	}
 	
 	function slideImg(v) {
-		var idxLiAll = Array.from(idxContainer.children);
+		const idxLiAll = Array.from(idxContainer.children);
 		idxLiAll[idx].style.backgroundColor = 'lightgray';
 			
 		if (v == 'next') {
@@ -220,7 +224,13 @@ var imgSlider = (customOption) => (function(customOption) {
 		
 		ul.style.left = (-1 * idx * 100) + '%';
 		idxLiAll[idx].style.backgroundColor = 'black';
-		idxIndicator.innerHTML = (idx+1) + '/' + idxLiAll.length;
+		refreshIndicator();
+	}
+	function refreshIndicator() {
+		const idxLiAll = Array.from(idxContainer.children);
+		idxIndicator.innerHTML = idxLiAll.length == 0
+			? ''
+			: (idx+1) + '/' + idxLiAll.length;
 	}
 	
 	function offsetX(idx) {
@@ -295,7 +305,6 @@ var imgSlider = (customOption) => (function(customOption) {
 					liImg.style.height = '100%';
 				}
 			}
-			if (option.editMode == false) return;
 		});
 		
 		//버튼 스타일

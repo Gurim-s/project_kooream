@@ -76,7 +76,9 @@ function changeStep(e) {
 	const steps = ['first', 'second', 'third'];
 	if (register.className == 'first') {
 		const imgTagList = uploader.slider.getImgTagList();
+		const ratio = document.querySelector('input[name="ratio"]').value;
 		slider.empty();
+		slider.setRatio(ratio);
 		slider.addImgTagList(imgTagList);
 	}
 	
@@ -122,7 +124,8 @@ async function regist(e) {
 
 function extractHashTag(text) {
 	const type = /#[^\s^#]+/g;
-	const strToInput = (str, i) => '<input type="hidden" name="hashtags['+i+']" value="'+str+'">'
+	const strToInput = (str, i) =>
+		'<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
 	
 	const list = text.match(type)
 	.map(x => x.substring(1))
