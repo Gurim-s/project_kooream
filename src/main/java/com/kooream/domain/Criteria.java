@@ -13,7 +13,7 @@ public class Criteria {
 	private int pageNum, amount;
 	
 	
-	
+
 
 	
 	@Override

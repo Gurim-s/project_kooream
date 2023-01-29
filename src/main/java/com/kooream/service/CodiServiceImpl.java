@@ -10,6 +10,7 @@ import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.SearchCriteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
 import com.kooream.mapper.Codi_TagMapper;
@@ -39,7 +40,7 @@ public class CodiServiceImpl implements CodiService{
 	}
 	
 	@Override
-	public List<CodiVO> getList(Criteria cri) {
+	public List<CodiVO> getList(SearchCriteria cri) {
 		List<CodiVO> list = mapper.getList(cri);				// 게시글 목록
 		log.info("getList.....");
 		for(CodiVO codivo : list) {								// 게시글 목록 순환
@@ -55,7 +56,7 @@ public class CodiServiceImpl implements CodiService{
 	}
 	
 	@Override
-	public int getTotal(Criteria cri) {
+	public int getTotal(SearchCriteria cri) {
 		
 		log.info("getTotal	.............................");
 		

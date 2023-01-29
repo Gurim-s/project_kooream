@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.SearchCriteria;
 
 public interface CodiMapper {
 	
@@ -30,9 +31,9 @@ public interface CodiMapper {
 	public int getcodi_no();
 	
 	// 상품 검색
-	public List<CodiVO> getList(Criteria cri);
+	public List<CodiVO> getList(SearchCriteria cri);
 	
 	//게시판 총 갯수
-	public int getTotal(Criteria cri);
+	public int getTotal(SearchCriteria cri);
 	
 }
