@@ -9,20 +9,20 @@
 	</div>
 	<div class="form-wrapper">
 		<form action="/style/register" method="post">
-			<ul id="register-list" class="first-step">
+			<ul id="register-list" class="first">
 				<li id="selectImg">
 					<div class="btn-container">
-						<a href="#" class="next-step not-yet">다음</a>
+						<a href="#" class="next-btn not-yet">다음</a>
 					</div>
-					<input type="hidden" name="image_ratio" value="1:1">
+					<input type="hidden" name="ratio" value="1">
 					<ul id="selectRatio">
 						<li data-ratio="1" class="selected">
 							<div>1:1</div>
 						</li>
-						<li data-ratio="3/4">
+						<li data-ratio="1.33">
 							<div>3:4</div>
 						</li>
-						<li data-ratio="4/3">
+						<li data-ratio="0.75">
 							<div>4:3</div>
 						</li>
 					</ul>
@@ -30,20 +30,23 @@
 				</li>
 				<li id="selectProduct">
 					<div class="btn-container">
-						<a href="#" class="prev-step">뒤로</a>
-						<a href="#" class="next-step">다음</a>
+						<a href="#" class="prev-btn">뒤로</a>
+						<a href="#" class="next-btn">다음</a>
 					</div>
 					<div class="clearfix"></div>
 					<div class="img-slider-container"></div>
-					<div class="product-tag"></div>
+					<div class="product-tag">
+						
+					</div>
 				</li>
 				<li id="inputContent">
 					<div class="btn-container">
-						<a href="#" class="prev-step">뒤로</a>
-						<a href="#" id="submit">완료</a>
+						<a href="#" class="prev-btn">뒤로</a>
+						<a href="#" id="submit" class="next-btn not-yet">완료</a>
 					</div>
 					<textarea name="style_content" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
-<!-- 				<div class="editable textarea" contenteditable="true"></div> -->
+					<div class="editable" contenteditable="true"></div>
+					<span contenteditable="true"></span>
 					<div class="recommend-tags"></div>
 				</li>
 			</ul>

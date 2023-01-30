@@ -44,18 +44,19 @@
 	float: left;
 }
 .item .item-header-left .user-regdate .user-name {
-	float: left;
 	font-weight: bold;
 }
 .item .item-header-right {
 	float: right;
 }
 .item .item-header-right .follow-btn,
-.item .item-header-right .update-btn{
+.item .item-header-right .update-btn,
+.item .item-header-right .remove-btn{
 	float: left;
 	height: 30px;
-	width: 100px;
+	width: 70px;
 	background-color: black;
+	font-size: 12px;
 	font-weight: bold;
 	color: white;
 	border-radius: 13px;

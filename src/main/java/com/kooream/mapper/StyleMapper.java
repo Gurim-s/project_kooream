@@ -15,5 +15,6 @@ public interface StyleMapper {
 	public int updateCountReply(@Param("style_no") long style_no, 
 								@Param("amount") int amount);
 	public long getStyle_no();
+	public void update(StyleVO vo);
 	public long delete(long style_no);
 }
