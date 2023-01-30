@@ -131,7 +131,7 @@
 				<div>${vo.p_name_ko }</div>
 			<br/>
 			<div><span>옵션</span></div>
-			<div class = "modal">
+			<!-- <div class = "modal">
 				<div class="modal_body">사이즈 선택
 					<div>
 						<hr/>
@@ -140,7 +140,7 @@
 					</div>
 				</div>
 			</div>
-			<button class="btn_size">옵션선택</button>
+			<button class="btn_size">옵션선택</button> -->
 			<!-- <span style="font-size: 20px; float: right;">옵션선택</span></a></div> -->
 			<br/>
 			<br/>

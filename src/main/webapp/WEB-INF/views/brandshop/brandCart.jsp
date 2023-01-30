@@ -7,35 +7,54 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.delBtn{
+		float: right;
+	}
+/* 	.p_image{
+		float : left;
+	} */
+	.p_info{
+		float: left;
+	
+	}
+	.remove_button{
+		float: right;
+	}
+
+
+</style>
 </head>
 <body>
-	<h1>장바구니</h1>
-	<ul>
+	<h1>장바구니</h1><br/>
+<!---------------------------------버튼-------------------------------- -->
+<ul>
 	<li>
-  <div class="allCheck">
-   <input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck">모두 선택</label> 
-  </div>
-  
-  <div class="delBtn">
-   <button type="button" class="selectDelete_btn">선택 삭제</button> 
-  </div>
-
- </li>
-   </ul>
-	   <div class="middle_content">
-         <div class="middle_content_inner">
-               <div>
-                        <div class ="brand">
-                        
-						</div>
-               </div>
-         </div>
-      </div>
-      <hr/>
-      <div>
+		<div class="allCheck">
+			<input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck"> 모두 선택</label> 
+		<!-- <div class="delBtn">
+			<button type="button" class="selectDelete_btn">선택 삭제</button> 
+		</div> -->
+		</div>
+		<br/>
+		<hr/>
+	</li>
+</ul>
+<!---------------------------------장바구니 리스트-------------------------------- -->
+	<div class="middle_content">
+		<div class="middle_content_inner">
+			<div>
+				<div class ="brand">
+				</div>
+            </div>
+		</div>
+	</div>
+<!---------------------------------장바구니 리스트 끝-------------------------------- -->
+	<hr/>
+	<div>
       	합계
-      </div>
-      <br/>
+	</div>
+    <br/>
 	
 <script type="text/javascript">
 
@@ -71,17 +90,19 @@ $(function(){	// list()함수 실행하기위한
 						var fileName = json[i].attachList[0].fileName;
 						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
 						
-						str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';	// 이미지
+						str += '<img class = "p_image" style = "width : 200px;" src="/brandfile/display?fileName='+ fileCallPath + '" /><br/>';	// 이미지
 					}//-------- if문 끝
 					
 					/*브랜드명, 영문명, 사이즈, 가격  mapper.xml에서 조인해서 가지고오고, Vo에 이름 만들면 가지고 올수있음 */
-					str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
-					str += '<div style="font-weight: bold; font-size: 15px; ">'+json[i].p_NAME_EN+'</div>';
-					str += '<div style="color: gray; font-size: 15px;">'+json[i].p_size+'</div>';
-					str += '<div style="font-weight: bold; font-size: 15px;" data-price = "'+json[i].p_release_price+'">'+json[i].p_release_price+'원</div>';
+					str += '<div class="p_info" style="font-weight: bold; font-size: 15px;">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div><br/>';
+					str += '<div class="p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_NAME_EN+'</div><br/>';
+					str += '<div class="p_info" style="color: gray; font-size: 15px;">'+json[i].p_size+'</div><br/>';
+					str += '<div class="p_info" style="font-weight: bold; font-size: 15px;" data-price = "'+json[i].p_release_price+'">'+json[i].p_release_price+'원</div><br/>';
 					str += '</a>'
 					str += '</div>'
 					str += '<button class = "remove_button" data-cartno="'+json[i].cart_no+'" >삭제</button>'
+					str += '<br/><br/>'
+					str += '<hr/>'
 					str += '<br/>'
 				}//------------- for 문 끝
 			
@@ -158,7 +179,7 @@ $(function(){	// list()함수 실행하기위한
 		$("#allCheck").prop("checked", false);
 	});
 
-       function itemSum() {		// 합계구하기,,,
+/*         function itemSum() {		// 합계구하기,,,
             var str = "";
             var sum = 0;
             var count = $(".chkbox").length;
@@ -169,7 +190,7 @@ $(function(){	// list()함수 실행하기위한
             }
             $("#total_sum").html(sum + " 원");
             $("#amount").val(sum);
-        } 
+        } */
 	
 	
 	
