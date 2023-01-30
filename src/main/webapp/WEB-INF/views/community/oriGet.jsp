@@ -63,12 +63,12 @@
 	</ul>
 	<div>
 		<span id="head">정품판별</span>
-		<button data-oper="oriList">목록</button><button>수정</button>
+		<button data-oper="oriList">목록</button><button data-oper="oriUpdate">수정</button><button data-oper="oriRemove">삭제</button>
 	</div>
 	<br/>
 	<hr/>
 	<br/>
-	<form action="">
+	<form action="/community/oriUpdate" id="form">
 		<div>
 			<span>${vo.orititle }</span>
 			<span id="oriDate">${vo.oridate }</span>
@@ -100,6 +100,7 @@
 		<div>
 			<span id="oriOk">진품 갯수</span><span id="oriNo">가품 갯수</span>
 		</div>
+		<div><input type="hidden" name="orino" value="${vo.orino }"></div>
 	</form>
 	
 	<!-- 정품판별 댓글 내용 출력 폼 -->
@@ -111,7 +112,9 @@
 	</div>
 	<div class="replyList">
 		<div>
-			<div><span>댓글쓴이</span></div>
+			<div><span>댓글쓴이</span>
+				<button id="replyupdatebtn">수정</button><button id="replyremovebtn">삭제</button>
+			</div>
 			<div><span>작성날짜</span></div>
 		</div>
 		<div>댓글 내용</div>
@@ -142,6 +145,7 @@
 	$(function() {
 		var orinoValue = '${vo.orino}';
 		var m_no = '1';
+		var form = $("#form");
 		
 		// 버튼 클릭 시 해당 작업 수행
 		$("button").click(function(e) {
@@ -150,10 +154,15 @@
 			var oper = $(this).data("oper");
 			if(oper == 'oriList'){
 				location.href='/community/oriList'
+			}else if(oper =='oriUpdate'){
+				form.attr("actiron", "/community/oriUpdate");
+				form.submit();
+			}else if(oper == 'oriRemove'){
+				form.attr("action", "/community/oriRemove");
+				form.submit();
 			}
 		
-			
-		})
+		});
 		
 		// 진품 댓글 갯수 함수 호출
 		countOk();
@@ -342,16 +351,42 @@
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div><strong>'+ result[i].orireplyname +'</strong><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
-								str += '<div>'+ result[i].orireplycon+'</div>'
+								str += '<div><strong>'+ result[i].orireplyname +'</strong>'
+								str += '<button id="replyupdatebtn" data-replyno ="'+result[i].orireplyno+'">수정</button><button id="replyremovebtn" data-replyno ="'+result[i].orireplyno	+'">삭제</button></div>' 
+								str += '<div>'+ result[i].orireplycon+'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
 							}
 							replyList.html(str);
 						}
 					}
 				);
 			
+			// 댓글 삭제
+			$(".replyList").on("click", "#replyremovebtn", function() {
+				orireplyno = $(this).data("replyno");
+				console.log(orireplyno);
+				replyService.remove(orireplyno, function(result) {
+				
+					if(result === 'success'){
+						alert("댓글 삭제 완료")
+						countNo();
+						countOk();
+						showList();
+					}
+				})
+				
+			}); // -------------------------------댓글 삭제 end
+			
+			
+			
+			
+			
+			
 			
 		};
+		
+		
+		
+		
 		
 		
 		

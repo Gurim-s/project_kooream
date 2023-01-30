@@ -25,8 +25,12 @@
 		height: 300px;
 	}
 	button{
-		border: none;
-		background-color: #fff;
+		border-radius: 5px;
+		border: none;	
+		background-color: #BEBEBE;
+		margin-left: 10px;
+		padding: 3px;
+		
 	}
 	#date{
     	float: right;
@@ -42,7 +46,7 @@
     	float: right;
     }
     .replyBtn{
-    	width: 40px;
+    	
     }
     #talkname{
     	width: 300px;
@@ -57,86 +61,54 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div id="main">
-	<div>
-		<span id="head"><strong>구림톡</strong></span>
 		<div>
-			<button class="btn" data-oper="talkupdate">수정</button>
-			<button class="btn" data-oper="talkremove">삭제</button>
-			<button class="btn" data-oper="talklist">목록</button>
-		</div>
-	</div>
-	<br/>
-	<hr/>
-	<br/>
-	<form action="/community/talkUpdate" id="form">
-		<div>
-			<strong id="title">${vo.talktitle }</strong>
-			<span id="date"><small>${vo.talkdate }</small></span>
-		</div>
-		<div><input type="hidden" name="m_no" value=${vo.m_no }></div>
-		<div>${vo.talkname }</div>
-		<div id="talk-con-box">
-			<div id="talk-con">${vo.talkcon }</div>
-		</div>
-		
-		<div>
-			<input type="hidden" name="pageNum" value="${pageNum }">
-			<input type="hidden" name="amount" value="${amount }">
-			<input type="hidden" name="talkno" value="${vo.talkno }">
-		</div>
-	</form>
-	
-	<!-- 댓글 출력 폼 -->
-	<div class="replylist">
-		<div data-replyno ="1"><span><strong>닉네임</strong></span>
-			<button class="replyBtn" id="replyupdatebtn">수정</button>
-			<button class="replyBtn" id="replyupdatebtn">삭제</button>
+			<span id="head"><strong>구림톡</strong></span>
 			<div>
-			<small class="date-view">날짜</small>
+				<button class="btn" data-oper="talkupdate">수정</button>
+				<button class="btn" data-oper="talkremove">삭제</button>
+				<button class="btn" data-oper="talklist">목록</button>
 			</div>
 		</div>
-		<div>내용</div>
-	</div>
-	
-	
-	
-	<!-- <table class="replylist">
-		<tr>
-			<td>닉네임</td>
-			<td data-replyno ="1">댓글번호</td>
-			<td><button class="replyBtn" id="replyupdatebtn">수정</button></td>
-			<td><button class="replyBtn" id="replyupdatebtn">삭제</button></td>
-			<td>작성날짜</td>
-		</tr>
-		<tr>
-			<td>댓글 내용</td>
-		</tr>
-	</table> -->
-	
-	
-	<!-- 댓글 입력 폼 -->
-	<div>
-		<div><input type="text" name="replyname" id="replyname"></div>
-		<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none";></textarea></div>
-		<div><button id="addReplyBtn">등록</button></div>
-	</div>
-	
-	
-	
-	
-	
-	<!-- <table>
-		<tr>
-			<td>닉네임 : <input type="text" name="replyname" id="replyname"></td>
-			<td>회원 번호 : <input type="text" name="m_no" id="m_no"></td>
-		</tr>
-		<tr>
-			<td>
-				<textarea rows="5" cols="50" name="replycon" id="replycon"></textarea>
-			</td>
-			<td><button id="addReplyBtn">등록</button></td>
-		</tr>
-	</table> -->
+		<br/>
+		<hr/>
+		<br/>
+		<form action="/community/talkUpdate" id="form">
+			<div>
+				<strong id="title">${vo.talktitle }</strong>
+				<span id="date"><small>${vo.talkdate }</small></span>
+			</div>
+			<div><input type="hidden" name="m_no" value=${vo.m_no }></div>
+			<div>${vo.talkname }</div>
+			<div id="talk-con-box">
+				<div id="talk-con">${vo.talkcon }</div>
+			</div>
+			
+			<div>
+				<input type="hidden" name="pageNum" value="${pageNum }">
+				<input type="hidden" name="amount" value="${amount }">
+				<input type="hidden" name="talkno" value="${vo.talkno }">
+			</div>
+		</form>
+		
+		<!-- 댓글 출력 폼 -->
+		<div class="replylist">
+			<div data-replyno ="1"><span><strong>닉네임</strong></span>
+				<button class="replyBtn" id="replyupdatebtn">수정</button>
+				<button class="replyBtn" id="replyremovebtn">삭제</button>
+				<div>
+				<small class="date-view">날짜</small>
+				</div>
+			</div>
+			<div>내용</div>
+		</div>
+		
+		
+		<!-- 댓글 입력 폼 -->
+		<div>
+			<div><input type="text" name="replyname" id="replyname"></div>
+			<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none";></textarea></div>
+			<div><button id="addReplyBtn">등록</button></div>
+		</div>
 	</div>
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
@@ -245,7 +217,7 @@
 						for(var i=0; i<result.length; i++){
 							str += '<div data-replyno ="1"><span><strong>'+ result[i].talkreplyname +'</strong></span>'
 							str += '<button class="replyBtn" id="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
-							str += '<button class="replyBtn" id="replyupdatebtn" data-replyno ="'+result[i].talkreplyno	+'">삭제</button>'
+							str += '<button class="replyBtn" id="replyremovebtn" data-replyno ="'+result[i].talkreplyno	+'">삭제</button>'
 							str += '<div>'
 							str += '<small class="date-view">'+displayTime(result[i].talkreplydate)+'</small>'
 							str += '</div>'
@@ -255,23 +227,6 @@
 							
 						}
 						replylist.html(str);
-						
-						
-						
-						
-						/* for(var i=0; i<result.length; i++){
-							str += '<tr>';
-							str += '<td><strong>'+ result[i].talkreplyname +'</strong></td>';
-							str += '<td>'+result[i].talkreplyno+'</td>';
-							str += '<td><button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno	+ '">수정</button></td>';
-							str += '<td><button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno	+ '">삭제</button></td>';
-							str += '<td><small>'+displayTime(result[i].talkreplydate)+'</small></td>';
-							str += '</tr>';
-							str += '<tr>';
-							str += '<td class="reply-con">'+ result[i].talkreplycon +'</td>';
-							str += '</tr>';
-						}
-						replylist.html(str); */
 						
 						
 						var talkreplyno;
@@ -292,7 +247,7 @@
 							
 						
 						// 댓글 수정
-						$('.replyupdatebtn').on('click', function(e) {
+						$('#replyupdatebtn').on('click', function(e) {
 							var talkreplyno = $(e.target).data("replyno");
 							var test = $(e.target).closest('div');
 							var test2 = $(test).next('div').remove();
@@ -300,8 +255,6 @@
 							var str = '';
 							replyService.get(talkreplyno, function(result){
 								console.log(result);
-								
-								
 								
 								str += '<div data-replyno ="1"><span><strong>'+ result.talkreplyname +'</strong></span>'
 								str += '<button class="replyBtn" id="replyupdate-ok" data-replybtn ="'+result.talkreplyno+ '">수정 완료</button>'
@@ -313,17 +266,6 @@
 								str += '<div><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+ result.talkreplycon +'</textarea></div>'
 								str += '<br/>'
 								
-							
-								/* str += '<tr>';
-								str += '<td>'+result.talkreplyname +'</td>';
-								str += '<td>'+result.talkreplyno+'</td>';
-								str += '<td><button class="replyBtn" id="replyupdate-ok" data-replybtn ="'+result.talkreplyno	+ '">수정 완료</button></td>';
-								str += '<td><button class="replyBtn" id="replyreset" data-replybtn ="'+result.talkreplyno	+ '">취소</button></td>';
-								str += '<td>'+displayTime(result.talkreplydate)+'</td>';
-								str += '</tr>';
-								str += '<tr>';
-								str += '<td><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+result.talkreplycon +'</textarea></td>';
-								str += '</tr>'; */
 							
 								test.html(str);
 								

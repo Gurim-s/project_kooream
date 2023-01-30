@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.OriginalAttachVO;
@@ -98,4 +99,25 @@ public class OriginalController {
 		System.out.println("============" + vo.getAttachList());
 		return "/community/oriGet";
 	}
+	
+	// 정품판별 게시글 수정 (화면이동)
+	@GetMapping("/oriUpdate")
+	public String oriUpdate(int orino, Model model) {
+		log.info("original update page............" + orino);
+		return "/community/oriUpdate";
+	}
+	
+	// 정품판별 게시글 삭제
+	@GetMapping("/oriRemove")
+	public String oriRemove(int orino, RedirectAttributes rttr) {
+		log.info("original remove........" + orino);
+		
+		if(service.oriRemove(orino)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		return "redirect:/community/oriList";
+		
+	}
+	
 }

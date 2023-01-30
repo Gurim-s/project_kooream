@@ -17,4 +17,7 @@ public interface OriginalMapper {
 	
 	// 정품판별 게시글 조회
 	public OriginalVO oriGet (int orino);
+	
+	// 정품판별 게시글 삭제
+	public int oriRemove (int orino);
 }

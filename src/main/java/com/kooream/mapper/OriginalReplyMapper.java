@@ -24,5 +24,7 @@ public interface OriginalReplyMapper {
 	// 가품 댓글 셀렉트
 	public List<OriginalReplyVO> chNo(int orino);
 	
+	// 댓글 삭제
+	public int delete(int orireplyno);
 	
 }

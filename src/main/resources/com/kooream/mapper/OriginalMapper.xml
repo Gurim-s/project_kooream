@@ -21,6 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM original_pro WHERE orino = #{orino}
 	</select>
 	
+	<delete id="oriRemove">
+		DELETE FROM original_pro WHERE orino = #{orino}
+	</delete>
 	
 	
 </mapper>

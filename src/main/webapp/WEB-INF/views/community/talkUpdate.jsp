@@ -30,7 +30,24 @@
 	<hr/>
 	<br/>
 	<form action="/community/talkUpdate" method="post" id="form">
-		<table>
+		
+		<div>제목<input type="text" name="talktitle" value="${vo.talktitle }"></div>
+		<div><input type="hidden" name="talkname" value="${vo.talkname }">${vo.talkname }</div>
+		<div><textarea rows="15" cols="150%" name="talkcon" style="resize: none";>${vo.talkcon }</textarea></div>
+		<div>
+			<input type="hidden" name="talkno" value="${vo.talkno }">
+			<button class="btn-insert" data-oper="talkupdate">수정 완료</button>
+			<button class="btn-list" data-oper="talklist">목록</button>
+		</div>
+		<div>
+			<input type="hidden" name="pageNum" value="${cri.pageNum }">
+			<input type="hidden" name="amount" value="${cri.amount }">
+		</div>
+	
+	
+	
+	
+		<%-- <table>
 			<tr>
 				<td>제목</td>
 				<td><input type="text" name="talktitle" value="${vo.talktitle }"></td>
@@ -53,7 +70,7 @@
 				<td><input type="hidden" name="pageNum" value="${cri.pageNum }"></td>
 				<td><input type="hidden" name="amount" value="${cri.amount }"></td>
 			</tr>
-		</table>
+		</table> --%>
 	</form>
 </body>
 <script type="text/javascript">
