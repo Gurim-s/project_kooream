@@ -29,40 +29,40 @@
 	<br/>
 	<br/>
 	<div class="Main_image">
-		<a href="/brandshop/view"><img class = "m_image" id = "51" src="../resources/img/LE17SEPTEMBRE_51.jpg"/></a>	
+		<a href="/brandshop/view?b_no=51"><img class = "m_image" id = "51" src="../resources/img/LE17SEPTEMBRE_51.jpg"/></a>	
 	</div>
 	<br/>
 	<br/>
 		<div class="Main_image">
-		<a href="/brandshop/view"><img class = "m_image" id = "52" src="../resources/img/Polar Skate Co._52.jpg" /></a>	
+		<a href="/brandshop/view?b_no=52"><img class = "m_image" id = "52" src="../resources/img/Polar Skate Co._52.jpg" /></a>	
 	</div>
 	<br/>
 	<br/>
 		<div class="Main_image">
-		<a href="/brandshop/view"><img class = "m_image" id = "53" src="../resources/img/Punch Drunk Parties_53.png"/></a>	
+		<a href="/brandshop/view?b_no=53"><img class = "m_image" id = "53" src="../resources/img/Punch Drunk Parties_53.png"/></a>	
 	</div>
 	<br/>
 	<br/>
 		<div class="Main_image">
-		<a href="/brandshop/view"><img class = "m_image" id = "54" src="../resources/img/THE IDENTITY PROJECT_54.jpg"/></a>	
+		<a href="/brandshop/view?b_no=54"><img class = "m_image" id = "54" src="../resources/img/THE IDENTITY PROJECT_54.jpg"/></a>	
 	</div>
 	<br/>
 	<br/>
 		<div class="Main_image">
-		<a href="/brandshop/view"><img class = "m_image" id = "55" src="../resources/img/The Museum Visitor_55.jpg"/></a>	
+		<a href="/brandshop/view?b_no=55"><img class = "m_image" id = "55" src="../resources/img/The Museum Visitor_55.jpg"/></a>	
 	</div>
 	<br/>
 	<br/>
 
 <script type="text/javascript">
-	$("a").click(function (e) {
+/* 	$("").click(function (e) {
 		e.preventDefault();
 
 		var click_id =  $(this).find("img").attr("id");
 		
 		location.href="/brandshop/view?b_no=" + click_id; 		
 		
-	})
+	}) */
 
 
 </script>

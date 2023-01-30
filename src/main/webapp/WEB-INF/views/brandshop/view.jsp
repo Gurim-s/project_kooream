@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+	
 	.register{
 		float: right;
 	
@@ -40,6 +41,37 @@
 	.sub{
 		display: none;
 	}
+	.imgbox{
+		width: 100%;
+		position: relative;
+	}
+	.title_image{
+		z-index: 1;
+		position: relative;
+		
+	}
+	.logo_image{
+		z-index : 2;
+		position: relative;
+		bottom : 80px;
+		left: 550px;
+	
+	}
+
+	.title{		/*이미지*/
+		width: 100%;
+		height : 400px;
+		
+
+	}
+	.logo{
+		width: 150px;
+		height: 150px;
+
+
+	}.p_info{
+		width: 200px;
+	}
 
 
 
@@ -47,11 +79,17 @@
 </head>
 <body>
 <!-- ------------------------장바구니, 등록 버튼-------------------- -->
-	<div>
-	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div>
-	<br/><a class="register">등록</a></div><br/><br/>
+	
+	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a><a class="register">등록</a></div>
+	<br/><br/><br/>
+<!-- ------------------------메인이미지, 로고이미지 -------------------- -->	
+<div class = "img box">
+<div class="title_image"></div>
+<div class="logo_image"></div>
+
+</div>
 <!-- ------------------체크박스 카테고리 시작------------------------ -->
-<div id = "box">
+<!-- <div id = "box">
 	<ul>
 		<li class = "menu">
 			<p>카테고리</p>
@@ -84,16 +122,12 @@
 				</ul>
 		</li>
 	</ul>
-</div>
+</div> -->
 <!-- ------------------체크박스 카테고리 끝------------------------ -->	
 
-<div>
-   <img id="logo" src=logo_info()>
-    <!--    <script>document.getElementById('logo').src=logo_info()</script> -->
-                   
-   <img id="title" src="">
-      <!--  <script>document.getElementById('title').src=title_info()</script> -->
-</div>
+
+
+
 <!-- -----------------------상품리스트 시작--------------------------->
 	   <div class="middle_content">
          <div class="middle_content_inner">
@@ -146,10 +180,29 @@
     
  //상품 클릭 이벤트 end------------------------------------------------------------------------------   
 
- 	function logo_info() {
-    	   document.getElementById('logo').src=logo_info()
+
+	var b_no = ${b_no};
+		for(i=51; i<=55; i++) {
+			if(b_no == i){
+				$(".title_image").append("<img class = 'title' src='../resources/img/"+ i +"_title.png/'>");
+			
+			}
+		}
+		for(i=51; i<=55; i++) {
+			if(b_no == i){
+				$(".logo_image").append("<img class = 'logo' src='../resources/img/"+ i +"_logo.png'>");
+			}
+		}
+		
+	
+		
+	
+
+
+ 
+/*   	function logo_info() {
+    	   var img_src =  document.getElementById('logo').src=logo_info();
             var b_no = ${b_no};
-            var img_src;
             for(var i=51; i<=55; i++) {
                 if(b_no == i) {
                 img_src = '../resources/img/'+ i + '_logo.png';
@@ -157,8 +210,8 @@
             }
             return img_src;
         }
- 
-    function title_info() {
+  */
+/*     function title_info() {
     		var b_no = ${b_no};
             var img_src;
             for(var i=1; i<=17; i++) {
@@ -167,7 +220,7 @@
                 }
             }
             return img_src;
-        }
+        }  */
  
  
 	$(".register").click(function (e) {
@@ -233,9 +286,9 @@
 // 					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
 // 				}
 				/* str += '<div>{vo2.b_name}</div>' */
-				str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
-				str += '<div style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
-				str += '<div style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
+				str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
+				str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
+				str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
 				str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
 				str += '</a>'
 				str += '</div>'

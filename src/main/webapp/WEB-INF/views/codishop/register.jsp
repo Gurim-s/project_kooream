@@ -174,7 +174,9 @@
 	font-size : large;
 	font-weight: bold;
 }
-
+.panel-body{
+	width: 70%;
+}
 
 </style>
 

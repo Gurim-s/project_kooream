@@ -144,6 +144,7 @@ public class BrandProductController {
 		  rttr.addAttribute("amount", cri.getAmount());
 		*/
 		service.remove(vo);
+		rttr.addAttribute("b_no", vo.getB_no());
 		return "redirect:/brandshop/view";
 		  
 	}

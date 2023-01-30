@@ -57,7 +57,7 @@ function getList(pageNum, amount) {
 	.done(function(json) {
 		$.each(json, function(idx, codi) {
 			// 1개의 코디 중 제일 큰 곳
-			
+			console.log(json);
 			var card_box = $('<a href="/codishop/get?codi_no='+ codi.codi_no + '"><div></div></a>');		//card_box div 태그 생성
 			$(card_box).attr('class', 'codi_card');  // card_box class 넣어주기
 			
@@ -88,7 +88,8 @@ function getList(pageNum, amount) {
 			var tags = '';
 			for(var i=0; i<codi.codiTagList.length; i++){
 				// 새로운 화면으로 이동 (tags.jsp)
-				tags += '<a href="#" name="tag_name" id="tag_name">#'+ codi.codiTagList[i].tag_name+'</a>';
+//				tags += '<a href="/codishop/tags?tag_name='+codi.codiTagList[i].tag_name+'">#'+ codi.codiTagList[i].tag_name+'</a>';
+				tags += '<a href="#">#'+ codi.codiTagList[i].tag_name+'</a>';
 			};
 			
 			var text_Line4 = $('<div></div>');

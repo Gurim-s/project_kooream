@@ -83,7 +83,7 @@ const replyViewer = (x) => (function(x) {
 					reply.content +
 				'</div>' +
 				'<div class="reply-etc">' +
-					'<span class="regdate">'+displayTime(reply.regdate)+'</span>' +
+					'<span class="regdate">'+showTime(reply.regdate)+'</span>' +
 					(option.nestedReply? '<a class="write-nested-reply" href="#">답글쓰기</a>': '') +
 					'<a class="remove" href="#">삭제</a>' +
 				'</div>' +
