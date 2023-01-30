@@ -10,7 +10,7 @@
 					<span>아이디</span>
 				</td>
 				<td colspan="2">
-					<input type="text" name="m_id"> <!-- 시큐리티에 m_id를 보내기위한 고정name -->
+					<input type="text" class="input" name="m_id"> <!-- 시큐리티에 m_id를 보내기위한 고정name -->
 				</td>
 			</tr>
 			<tr>
@@ -18,7 +18,7 @@
 					<span>비밀번호</span>
 				</td>
 				<td colspan="2">
-					<input type="password" name="m_pw"> <!-- 시큐리티에 m_pw를 보내기위한 고정name -->
+					<input type="password" class="input" name="m_pw"> <!-- 시큐리티에 m_pw를 보내기위한 고정name -->
 					<!-- 시큐리티 토큰 -->
 					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
 				</td>
@@ -61,7 +61,7 @@
 		$("#loginBtn").on("click", function(e){
 			e.preventDefault();
 			var idxx=0;
-			$('input').each(function (index, item) {
+			$('.input').each(function (index, item) {
 			   if(!$(this).val()){
 				   alert($(this).parent().prev().children("span").text() + "을(를) 입력하세요.");
 				   idxx=1;

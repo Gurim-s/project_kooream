@@ -11,4 +11,5 @@ import com.kooream.domain.RntReviewVO;
 public interface RntReviewMapper {
 	public int rgstReview(RntReviewVO vo);
 	public List<RntReviewVO> getReview(ProductVO vo);
+	public int removeReview(RntReviewVO vo);
 }

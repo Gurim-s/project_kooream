@@ -60,6 +60,9 @@
     .slick-dots{
     	margin-bottom: 95px
     }
+    #reviewRemoveBtn{
+    	
+    }
 	
 </style>
 <jsp:include page="../include/header.jsp"/> 
@@ -181,7 +184,7 @@
                 	</c:forEach>
                 </td>
                 <td>익명</td>
-                <td>${review.rp_content}</td>
+                <td><span>${review.rp_content}</span><button id="reviewRemoveBtn">삭제</button></td>
             </tr>
         </c:forEach>
     </tbody>
@@ -299,6 +302,12 @@
 			interestAjax('remove');	
 		});
 		
+		/* // 댓글 삭제 버튼 클릭 이벤트-------------------------------------------------------------
+		$("#reviewRemoveBtn").on("click", function(e){
+			e.preventDefault();
+			location.href="/rental/removeReview;
+		});
+		 */
 		
 		
 		

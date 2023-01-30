@@ -17,7 +17,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.log4j.Log4j;
+
 @Service("loginFailHandler")
+@Log4j
 public class LoginFailHandler implements AuthenticationFailureHandler{
 
 	@Override
@@ -26,6 +29,7 @@ public class LoginFailHandler implements AuthenticationFailureHandler{
 		// TODO Auto-generated method stub
 		if(exception instanceof AuthenticationServiceException) {
 			//request.setAttribute("LoginFailMessage", "죄송합니다. 시스템에 오류가 발생했습니다.");
+			log.info("LoginFailMessage");
 		}
 		else if(exception instanceof BadCredentialsException) {
 			request.setAttribute("LoginFailMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
