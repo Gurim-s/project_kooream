@@ -128,14 +128,14 @@ var imgFileUploader = (function() {
 	}
 	
 	async function uploadImageAjax() {
-		const formData = new FormData();
+		let formData = new FormData();
 		Array.from(dataTransfer.files)
 		.forEach((file) => {
 			formData.append("uploadFile", file);
 		});
 		
-		const uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
-		const str ='';
+		let uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
+		let str ='';
 		Array.from(uploadResult)
 		.forEach((image, i) => {
 			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
