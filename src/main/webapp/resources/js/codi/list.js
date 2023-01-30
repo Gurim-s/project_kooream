@@ -1,11 +1,16 @@
 
-var pageNum;
-var amount;
+var pageNum = 1;
+var amount = 12;
 var column = $('.list-column');
+let h_tag = '';
+
 
 $(function() {
 	pageNum = 1;
 	amount = 12;
+	h_tag = '';
+	
+	
 	getList(pageNum, amount);
  	
 	$('#load').on('click', function(e) {
@@ -14,29 +19,34 @@ $(function() {
 		getList(pageNum, amount);
 	});
 	
-	
-
-	$('#search-btn').on('click',function(e){
+	$('#searchBtn').on('click',function(e){
 		e.preventDefault();
-		var url = "${pageContext.request.contextPath}/codishop/list";
-		url = url + "?searchType=" + $('#searchType').val();
-		url = url + "&searchName=" + $('#searchName').val();
 		
-		location.href = url;
-		console.log(url);
-		
+		getList(pageNum, amount);
 		
 	});
-
-
+	
 
 });
+
+
 function getList(pageNum, amount) {
-	$.ajax({
+	console.log("searchName : " + $('#searchName').val());
+	console.log("searchType : " + $('#searchType').val());
+	// 리스트 초기화
+	$('#first').empty();
+	$('#second').empty();
+	$('#third').empty();
+	$('#force').empty();
+
+	$.ajax({	
 		url: "list",
 		data: JSON.stringify({
 			pageNum: pageNum,
-			amount: amount
+			amount: amount,
+			searchType : $('#searchType').val(),
+			searchName : $('#searchName').val()
+//			searchTagName : /*tag*/
 		}),
 		type: 'post',
 		dataType:"json",
@@ -45,6 +55,7 @@ function getList(pageNum, amount) {
 	.done(function(json) {
 		$.each(json, function(idx, codi) {
 			// 1개의 코디 중 제일 큰 곳
+			
 			var card_box = $('<a href="/codishop/get?codi_no='+ codi.codi_no + '"><div></div></a>');		//card_box div 태그 생성
 			$(card_box).attr('class', 'codi_card');  // card_box class 넣어주기
 			
@@ -60,10 +71,7 @@ function getList(pageNum, amount) {
 													+ codi.attachList[0].uuid + "_"
 													+ codi.attachList[0].fileName);
 			$(img_tag).attr('src', '/codidisplay?fileName='+fileCallPath);
-			
-			
-			
-			
+
 			var text_Line1 = $('<div></div>');
 			$(text_Line1).append('<h3>' + codi.codi_title + '</h3>');
 			
@@ -77,7 +85,8 @@ function getList(pageNum, amount) {
 			
 			var tags = '';
 			for(var i=0; i<codi.codiTagList.length; i++){
-				tags += '<a href="#" class="tag_a">#'+codi.codiTagList[i].tag_name+'</a>'	
+				// 새로운 화면으로 이동 (tags.jsp)
+				tags += '<a href="/codishop/tags?tag_name='+codi.codiTagList[i].tag_name+'">#'+ codi.codiTagList[i].tag_name+'</a>';
 			};
 			
 			var text_Line4 = $('<div></div>');

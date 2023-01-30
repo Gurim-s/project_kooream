@@ -27,6 +27,7 @@ import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.PageDTO;
+import com.kooream.domain.SearchCriteria;
 import com.kooream.service.CodiService;
 
 
@@ -47,7 +48,10 @@ public class CodiController {
 
 	@PostMapping(value = "/list", produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<List<CodiVO>> list(@RequestBody Criteria cri){
+	public ResponseEntity<List<CodiVO>> list(@RequestBody SearchCriteria cri, 
+											@RequestParam(value = "searchType", required = false, defaultValue = "")String searchType, 
+											@RequestParam(value = "searchName", required = false, defaultValue = "")String searchName, 
+											@RequestParam(value = "searchTagName", required = false, defaultValue = "")String searchTagName){
 		List<CodiVO> list = service.getList(cri);
 		
 		int total = service.getTotal(cri);
@@ -56,23 +60,7 @@ public class CodiController {
 		return new ResponseEntity<List<CodiVO>>(list, HttpStatus.OK);
 	}
 
-	
-
-	@PostMapping(value = "/freelist", produces = {
-			MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<List<CodiVO>> list1(@RequestBody Criteria cri){
-		List<CodiVO> list1 = service.getList(cri);
 		
-		int total = service.getTotal(cri);
-		
-		log.info(cri.getAmount()+""+cri.getPageNum());
-		return new ResponseEntity<List<CodiVO>>(list1, HttpStatus.OK);
-	}
-	
-	
-	
-	
-	
 	@GetMapping("/register")
 	public String register() {
 		log.info("codiController - 게시글 등록 페이지 이동 " );

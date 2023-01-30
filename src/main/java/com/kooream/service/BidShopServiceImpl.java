@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
+import com.kooream.mapper.BidImageMapper;
 import com.kooream.mapper.BidShopProductMapper;
 import com.kooream.mapper.BiddingMapper;
 
@@ -17,11 +20,14 @@ import lombok.extern.log4j.Log4j;
 public class BidShopServiceImpl implements BidShopService {
 
 	@Setter(onMethod_ = @Autowired)
-	BidShopProductMapper mapper;
+	private BidShopProductMapper mapper;
 	@Setter(onMethod_ = @Autowired)
-	BiddingMapper biddingMapper;
+	private BiddingMapper biddingMapper;
+	@Setter(onMethod_ = @Autowired)
+	private BidImageMapper bidproMapper;
 	
 	// shop product 전체 리스트
+	@Transactional
 	@Override
 	public List<ProductVO> getList() {
 		List<ProductVO> list = mapper.getList();
@@ -31,6 +37,9 @@ public class BidShopServiceImpl implements BidShopService {
 
 			product.setMax_bid_sell(max_bid_sell);
 			product.setMin_bid_buy(min_bid_buy);
+			
+			List<AttachFileVO> attach = bidproMapper.findByPno(product.getP_no());	// 
+			product.setAttachList(attach);
 		}
 //		ProductVO product = mapper.get(p_no);
 //		int max_bid_sell = biddingMapper.getMaxBidding(product.getP_no());
@@ -76,10 +85,24 @@ public class BidShopServiceImpl implements BidShopService {
 	}
 
 	// 상품 추가하기
+	@Transactional
 	@Override
 	public void insertProduct(ProductVO vo) {
 		log.info("register..." + vo);
-
 		mapper.insertProduct(vo);
+		
+		int p_no = mapper.getPno();
+		
+		if(vo.getAttachList() != null && vo.getAttachList(). size()>0) {
+			for(AttachFileVO vo2 : vo.getAttachList()) { 
+				vo2.setP_no(p_no);
+				bidproMapper.uploadFile(vo2); 
+			}
+		}
+	}
+	
+	@Override
+	public List<AttachFileVO> getAttachList(int p_no) {
+		return bidproMapper.findByPno(p_no);
 	}
 }

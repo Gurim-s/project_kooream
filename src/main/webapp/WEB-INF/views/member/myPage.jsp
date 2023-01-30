@@ -31,27 +31,33 @@
 	}
 	
 </style>
-	<!-- 좌측 카테고리 박스------------------------------------------------------- -->
-	<div id="mcategroyBox">
-		<div id="myPage" >마이 페이지</div>
-		<div class="mcategory">&nbsp;쇼핑 정보</div>	
-		<ul class="mul">
-			<li><a href="#">구매 내역</a></li>	
-			<li><a href="#">예약 내역</a></li>	
-			<li><a href="#">판매 내역</a></li>	
-			<li><a href="#">보관 판매</a></li>	
-			<li><a href="#">관심 상품</a></li>	
-		</ul>
-		<div class="mcategory">&nbsp;내 정보</div>	
-		<ul class="mul">
-			<li><a href="#">프로필 정보</a></li>	
-			<li><a href="#">주소록</a></li>	
-			<li><a href="#">결제 정보</a></li>	
-			<li><a href="#">판매 정산 계좌</a></li>	
-			<li><a href="#">현금영수증 정보</a></li>	
-			<li><a href="#">포인트</a></li>
-		</ul>	
-	</div>
+<!-- 좌측 카테고리 박스------------------------------------------------------- -->
+<div id="mcategroyBox">
+	<div id="myPage" >마이 페이지</div>
+	<div class="mcategory">&nbsp;쇼핑 정보</div>	
+	<ul class="mul">
+		<li><a href="#">구매 내역</a></li>	
+		<li><a href="#">예약 내역</a></li>	
+		<li><a href="#">판매 내역</a></li>	
+		<li><a href="#">보관 판매</a></li>	
+		<li><a href="#">관심 상품</a></li>	
+	</ul>
+	<div class="mcategory">&nbsp;내 정보</div>	
+	<ul class="mul">
+		<li><a href="#">프로필 정보</a></li>	
+		<li><a href="#">주소록</a></li>	
+		<li><a href="#">결제 정보</a></li>	
+		<li><a href="#">판매 정산 계좌</a></li>	
+		<li><a href="#">현금영수증 정보</a></li>	
+		<li><a href="#">포인트</a></li>
+	</ul>	
+</div>
+<!-- 회원정보 불러오기 -->
+<div>
+	
+</div>
+	
+	
 
 	
 

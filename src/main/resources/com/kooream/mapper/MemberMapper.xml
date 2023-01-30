@@ -19,6 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원가입 -->
 	<insert id="goJoin" parameterType="com.kooream.domain.MemberVO">
+		<selectKey keyProperty="m_no" resultType="int" order="BEFORE">
+			SELECT MEMBER_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO MEMBER
 		VALUES(MEMBER_SEQ.NEXTVAL, 
 			#{m_id}, 
@@ -31,14 +34,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{m_phone})
 	</insert>
 	
-	<!-- 로그인시 아이디,비번 있는지 확인 -->
-	<select id="goLogin" parameterType="map" resultType="int">
-		SELECT COUNT(*) FROM MEMBER WHERE M_ID=#{m_id} AND M_PW=#{m_pw}
+	<!-- 회원가입시 권한테이블에 m_no, auth 넣어주기 -->
+	<insert id="addAuth" parameterType="map">
+		INSERT INTO MEMBER_AUTH
+		VALUES(#{m_no}, #{auth})
+	</insert>
+	
+	<resultMap type="com.kooream.domain.MemberVO" id="memberMap">
+		<id property="m_id" column="m_id"/>
+		<result property="m_id" column="m_id"/>
+		<result property="m_pw" column="m_pw"/>
+		<result property="m_nickname" column="m_nickname"/>
+		<result property="m_name" column="m_name"/>
+		<result property="m_bday" column="m_bday"/>
+		<result property="m_addr" column="m_addr"/>
+		<result property="m_email" column="m_email"/>
+		<result property="m_phone" column="m_phone"/>
+		<result property="m_Detail_addr" column="m_Detail_addr"/>
+		<collection property="authList" resultMap="authMap"/>
+	</resultMap>
+	
+	<resultMap type="com.kooream.domain.MemberAuthVO" id="authMap">
+		<result property="m_no" column="m_no"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<select id="read" resultMap="memberMap">
+		SELECT * 
+		FROM MEMBER A LEFT JOIN MEMBER_AUTH B
+		ON A.M_NO = B.M_NO
+		WHERE A.M_ID=#{m_id}
 	</select>
 	
-	<!-- 세션에 저장할 회원정보 가져오기 -->
-	<select id="getMemberInfo" parameterType="map" resultType="com.kooream.domain.MemberVO">
-		SELECT * FROM MEMBER WHERE M_ID=#{m_id}
-	</select>
 	
 </mapper>

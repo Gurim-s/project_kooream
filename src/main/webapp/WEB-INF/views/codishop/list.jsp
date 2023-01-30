@@ -15,11 +15,10 @@
 		<div class="container social">
 			<div class="keyword_brand">
 				<div id="tag_List">
-									
+								
 				</div>
 			</div>
 		</div>
-		<form action="freeList" method="post" class="search-List">
 		<div class="codi_search">
 			<div class="search_btn">
 				<select name="searchType" id="searchType">
@@ -28,26 +27,21 @@
 					<option value="titcont">제목+내용</option>
 					<option value="codimodel_name">모델명</option>
 				</select>
-				<input type="text" name="searchName" placeholder="검색어 입력">
-				<button  type="submit" class="btn_search search-btn">검색</button>
+				<input type="text" id="searchName"  name="searchName" placeholder="검색어 입력">
+				<button id="searchBtn" class="btn_search search-btn">검색</button>
 			</div>
 		</div>
-			<input type="hidden" name="searchName" value="${pageMake.cri.searchName}">
-			<input type="hidden" name="pageNum" value="1">
-			<input type="hidden" name="amount" value="12">
-		</form>
 		<br/>
 		
 		
 		<div class="codi_insert">
 			<div class="insert_btn">
-				<a  href="/codishop/register" class="btn_search">코디 등록</a>
+				<a href="/codishop/register" class="btn_search">코디 등록</a>
 			</div>
 			<br/>
 			<hr/>
 			<br/>
 		</div>
-		
 		<div id="codi-list" class="clearfix">
 			<div class="list-column" id="first">
 			</div>
@@ -59,7 +53,7 @@
 			</div>
 		</div>
 		<div class="More_btn">
-			<a  href="#" id="load" class="btn_More">더보기(MORE)</a>
+			<a href="#" id="load" class="btn_More">더보기(MORE)</a>
 		</div>
 		
 	</div>
