@@ -2,6 +2,7 @@ package com.kooream.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class MemberController {
 	@Setter(onMethod_= @Autowired)
 	private MemberService service;
 	
+	
 	// 메인페이지이동
 	@GetMapping("/mainPage")
 	public String mainPage() {
@@ -39,10 +41,14 @@ public class MemberController {
 	
 	// 로그인메뉴 클릭시 로그인 페이지로 이동
 	@GetMapping("/loginPage")
-	public String geIndex() {
+	public String goIndex() {
 		return "/member/loginPage";
 	}
-	
+	// 로그인 실패시 핸들러타고 foward로 리턴이 되야해서 post로 하나더 적어줌
+	@PostMapping("/loginPage")
+	public String goInde() {
+		return "/member/loginPage";
+	}
 	// 회원가입 페이지 이동
 	@GetMapping("/joinPage")
 	public String joinPage() {
@@ -60,28 +66,25 @@ public class MemberController {
 	@PostMapping("/join")
 	public String goJoin(MemberVO vo) {
 		service.goJoin(vo);
+		
 		return "redirect:/member/loginPage";
 	}
 	
+	/*
 	// 로그인 기능
-	@PostMapping("/login")
-	public String goLogin(@RequestParam Map<String, Object> map, HttpServletRequest request) {
-		// 중복확인
-		service.goLogin(map);
-		// 세션에 회원정보 저장
-		HttpSession session = request.getSession();
-		MemberVO mvo = service.getMemberInfo(map);
-		session.setAttribute("mvo", mvo);
-		return "redirect:/member/goHome";
+	@PostMapping("/login") 
+	public String goLogin(@RequestParam Map<String,Object> map, HttpServletRequest request) { 
+		// 중복확인 
+		service.goLogin(map); 
+		// 세션에 회원정보 저장 
+		HttpSession session = request.getSession(); 
+		MemberVO mvo = service.getMemberInfo(map); 
+		
+		session.setAttribute("mvo", mvo); 
+		return"redirect:/member/goHome"; 
 	}
-	
-	// 로그인 후 메인페이지 이동
-	@GetMapping("/goHome")
-	public String goHome(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.getAttribute("mvo");
-		return "/home";
-	}
+	*/ 
+	 
 	
 	// 마이페이지 이동
 	@GetMapping("/myPage")
