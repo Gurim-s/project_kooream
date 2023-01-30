@@ -44,14 +44,14 @@
 	float: left;
 }
 .item .item-header-left .user-regdate .user-name {
-	float: left;
 	font-weight: bold;
 }
 .item .item-header-right {
 	float: right;
 }
 .item .item-header-right .follow-btn,
-.item .item-header-right .update-btn{
+.item .item-header-right .update-btn,
+.item .item-header-right .remove-btn{
 	float: left;
 	height: 30px;
 	width: 70px;

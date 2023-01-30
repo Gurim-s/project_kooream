@@ -60,7 +60,7 @@ const replyViewer = (x) => (function(x) {
 				'<img src="/resources/img/codi_test.png" />' +
 			'</div>' +
 			'<div class="input-reply">' +
-				'<input type="text" name="content" value="">' +
+				'<input type="text" name="content" autocomplete="off" value="">' +
 				'<input type="hidden" name="nested_from" value="0">' +
 				'<a href="#" class="add-reply" style="display:none;">등록</a>' +
 			'</div>'
