@@ -21,10 +21,15 @@ $(function() {
 	
 	$('#searchBtn').on('click',function(e){
 		e.preventDefault();
-		
 		getList(pageNum, amount);
-		
+		$('#first').empty();
+		$('#second').empty();
+		$('#third').empty();
+		$('#force').empty();
 	});
+	
+	
+	
 	
 
 });
@@ -34,10 +39,7 @@ function getList(pageNum, amount) {
 	console.log("searchName : " + $('#searchName').val());
 	console.log("searchType : " + $('#searchType').val());
 	// 리스트 초기화
-	$('#first').empty();
-	$('#second').empty();
-	$('#third').empty();
-	$('#force').empty();
+	
 
 	$.ajax({	
 		url: "list",
@@ -86,7 +88,7 @@ function getList(pageNum, amount) {
 			var tags = '';
 			for(var i=0; i<codi.codiTagList.length; i++){
 				// 새로운 화면으로 이동 (tags.jsp)
-				tags += '<a href="/codishop/tags?tag_name='+codi.codiTagList[i].tag_name+'">#'+ codi.codiTagList[i].tag_name+'</a>';
+				tags += '<a href="#" name="tag_name" id="tag_name">#'+ codi.codiTagList[i].tag_name+'</a>';
 			};
 			
 			var text_Line4 = $('<div></div>');
