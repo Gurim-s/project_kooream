@@ -290,7 +290,7 @@
 	<div class="buy_before">
 		<div class="product_info">
 			<div class="infobox">
-				<img class="product_image" src="../resources/img/ps5.png">
+				<img class="product_image" src="/resources/img/ps5.png">
 				<div class="product_infobox">
 					<div class="code">${vo.p_model_no }</div>
 					<div class="name">${vo.p_name_en }</div>

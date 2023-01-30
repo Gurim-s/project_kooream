@@ -498,8 +498,8 @@
 		<div class="product_photo">
 			<div id="slideShow">
 			<ul class="slides">
-				<li><img class="product_image" src="../resources/img/iphone.png"></li>
-				<li><img class="product_image" src="../resources/img/ps5.png"></li>
+				<li><img class="product_image" src="/resources/img/iphone.png"></li>
+				<li><img class="product_image" src="/resources/img/ps5.png"></li>
 		    </ul>  
 				<p class="controller">
 
@@ -578,7 +578,7 @@
 			<h3 class="bsinfo">배송정보</h3>
 			<div class="delivery_way_wrap">
 				<div class="way_info">
-					<img src="../resources/img/bsicon.png" style="width:40px; height: 40px;">
+					<img src="/resources/img/bsicon.png" style="width:40px; height: 40px;">
 					<div class="way_desc">
 						<span class="delivery">빠른배송</span>
 						<span class="delivery_won"> 5,000원</span>
@@ -588,7 +588,7 @@
 			</div>
 			<div class="delivery_way_wrap">
 				<div class="way_info">
-					<img src="../resources/img/boxicon.png" style="width:40px; height: 40px;">
+					<img src="/resources/img/boxicon.png" style="width:40px; height: 40px;">
 					<div class="way_desc">
 						<span class="delivery">일반배송</span>
 						<span class="delivery_won"> 3,000원</span>
@@ -598,7 +598,7 @@
 			</div>
 			<div class="delivery_way_wrap">
 				<div class="way_info">
-					<img src="../resources/img/warehouse.png" style="width:40px; height: 40px;">
+					<img src="/resources/img/warehouse.png" style="width:40px; height: 40px;">
 					<div class="way_desc">
 						<span class="delivery">창고보관</span>
 						<span class="delivery_won"> 첫 30일 무료</span>
@@ -607,8 +607,9 @@
 				</div>
 			</div>
 			<div class="graph">
-				그래프 공간
-				넣을지 말지는 나중에 생각
+				<div>그래프 공간</div>
+				<div>넣을지 말지는 나중에 생각</div>
+				<div>못넣을듯</div>
 			</div>
 			<div class="confirm_wrap">
 				<h3 class="confirm_title">구매 전 꼭 확인해주세요!</h3>
@@ -662,17 +663,17 @@
 				</div>
 			<div class="point_guidebox">
 				<div class="bottom_info">
-					<img class="binfo_p" src="../resources/img/guide_icon1.png" style="width:40px; height: 35px;">
+					<img class="binfo_p" src="/resources/img/guide_icon1.png" style="width:40px; height: 35px;">
 					<div class="text_area">100% 정품 보증</div>
 					<p class="text_desc">KREAM에서 검수한 상품이 정품이 아닐 경우, 구매가의 3배를 보상합니다.</p>
 				</div>
 				<div class="bottom_info2">
-					<img class="binfo_p" src="../resources/img/guide_icon2.png" style="width:40px; height: 35px;">
+					<img class="binfo_p" src="/resources/img/guide_icon2.png" style="width:40px; height: 35px;">
 					<div class="text_area">엄격한 다중 검수</div>
 					<p class="text_desc">모든 상품은 검수센터에 도착한 후, 상품별 전문가 그룹의 체계적인 시스템을 거쳐 검수를 진행합니다.</p>
 				</div>
 				<div class="bottom_info2">
-					<img class="binfo_p" src="../resources/img/guide_icon3.png" style="width:40px; height: 35px;">
+					<img class="binfo_p" src="/resources/img/guide_icon3.png" style="width:40px; height: 35px;">
 					<div class="text_area">정품 인증 패키지</div>
 					<p class="text_desc">검수에 합격한 경우에 한하여 KREAM의 정품 인증 패키지가 포함된 상품이 배송됩니다.</p>
 				</div>
