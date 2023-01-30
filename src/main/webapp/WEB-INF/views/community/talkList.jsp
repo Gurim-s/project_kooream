@@ -45,6 +45,12 @@
 		border: none;
 		background-color: #fff;	
 	}
+	.pagination{
+		text-align: center;
+	}
+	.paginate_button{
+		display: inline-block;
+	}
 	
 </style>
 <script type="text/javascript">

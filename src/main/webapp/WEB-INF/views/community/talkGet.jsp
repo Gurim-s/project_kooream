@@ -12,8 +12,10 @@
 	#menu_list{
 		float: left;
 		height: 100%;
-		margin-bottom: 100%;
 		width: 130px;
+	}
+	#main{
+		margin-left: 150px;
 	}
 	#head{
 		font-size: 25px;
@@ -36,6 +38,16 @@
     	float: right;
     	width: 40px;
     }
+    .date-view{
+    	float: right;
+    }
+    .replyBtn{
+    	width: 40px;
+    }
+    #talkname{
+    	width: 300px;
+    }
+   
 </style>
 </head>
 <body>
@@ -44,8 +56,14 @@
 		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
+	<div id="main">
 	<div>
 		<span id="head"><strong>구림톡</strong></span>
+		<div>
+			<button class="btn" data-oper="talkupdate">수정</button>
+			<button class="btn" data-oper="talkremove">삭제</button>
+			<button class="btn" data-oper="talklist">목록</button>
+		</div>
 	</div>
 	<br/>
 	<hr/>
@@ -60,11 +78,7 @@
 		<div id="talk-con-box">
 			<div id="talk-con">${vo.talkcon }</div>
 		</div>
-		<div>
-			<button class="btn" data-oper="talkupdate">수정</button>
-			<button class="btn" data-oper="talkremove">삭제</button>
-			<button class="btn" data-oper="talklist">목록</button>
-		</div>
+		
 		<div>
 			<input type="hidden" name="pageNum" value="${pageNum }">
 			<input type="hidden" name="amount" value="${amount }">
@@ -73,7 +87,20 @@
 	</form>
 	
 	<!-- 댓글 출력 폼 -->
-	<table class="replylist">
+	<div class="replylist">
+		<div data-replyno ="1"><span><strong>닉네임</strong></span>
+			<button class="replyBtn" id="replyupdatebtn">수정</button>
+			<button class="replyBtn" id="replyupdatebtn">삭제</button>
+			<div>
+			<small class="date-view">날짜</small>
+			</div>
+		</div>
+		<div>내용</div>
+	</div>
+	
+	
+	
+	<!-- <table class="replylist">
 		<tr>
 			<td>닉네임</td>
 			<td data-replyno ="1">댓글번호</td>
@@ -84,14 +111,24 @@
 		<tr>
 			<td>댓글 내용</td>
 		</tr>
-	</table>
+	</table> -->
 	
 	
 	<!-- 댓글 입력 폼 -->
-	<table>
+	<div>
+		<div><input type="text" name="replyname" id="replyname"></div>
+		<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none";></textarea></div>
+		<div><button id="addReplyBtn">등록</button></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- <table>
 		<tr>
 			<td>닉네임 : <input type="text" name="replyname" id="replyname"></td>
-			<!-- <td>회원 번호 : <input type="text" name="m_no" id="m_no"></td> -->
+			<td>회원 번호 : <input type="text" name="m_no" id="m_no"></td>
 		</tr>
 		<tr>
 			<td>
@@ -99,8 +136,8 @@
 			</td>
 			<td><button id="addReplyBtn">등록</button></td>
 		</tr>
-	</table>
-	
+	</table> -->
+	</div>
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
 <script type="text/javascript" src="/resources/js/community/reply.js"></script>
@@ -159,14 +196,14 @@
 		// 댓글 등록 함수 불러오기
 	 	$("#addReplyBtn").click(function() {
 	 		
-	 		// 리플 내용 검사
-	 		if($("textarea[name=replycon]").val() == ""){
-				alert('댓글 내용을 적어주세요.');
-				return;
-			}
 	 		// 닉네임 검사
 	 	 	if($("input[name=replyname]").val() == ""){
 				alert('닉네임을 적어주세요.');
+				return;
+			}
+	 		// 리플 내용 검사
+	 		if($("textarea[name=replycon]").val() == ""){
+				alert('댓글 내용을 적어주세요.');
 				return;
 			}
 	 		
@@ -198,13 +235,31 @@
 					console.log(result);
 					var str = '';
 					
-`					if(result == null || result.length==0){
+					if(result == null || result.length==0){
 						// 댓글이 없으면
 						replylist.html("");
 						return;
 					}else{
 						// 댓글이 있으면
+						
 						for(var i=0; i<result.length; i++){
+							str += '<div data-replyno ="1"><span><strong>'+ result[i].talkreplyname +'</strong></span>'
+							str += '<button class="replyBtn" id="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
+							str += '<button class="replyBtn" id="replyupdatebtn" data-replyno ="'+result[i].talkreplyno	+'">삭제</button>'
+							str += '<div>'
+							str += '<small class="date-view">'+displayTime(result[i].talkreplydate)+'</small>'
+							str += '</div>'
+							str += '</div>'
+							str += '<div>'+ result[i].talkreplycon +'</div>'
+							str += '<br/>'
+							
+						}
+						replylist.html(str);
+						
+						
+						
+						
+						/* for(var i=0; i<result.length; i++){
 							str += '<tr>';
 							str += '<td><strong>'+ result[i].talkreplyname +'</strong></td>';
 							str += '<td>'+result[i].talkreplyno+'</td>';
@@ -216,7 +271,7 @@
 							str += '<td class="reply-con">'+ result[i].talkreplycon +'</td>';
 							str += '</tr>';
 						}
-						replylist.html(str);
+						replylist.html(str); */
 						
 						
 						var talkreplyno;
@@ -234,37 +289,41 @@
 							})
 						});
 					
-						//수정 이벤트
-// 						$('.replyupdatebtn').on('click', function(e) {
-// 							var old = $(e.target).closest('tr').next('tr').find('.reply-con').text();
-// 							var str = '<textarea rows="5" cols="50">'+old+'</textarea>';
-							
-// 							$(e.target).closest('tr').next('tr').html(str);
-// 						});
-						
-						
 							
 						
 						// 댓글 수정
 						$('.replyupdatebtn').on('click', function(e) {
 							var talkreplyno = $(e.target).data("replyno");
-							var test = $(e.target).closest('tr');
-							var test2 = $(test).next('tr').remove();
+							var test = $(e.target).closest('div');
+							var test2 = $(test).next('div').remove();
 							
 							var str = '';
 							replyService.get(talkreplyno, function(result){
 								console.log(result);
+								
+								
+								
+								str += '<div data-replyno ="1"><span><strong>'+ result.talkreplyname +'</strong></span>'
+								str += '<button class="replyBtn" id="replyupdate-ok" data-replybtn ="'+result.talkreplyno+ '">수정 완료</button>'
+								str += '<button class="replyBtn" id="replyreset" data-replybtn ="'+result.talkreplyno+ '">취소</button>'
+								str += '<div>'
+								str += '<small class="date-view">'+displayTime(result.talkreplydate)+'</small>'
+								str += '</div>'
+								str += '</div>'
+								str += '<div><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+ result.talkreplycon +'</textarea></div>'
+								str += '<br/>'
+								
 							
-								str += '<tr>';
+								/* str += '<tr>';
 								str += '<td>'+result.talkreplyname +'</td>';
 								str += '<td>'+result.talkreplyno+'</td>';
 								str += '<td><button class="replyBtn" id="replyupdate-ok" data-replybtn ="'+result.talkreplyno	+ '">수정 완료</button></td>';
 								str += '<td><button class="replyBtn" id="replyreset" data-replybtn ="'+result.talkreplyno	+ '">취소</button></td>';
-								str += '<td>'+result.talkreplydate+'</td>';
+								str += '<td>'+displayTime(result.talkreplydate)+'</td>';
 								str += '</tr>';
 								str += '<tr>';
 								str += '<td><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+result.talkreplycon +'</textarea></td>';
-								str += '</tr>';
+								str += '</tr>'; */
 							
 								test.html(str);
 								
@@ -292,19 +351,12 @@
 											showList();
 										}
 									});
-								})
-								
-								
-								
+								}); // 댓글 수정 비동기 ------------------------------------end
 								
 							});
 							
 							
-							
-							
-
-							
-						});
+						}); // 댓글 수정 관련 ----------------------------------------------end
 						
 						
 					}

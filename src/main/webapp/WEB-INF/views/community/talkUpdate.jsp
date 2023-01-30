@@ -37,7 +37,7 @@
 			</tr>
 			<tr>
 				<td>닉네임</td>
-				<td><input type="text" name="talkname" value="${vo.talkname }"></td>
+				<td><input type="hidden" name="talkname" value="${vo.talkname }">${vo.talkname }</td>
 			</tr>
 			<tr>
 				<td colspan="2"><textarea rows="15" cols="30" name="talkcon">${vo.talkcon }</textarea></td>
@@ -69,6 +69,15 @@
 				form.attr("action", "/community/talkList");
 				form.submit();
 			}else{
+				if($("input[name=talktitle]").val() == ""){
+					alert('수정할 제목을 입력 해주세요.')
+					return false;
+				}
+				if($("textarea[name=talkcon]").val() == ""){
+					alert('수정할 내용을 입력 해주세요.')
+					return false;
+				}
+				
 				form.submit();
 			}
 			

@@ -105,7 +105,7 @@
 	<!-- 정품판별 댓글 내용 출력 폼 -->
 	<div>
 		<strong>구리머들의 판정</strong>
-		<span><input type="radio" name="decCh" value="decList" id="ckList" class="oriDec">전체 보기</span>
+		<span><input type="radio" name="decCh" value="decList" id="ckList" class="oriDec" checked="checked">전체 보기</span>
 		<span><input type="radio" name="decCh" value="decOk" id="ckOk" class="oriDec">진품 같아요.</span>
 		<span><input type="radio" name="decCh" value="decNo" id="ckNo" class="oriDec">가품 같아요.</span>
 	</div>
@@ -123,7 +123,7 @@
 		</div>
 		<div id="title" data-orino="${vo.orino }">판별 내용</div>
 		<div>
-			<textarea id="oricon" rows="10" cols="25" placeholder="정품 혹은 가품이라 생각하는 이유를 적어주세요." style="resize: none;"></textarea>
+			<textarea id="oricon" rows="10" cols="25" name="oricon" placeholder="정품 혹은 가품이라 생각하는 이유를 적어주세요." style="resize: none;"></textarea>
 		</div>
 		<div>
 			<button id="replyRegister">등록</button>
@@ -270,7 +270,13 @@
 			
 			// 모달창 등록
 			$("#replyRegister").click(function() {
-				// 댓글 달기
+				
+				if( $("textarea[name=oricon]").val() == ""){
+					alert('내용을 적어 주세요.');
+					return;
+				}
+		
+				// 정품 댓글 달기
 				replyService.add(
 						{orino:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
 						
@@ -296,9 +302,13 @@
 			// 모달창 등록
 			$("#replyRegister").click(function() {
 			
-				// 댓글 달기
+				if( $("textarea[name=oricon]").val() == ""){
+					alert('내용을 적어 주세요.');
+					return;
+				}
+				// 가품 댓글 달기
 				replyService.add(
-						{no:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
+						{orino:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
 						
 						function(result) {
 							countNo();

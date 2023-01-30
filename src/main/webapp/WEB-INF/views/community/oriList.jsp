@@ -11,8 +11,10 @@
 	#menu_list{
 		float: left;
 		height: 100%;
-		margin-bottom: 100%;
 		width: 130px;
+	}
+	#main{
+		margin-left: 150px;
 	}
 	.talkno{
 		width: 50px;
@@ -61,8 +63,9 @@
 		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
+	<div id="main">
 	<div>
-		<span id="head">정품판별</span>
+		<span id="head"><strong>정품판별</strong></span>
 		<button>글쓰기</button>
 	</div>
 	<br/>
@@ -96,7 +99,6 @@
 			</div>
 			</c:forEach>
 		</div>
-		
 			<%-- <table>
 				<c:forEach var="vo" items="${list }">
 					<tr>
@@ -118,9 +120,10 @@
 						<td id="content"><a class="get" href="${vo.orino }">${vo.oricon }</a></td>
 					</tr>
 					<tr id="bp"><td></td></tr>	
-				</c:forEach> --%>
-			</table>
+				</c:forEach>
+			</table> --%>
 		</form>
+		</div>
 	</div>
 </body>
 <script type="text/javascript">
