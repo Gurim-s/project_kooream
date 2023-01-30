@@ -41,11 +41,9 @@ public class BrandProductServiceImpl implements BrandProductService{
 			for(AttachFileVO vo2 : vo.getAttachList()) { 
 				vo2.setP_no(p_no);
 				uploadmapper.uploadFile(vo2); 
-			} 
+			}
 		}
-			 
 	}
-	
 	
   
 	@Override
@@ -62,8 +60,6 @@ public class BrandProductServiceImpl implements BrandProductService{
 
 	@Override
 	public List<AttachFileVO> getAttachList(int p_no) {
-		
-		
 		return uploadmapper.findByPno(p_no);
 	}
 	
