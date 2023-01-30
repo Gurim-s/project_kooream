@@ -1,6 +1,7 @@
 package com.kooream.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
@@ -12,31 +13,25 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.AttachFileVO;
 import com.kooream.service.BidImageUploadService;
-import com.kooream.service.BrandProductService;
-import com.kooream.service.BrandProductUploadService;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @Log4j
@@ -48,8 +43,8 @@ public class BidImageUploadController {
 	private BidImageUploadService service;
 	
 	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE) // 리턴되는값이 json
-	 @ResponseBody
-	 public ResponseEntity<List<AttachFileVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
+	@ResponseBody
+	public ResponseEntity<List<AttachFileVO>> uploadAjaxPost(MultipartFile[] uploadFile) {
 		 // log.info("updata ajax post...............");
 		 // log.info(uploadFile.length);
 		 
@@ -63,7 +58,7 @@ public class BidImageUploadController {
 		 log.info("upload path : " + uploadPath);
 		 
 		 if(uploadPath.exists() == false) {
-			 uploadPath.mkdirs();
+			uploadPath.mkdirs();
 		 }
 	
 		 for(MultipartFile multipartFile : uploadFile) {				// 파일 있는 만큼 for문 돈다
@@ -99,8 +94,11 @@ public class BidImageUploadController {
 				
 				service.uploadFile(attachVo);
 				
-				/* service.uploadFile(attachVo); p_no값이 0이 들어감 => insert가 2번된다*/
-				
+				FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+
+				Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+
+				thumbnail.close();
 				
 			} catch (Exception e) {
 				log.error(e.getMessage());
@@ -159,9 +157,9 @@ public class BidImageUploadController {
 		  result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),
 				  header, HttpStatus.OK);
 		
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	 return result;
-	  }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				return result;
+			}
 }

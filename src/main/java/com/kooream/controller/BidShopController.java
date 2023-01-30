@@ -113,6 +113,7 @@ public class BidShopController {
 	public String modify(ProductVO vo) {
 		log.info("modify...." + vo );
 		service.modify(vo);
+		System.out.println(vo.getP_release_date());
 		return "redirect:/shop/shop_allList";
 	}
 	

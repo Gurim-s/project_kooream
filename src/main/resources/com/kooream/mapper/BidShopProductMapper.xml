@@ -28,11 +28,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="modify" parameterType="com.kooream.domain.ProductVO">
 	<![CDATA[
-		update PRODUCT set
+		update PRODUCT 
+		set
 			p_name_ko=#{p_name_ko},
 			p_name_en=#{p_name_en},
 			p_model_no = #{p_model_no},
-			p_release_price = #{p_release_price}
+			p_release_price = #{p_release_price},
+			p_release_date = #{p_release_date}
 		where
 			p_no=#{p_no}
 	]]>

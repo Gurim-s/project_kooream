@@ -159,7 +159,7 @@
 	<div class="buy_before">
 		<div class="product_info">
 			<div class="infobox">
-				<img class="product_image" src="../resources/img/ps5.png">
+				<img class="product_image" src="/resources/img/ps5.png">
 				<div class="product_infobox">
 					<div class="code">DZ5485-612</div>
 					<div class="name">Jordan 1 Retro High OG Chicago 2022</div>

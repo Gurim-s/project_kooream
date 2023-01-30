@@ -32,11 +32,11 @@
 <body>
 	<h1>샵 상품등록</h1><br/>
 	<div class="container">
-		<form action="/shop/shop_register" method="post">
+		<form name="shop_register" action="/shop/shop_register" method="post">
 			<table class="register">
 			<tr>
 				<td>이미지 등록</td>
-					<td><input type="file" name="uploadFile" multiple="multiple"></td>
+					<td><input type="file" name="uploadFile" multiple="multiple" id="imageUpload"></td>
 			<td class="uploadResult">
 				<ul></ul>
 			</td>
@@ -45,6 +45,7 @@
 				<td>브랜드</td>
 					<td class="form-inline">
 						<select id="brand_select" name="b_no" onchange="ChangeValue()">
+							<option value="0">브랜드 선택</option>
 							<option value="1">Nike</option>
 							<option value="2">New Balance</option>
 							<option value="3">Adidas</option>
@@ -55,17 +56,17 @@
 				</tr>
 				<tr>
 					<td>상품명_한글</td>
-					<td><input type="text" name="p_name_ko"></td>
+					<td><input type="text" name="p_name_ko" id="p_name_ko"></td>
 				</tr>
 				<tr>
 					<td>상품명_영문</td>
-					<td><input type="text" name="p_name_en"></td>
+					<td><input type="text" name="p_name_en" id="p_name_en"></td>
 				</tr>
 				<tr>		
 					<td>상품분류</td>
 					<td class="form-inline">
 							<select id="Category1">
-								<option value="">선택</option>
+								<option value="1">선택</option>
 								<option value="top">1. 상의</option>
 								<option value="bottom">2. 하의</option>
 								<option value="shoes">3. 신발</option>
@@ -87,7 +88,6 @@
 									<option value="250">250</option>
 									<option value="260">260</option>
 								</select>
-	
 								<select class="A_Category" name="">
 									<option value="FREE">FREE</option>
 								</select> 
@@ -95,11 +95,11 @@
 					</tr>
 				<tr>
 					<td>모델번호</td>
-					<td><input type="text" name="p_model_no"></td>
+					<td><input type="text" name="p_model_no" id="p_model_no"></td>
 				</tr>
-			  <tr>
-				<td>판매금액</td>
-				<td><input type="number" name="p_release_price"></td>
+			  	<tr>
+					<td>판매금액</td>
+					<td><input type="number" name="p_release_price" id="p_release_price"></td>
 				</tr>
 <!-- 			<tr>
 				<td>상세이미지</td>
@@ -107,27 +107,29 @@
 			</tr> -->
 			<tr>
 				<td>카테고리 설정</td>
-					<td>
-					<select class="Category2" name="p_category">
+				<td>
+					<select class="Category2" name="p_category" id="p_category">
+						<option value="1">카테고리 선택</option>
 						<option value="brand_clothes">의류</option>
 						<option value="brand_shoes">신발</option>
 						<option value="brand_acc">패션잡화</option>
-					</select></td>
+					</select>
+				</td>
 			</tr>
 			<tr>
-					<td>출시일</td>
-					<td class="date_set"><input type="date" name="p_release_date"></td>
+				<td>출시일</td>
+				<td class="date_set"><input type="date" name="p_release_date" id="p_release_date"></td>
 			</tr>
 			<tr>
-					<td class="Brand_name"></td>
+				<td class="Brand_name"></td>
 			</tr>
 			<tr>
 				<td class="register_button">
-					<button data-oper="submit">등록</button>
+					<button data-oper="submit" id="regist_submit">등록</button>
 					<button data-oper="reset">취소</button>
 					<button data-oper="list">목록으로</button>
-					<input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
-					<input type="hidden" name="amount" value="${cri.amount}"/> 
+<%-- 					<input type="hidden" name="pageNum" value="${cri.pageNum}"/>
+					<input type="hidden" name="amount" value="${cri.amount}"/> --%>
 				</td>
 			</tr>
 	</table>	
@@ -146,11 +148,66 @@
 			         var oper = $(this).data("oper");   //data-oper가 remove, list해서 ..
 			         
 			         if(oper == 'list'){
-			            location.href='/board/list?pageNum='+pageNum+'&amount='+amount;
+			            location.href='/shop/shop_allList'
 			         }else if(oper == 'reset'){
 			            formObj[0].reset();
 			         }else{
-			            // 게시글 등록
+   			  		   if($('#imageUpload').val() == ''){
+ 			 		      alert("[이미지 등록]을 해주세요");
+ 			 			  return false;
+ 			 		     }
+
+  			  		   if($('#brand_select').val() == 0){
+ 			 		      alert("[브랜드]를 선택해주세요");
+ 			 			  return false;
+ 			 		     }
+  			  		   
+  			  		   if($('#p_name_ko').val() == ''){
+			 		      alert("[상품명_한글]을 입력해주세요");
+			 			  return false;
+			 		     }
+
+  			  		   if($('#p_name_en').val() == ''){
+			 		      alert("[상품명_영문]을 입력해주세요");
+			 			  return false;
+			 		     }
+  			  		   
+  			  		   if($('#Category1').val() == 1){
+			 		      alert("[상품분류]을 입력해주세요");
+			 			  return false;
+			 		     }
+  			  		   
+  			  		   if($('#p_model_no').val() == ''){
+ 			 		      alert("[모델번호]을 입력해주세요");
+ 			 			  return false;
+ 			 		     } 
+  			  		   
+  			  		   if($('#p_release_price').val() == ''){
+ 			 		      alert("[판매금액]을 입력해주세요");
+ 			 			  return false;
+ 			 		     }
+ 			 		     
+  			  		   if($('#p_release_price').val() < 1){
+ 			 		      alert("[판매금액]을 확인해주세요");
+ 			 			  return false;
+ 			 		     }
+  			  		   
+  			  		   if($('#p_category').val() == 1){
+ 			 		      alert("[카테고리]를 선택해주세요");
+ 			 			  return false;
+ 			 		     }
+ 			 		     
+  			  		   if($('#p_release_date').val() == ''){
+ 			 		      alert("[출시일]을 선택해주세요");
+ 			 			  return false;
+ 			 		     }
+						
+  			  		   
+			  		   
+/* 			  		   if($('#imageUpload').value == null || $('#imageUpload').value ==''){
+				 		      alert("파일을 업로드 해주세요.")
+				 			  return false;
+				 		     } */
 			            
 			            console.log("submit clicked");
 			            
@@ -168,9 +225,11 @@
 			            formObj.append(str);
 			            formObj.submit();
 			         }   
-			         
 			      });
 			   });
+		  
+		  
+		  
 		  
 	// 업로드 전 제약
 		$(function () {
@@ -260,13 +319,9 @@
 				dataType : "text",
 				success : function (result) {
 					targetLi.remove();
-					
 				}
-			
-			
 			});
 		});
-		
 	});
 	// 사이즈 선택-----------------------------------------------------------------
 		
@@ -278,7 +333,6 @@
 				$('.B_Category').hide();
 				$('.S_Category').hide();
 				$('.A_Category').hide();
-				
 			}else if(result == 'bottom'){
 				$('.B_Category').show();
 				$('.B_Category').attr('name','p_size');
@@ -325,6 +379,13 @@
 		console.log(brand);
 		$('.Brand_name').html(a);
 	}
+ 
+/*  	$('#regist_submit').on('click', function(){
+		   if($('#p_name_ko').value == null || $('#p_name_ko').value ==''){
+		      alert("ㅇㅇ")
+			  return false;
+		     }
+		}); */
 </script>
 </body>
 </html>
