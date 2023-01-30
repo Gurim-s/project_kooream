@@ -765,7 +765,7 @@
 	}
 	
 	function remove(pno) {
-		if (confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+		if (confirm("정말 삭제하시겠습니까?")) {
 			alert("삭제 되었습니다.");
 			location.href = "/shop/remove/" + pno;
 		} else {

@@ -218,7 +218,7 @@
 					<div class="product_name_eng">${bid.p_name_en}</div>
 					<div class="product_name_kor">${bid.p_name_ko}</div>		
 					<div class="badge_product">빠른 배송</div>
-					<div class="view_price">${bid.max_bid_sell}원</div>
+					<div class="view_price">${bid.min_bid_buy}원</div>
 					<div class="buy_price">즉시 구매가</div>
 					<div class="buy_price">${bid.p_no}</div>
 				</div>

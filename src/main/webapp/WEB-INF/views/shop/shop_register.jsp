@@ -125,7 +125,7 @@
 			</tr>
 			<tr>
 				<td class="register_button">
-					<button data-oper="submit" id="regist_submit">등록</button>
+					<button data-oper="submit">등록</button>
 					<button data-oper="reset">취소</button>
 					<button data-oper="list">목록으로</button>
 <%-- 					<input type="hidden" name="pageNum" value="${cri.pageNum}"/>

@@ -302,18 +302,18 @@
 				<div class="buy_price">
 					<div class="box_border">
 						<div class="now_buysell">즉시 구매가</div>
-						<span class="now_price">${vo.max_bid_sell }</span><span class="won">원</span>
+						<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
 					</div>
 				</div>
 				<div class="sell_price">
 					<div class="now_buysell">즉시 판매가</div>
-					<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
+					<span class="now_price">${vo.max_bid_sell }</span><span class="won">원</span>
 				</div>
 			</div>
 				<div class="instant_group">
 					<div class="select_box">
 						<div class="box_test">
-							<div class="bid_box">
+							<div class="bid_box">	
 								즉시 판매
 							</div>
 							<div class="sell_box">
@@ -325,7 +325,7 @@
 						<dl class="price_now_box">
 							<dt class="price_now_title">즉시 판매가</dt>
 							<dd class="price">
-								<span class="amount">${vo.min_bid_buy }</span>
+								<span class="amount">${vo.max_bid_sell }</span>
 								<span class="won">원</span>
 							</dd>
 						</dl>
