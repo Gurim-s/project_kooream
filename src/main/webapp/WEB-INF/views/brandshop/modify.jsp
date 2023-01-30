@@ -46,11 +46,11 @@
 				</tr>	
 				<tr>
 					<td>상품명_한글</td>
-					<td><input type="text" name="p_name_ko" value="${vo.p_name_ko}"></td>
+					<td><input id ="p_name" type="text" name="p_name_ko" value="${vo.p_name_ko}"></td>
 				</tr>
 			<tr>
 				<td>상품명_영문</td>
-				<td><input type="text" name="p_name_en" value="${vo.p_name_en}"></td>
+				<td><input id = "p_en" type="text" name="p_name_en" value="${vo.p_name_en}"></td>
 			</tr>
 		<!-- 	<tr>		
 				<td>상품분류</td>
@@ -87,11 +87,11 @@
 			</tr> -->
 			<tr>
 				<td>모델번호</td>
-				<td><input type="text" name="p_model_no" value="${vo.p_model_no}"></td>
+				<td><input id ="pm_no" type="text" name="p_model_no" value="${vo.p_model_no}"></td>
 			</tr>
 			<tr>
 				<td>판매금액</td>
-				<td><input type="number" name="p_release_price" value="${vo.p_release_price}"></td>
+				<td><input id = "p_price" type="number" name="p_release_price" value="${vo.p_release_price}"></td>
 			</tr>
 
 			<tr>
@@ -180,7 +180,52 @@
 				operForm.attr("action", "/brandshop/view?b_no=" + bno);
 				operForm.attr("method", "get");
 				
-			}	 
+			} else{
+				var brand_select = $("#brand_select").val();
+	     	    var p_name = $("#p_name").val();
+	     	    var p_en = $("#p_en").val();
+	     	    var pm_no = $("#pm_no").val();
+	     	    var p_price = $("#p_price").val();
+	     	    var Category2 = $(".Category2").val();
+			
+	     	   if(brand_select.length == 0){
+	     	        alert("브랜드를 체크해 주세요"); 
+	     	        $("#brand_select").focus();
+	     	        return ;
+	     	    }
+	     	    
+	     	    if(p_name.length == 0){
+	     	        alert("상품(한글) 이름을 입력해 주세요"); 
+	     	        $("#p_name").focus();
+	     	        return;
+	     	    }
+	     	 
+	     	    if(p_en.length == 0){
+	     	        alert("상품(영문) 이름을 입력해주세요");
+	     	        $("#p_en").focus();
+	     	        return;
+	     	    }
+
+	     	    
+	     	    if(pm_no.length == 0){
+	     	        alert("상품 모델번호를 입력해주세요");
+	     	        $("#pm_no").focus();
+	     	        return;
+	     	    }
+	     	    
+	     	    if(p_price.length == 0){
+	     	        alert("상품 금액을 입력해주세요");
+	     	        $("#p_price").focus();
+	     	        return;
+	     	    }
+	     	    
+	     	    if(Category2.length == 0){
+	     	        alert("카테고리를 선택해주세요");
+	     	        $("#Category2").focus();
+	     	        return;
+	     	    }
+			}
+			
 				
 				//var pageNumTag = $("input[name=pageNum]").clone();
 				//var amountTag = $("input[name=amount]").clone();

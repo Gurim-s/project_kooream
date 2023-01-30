@@ -52,7 +52,7 @@
 <!---------------------------------장바구니 리스트 끝-------------------------------- -->
 	<hr/>
 	<div>
-      	합계
+     <!--  	총 상품 금액 : <input name="total_sum" type="text" size="20" readonly> -->
 	</div>
     <br/>
 	
@@ -179,22 +179,7 @@ $(function(){	// list()함수 실행하기위한
 		$("#allCheck").prop("checked", false);
 	});
 
-/*         function itemSum() {		// 합계구하기,,,
-            var str = "";
-            var sum = 0;
-            var count = $(".chkbox").length;
-            for (var i = 0; i < count; i++) {
-                if ($(".chkbox")[i].checked == true) {
-                    sum += parseInt($(".chkbox")[i].value);
-                }
-            }
-            $("#total_sum").html(sum + " 원");
-            $("#amount").val(sum);
-        } */
-	
-	
-	
-	
+
 
 	
 	
