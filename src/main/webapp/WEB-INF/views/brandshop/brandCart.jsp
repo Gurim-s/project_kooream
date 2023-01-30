@@ -155,7 +155,7 @@ $(function(){	// list()함수 실행하기위한
 			/* /*data : json, */
 			success : function(result){
 				if(result == 1) {          
-					alert("삭세 성공");
+					alert("삭제 성공");
 					list();		// 성공시 list() 함수를 타야 새로고침 된다
 				} else {
 					alert("삭제 실패");

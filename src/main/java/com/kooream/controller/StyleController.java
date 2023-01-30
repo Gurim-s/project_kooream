@@ -49,6 +49,17 @@ public class StyleController {
 		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/list/tag/{hashtag}",
+			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
+			consumes = "application/json")
+	ResponseEntity<List<StyleVO>> listHashtag(@PathVariable("hashtag") String hashtag, @RequestBody Criteria cri) {
+		List<StyleVO> list = service.getList(cri);
+		log.info(cri.getAmount() + "" + cri.getPageNum());
+//		List<StyleVO> list = service.getListByHashTag(cri, hashtag);
+//		log.info(cri.getAmount() + "" + cri.getPageNum());
+		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
+	}
+	
 //	@GetMapping(value = "/list/recent",
 //				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 //	public ResponseEntity<List<StyleVO>> listRecent() {

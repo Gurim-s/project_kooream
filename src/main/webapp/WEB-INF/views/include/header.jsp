@@ -45,7 +45,7 @@
 			<div>
 				<ul>
 					<li>
-						<a href="/style/list">STYLE</a>
+						<a href="/style/list?category=hot">STYLE</a>
 					</li>
 					<li>
 						<a href="/shop/shop_allList">SHOP</a>

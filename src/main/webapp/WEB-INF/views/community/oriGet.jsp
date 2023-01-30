@@ -298,7 +298,7 @@
 			
 				// 댓글 달기
 				replyService.add(
-						{no:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
+						{orino:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
 						
 						function(result) {
 							countNo();
