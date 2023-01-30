@@ -1,4 +1,4 @@
-function displayTime(timeValue){
+function showTime(timeValue){
 	var today = new Date();
 	var gap = today.getTime() - timeValue;
 	var dateObj = new Date(timeValue);
@@ -26,4 +26,4 @@ function displayTime(timeValue){
 	}
 }
 
-export {displayTime};
+export {showTime};

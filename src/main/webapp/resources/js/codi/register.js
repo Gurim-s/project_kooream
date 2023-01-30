@@ -3,9 +3,13 @@ import {imgFileUploader} from '../common/img-file-uploader.js';
 $(function() {
 	var uploaderContainer = $('.uploadDiv');
 	var uploader = imgFileUploader;
+	uploader.setOption({
+		uploadURL: '/codi-uploadAjaxAction',
+		saveName: 'attachList',
+		max: 5,
+	});
+	uploader.init();
 	$(uploaderContainer).append(uploader.container);
-	uploader.setURL('/codi-uploadAjaxAction');
-	uploader.setSaveName('attachList');
 	
 	var operForm = $('#operForm');
 	var formObj = $("form[role='form']");
