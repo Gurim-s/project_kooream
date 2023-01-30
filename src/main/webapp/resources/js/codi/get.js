@@ -141,7 +141,7 @@ function showList() {
 					var target = $(e.target).closest('button');
 					var remove_btn = $(target).closest('div').find(".remove_btn");
 					var update_open = $(target).closest('div').find(".update_open");
-					console.log($(target).data('opened'));
+//					console.log($(target).data('opened'));
 					if($(target).data('opened') == "closed"){
 						$(remove_btn).show();
 						$(update_open).show();
@@ -159,7 +159,7 @@ function showList() {
 					var update_btn = $(target).closest('div').find("");
 					var gomain = $(e.target).closest('li').find('.comment-main');
 				
-					console.log($(target).data('textopen'));
+//					console.log($(target).data('textopen'));
 					if($(target).data('textopen')=='close'){
 						console.log(gomain);
 						$(update_btn).show();
@@ -173,12 +173,13 @@ function showList() {
 				}); // update_open .... end 
 				
 				$('.update_btn').on('click', function(e) {
+					var gomain = $(e.target).closest('li').find('.comment-main');
+					console.log('.c_reply_text');
 					var cno = $(e.target).closest('li').data('cno');
 					var vo = {};
 					var second = $('#c_reply_text');
 					vo.codi_c_no = cno;
 					vo.reply = second.val();
-					
 					CodiReplyService.update(vo, function(result){
 						alert(result);
 						showList();

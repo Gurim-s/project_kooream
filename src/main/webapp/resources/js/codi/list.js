@@ -57,7 +57,6 @@ function getList(pageNum, amount) {
 	.done(function(json) {
 		$.each(json, function(idx, codi) {
 			// 1개의 코디 중 제일 큰 곳
-			console.log(json);
 			var card_box = $('<a href="/codishop/get?codi_no='+ codi.codi_no + '"><div></div></a>');		//card_box div 태그 생성
 			$(card_box).attr('class', 'codi_card');  // card_box class 넣어주기
 			
