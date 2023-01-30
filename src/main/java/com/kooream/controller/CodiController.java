@@ -56,6 +56,9 @@ public class CodiController {
 		
 		int total = service.getTotal(cri);
 		
+		
+		
+		
 		log.info(cri.getAmount()+""+cri.getPageNum());
 		return new ResponseEntity<List<CodiVO>>(list, HttpStatus.OK);
 	}

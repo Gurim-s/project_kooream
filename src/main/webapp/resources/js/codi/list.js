@@ -21,12 +21,27 @@ $(function() {
 	
 	$('#searchBtn').on('click',function(e){
 		e.preventDefault();
-		getList(pageNum, amount);
 		$('#first').empty();
 		$('#second').empty();
 		$('#third').empty();
 		$('#force').empty();
+		getList(pageNum, amount);
 	});
+	
+	$('.searchTagName').on('click',function(e){
+		e.preventDefault();
+		alert("클릭함");
+		console.log($(e.target).text());
+		console.log($(e.target).val());
+		console.log($(e.target).value);
+		$('#first').empty();
+		$('#second').empty();
+		$('#third').empty();
+		$('#force').empty();
+		getList(pageNum, amount);
+		
+	});
+	
 	
 	
 	
@@ -38,6 +53,7 @@ $(function() {
 function getList(pageNum, amount) {
 	console.log("searchName : " + $('#searchName').val());
 	console.log("searchType : " + $('#searchType').val());
+	
 	// 리스트 초기화
 	
 
@@ -88,7 +104,8 @@ function getList(pageNum, amount) {
 			for(var i=0; i<codi.codiTagList.length; i++){
 				// 새로운 화면으로 이동 (tags.jsp)
 //				tags += '<a href="/codishop/tags?tag_name='+codi.codiTagList[i].tag_name+'">#'+ codi.codiTagList[i].tag_name+'</a>';
-				tags += '<a href="#">#'+ codi.codiTagList[i].tag_name+'</a>';
+//				tags += '<a href="#" name="searchTagName" id="searchTagName">#'+ codi.codiTagList[i].tag_name+'</a>';
+				tags += '<a href="/codishop/list?tag_name='+codi.codiTagList[i].tag_name+'" name="searchTagName" class="searchTagName">#'+ codi.codiTagList[i].tag_name+'</a>';
 			};
 			
 			var text_Line4 = $('<div></div>');
@@ -106,6 +123,18 @@ function getList(pageNum, amount) {
 			$(column[idx % 4]).append(card_box);	// 생성한 div를 column에 추가 -> 이 작업을 해야 view에 나옴
 			
 		}); // function(idx, codi) ... end
+		
+//		$('.searchTagName').on('click',function(e){
+//			e.preventDefault();
+//			alert("클릭함");
+//			console.log("searchagName : " +$(e.target).text());
+//			$('#first').empty();
+//			$('#second').empty();
+//			$('#third').empty();
+//			$('#force').empty();
+////			getList(pageNum, amount);
+//		});
+		
 	});	// .done ... end
 };	// function getList ... .end
 
