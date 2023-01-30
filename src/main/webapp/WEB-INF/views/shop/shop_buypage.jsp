@@ -378,7 +378,8 @@
 	});
 	
 	function buyNowPage(pno) {
-		location.href="/shop/shop_bidbuy/" + pno;
+		var price = $('[name="want_price"]').val();
+		location.href="/shop/shop_bidbuy?pno=" + pno + "&price="+price;
 	}
 	
 </script>

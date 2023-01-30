@@ -2,7 +2,7 @@ package com.kooream.service;
 
 import java.util.List;
 
-
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
 
 
@@ -19,4 +19,6 @@ public interface BidShopService {
 	public void remove(int p_no);
 
 	public void insertProduct(ProductVO vo);
+
+	public List<AttachFileVO> getAttachList(int p_no);
 }

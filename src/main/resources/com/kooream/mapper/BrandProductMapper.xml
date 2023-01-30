@@ -44,7 +44,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<!-- 제일 최근에 등록한 상품번호   -->
 	 <select id="getPno" resultType="int">
-	
 	      select p_no
 	      from PRODUCT
 	      WHERE rownum = 1

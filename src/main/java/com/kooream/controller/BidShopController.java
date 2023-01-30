@@ -2,13 +2,18 @@ package com.kooream.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.service.BidShopService;
 
@@ -132,4 +137,12 @@ public class BidShopController {
         model.addAttribute("vo", vo);
         return "shop/shop_sellpage";
     }
+	
+	// 이미지 리스트 보여주기
+	@GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody 
+	public ResponseEntity<List<AttachFileVO>> getAttachList(int p_no) {
+		log.info("getAttachList...." + p_no); 
+		return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
+	}
 }

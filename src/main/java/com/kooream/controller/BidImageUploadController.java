@@ -29,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.AttachFileVO;
-
+import com.kooream.service.BidImageUploadService;
 import com.kooream.service.BrandProductService;
 import com.kooream.service.BrandProductUploadService;
 
@@ -40,12 +40,12 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping("/brandfile/*")
-public class BrandProductUploadController {
+@RequestMapping("/bidfile/*")
+public class BidImageUploadController {
 	
 	
 	@Setter(onMethod_= @Autowired)
-	private BrandProductUploadService service;
+	private BidImageUploadService service;
 	
 	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE) // 리턴되는값이 json
 	 @ResponseBody
@@ -97,6 +97,8 @@ public class BrandProductUploadController {
 				
 				list.add(attachVo);
 				
+				service.uploadFile(attachVo);
+				
 				/* service.uploadFile(attachVo); p_no값이 0이 들어감 => insert가 2번된다*/
 				
 				
@@ -118,7 +120,7 @@ public class BrandProductUploadController {
 	 }
 	 
 	//-----------------------------------------------------------------------------------X 누르면 파일 삭제
-	@PostMapping("deleteFile")
+	@PostMapping("/deleteFile")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName){
 		log.info("deleteFile : " + fileName);
@@ -129,7 +131,7 @@ public class BrandProductUploadController {
 			file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "utf-8"));	// 프론트에서 컨트롤러로 던질때 인코딩해서 던졋으므로 받을때 디코딩으로 받음
 			file.delete();
 			
-			service.removeFile(fileName);	// 파일 삭제 만들어야함
+			service.removeFile(fileName);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,12 +163,5 @@ public class BrandProductUploadController {
 		e.printStackTrace();
 	}
 	 return result;
-	  
-	  
-	  
 	  }
-	 
-	
-	
-	
 }
