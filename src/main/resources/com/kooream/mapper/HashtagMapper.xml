@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.HashtagMapper">
+	<select id="getHashtagListByStyleNo" resultType="com.kooream.domain.HashtagVO">
+		select tag_no, hashtag
+		from hashtag
+		where tag_no in (select tag_no
+						 from style_tag
+						 where style_no = #{style_no})
+	</select>
+	<select id="getTagNo" resultType="long">
+		select nvl(max(tag_no), 0)
+		from hashtag
+		where hashtag=#{hashtag}
+	</select>
+	<insert id="insert">
+		insert into hashtag
+		values (hashtag_seq.nextval, #{hashtag}, sysdate, 0, 0)
+	</insert>
+	<delete id="deleteByTagNo">
+		delete from hashtag
+		where tag_no = #{tag_no}
+	</delete>
+</mapper>

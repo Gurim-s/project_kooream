@@ -4,12 +4,19 @@
 
 
 var imgService = (function() {
-	
 	function originPath(imageVO) {
 		if (!imageVO) return "/resources/img/codi_test.png";
 		
 		var {uploadPath, uuid, fileName} = imageVO;
 		return "/displayStyleImage?fileName=" + encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
+	}
+	
+	function getImageEl(imageVO) {
+		const img = document.createElement('img');
+		img.src = originPath(imageVO);
+		img.dataset.offsetX = imageVO.offsetX? imageVO.offsetX : 0;
+		img.dataset.offsetY = imageVO.offsetY? imageVO.offsetY : 0; 
+		return img;
 	}
 	
 	async function uploadImageAjax(url, formData) {
@@ -23,7 +30,9 @@ var imgService = (function() {
 	
 	return {
 		originPath: originPath,
+//		getImageFile: getImageFile,
 		uploadImageAjax: uploadImageAjax,
+		getImageEl: getImageEl,
 	}
 })();
 

@@ -14,4 +14,6 @@ public class StyleImageVO {
 	private String uploadPath;
 	private String fileName;
 	private long style_no;
+	private String offsetX;
+	private String offsetY;
 }

@@ -28,12 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="modify" parameterType="com.kooream.domain.ProductVO">
 	<![CDATA[
-		update PRODUCT 
-		set
-		p_name_ko=#{p_name_ko},
-		p_name_en=#{p_name_en},
-		p_model_no = #{p_model_no},
-		p_release_price = #{p_release_price}
+		update PRODUCT set
+			p_name_ko=#{p_name_ko},
+			p_name_en=#{p_name_en},
+			p_model_no = #{p_model_no},
+			p_release_price = #{p_release_price}
 		where
 			p_no=#{p_no}
 	]]>
@@ -42,4 +41,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="remove">
 		delete from PRODUCT where p_no=#{p_no}
 	</delete>
+	
+	<select id="getPno" resultType="int">
+	      select p_no
+	      from PRODUCT
+	      WHERE rownum = 1
+	      order by p_no desc
+	</select>
 </mapper>

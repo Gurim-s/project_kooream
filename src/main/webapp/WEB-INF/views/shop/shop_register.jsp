@@ -33,7 +33,7 @@
 	<h1>샵 상품등록</h1><br/>
 	<div class="container">
 		<form action="/shop/shop_register" method="post">
-			<table class = "register">
+			<table class="register">
 			<tr>
 				<td>이미지 등록</td>
 					<td><input type="file" name="uploadFile" multiple="multiple"></td>
@@ -136,7 +136,6 @@
 
 		<script type="text/javascript">
 		  //-------------------------버튼 클릭 스크립트-----------------------------------
-/*
 		   $(function(){
 			      var formObj = $("form");
 			      
@@ -164,17 +163,14 @@
 			               str += '<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'" >';
 			               str += '<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'" >';
 			            });   
-			               
+			            
+			            console.log(formObj);
 			            formObj.append(str);
 			            formObj.submit();
 			         }   
 			         
 			      });
-			   
-			      
-			      
 			   });
-		  */
 		  
 	// 업로드 전 제약
 		$(function () {
@@ -203,7 +199,7 @@
 			console.log(files);
 			
 			for(var i=0; i<files.length; i++){
-					
+
 				if(!checkExtension(files[i].name, files[i].size)){
 					return false;
 				}
@@ -329,8 +325,6 @@
 		console.log(brand);
 		$('.Brand_name').html(a);
 	}
-	
-	
 </script>
 </body>
 </html>

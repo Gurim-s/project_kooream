@@ -7,25 +7,27 @@ import {imgSlider} from '../common/img-slider.js';
 import {imgService} from '../service/image-service.js';
 
 var imgFileUploader = (function() {
+	const publisherList = [];
 	const container = document.createElement('div');
 	const tempInput = createTempInput();
 	const previewList = createImgPreview();
-	const slider = imgSlider();
-	const option = {};
+	let slider = imgSlider();
 	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
+	let option = {};
 	
-	init();
 	function init() {
 		container.prepend(previewList);
 		container.prepend(tempInput);
+		slider.setOption(option.slider);
 		container.append(slider.container);
-		addEvent();
+		setEvent();
 		defaultCss();
 	}
 	
 	function createTempInput() {
 		const input = document.createElement('input');
 		input.type = 'file';
+		input.accept='image/jpeg, image/png, image/jpg';
 		input.multiple='multiple';
 		input.id = 'tempInput';
 		
@@ -38,9 +40,9 @@ var imgFileUploader = (function() {
 		ul.className = 'preview-list';
 		
 		const str = (
-				'<li class="input-img">' +
-						'<span>+</span>'+ 
-				'</li>');
+			'<li class="input-img">' +
+				'<span>+</span>'+ 
+			'</li>');
 		ul.innerHTML = str;
 		div.append(ul);
 		return div;
@@ -49,9 +51,13 @@ var imgFileUploader = (function() {
 	/* ========================
 	 * addEventListener
 	 * ========================*/
-	function addEvent() {
+	function setEvent() {
 		tempInput.addEventListener('change', ({target}) => addTempFile(target));
 		previewList.addEventListener('click', (e) => previewEventHandler(e));
+	}
+	
+	function addInputEventListener(callback) {
+		tempInput.addEventListener('change', callback);
 	}
 	
 	function previewEventHandler(event) {
@@ -75,20 +81,43 @@ var imgFileUploader = (function() {
 	/* ========================
 	 * Method
 	 * ========================*/
+	function publish(target) {
+		publisherList.push(target);
+	}
+	
 	function setURL(url) {
 		option.uploadURL = url;
 	}
+	
 	function setSaveName(name) {
 		option.saveName = name;
 	}
+	
+	function setOption(customOption) {
+		option = Object.assign(option, customOption);
+	}
+	
+	function setRatio(ratio) {
+		slider.setRatio(ratio);
+		slider.empty();
+		emptyPreview();
+		Array.from(dataTransfer.files)
+		.forEach(pushPreview);
+	}
+	
 	function addTempFile(target) {
 		const files = target.files;
 		
 		Array.from(files)
 		.forEach(file => {
+			if (!checkFileType(file)) return;
+			if (!checkFileCountMax()) return;
 			pushPreview(file);
 			dataTransfer.items.add(file);
 		});
+		
+		target.value = '';
+		update();
 	}
 	
 	function removeTempFile(target) {
@@ -102,11 +131,12 @@ var imgFileUploader = (function() {
 		.filter((_, i) => i !== idx)
 		.forEach(file => newFiles.items.add(file));
 		dataTransfer = newFiles;
+		
+		update();
 	}
 	
 	function pushPreview(file) {
 		const src = URL.createObjectURL(file);
-
 		const li = document.createElement('li');
 		li.innerHTML = '<img src="'+src+'"/>' +
 					   '<button class="remove-img-btn"></button>';
@@ -119,12 +149,38 @@ var imgFileUploader = (function() {
 		slider.add(src);
 	}
 	
+	function emptyPreview() {
+		slider.empty();
+		previewList.querySelectorAll('li:not(:first-child)')
+		.forEach(x => x.remove());
+	}
+	
 	function selectPreview() {
 //		slider.slideImg;
 	}
 	
 	function countFiles() {
 		return dataTransfer.items.length;
+	}
+	
+	function checkFileType(file) {
+		const fileType = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+		if (!file.name.match(fileType)) {
+			alert('이미지 파일만 업로드 가능합니다.');
+			return false;
+		};
+		
+		return true;
+	}
+	
+	function checkFileCountMax() {
+		if (!option.max) return true;
+		if (countFiles()+1 > option.max) {
+			alert('이미지는 최대 5개까지 첨부할 수 있습니다.');
+			return false;
+		} 
+		
+		return true;
 	}
 	
 	async function uploadImageAjax() {
@@ -134,18 +190,26 @@ var imgFileUploader = (function() {
 			formData.append("uploadFile", file);
 		});
 		
-		let uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
+		const uploadResult = await imgService.uploadImageAjax(option.uploadURL, formData);
 		let str ='';
 		Array.from(uploadResult)
 		.forEach((image, i) => {
 			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
 				   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">' +
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetX" value="'+slider.offsetX(i) +'">' +
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetY" value="'+slider.offsetY(i) +'">';
 		});
-		console.log(str);
 		return str;
 	}
 	
+	function update() {
+		previewList.querySelector('li.input-img').style
+		.display = countFiles() == option.max ? 'none': 'list-item';
+		
+		const count = countFiles();
+		publisherList.forEach(x => x.update(count));
+	}
 	/* =======================
 	 * CSS
 	 * =======================*/
@@ -215,12 +279,17 @@ var imgFileUploader = (function() {
 	}
 	
 	return {
+		init: init,
+		publish: publish,
+		slider: slider,
 		container: container,
 		uploadImageAjax: uploadImageAjax,
 		countFiles: countFiles,
 		setURL: setURL,
+		setRatio: setRatio,
 		setSaveName: setSaveName,
-		option: option,
+		setOption: setOption,
+		addInputEventListener: addInputEventListener,
 	};
 })();
 
