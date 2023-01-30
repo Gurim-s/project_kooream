@@ -8,8 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 상품 등록 -->
 	<insert id="insert" parameterType="com.kooream.domain.ProductVO">
 		insert into PRODUCT
-		(p_no, b_no, p_name_ko, p_name_en, p_size, p_model_no, p_release_price, p_category, p_class, p_brand)
-		values(product_no_seq.nextval, #{b_no}, #{p_name_ko}, #{p_name_en}, #{p_size}, #{p_model_no},  #{p_release_price}, #{p_category}, 'brand', #{p_brand} )
+		(p_no, b_no, p_name_ko, p_name_en, p_size, p_model_no, p_release_price, p_category, p_class)
+		values(product_no_seq.nextval, #{b_no}, #{p_name_ko}, #{p_name_en}, #{p_size}, #{p_model_no},  #{p_release_price}, #{p_category}, 'brand' )
 	</insert>
 	
 	<!--  상품 리스트 출력 (최근 등록순으로) -->
