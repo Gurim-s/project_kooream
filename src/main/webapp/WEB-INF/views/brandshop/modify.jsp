@@ -116,7 +116,7 @@
 			<tr>
 				<td class="register_button">
 					<button type="submit" data-oper="modify">수정완료</button>
-					<button data-oper="back">취소</button>
+					<!-- <button type="reset">취소</button> -->
 					<button type ="submit" data-oper="list">목록으로</button>
 					<button type="submit" data-oper="remove">삭제</button>
 					<%-- <input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
@@ -179,19 +179,17 @@
 			}else if(operation == 'list'){
 				operForm.attr("action", "/brandshop/view?b_no=" + bno);
 				operForm.attr("method", "get");
-			}else(operation == 'back'){
-				history.go(-1);
 				
-			}
+			}	 
 				
 				//var pageNumTag = $("input[name=pageNum]").clone();
 				//var amountTag = $("input[name=amount]").clone();
 				
-				operForm.empty();	// 내부 비워주기	
-				
+					// 내부 비워주기	
+
 				//operForm.append(pageNumTag);
 				//operForm.append(amountTag);
-			}
+		
 			
 			operForm.submit();
 		});
@@ -221,7 +219,7 @@
 		              str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
 		              // str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>'; 리스트형태 + 이미지 보여줌
 		              // str += '</a>';
-		              str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
+		              /* str += '<span data-file="'+fileCallPath+'"> X </span>'; */   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
 		              str += '</li>';
 		            }
 		           	
@@ -230,6 +228,7 @@
 			}
 	
 		});
+		
 		var uploadResult = $(".uploadResult ul");
         uploadResult.on("click","span", function(){
             var targetFile = $(this).data("file");
@@ -247,8 +246,8 @@
             });
             
          });   
-	});
-		
+	
+	});		
 
 
 </script>

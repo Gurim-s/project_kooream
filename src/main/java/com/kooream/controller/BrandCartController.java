@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -110,8 +111,19 @@ public class BrandCartController {
 	@PostMapping(value = "/Cartdelete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public int Cartdelete(BrandCartVO vo) {
-		//int m_no = 1;
+		
 		int result = cartservice.Cartdelete(vo);
+/*	public int Cartdelete(@RequestParam(value = "chbox[]") List<String> chArr, BrandCartVO vo) {
+
+		 int result = 0;
+		 int cart_no = 0;
+
+		  for(String i : chArr) {   
+		   cart_no = Integer.parseInt(i);
+		   vo.setCart_no(cart_no);
+		   cartservice.Cartdelete(vo);
+		  }   
+		  result = 1;*/
 		
 	return result;
 	}
