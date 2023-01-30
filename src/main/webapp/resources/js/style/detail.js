@@ -3,7 +3,7 @@ import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
 import {modal} from '../common/modal.js';
 import {replyViewer} from '../common/reply-viewer.js';
-import {displayTime} from '../common/common.js';
+import {showTime} from '../common/common.js';
 
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
@@ -30,7 +30,7 @@ var template = function(style) {
 				'</div>' +
 				'<div class="user-regdate">' +
 				 	'<div class="user-name">김씨</div>' +
-					'<div class="regdate">'+ displayTime(style.style_regdate) +'</div>' +
+					'<div class="regdate">'+ showTime(style.style_regdate) +'</div>' +
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
