@@ -36,7 +36,7 @@
 			<table class = "register">
 			<tr>
 				<td>이미지 등록</td>
-					<td><input type="file" name="uploadFile" multiple="multiple"></td>
+					<td><input id = "p_image" type="file" name="uploadFile" multiple="multiple"></td>
 			<td class="uploadResult">
 				<ul></ul>
 			</td>
@@ -162,8 +162,13 @@
 			     	    var Category1 = $("#Category1").val();
 			     	    var pm_no = $("#pm_no").val();
 			     	    var p_price = $("#p_price").val();
+			     	    var p_image = $("#p_image").val();
 
-
+			     	    if(!p_image.length){
+			     	        alert("이미지를 선택해주세요");
+			     	        return;
+			     	    }
+			     	    
 			     	    if(brand_select.length == 0){
 			     	        alert("브랜드를 체크해 주세요"); 
 			     	        $("#brand_select").focus();
@@ -199,7 +204,7 @@
 			     	        $("#p_price").focus();
 			     	        return;
 			     	    }
-			     	    
+
 
 			            
 			            
