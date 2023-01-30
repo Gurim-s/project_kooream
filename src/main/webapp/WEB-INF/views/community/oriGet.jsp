@@ -16,7 +16,7 @@
 		width: 130px;
 	}
 	#head{
-		font-size: 30px;
+		font-size: 25px;
 	}
 	button{
 		text-align: left;
