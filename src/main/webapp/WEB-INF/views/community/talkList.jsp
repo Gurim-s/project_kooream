@@ -10,7 +10,8 @@
 <style type="text/css">
 	#menu_list{
 		float: left;
-		height: 500px;
+		height: 100%;
+		margin-bottom: 100%;
 		width: 130px;
 	}
 	.talkno{
@@ -34,18 +35,17 @@
 	}
 	table{
 		padding-left: 150px;
-		width: 1000px;
-	}
-	hr{
-		width: 1000px;
+		width: 80%;
 	}
 	span{
-		font-size: 30px;
+		font-size: 25px;
 	}
 	button{
 		margin-left: 800px;
-		
+		border: none;
+		background-color: #fff;	
 	}
+	
 </style>
 <script type="text/javascript">
 	
@@ -59,7 +59,7 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>구림톡</span>
+		<span><strong>구림톡</strong></span>
 		<button>글쓰기</button>
 	</div>
 	<br/>

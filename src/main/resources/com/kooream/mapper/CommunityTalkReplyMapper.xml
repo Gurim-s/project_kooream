@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.CommunityTalkReplyMapper">
 	<insert id="insert">
 		INSERT INTO talkreply  (talkreplyno, talkno, m_no, talkreplyname, talkreplycon, talkreplydate)
-		VALUES (seq_talkreply.nextval, #{talkno}, #{m_no}, #{talkreplyname}, #{talkreplycon}, sysdate)
+		VALUES (seq_talkreply.nextval, #{talkno}, 1, #{talkreplyname}, #{talkreplycon}, sysdate)
 	</insert>
 	
 	<select id="getList" resultType="com.kooream.domain.CommunityTalkReplyVO">
