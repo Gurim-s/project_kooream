@@ -40,7 +40,6 @@ $(function() {
 			
 			
 			
-			
 			 if(codi_register.codi_title.value == "" ) {
 				codi_register.codi_title.focus();
 		        alert("제목을 입력해 주십시오.");
@@ -58,7 +57,7 @@ $(function() {
 			  };
 			 if(codi_register.m_no.value == "" ) {
 				codi_register.m_no.focus();
-		      	alert("상품 태그을 입력해 주십시오.");
+		      	alert("상품 번호을 입력해 주십시오.");
 		      	return false;
 			  };
 			 if(codi_register.codimodel_name.value == "" ) {
@@ -76,16 +75,21 @@ $(function() {
 		      	alert("몸무계를 입력해 주십시오.");
 		      	return false;
 			  };
+			
+				
+	
+	
+	
 	/*업로더 수정 이후에 다시 작업*/
-//			 var fileCheck = uploader.countFiles > 0;
-//			console.log(uploader.countFiles);
-//			 if(!fileCheck){
-//			        alert("파일을 첨부해 주세요");
-//			        return false;
-//		    }
-			  
-//			console.log(str);
-//			formObj.append(str);
+			var fileCheck = uploader.countFiles() > 0;
+			console.log(uploader.countFiles());
+			 if(!fileCheck){
+			        alert("파일을 첨부해 주세요");
+			        return false;
+		    }
+		  
+			/*console.log(str);
+			formObj.append(str);*/
 
 			
 			var tagList = $('.tag_name');
@@ -239,7 +243,6 @@ function checkExtension(fileName, fileSize){
 		tag[index] = '';
 		$(this).parent().remove();
 		console.log($(this).siblings('.tag_hidden'));
-//		$(this).siblings('.tag_hidden').remove();
 	});
 
 
