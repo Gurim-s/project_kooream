@@ -198,7 +198,7 @@
 					console.log(result);
 					var str = '';
 					
-`					if(result == null || result.length==0){
+					if(result == null || result.length==0){
 						// 댓글이 없으면
 						replylist.html("");
 						return;

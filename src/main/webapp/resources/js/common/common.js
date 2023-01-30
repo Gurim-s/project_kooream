@@ -7,7 +7,7 @@ function showTime(timeValue){
 		return Math.ceil(gap / (1000 * 60)) + '분 전';
 		
 	}else if(gap < (1000 * 60 * 60 * 24)) {
-		return Math.ceil(gap / (1000 * 60 * 60) + '시간 전');
+		return Math.ceil(gap / (1000 * 60 * 60)) + '시간 전';
 		
 	}else if(gap < (1000 * 60 * 60 * 24 * 2)) {
 		return '어제';

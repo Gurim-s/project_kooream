@@ -28,7 +28,9 @@ $(function() {
 		$('#force').empty();
 	});
 	
-	
+	$('').on('click', function(e) {
+		$(e.target).text();
+	});
 	
 	
 

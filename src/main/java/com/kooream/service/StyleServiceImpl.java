@@ -43,6 +43,14 @@ public class StyleServiceImpl implements StyleService{
 	}
 	
 	@Override
+	public List<StyleVO> getListByHashTag(Criteria cri, String hashtag) {
+//		long tag_no = styleTagMapper.getTagNoByHashtag(hashtag);
+//		List<StyleVO> list = mapper.getListByHashTag(cri);
+		
+		return null;
+	}
+	
+	@Override
 	public StyleVO get(long style_no) {
 		StyleVO style = mapper.get(style_no);
 		List<StyleImageVO> images = imageMapper.getImagesByStyle_no(style_no);
