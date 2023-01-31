@@ -45,9 +45,6 @@
     .date-view{
     	float: right;
     }
-    .replyBtn{
-    	
-    }
     #talkname{
     	width: 300px;
     }
@@ -216,8 +213,8 @@
 						
 						for(var i=0; i<result.length; i++){
 							str += '<div data-replyno ="1"><span><strong>'+ result[i].talkreplyname +'</strong></span>'
-							str += '<button class="replyBtn" id="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
-							str += '<button class="replyBtn" id="replyremovebtn" data-replyno ="'+result[i].talkreplyno	+'">삭제</button>'
+							str += '<button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
+							str += '<button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno+'">삭제</button>'
 							str += '<div>'
 							str += '<small class="date-view">'+displayTime(result[i].talkreplydate)+'</small>'
 							str += '</div>'
@@ -247,7 +244,7 @@
 							
 						
 						// 댓글 수정
-						$('#replyupdatebtn').on('click', function(e) {
+						$('.replyupdatebtn').on('click', function(e) {
 							var talkreplyno = $(e.target).data("replyno");
 							var test = $(e.target).closest('div');
 							var test2 = $(test).next('div').remove();
@@ -257,8 +254,8 @@
 								console.log(result);
 								
 								str += '<div data-replyno ="1"><span><strong>'+ result.talkreplyname +'</strong></span>'
-								str += '<button class="replyBtn" id="replyupdate-ok" data-replybtn ="'+result.talkreplyno+ '">수정 완료</button>'
-								str += '<button class="replyBtn" id="replyreset" data-replybtn ="'+result.talkreplyno+ '">취소</button>'
+								str += '<button class="replyupdate-ok" data-replybtn ="'+result.talkreplyno+ '">수정 완료</button>'
+								str += '<button class="replyreset" data-replybtn ="'+result.talkreplyno+ '">취소</button>'
 								str += '<div>'
 								str += '<small class="date-view">'+displayTime(result.talkreplydate)+'</small>'
 								str += '</div>'
@@ -271,13 +268,13 @@
 								
 								
 								// 댓글 수정 취소 버튼
-								$("#replyreset").click(function() {
+								$(".replyreset").click(function() {
 									showList();
 								});
 								
 								var replyconupdate = $('#replyconupdate');
 								// 댓글 수정
-								$("#replyupdate-ok").on("click", function() {
+								$(".replyupdate-ok").on("click", function() {
 									
 									if($("textarea[name=replycon]").val() == ""){
 										alert('수정할 내용을 입력 해주세요.')
