@@ -25,5 +25,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM original_pro WHERE orino = #{orino}
 	</delete>
 	
+	<update id="oriUpdate">
+		UPDATE original_pro SET
+		orititle = #{orititle},
+		oricon = #{oricon}
+		WHERE orino = #{orino}
+	</update>
 	
 </mapper>

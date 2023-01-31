@@ -130,6 +130,7 @@
 		</div>
 		<div>
 			<button id="replyRegister">등록</button>
+			<button id="replyUpdate">수정</button>
 			<button id="replyReset">취소</button>
 		</div>
 	</div>
@@ -267,6 +268,8 @@
 		var my_modal = $("#my_modal")
 		var modalInputReply = $("#oricon")
 		var modalInputReplyer = my_modal.find("input[name='orireplyname']");
+		var modalupdatebtn = $("#replyUpdate");
+		var modalregisterbtn = $("#replyRegister");
 		
 		// 정품 같아요 클릭
 		$("#dec_ok").click(function(e) {
@@ -275,6 +278,7 @@
 			
 			// 모달창 열기
 			modalInputReply.val('');	// 댓글 내용 창 비우기
+			modalupdatebtn.hide();
 			my_modal.show();
 			
 			// 모달창 등록
@@ -306,6 +310,7 @@
 			
 			// 모달창 열기
 			modalInputReply.val('');	// 댓글 내용 창 비우기
+			modalupdatebtn.hide();
 			my_modal.show();
 			
 			// 모달창 등록
@@ -377,6 +382,43 @@
 			}); // -------------------------------댓글 삭제 end
 			
 			
+			// 댓글 수정 관련 스크립트
+			$(".replyList").on("click", "#replyupdatebtn", function() {
+				orireplyno = $(this).data("replyno");
+				//alert(orireplyno);
+				
+				// 댓글 수정을 위해 댓글 내용 조회하기
+				replyService.get(orireplyno, function(result) {
+					console.log(orireplyno)
+					console.log(result);
+					
+					modalInputReply.val(result.orireplycon);
+					modalInputReplyer.val(result.orireplyname);
+					
+					modalInputReplyer.attr("readonly","readonly");
+					
+					modalregisterbtn.hide();
+					modalupdatebtn.show();
+					my_modal.show();
+					
+				})
+				
+				// 댓글 수정하기
+				$(modalupdatebtn).click(function() {
+					
+					replyService.update(
+						{orireplyno : orireplyno, orireplycon:modalInputReply.val()},
+						function(result) {
+							alert("댓글 수정 완료");
+							my_modal.hide();
+							showList();
+						}
+					)
+					
+					
+				}); // 댓글 수정하기 end
+				
+			}) //-------------------------------댓글 수정 관련 스크립트 end
 			
 			
 			

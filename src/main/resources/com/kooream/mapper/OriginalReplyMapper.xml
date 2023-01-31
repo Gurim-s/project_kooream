@@ -34,4 +34,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM originalreply WHERE orireplyno = #{orireplyno}
 	</delete>
 	
+	<select id="read" resultType="com.kooream.domain.OriginalReplyVO">
+		SELECT orireplyno, orireplycon, orireplyname, orireplydate, oridecision, orino FROM originalreply
+		WHERE orireplyno = #{orireplyno}
+	</select>
+	
+	<update id="update">
+		UPDATE originalreply SET
+		orireplycon = #{orireplycon},
+		orireplydate = sysdate
+		WHERE orireplyno = #{orireplyno}
+	</update>
+	
 </mapper>

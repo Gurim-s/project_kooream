@@ -26,4 +26,10 @@ public interface OriginalReplyService {
 	
 	// 댓글 삭제
 	public int remove (int orireplyno);
+	
+	// 댓글 조회
+	public OriginalReplyVO get (int orireplyno);
+	
+	// 댓글 수정
+	public int modify (OriginalReplyVO vo);
 }

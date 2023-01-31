@@ -27,4 +27,10 @@ public interface OriginalReplyMapper {
 	// 댓글 삭제
 	public int delete(int orireplyno);
 	
+	// 댓글 조회
+	public OriginalReplyVO read(int orireplyno);
+	
+	// 댓글 수정
+	public int update(OriginalReplyVO vo);
+	
 }

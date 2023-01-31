@@ -73,4 +73,21 @@ public class OriginalReplySeviceImpl implements OriginalReplyService{
 		return result;
 	}
 	
+	// 댓글 조회
+	@Override
+	public OriginalReplyVO get(int orireplyno) {
+		log.info("original reply get.........." + orireplyno);
+		
+		return mapper.read(orireplyno);
+	}
+	
+	// 댓글 수정
+	@Override
+	public int modify(OriginalReplyVO vo) {
+		log.info("original modify................" + vo);
+		
+		int result = mapper.update(vo);
+		return result;
+	}
+	
 }

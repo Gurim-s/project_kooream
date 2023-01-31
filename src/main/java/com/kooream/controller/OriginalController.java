@@ -104,6 +104,8 @@ public class OriginalController {
 	@GetMapping("/oriUpdate")
 	public String oriUpdate(int orino, Model model) {
 		log.info("original update page............" + orino);
+		
+		model.addAttribute("vo", service.oriGet(orino));
 		return "/community/oriUpdate";
 	}
 	
@@ -118,6 +120,18 @@ public class OriginalController {
 		
 		return "redirect:/community/oriList";
 		
+	}
+	
+	// 정품판별 게시글 수정
+	@PostMapping("/oriUpdate")
+	public String oriUpdate(OriginalVO vo, RedirectAttributes rttr) {
+		log.info("original update.........." + vo);
+		
+		if(service.oriUpdate(vo)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		return "redirect:/community/oriList";
 	}
 	
 }

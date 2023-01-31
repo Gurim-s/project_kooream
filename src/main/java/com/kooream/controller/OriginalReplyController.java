@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kooream.domain.OriginalReplyVO;
@@ -54,17 +55,18 @@ public class OriginalReplyController {
 	}
 	
 	// 진품 같아요 댓글 갯수
-	@GetMapping(value = "/{orino}",
-			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public int countOriOk(@PathVariable("orino") int orino) {
-		log.info("Original OK reply count....." + orino);
-		
-		int result = service.countOriOk(orino);
-		
-		return result;
-	};
 	
-	// 진품 같아요 댓글 갯수
+	@GetMapping(value = "/oriCountOk/{orino}", produces = {MediaType.APPLICATION_XML_VALUE,
+	MediaType.APPLICATION_JSON_VALUE}) public int
+	countOriOk(@PathVariable("orino") int orino) {
+	log.info("Original OK reply count....." + orino);
+	  
+	int result = service.countOriOk(orino);
+	  
+	return result; };
+	 
+	
+	// 가품 같아요 댓글 갯수
 	@GetMapping(value = "/oriCountNo/{orino}",
 			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public int countOriNo(@PathVariable("orino") int orino) {
@@ -103,6 +105,28 @@ public class OriginalReplyController {
 					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	// 댓글 조회
+	@GetMapping(value = "/{orireplyno}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<OriginalReplyVO> get(@PathVariable("orireplyno") int orireplyno){
+		log.info("original get reply................" + orireplyno);
+		
+		return new ResponseEntity<OriginalReplyVO>(service.get(orireplyno), HttpStatus.OK);
+	}
 	
+	// 댓글 수정
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH},
+			value = "/{orireplyno}", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modify(@RequestBody OriginalReplyVO vo, @PathVariable("orireplyno") int orireplyno){
+		log.info("original reply.............." + orireplyno);
+		log.info("original update reply............." + vo);
+		
+		int modifyCount = service.modify(vo);
+		
+		log.info("modify Count : " + modifyCount);
+		
+		return modifyCount == 1?
+				new ResponseEntity<String>("success", HttpStatus.OK) :
+					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 }

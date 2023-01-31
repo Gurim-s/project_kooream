@@ -16,22 +16,6 @@
 	#main{
 		margin-left: 150px;
 	}
-	.talkno{
-		width: 50px;
-		height: 30px;
-		text-align: center;
-	}
-	.talktitle{
-		width: 450px;	
-		text-align: center;
-	}
-	.talkname{
-		width: 150px;
-		text-align: center;
-	}
-	.talkdate{
-		text-align: center;
-	}
 	.btn{
 		float: right;
 	}
@@ -50,11 +34,31 @@
 	#bp{
 		height: 25px;
 	}
-	
-	#title{
-		width: 600px;
+	#full{
+		width: 100%;
+		height: 200px;
 	}
-	
+	#thumbnail{
+		float: left;
+		width: 200px;
+	}
+	#sub{
+		float: left;
+		width: 60%;
+	}
+	#oriNickname{
+		float: left;
+		width: 150px;
+		text-align: center;
+	}
+	#oriContent{
+		font-size: 12px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+	}
 </style>
 </head>
 <body>
@@ -64,41 +68,45 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div id="main">
-	<div>
-		<span id="head"><strong>정품판별</strong></span>
-		<button>글쓰기</button>
-	</div>
-	<br/>
-	<hr/>
-	<br/>
-	<div>
-		<!-- <select name = "brandname">
-			<option value="노스페이스">노스페이스</option>
-			<option value="나이키">나이키</option>
-			<option value="슈프림">슈프림</option>
-			<option value="컨버스">컨버스</option>
-		</select> -->
-	</div>
-	<div>
-		<br/>
-		<form action="/community/oriRegister" id="form">
 		<div>
+			<span id="head"><strong>정품판별</strong></span>
+			<button>글쓰기</button>
+		</div>
+		<br/>
+		<hr/>
+		<br/>
+		<div>
+			<!-- <select name = "brandname">
+				<option value="노스페이스">노스페이스</option>
+				<option value="나이키">나이키</option>
+				<option value="슈프림">슈프림</option>
+				<option value="컨버스">컨버스</option>
+			</select> -->
+		</div>
+		<div>
+		<br/>
+			<form action="/community/oriRegister" id="form">
 			<c:forEach var="vo" items="${list }">
-			<div>
-				<c:if test="${vo.attachList.size() ne 0 }">
-					<c:url var="imgSrc" value="/display">
-						<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
-					</c:url>
-					<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
-				</c:if>
-			</div>
-			<div>
-				<div><small>${vo.brandname }</small></div>
-				<div><a class="get" href="${vo.orino }">${vo.oricon }</a></div>
-				<div><a class="get" href="${vo.orino }">${vo.oriname }</a></div>
+			<div id="full">
+				<div id="thumbnail">
+					<c:if test="${vo.attachList.size() ne 0 }">
+						<c:url var="imgSrc" value="/display">
+							<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
+						</c:url>
+						<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
+					</c:if>
+				</div>
+				<div id="sub">
+					<div id="barandName"><small>${vo.brandname }</small></div>
+					<div id="oriTitle"><a class="get" href="${vo.orino }"><strong>${vo.orititle }</strong></a></div>
+					<br/>
+					<div id="oriContent"><a class="get" href="${vo.orino }">${vo.oricon }</a></div>
+				</div>
+				<div>
+					<div id="oriNickname">${vo.oriname }</div>
+				</div>
 			</div>
 			</c:forEach>
-		</div>
 			<%-- <table>
 				<c:forEach var="vo" items="${list }">
 					<tr>

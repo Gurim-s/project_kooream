@@ -68,7 +68,7 @@ var replyService = (function(){
 		
 		$.ajax({
 			type:'put',
-			url : '/oriReplies/' + orireply.orireplyno,
+			url : '/oriReplies/' + reply.orireplyno,
 			data : JSON.stringify(reply),
 			contentType : "application/json; charset=utf-8",
 			success:function(result, status, xhr){
@@ -88,7 +88,7 @@ var replyService = (function(){
 	
 	
 	function get(orireplyno, callback, error){
-		console.log("get reply..." + orireplyno);
+		console.log("get ori reply..." + orireplyno);
 		
 		$.ajax({
 			type:'get',
@@ -114,7 +114,7 @@ var replyService = (function(){
 		console.log(orino);
 		$.ajax({
 			type:'get',
-			url:'/oriReplies/' + orino +'.json',
+			url:'/oriReplies/oriCountOk/' + orino +'.json',
 			success:function(result, status, xhr){
 				if(callback){
 					callback(result);
