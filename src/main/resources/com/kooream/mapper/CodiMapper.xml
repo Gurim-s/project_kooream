@@ -31,7 +31,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						)
 				WHERE RN > (#{pageNum} - 1) * #{amount} AND RN <= #{pageNum} * #{amount}
 			]]>
-	</select>	
+	</select>
+	<!-- 상품 갯수 가져오기 -->	
 	<select id="getTotal" resultType="int">
 		select count(*) as total from codi_board WHERE 1=1
 		<include refid="search"></include>
@@ -40,8 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 			
 	</select>	
-	
 		
+	<!-- 상품 LIKE조건 sql 묶음 -->
 	<sql id="search">
 		<if test="searchName != null and searchName != ''">
 			<if test="searchType == 'codi_title'" >AND codi_title LIKE '%'||#{searchName}||'%'</if>
@@ -75,8 +76,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where rownum = 1
 	</select>
 
-
-
 	<!-- 게시글 수정 -->
 	<update id="update">
 		update codi_board 
@@ -89,11 +88,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete">
 		delete codi_board where codi_no = #{codi_no}
 	</delete>
-
-
-
-
-
 
 </mapper>
 

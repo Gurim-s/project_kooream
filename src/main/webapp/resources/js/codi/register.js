@@ -16,7 +16,6 @@ $(function() {
 	
 	$(".btn.btn_all button").on("click", async function(e) {
 		e.preventDefault();
-		
 		var oper = $(this).data("oper");
 		
 		if(oper == 'list'){
@@ -25,7 +24,6 @@ $(function() {
 			formObj[0].reset(); // 내용 비워주기 
 			return;
 		}else{
-			console.log("submit_ok");
 			var result = await uploader.uploadImageAjax();
 			var div = $('<div></div>');
 			div.append(result);
@@ -82,7 +80,6 @@ $(function() {
 	
 	/*업로더 수정 이후에 다시 작업*/
 			var fileCheck = uploader.countFiles() > 0;
-			console.log(uploader.countFiles());
 			 if(!fileCheck){
 			        alert("파일을 첨부해 주세요");
 			        return false;
@@ -93,17 +90,12 @@ $(function() {
 
 			
 			var tagList = $('.tag_name');
-			console.log(tagList);
-			console.log(tagList[0].children[0]);
-			console.log(tagList.length);
 			var tags = '';
 			for(var i=0; i<tagList.length; i++){
 				tags += '<input type="hidden" name="codiTagList['+i+'].tag_name" value="'+tagList[i].children[0].innerText+'" />';
 				tags += '<input type="hidden" name="codiTagList['+i+'].tag_cnt" value="0" />';
-				console.log(tagList[i].children[0].innerText);
 			};
 			formObj.append(tags);
-			console.log(formObj);
 			formObj.submit();			
 		};
 	}); //btn click event end
@@ -203,17 +195,12 @@ function checkExtension(fileName, fileSize){
 		var self = $(this);
 		var formData = new FormData();
 		var inputTag = $("input[name='tag_name']");
-		console.log(inputTag);
-		console.log(self.val());
-		console.log(self);
 		
 		if(e.keyCode === 13 || e.keyCode == 32){ // 13엔터 32스페이스 눌렀을시 
 			var tagValue = self.val();
 			var tagStr= '';
 			
 			if(tagValue !== ""){ // tagValue의 내용이 있을 경우
-			 	console.log(counter);
-				console.log(tagValue);
 				tagStr += '<li class="tag_name" name="tag_name">'
 				tagStr += '<span class="tag_text">'+tagValue+'</span>';
 				tagStr += '<span class="del_tag" idx="'+counter+'">X</span>';
@@ -242,7 +229,6 @@ function checkExtension(fileName, fileSize){
 		var index = $(this).attr("idx");
 		tag[index] = '';
 		$(this).parent().remove();
-		console.log($(this).siblings('.tag_hidden'));
 	});
 
 

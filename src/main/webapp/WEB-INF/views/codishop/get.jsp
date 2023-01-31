@@ -23,7 +23,7 @@
 		</div>
 		<div class="form_section">
    			<div class="form_section_title">
-   				<span>상품 이미지</span>
+   			
    			</div>
    			<div class="form_section_content">
 				<div id="uploadReslut">
@@ -52,9 +52,9 @@
 			<span>${board.m_no }</span>
 		</div>
 		<div class="container social">
+			<span name="tag">Tag</span>
 			<div class="keyword_brand">
 				<div id="uploadTag">
-					
 				</div>
 			</div>
 		</div>

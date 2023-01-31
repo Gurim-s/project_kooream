@@ -2,6 +2,7 @@ package com.kooream.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
+import com.kooream.domain.Codi_itemVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.PageDTO;
 import com.kooream.domain.SearchCriteria;
@@ -40,6 +43,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class CodiController {
 	private CodiService service;
+	
 
 	@GetMapping("/list")
 	public String list() {
@@ -51,18 +55,18 @@ public class CodiController {
 	public ResponseEntity<List<CodiVO>> list(@RequestBody SearchCriteria cri, 
 											@RequestParam(value = "searchType", required = false, defaultValue = "")String searchType, 
 											@RequestParam(value = "searchName", required = false, defaultValue = "")String searchName, 
-											@RequestParam(value = "searchTagName", required = false, defaultValue = "")String searchTagName){
+											@RequestParam(value = "searchTagName", required = false, defaultValue = "")String searchTagName
+											){
 		List<CodiVO> list = service.getList(cri);
 		
 		int total = service.getTotal(cri);
 		
-		
-		
-		
 		log.info(cri.getAmount()+""+cri.getPageNum());
 		return new ResponseEntity<List<CodiVO>>(list, HttpStatus.OK);
 	}
-
+	
+	
+	
 		
 	@GetMapping("/register")
 	public String register() {
