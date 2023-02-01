@@ -90,7 +90,7 @@
 	.product_box{
 		float: left;
 		width: calc(25% - 10px);
-		height : 410px;
+		height : 450px;
 		cursor:pointer;
 		
 	}
@@ -104,7 +104,6 @@
 	}
 	
 	.product_all{
-		float: left;
 		width: calc(100% - 220px);
 		display: inline-block;
 		grid-column-gap: 20px;

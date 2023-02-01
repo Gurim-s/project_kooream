@@ -6,24 +6,20 @@
 <style>
 	.wrap {
 		width: 100%;
-		border: 1px solid black;
 	}
 	
 	.product_photo {
 		float:left;
 		width: 50%;
-		height: 4000px;
-		border: 1px solid black;
+		height: 2000px;
 	}
 	
 	.product_introduce{
 		float:left;
 		width: 50%;
-		height: 4000px;
-		border: 1px solid black;
+		height: 2000px;
 		position: relative;
 		padding-left: 2%;
-		
 	}
 	
 	li{
@@ -116,13 +112,11 @@
 		margin-top: 17px;
 		display: flex;
 		height: 60px;
-		border: 1px solid black;
 	}
 	
 	.btn_buy {
 		height: 100%;
 		width: 50%;
-		border: 1px solid black;
 		background-color: #ef6253;
 		border-radius: 7px;
 		cursor: pointer;
@@ -171,7 +165,6 @@
 	.btn_sell{
 		height: 100%;
 		width: 50%;
-		border: 1px solid black;
 		background-color: #41b979;
 		border-radius: 7px;
 		margin-left: 11px;
@@ -279,7 +272,6 @@
 		-webkit-box-align: center;
 		align-items: center;
 		width: 100%;
-
 	}
 	
 	.sub_text{
@@ -496,10 +488,11 @@
 	<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
 	<div class="wrap clearfix">
 		<div class="product_photo">
-			<div id="slideShow">
+			<div id="slideShow" id="slideShow">
 			<ul class="slides">
-				<li><img class="product_image" src="/resources/img/iphone.png"></li>
-				<li><img class="product_image" src="/resources/img/ps5.png"></li>
+				<c:forEach items="${imageUrls}" var="imageUrl">
+					<li><img class="product_image" src="${imageUrl}"></li>	
+				</c:forEach>
 		    </ul>  
 				<p class="controller">
 
@@ -524,7 +517,7 @@
 					<span class="recent_price">즉시 구매가</span>
 				<div class="price">
 					<div class="amount">
-						<span class="product_price">${vo.max_bid_sell }</span> 
+						<span class="product_price">${vo.min_bid_buy }</span> 
 						<span class="won">원</span>
 							<!-- <p class="fluctuation">99,000원 (+24.6%)</p> -->
 					</div>
@@ -537,7 +530,7 @@
 							<strong class="buy_text">구매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">${vo.max_bid_sell }원</div>
+							<div class="buy_price">${vo.min_bid_buy }원</div>
 							<div class="buy_now">즉시 구매가</div>
 						</div>
 					</div>
@@ -546,7 +539,7 @@
 							<strong class="buy_text">판매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">${vo.min_bid_buy }원</div>
+							<div class="buy_price">${vo.max_bid_sell }원</div>
 							<div class="buy_now">즉시 판매가</div>
 						</div>
 					</div>
@@ -772,6 +765,7 @@
 			alert("취소되었습니다.");
 		}
 	}
+	
 	function getPage(pno) {
 		location.href="/shop/shop_buypage/" + pno;
 	}
@@ -779,4 +773,21 @@
 	function getSell(pno) {
 		location.href="/shop/shop_sellpage/" + pno;
 	}
+	
+/* 	onscroll = function() {
+		  var nVScroll = document.documentElement.scrollTop || document.body.scrollTop;
+		  if(nVScroll > 40) $("#slides")css("position", "fixed"); 
+		  else $("#slides").css("position", "relative");
+		}; */
+		
+		$(window).scroll(function() {
+			  
+			if($(this).scrollTop() > 200) {
+				$("#slideShow").css('position','fixed');
+			}
+			else {
+				$("#slideShow").css('position','relative');
+			}
+		});
+	
 </script>

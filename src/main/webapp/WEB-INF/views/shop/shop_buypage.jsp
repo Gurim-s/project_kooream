@@ -10,7 +10,6 @@
 		min-height: 900px;
 		margin: 0 auto;
 		padding: 20px 40px 160px;
-		border: 1px solid black;
 	}
 	
 	.buy_before{
@@ -120,7 +119,6 @@
 		font-size: 14px;
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 		background-color: #ef6253;
 		color:white;
@@ -135,7 +133,6 @@
 		color: rgba(34,34,34,.8);
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 	}
 	
@@ -150,7 +147,6 @@
 		font-size: 14px;
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 		background-color: #ef6253;
 		color:white;
@@ -165,7 +161,6 @@
 		color: rgba(34,34,34,.8);
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 		background-color: #f4f4f4;
 		font-weight: 700;
@@ -241,7 +236,6 @@
     }
     
     .now_buy_btn, .buy_bid_btn{
-    	border: 1px solid black;
     	font-weight: 600;
 	}
     
@@ -303,12 +297,12 @@
 					<div class="buy_price">
 						<div class="box_border">
 							<div class="now_buysell">즉시 구매가</div>
-							<span class="now_price">${vo.max_bid_sell }</span><span class="won">원</span>
+							<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
 						</div>
 					</div>
 					<div class="sell_price">
 						<div class="now_buysell">즉시 판매가</div>
-						<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
+						<span class="now_price">${vo.max_bid_sell }</span><span class="won">원</span>
 					</div>
 				</div>
 					<div class="instant_group">
@@ -333,7 +327,7 @@
 							<dl class="bid_now_box">
 								<dt class="price_now_title">입찰</dt>
 								<dd class="price">
-									<input type="number" placeholder="희망가 입력" name="bid_sell" class="price_input">
+									<input type="number" placeholder="희망가 입력" id="bid_sell" name="bid_sell" class="price_input">
 									<input type="hidden" name="p_no" value="${vo.p_no}">
 									<span class="won">원</span>
 								</dd>
@@ -384,9 +378,18 @@
 		var price = $('[name="want_price"]').val();
  		location.href="/shop/shop_bidbuy?pno=" + pno + "&price="+price;
 	} */
+
 	function test() {
+		var bid_price = $('#bid_sell').val();
+
+		if(bid_price == '' || bid_price < 1){
+			alert("입찰가를 확인하여해주세요");
+			return false;
+		}
+
 		var form = $('#buyBidForm');
 		form.submit();
 	}
+
 </script>
 <jsp:include page="../include/footer.jsp"/>

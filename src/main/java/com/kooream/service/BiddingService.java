@@ -10,5 +10,6 @@ import com.kooream.domain.ProductVO;
 public interface BiddingService {
 
 	void insertBuyBid(BidShopVO vo);
+	void now_sell(BidShopVO vo);
 	
 }

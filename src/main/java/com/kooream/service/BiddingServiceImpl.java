@@ -24,4 +24,9 @@ import lombok.extern.log4j.Log4j;
 		log.info("register..." + vo);
 		mapper.insertBuyBid(vo);
 	}
+
+	@Override
+	public void now_sell(BidShopVO vo) {
+		mapper.nowsell(vo);
+	}
   }
