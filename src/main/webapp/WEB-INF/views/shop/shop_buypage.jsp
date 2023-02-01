@@ -10,7 +10,6 @@
 		min-height: 900px;
 		margin: 0 auto;
 		padding: 20px 40px 160px;
-		border: 1px solid black;
 	}
 	
 	.buy_before{
@@ -120,7 +119,6 @@
 		font-size: 14px;
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 		background-color: #ef6253;
 		color:white;
@@ -135,7 +133,6 @@
 		color: rgba(34,34,34,.8);
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 	}
 	
@@ -150,7 +147,6 @@
 		font-size: 14px;
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 		background-color: #ef6253;
 		color:white;
@@ -165,7 +161,6 @@
 		color: rgba(34,34,34,.8);
 		text-align: center;
 		width:50%;
-		border: 1px solid black;
 		cursor:pointer;
 		background-color: #f4f4f4;
 		font-weight: 700;
@@ -241,7 +236,6 @@
     }
     
     .now_buy_btn, .buy_bid_btn{
-    	border: 1px solid black;
     	font-weight: 600;
 	}
     
@@ -287,76 +281,79 @@
 </style>
 
 <div class="content_area">
-	<div class="buy_before">
-		<div class="product_info">
-			<div class="infobox">
-				<img class="product_image" src="/resources/img/ps5.png">
-				<div class="product_infobox">
-					<div class="code">${vo.p_model_no }</div>
-					<div class="name">${vo.p_name_en }</div>
-					<div class="kor_name">${vo.p_name_ko }</div>
-					<div class="p_size">${vo.p_size }</div>
+	<form name="shop_register" action="/shop/shop_buypage" method="post" id="buyBidForm">
+		<div class="buy_before">
+			<div class="product_info">
+				<div class="infobox">
+					<img class="product_image" src="/resources/img/ps5.png">
+					<div class="product_infobox">
+						<div class="code">${vo.p_model_no }</div>
+						<div class="name">${vo.p_name_en }</div>
+						<div class="kor_name">${vo.p_name_ko }</div>
+						<div class="p_size">${vo.p_size }</div>
+					</div>
 				</div>
-			</div>
-			<div class="price_descision_box">
-				<div class="buy_price">
-					<div class="box_border">
-						<div class="now_buysell">즉시 구매가</div>
+				<div class="price_descision_box">
+					<div class="buy_price">
+						<div class="box_border">
+							<div class="now_buysell">즉시 구매가</div>
+							<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
+						</div>
+					</div>
+					<div class="sell_price">
+						<div class="now_buysell">즉시 판매가</div>
 						<span class="now_price">${vo.max_bid_sell }</span><span class="won">원</span>
 					</div>
 				</div>
-				<div class="sell_price">
-					<div class="now_buysell">즉시 판매가</div>
-					<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
-				</div>
-			</div>
-				<div class="instant_group">
-					<div class="select_box">
-						<div class="box_test">
-							<div class="bid_box">
-								즉시 구매
-							</div>
-							<div class="sell_box">
-								구매 입찰
+					<div class="instant_group">
+						<div class="select_box">
+							<div class="box_test">
+								<div class="bid_box">
+									즉시 구매
+								</div>
+								<div class="sell_box">
+									구매 입찰
+								</div>
 							</div>
 						</div>
+						<div class="price_now">
+							<dl class="price_now_box">
+								<dt class="price_now_title">즉시 구매가</dt>
+								<dd class="price">
+									<span class="amount">${vo.min_bid_buy }</span>
+									<span class="won">원</span>
+								</dd>
+							</dl>
+							<dl class="bid_now_box">
+								<dt class="price_now_title">입찰</dt>
+								<dd class="price">
+									<input type="number" placeholder="희망가 입력" id="bid_sell" name="bid_sell" class="price_input">
+									<input type="hidden" name="p_no" value="${vo.p_no}">
+									<span class="won">원</span>
+								</dd>
+							</dl>
+						</div>
+						<div class="price_bind">
+							<p class="price_bind_empty">총 결제금액은 다음 화면에서 계산됩니다.</p>
+						</div>
+					<div class="buy_total_confirm">
+						<div class="price_total">
+							<dl class="price_box">
+								<dt class="price_title">총 결제금액</dt>
+								<dd class="price_empty_desc">다음 화면에서 확인</dd>
+							</dl>
+						</div>
 					</div>
-					<div class="price_now">
-						<dl class="price_now_box">
-							<dt class="price_now_title">즉시 구매가</dt>
-							<dd class="price">
-								<span class="amount">${vo.max_bid_sell }</span>
-								<span class="won">원</span>
-							</dd>
-						</dl>
-						<dl class="bid_now_box">
-							<dt class="price_now_title">입찰</dt>
-							<dd class="price">
-								<input type="text" placeholder="희망가 입력" name="want_price" class="price_input">
-								<span class="won">원</span>
-							</dd>
-						</dl>
+					<div class="now_buy_btn">
+						<div class="btn_box full">즉시 구매 하기</div>
 					</div>
-					<div class="price_bind">
-						<p class="price_bind_empty">총 결제금액은 다음 화면에서 계산됩니다.</p>
+					<div class="buy_bid_btn">
+						<div class="btn_box full" onclick="test()">구매 입찰 하기</div>
 					</div>
-				<div class="buy_total_confirm">
-					<div class="price_total">
-						<dl class="price_box">
-							<dt class="price_title">총 결제금액</dt>
-							<dd class="price_empty_desc">다음 화면에서 확인</dd>
-						</dl>
-					</div>
-				</div>
-				<div class="now_buy_btn">
-					<div class="btn_box full" onclick="buyNowPage(${vo.p_no})">즉시 구매 하기</div>
-				</div>
-				<div class="buy_bid_btn">
-					<div class="btn_box full">구매 입찰 하기</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
 </div>
 <script type="text/javascript">
 	$(".bid_box").on('click', function(){
@@ -377,10 +374,22 @@
 		$(".now_buy_btn").hide();
 	});
 	
-	function buyNowPage(pno) {
+/* 	function buyNowPage(pno) {
 		var price = $('[name="want_price"]').val();
-// 		location.href="/shop/shop_bidbuy?pno=" + pno + "&price="+price;
+ 		location.href="/shop/shop_bidbuy?pno=" + pno + "&price="+price;
+	} */
+
+	function test() {
+		var bid_price = $('#bid_sell').val();
+
+		if(bid_price == '' || bid_price < 1){
+			alert("입찰가를 확인하여해주세요");
+			return false;
+		}
+
+		var form = $('#buyBidForm');
+		form.submit();
 	}
-	
+
 </script>
 <jsp:include page="../include/footer.jsp"/>

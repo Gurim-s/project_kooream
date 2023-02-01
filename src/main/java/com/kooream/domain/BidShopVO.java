@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BidShopVO {
-	private int M_NO, P_NO, BID_SELL, BID_BUY;
+	private int m_no, p_no, bid_sell, bid_buy;
 }

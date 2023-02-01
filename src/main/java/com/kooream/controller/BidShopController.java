@@ -1,5 +1,8 @@
 package com.kooream.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kooream.domain.AttachFileVO;
+import com.kooream.domain.BidShopVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.service.BidShopService;
 
@@ -39,7 +43,7 @@ public class BidShopController {
 	}
 	
 	@GetMapping("/shop_introduce")
-	public String shop_introduce() {
+	public String shop_introduce() { 
 		log.info("introduce...");
 		
 		return "shop/shop_introduce";
@@ -65,14 +69,14 @@ public class BidShopController {
 //		
 //		return "shop/shop_buypage2";
 //	}
-	
+
 	@GetMapping("/shop_register")
 	public String shop_registerPage() {
 		log.info("shop_registerPage...");
-		
+
 		return "shop/shop_register";
 	}
-	
+
 	@PostMapping("/shop_register")
     public String shop_register(ProductVO vo) {
         log.info("shop_register...");
@@ -81,6 +85,15 @@ public class BidShopController {
 
         return "redirect:/shop/shop_allList";
     }
+	
+//	@PostMapping("/shop_buypage")
+//    public String shop_register(BidShopVO vo) {
+//        log.info("shop_buypage...");
+//
+//        service.insertProduct(vo);
+//
+//        return "redirect:/shop/shop_allList";
+//    }
 	
 //	@GetMapping("/shop_bidpage")
 //	public String get(@RequestParam("p_no") int p_no, Model model) {
@@ -98,6 +111,26 @@ public class BidShopController {
         System.out.println(vo.getMin_bid_buy());
         System.out.println("+++++++++++++++++++++");
         model.addAttribute("vo", vo);
+        List<AttachFileVO> attachFileVOs = service.getAttachList(vo.getP_no());
+        List<String> imageUrls = new ArrayList<String>();
+        
+        for(AttachFileVO attachFileVO: attachFileVOs) {
+        	String uploadPath = attachFileVO.getUploadPath();
+        	String uuid = attachFileVO.getUuid();
+        	String fileName = attachFileVO.getFileName();
+        	String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+        	String fileCallPathEncoded = null;
+        	try {
+        		fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+        	
+        	imageUrls.add("/bidfile/display?fileName=" + fileCallPathEncoded);
+        }
+        
+        model.addAttribute("imageUrls", imageUrls);
+        		
         return "shop/shop_introduce";
     }
 	
@@ -113,10 +146,10 @@ public class BidShopController {
 	public String modify(ProductVO vo) {
 		log.info("modify...." + vo );
 		service.modify(vo);
-		System.out.println(vo.getP_release_date());
+		
 		return "redirect:/shop/shop_allList";
 	}
-	
+
 	@GetMapping(value = "/remove/{p_no}")	
 	public String remove(@PathVariable("p_no") int p_no) {
 		service.remove(p_no);
