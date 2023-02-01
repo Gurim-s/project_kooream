@@ -1,16 +1,29 @@
 import {imgService} from '../service/image-service.js';
 import {styleService} from '../service/style-service.js';
 
-var pageNum, amount;
+//var pageNum, amount;
+var query = {}
 var column = document.querySelectorAll('.list-column');
 var more = document.querySelector('#more');
 var register = document.querySelector('#register');
 
 // 페이지 초기화
 (function() {
-	pageNum = 1;
-	amount = 20;
-	getList(pageNum, amount);
+//	pageNum = 1;
+//	amount = 20;
+	const searchParams = new URLSearchParams(location.search);
+	const category = Array.from(searchParams)[0][1];
+	const param = category == 'hot' || category == 'recent'
+		? ''
+		: Array.from(searchParams)[1][1];
+
+	query = {
+		pageNum: 1,
+		amount: 20,
+		category: category,
+		query: param,
+	}
+	getList(query);
 	
 	register.addEventListener('click', function() {
 		location.href = 'register';
@@ -18,12 +31,12 @@ var register = document.querySelector('#register');
 	
 	more.addEventListener('click', function() {
 		pageNum++;
-		getList(pageNum, amount);
+		getList(query);
 	});
 })();
 
-async function getList(pageNum, amount) {
-	const styleList = await styleService.getList(pageNum, amount);
+async function getList(query) {
+	const styleList = await styleService.getList(query);
 	styleList.forEach((style, i) => {
 		column[i%4].append(item(style));
 	});

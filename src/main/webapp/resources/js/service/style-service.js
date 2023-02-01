@@ -16,13 +16,13 @@ var styleService = (function() {
         return res.json();
 	}
 	
-	async function getList(pageNum, amount) {
-		const res = await fetch('/style/list/hot', {
+	async function getList(query) {
+		const res = await fetch('/style/list', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             },
-            body: JSON.stringify({ pageNum: pageNum, amount: amount })
+            body: JSON.stringify(query),
         });
         return res.json();
 	}
