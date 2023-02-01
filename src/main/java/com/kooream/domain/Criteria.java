@@ -11,4 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Criteria {
 	private int pageNum, amount;
+
+	@Override
+	public String toString() {
+		return "Criteria [pageNum"+pageNum+", amount"+amount+"]";
+	}
 }

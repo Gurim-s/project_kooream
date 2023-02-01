@@ -3,14 +3,17 @@ import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
 import {modal} from '../common/modal.js';
 import {replyViewer} from '../common/reply-viewer.js';
+import {showTime} from '../common/common.js';
 
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
-	const [category, style_no] = Array.from(searchParams).map(x => x[1]);
+	const [category, style_no] = Array.from(searchParams).map(x  => x[1]);
 	const column = document.querySelector('.list-column');
 	
-	let styleList = await styleService.get(category, style_no);
-	styleList.forEach(x => column.append(template(x)));
+//	let styleList = await styleService.get(category, style_no);
+//	styleList.forEach(x => column.append(template(x)));
+	const style = await styleService.getOne(style_no);
+	column.append(template(style));
 })();
 
 //style목록 template
@@ -26,12 +29,13 @@ var template = function(style) {
 				'</div>' +
 				'<div class="user-regdate">' +
 				 	'<div class="user-name">김씨</div>' +
-					'<div class="regdate">'+ style.style_regDate +'</div>' +
+					'<div class="regdate">'+ showTime(style.style_regdate) +'</div>' +
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
 				'<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>' +
 				'<a href="#" class="update-btn">수정</a>' +
+				'<a href="#" class="remove-btn">삭제</a>' +
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
@@ -48,17 +52,21 @@ var template = function(style) {
 			'</a>' +
 			'<div class="clearfix"></div>' +
 		'</div>' + 
-		'<div class="content">'+ style.style_content +'</div>' +
+		'<div class="content">'+ strToHashTag(style.style_content) +'</div>' +
 		'<div class="reply-container">'+
 		'</div>'
 	);
 	
 	//이미지 슬라이더 모듈 가져오기
 	var imgContainer = template.querySelector('.img-container');
-	var slider = imgSlider();
+	var slider = imgSlider({
+		ratio: style.ratio? style.ratio : 1,
+		ratioFix: true,
+		offset: true,
+	});
 	imgContainer.append(slider.container);
-	var imgSrcList = style.style_image.map(x => imgService.originPath(x));
-	slider.addList(imgSrcList);
+	var imgSrcList = style.style_image.map(x => imgService.getImageEl(x));
+	slider.addImgTagList(imgSrcList);
 	
 	/***********************************
 	 * addEventListener
@@ -66,7 +74,6 @@ var template = function(style) {
 	template.querySelector('.like-summary')
 	.addEventListener('click', (e) => {
 		e.preventDefault();
-		
 		const m = modal();
 		m.open({title: '공감 목록'});
 		m.append('helloWorld');
@@ -75,14 +82,15 @@ var template = function(style) {
 	template.querySelector('.reply-summary')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
-		
 		const style_no = e.target.closest('.item').dataset.styleNo;
 		const m = modal();
-		m.open({title: '댓글 목록', type: 'right'});
+		m.open({title: '댓글', type: 'right'});
 		
 		const replyTemplate = replyViewer(style_no);
 		replyTemplate.setOption({input: true, nestedReply: true});
 		const replyList = await replyTemplate.get();
+//		const updateTarget = e.target.querySelector('span');
+		
 		m.append(replyList);
 	});
 	
@@ -93,5 +101,19 @@ var template = function(style) {
 		location.href = '/style/update?style_no=' + style.style_no;
 	});
 	
+	template.querySelector('.remove-btn')
+	.addEventListener('click', (e) => {
+		e.preventDefault();
+		
+		location.href = '/style/remove?style_no=' + style.style_no;
+	});
+	
 	return template;
+}
+
+function strToHashTag(text) {
+	const type = /#[^\s^#]+/g;
+	const strToA = str => '<a href="/style/list?category=tag&hashtag='+str.substring(1)+'" style="color:#3022ff;">'+str+'</a>';
+	
+	return text.replace(type, strToA);
 }

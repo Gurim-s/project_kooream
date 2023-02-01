@@ -3,9 +3,13 @@ import {imgFileUploader} from '../common/img-file-uploader.js';
 $(function() {
 	var uploaderContainer = $('.uploadDiv');
 	var uploader = imgFileUploader;
+	uploader.setOption({
+		uploadURL: '/codi-uploadAjaxAction',
+		saveName: 'attachList',
+		max: 5,
+	});
+	uploader.init();
 	$(uploaderContainer).append(uploader.container);
-	uploader.setURL('/codi-uploadAjaxAction');
-	uploader.setSaveName('attachList');
 	
 	var operForm = $('#operForm');
 	var formObj = $("form[role='form']");
@@ -36,7 +40,6 @@ $(function() {
 			
 			
 			
-			
 			 if(codi_register.codi_title.value == "" ) {
 				codi_register.codi_title.focus();
 		        alert("제목을 입력해 주십시오.");
@@ -54,7 +57,7 @@ $(function() {
 			  };
 			 if(codi_register.m_no.value == "" ) {
 				codi_register.m_no.focus();
-		      	alert("상품 태그을 입력해 주십시오.");
+		      	alert("상품 번호을 입력해 주십시오.");
 		      	return false;
 			  };
 			 if(codi_register.codimodel_name.value == "" ) {
@@ -72,21 +75,37 @@ $(function() {
 		      	alert("몸무계를 입력해 주십시오.");
 		      	return false;
 			  };
+			
+				
+	
+	
+	
 	/*업로더 수정 이후에 다시 작업*/
-//			 var fileCheck = uploader.countFiles > 0;
-//			console.log(uploader.countFiles);
-//			 if(!fileCheck){
-//			        alert("파일을 첨부해 주세요");
-//			        return false;
-//		    }
-			  
-//			console.log(str);
-//			formObj.append(str);
+			var fileCheck = uploader.countFiles() > 0;
+			console.log(uploader.countFiles());
+			 if(!fileCheck){
+			        alert("파일을 첨부해 주세요");
+			        return false;
+		    }
+		  
+			/*console.log(str);
+			formObj.append(str);*/
+
+			
+			var tagList = $('.tag_name');
+			console.log(tagList);
+			console.log(tagList[0].children[0]);
+			console.log(tagList.length);
+			var tags = '';
+			for(var i=0; i<tagList.length; i++){
+				tags += '<input type="hidden" name="codiTagList['+i+'].tag_name" value="'+tagList[i].children[0].innerText+'" />';
+				tags += '<input type="hidden" name="codiTagList['+i+'].tag_cnt" value="0" />';
+				console.log(tagList[i].children[0].innerText);
+			};
+			formObj.append(tags);
 			console.log(formObj);
 			formObj.submit();			
-			
-			
-		}
+		};
 	}); //btn click event end
 
 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");   //확장자를 포함하지 못하도록 
@@ -194,11 +213,11 @@ function checkExtension(fileName, fileSize){
 			
 			if(tagValue !== ""){ // tagValue의 내용이 있을 경우
 			 	console.log(counter);
-				tagStr += '<li class="tag_name" name="tag_name">'+tagValue;
+				console.log(tagValue);
+				tagStr += '<li class="tag_name" name="tag_name">'
+				tagStr += '<span class="tag_text">'+tagValue+'</span>';
 				tagStr += '<span class="del_tag" idx="'+counter+'">X</span>';
 				tagStr += '</li>';
-				tagStr += '<input type="hidden" name="codiTagList['+counter+'].tag_cnt" value="0" >'
-				tagStr += '<input type="hidden" name="codiTagList['+counter+'].tag_name" value="'+tagValue+'" >'
 				
 				addTag(tagValue);
 				
@@ -223,7 +242,7 @@ function checkExtension(fileName, fileSize){
 		var index = $(this).attr("idx");
 		tag[index] = '';
 		$(this).parent().remove();
-		
+		console.log($(this).siblings('.tag_hidden'));
 	});
 
 

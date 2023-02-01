@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- 암호화처리 -->
+<bean id="bcryptPasswordEncoder"
+      class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+<!-- 사용자 계정 정보 처리 -->
+<bean id="customUserDetailsService"
+      class="com.kooream.security.CustomUserDetailsService" />
+		
+<bean id="loginFailHandler"
+      class="com.kooream.security.LoginFailHandler" />
+      
+<bean id="CustomAccessDeniedHandler"
+      class="com.kooream.security.CustomAccessDeniedHandler" />
+      
+<security:http>
+	<!-- http 규약으로 로그인 접근을 할때, -->
+    <security:form-login 
+    				login-page="/member/loginPage" 
+    				username-parameter="m_id" 
+    				password-parameter="m_pw"
+    				authentication-failure-handler-ref="loginFailHandler"/>
+	
+	
+	
+	<!-- csrf 토큰에 관한것 -->
+	<security:csrf disabled="true"/>
+</security:http>
+
+
+
+
+<security:authentication-manager><!-- 총괄개념 -->
+	
+	<security:authentication-provider user-service-ref="customUserDetailsService">
+         
+         <security:password-encoder ref="bcryptPasswordEncoder" />
+         
+	</security:authentication-provider>
+	
+</security:authentication-manager>
+
+
+</beans>

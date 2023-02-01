@@ -16,5 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM REVIEW_TBL WHERE P_NO = #{p_no}
 	</select>
 	
-	
+	<!-- 리뷰 삭제 -->
+	<delete id="removeReview" parameterType="com.kooream.domain.ProductVO">
+		DELETE * FROM REVIEW_TBL WHERE RP_IDX = #{rp_idx}
+	</delete>
 </mapper>

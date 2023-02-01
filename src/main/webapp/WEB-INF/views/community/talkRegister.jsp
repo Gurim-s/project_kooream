@@ -31,10 +31,10 @@
 	<br/>
 	<form action="/community/talkRegister" method="post" role="form">
 		<table>
-			<tr>
+			<!-- <tr>
 				<td>회원번호</td>
 				<td><input type="number" name="m_no"></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>제목</td>
 				<td><input type="text" name="talktitle"></td>
@@ -72,6 +72,19 @@
 			var oper = $(this).data("oper");	//해당 버튼의 data가 oper인 것
 			
 			if(oper == 'talkregister'){	//게시글 등록
+				if( $("input[name=talktitle]").val() == ""){
+					alert('제목을 적어 주세요.');
+					return false;
+				}
+				if( $("input[name=talkname]").val() == ""){
+					alert('닉네임을 적어 주세요.');
+					return false;
+				}
+				if( $("textarea[name=talkcon]").val() == ""){
+					alert('내용을 적어 주세요.');
+					return false;
+				}
+				
 				form.submit();	// 해당 form 데이터 보내기
 				
 			}else if( oper == 'talklist'){
@@ -79,7 +92,15 @@
 				// submit 하면 form의 action 따라가므로 400 에러 발생 주의할 것
 			}
 		})
-	})
+		
+		
+		
+		
+		
+		
+		
+		
+	});
 	
 </script>
 

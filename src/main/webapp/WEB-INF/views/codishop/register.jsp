@@ -34,7 +34,7 @@
 				
 				<div class="row">
 					<span class="title_content">상품태그</span>
-					<input type="text" name="m_no" id="textForm" placeholder="상품 번호 입력">
+					<input type="text" name="m_no" id="textForm"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="상품 번호 입력">
 				</div>
 				
 				<div class="row">
@@ -174,7 +174,9 @@
 	font-size : large;
 	font-weight: bold;
 }
-
+.panel-body{
+	width: 70%;
+}
 
 </style>
 

@@ -12,6 +12,9 @@
 	.top-h2{
 		text-align: center;
 	}
+	.Main_image{
+		text-align: center;
+	}
 	
 		
 	
@@ -22,33 +25,47 @@
 <body>
 	<div class="top-h1"><h1>KOOREAMS</h1></div>
 	<br/>
-	<div class="top-h2"><h2>KOOREAM의 더 많은 브랜드 배송을 카테고리별로 확인하세요.</h2></div>
+	<div class="top-h2"><h2>KOOREAM의 브랜드를 카테고리별로 확인하세요.</h2></div>
 	<br/>
-	<div>
-		<a href="/brandshop/view"><img src="C:\Users\goott\Desktop\팀프로젝트\Polar Skate Co\로고.jpg" class="product-img1"/></a>	
+	<br/>
+	<div class="Main_image">
+		<a href="/brandshop/view?b_no=51"><img class = "m_image" id = "51" src="../resources/img/LE17SEPTEMBRE_51.jpg"/></a>	
 	</div>
-	<hr/>
 	<br/>
-		<div>
-		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+	<br/>
+		<div class="Main_image">
+		<a href="/brandshop/view?b_no=52"><img class = "m_image" id = "52" src="../resources/img/Polar Skate Co._52.jpg" /></a>	
 	</div>
-	<hr/>
 	<br/>
-		<div>
-		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+	<br/>
+		<div class="Main_image">
+		<a href="/brandshop/view?b_no=53"><img class = "m_image" id = "53" src="../resources/img/Punch Drunk Parties_53.png"/></a>	
 	</div>
-	<hr/>
 	<br/>
-		<div>
-		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+	<br/>
+		<div class="Main_image">
+		<a href="/brandshop/view?b_no=54"><img class = "m_image" id = "54" src="../resources/img/THE IDENTITY PROJECT_54.jpg"/></a>	
 	</div>
-	<hr/>
 	<br/>
-		<div>
-		<a href="/brandshop/view"><img src="../MainImage/LE17SEPTEMBRE.jpg" class="product-img1"/></a>	
+	<br/>
+		<div class="Main_image">
+		<a href="/brandshop/view?b_no=55"><img class = "m_image" id = "55" src="../resources/img/The Museum Visitor_55.jpg"/></a>	
 	</div>
-	<hr/>
 	<br/>
+	<br/>
+
+<script type="text/javascript">
+/* 	$("").click(function (e) {
+		e.preventDefault();
+
+		var click_id =  $(this).find("img").attr("id");
+		
+		location.href="/brandshop/view?b_no=" + click_id; 		
+		
+	}) */
+
+
+</script>
 	
 
 </body>

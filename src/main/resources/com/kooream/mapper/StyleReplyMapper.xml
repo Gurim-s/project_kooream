@@ -47,6 +47,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				0)
 	</insert>
 	
+	<update id="update">
+		update style_reply
+		set
+			content=#{content}
+		where 
+			rno=#{rno}
+	</update>
+	
 	<update id="updateCountNested">
 		update style_reply
 		set count_nested = count_nested + #{amount}

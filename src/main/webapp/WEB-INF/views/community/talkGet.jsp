@@ -11,57 +11,65 @@
 <style type="text/css">
 	#menu_list{
 		float: left;
-		height: 500px;
+		height: 100%;
+		margin-bottom: 100%;
 		width: 130px;
 	}
 	#head{
-		font-size: 30px;
+		font-size: 25px;
 	}
+	#talk-con{
+		padding-top: 50px;
+		height: 300px;
+	}
+	button{
+		border: none;
+		background-color: #fff;
+	}
+	#date{
+    	float: right;
+    }
+    #title{
+    	font-size: 20px;
+    }
+    .btn{
+    	float: right;
+    	width: 40px;
+    }
 </style>
 </head>
 <body>
 	<ul id="menu_list">
 		<li>뉴스</li>
-		<li>정품판별</li>
+		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span id="head">구림톡</span>
+		<span id="head"><strong>구림톡</strong></span>
 	</div>
 	<br/>
 	<hr/>
 	<br/>
 	<form action="/community/talkUpdate" id="form">
-		<table>
-			<tr>
-				<td>회원번호</td>
-				<td>${vo.m_no }</td>
-				<!-- <td><input type="hidden" name="m_no" value="m_no"></td> -->
-			</tr>
-			<tr>
-				<td>제목</td>
-				<td>${vo.talktitle }</td>
-				<!-- <td><input type="hidden" name="talktitle" value="talktitle"></td> -->
-			</tr>
-			<tr>
-				<td>닉네임</td>
-				<td>${vo.talkname }</td>
-				<!-- <td><input type="hidden" name="talkname" value="talkname"></td> -->
-			</tr>
-			<tr>
-				<td colspan="2"><textarea rows="15" cols="30" readonly="readonly">${vo.talkcon }</textarea></td>
-			</tr>
-			<tr>
-				<td><button class="btn-insert" data-oper="talkupdate">수정</button></td>
-				<td><button class="btn-insert" data-oper="talkremove">삭제</button></td>
-				<td><button class="btn-list" data-oper="talklist">목록</button></td>
-			</tr>
-			<tr>
-				<td><input type="hidden" name="pageNum" value="${pageNum }"></td>
-				<td><input type="hidden" name="amount" value="${amount }"></td>
-				<td><input type="hidden" name="talkno" value="${vo.talkno }"></td>
-			</tr>
-		</table>
+		<div>
+			<strong id="title">${vo.talktitle }</strong>
+			<span id="date"><small>${vo.talkdate }</small></span>
+		</div>
+		<div><input type="hidden" name="m_no" value=${vo.m_no }></div>
+		<div>${vo.talkname }</div>
+		<div id="talk-con-box">
+			<div id="talk-con">${vo.talkcon }</div>
+		</div>
+		<div>
+			<button class="btn" data-oper="talkupdate">수정</button>
+			<button class="btn" data-oper="talkremove">삭제</button>
+			<button class="btn" data-oper="talklist">목록</button>
+		</div>
+		<div>
+			<input type="hidden" name="pageNum" value="${pageNum }">
+			<input type="hidden" name="amount" value="${amount }">
+			<input type="hidden" name="talkno" value="${vo.talkno }">
+		</div>
 	</form>
 	
 	<!-- 댓글 출력 폼 -->
@@ -83,7 +91,7 @@
 	<table>
 		<tr>
 			<td>닉네임 : <input type="text" name="replyname" id="replyname"></td>
-			<td>회원 번호 : <input type="text" name="m_no" id="m_no"></td>
+			<!-- <td>회원 번호 : <input type="text" name="m_no" id="m_no"></td> -->
 		</tr>
 		<tr>
 			<td>
@@ -96,6 +104,7 @@
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
 <script type="text/javascript" src="/resources/js/community/reply.js"></script>
+<script type="text/javascript" src="/resources/js/community/util.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var form = $("#form");
@@ -149,13 +158,27 @@
 	 	console.log(talkno);
 		// 댓글 등록 함수 불러오기
 	 	$("#addReplyBtn").click(function() {
-	 		alert("댓글 등록 버튼");	
+	 		
+	 		// 리플 내용 검사
+	 		if($("textarea[name=replycon]").val() == ""){
+				alert('댓글 내용을 적어주세요.');
+				return;
+			}
+	 		// 닉네임 검사
+	 	 	if($("input[name=replyname]").val() == ""){
+				alert('닉네임을 적어주세요.');
+				return;
+			}
+	 		
 			replyService.add(
 				{talkreplycon:replycon.val(), talkreplyname:replyname.val(), talkno:talkno, m_no:m_no.val()},
 					function(result) {
 						showList();
+						$("textarea[name=replycon]").val('');
+						$("input[name=replyname]").val('');
 				}
 			);
+			
 		});
 		 	
 			
@@ -183,11 +206,11 @@
 						// 댓글이 있으면
 						for(var i=0; i<result.length; i++){
 							str += '<tr>';
-							str += '<td>'+ result[i].talkreplyname +'</td>';
+							str += '<td><strong>'+ result[i].talkreplyname +'</strong></td>';
 							str += '<td>'+result[i].talkreplyno+'</td>';
 							str += '<td><button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno	+ '">수정</button></td>';
 							str += '<td><button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno	+ '">삭제</button></td>';
-							str += '<td>'+result[i].talkreplydate+'</td>';
+							str += '<td><small>'+displayTime(result[i].talkreplydate)+'</small></td>';
 							str += '</tr>';
 							str += '<tr>';
 							str += '<td class="reply-con">'+ result[i].talkreplycon +'</td>';
@@ -195,11 +218,6 @@
 						}
 						replylist.html(str);
 						
-						// 댓글 번호
-						//var talkreplyno = $(".replyno").attr("value");
-						/* $(".replylist").click(function(e) {
-							
-						}) */
 						
 						var talkreplyno;
 						
@@ -228,11 +246,10 @@
 							
 						
 						// 댓글 수정
-// 						$(".replylist").on("click", ".replyupdatebtn", function() {
 						$('.replyupdatebtn').on('click', function(e) {
 							var talkreplyno = $(e.target).data("replyno");
 							var test = $(e.target).closest('tr');
-							var test2 = $(test).next('tr').remove();;
+							var test2 = $(test).next('tr').remove();
 							
 							var str = '';
 							replyService.get(talkreplyno, function(result){
@@ -246,7 +263,7 @@
 								str += '<td>'+result.talkreplydate+'</td>';
 								str += '</tr>';
 								str += '<tr>';
-								str += '<td><textarea rows="5" cols="50" id="replyconupdate">'+result.talkreplycon +'</textarea></td>';
+								str += '<td><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+result.talkreplycon +'</textarea></td>';
 								str += '</tr>';
 							
 								test.html(str);
@@ -260,9 +277,14 @@
 								var replyconupdate = $('#replyconupdate');
 								// 댓글 수정
 								$("#replyupdate-ok").on("click", function() {
+									
+									if($("textarea[name=replycon]").val() == ""){
+										alert('수정할 내용을 입력 해주세요.')
+										return;
+									}
+									
 									replyService.update(
 									{talkreplyno : talkreplyno, talkreplycon:replyconupdate.val()},
-									
 									function(result) {
 										if(result === 'success'){
 											alert("댓글 수정 완료");

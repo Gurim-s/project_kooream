@@ -6,6 +6,7 @@ import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.SearchCriteria;
 import com.kooream.domain.StyleVO;
 
 public interface CodiService {
@@ -24,17 +25,18 @@ public interface CodiService {
 	public boolean remove(int codi_no);
 	
 	// 목록 조회 
-	public List<CodiVO> getList(Criteria cri);
+	public List<CodiVO> getList(SearchCriteria cri);
 	
-	//public List<CodiVO> getList();
-	public List<CodiVO> getListWithPaging(Criteria cri);
 	
 	// 파일 리스트 
 	public List<CodiImageVO> getCodiAttachList(int codi_no);
 	
 	// 해시태그 리스트 
-	public List<Codi_TagVO> getCodi_TagList(int codi_no);
+	public List<Codi_TagVO> getTagList(int codi_no);
 
-	
+	//public List<CodiVO> getList();
+	public List<CodiVO> getListWithPaging(Criteria cri);
 
+	//검색
+	public int getTotal(SearchCriteria cri);
 }

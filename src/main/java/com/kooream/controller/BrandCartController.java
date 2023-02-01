@@ -25,12 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandCartVO;
+import com.kooream.domain.Criteria;
 import com.kooream.domain.ProductVO;
 import com.kooream.mapper.BrandCartMapper;
 import com.kooream.service.BrandCartService;
@@ -50,34 +52,101 @@ public class BrandCartController {
 	@Setter(onMethod_ = @Autowired )
 	private BrandCartService cartservice;
 	
-	
+	// 장바구니 추가 컨트롤러
 	@PostMapping(value="/addCart", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public int addCart(BrandCartVO vo){	// 장바구니 담기
-		
-	
 		
 		//log.info("-----------------0000----------"+vo.getP_no());
 		//log.info("카트번호" + vo.getCart_no());
 		//log.info("회원번호" +vo.getM_no());
 		//log.info("상품번호" +vo.getP_no());
 
+		// result가 1이면 alert창 
 		 int result = cartservice.addCart(vo);
 		 //log.info(result + "999999999999999999999999");
 		return result;
 	}
 	
-	@GetMapping("/brandCart")	// 장바구니 페이지로 이동
+	
+	 // 장바구니 페이지로 이동
+	@GetMapping("/brandCart")	
 	public String view(Model model) {
 		return "brandshop/brandCart";
 	}
 	
-	@GetMapping("/brandCartList")
+	// 장바구니 리스트 보기
+	
+	  @GetMapping("/brandCartList")
+	  
+	  @ResponseBody public ResponseEntity<List<BrandCartVO>> brandCartList(Model model){ 
+		  int m_no = 1;
+	  //model.addAttribute("brandCartList",brandCartList(model));
+		  
+	  return new
+	  ResponseEntity<List<BrandCartVO>>(cartservice.brandCartList(m_no),HttpStatus.OK); 
+	  }
+	 
+	/*
+	 * @RequestMapping(value = "/brandCartList", method = RequestMethod.GET) public
+	 * void brandCartList(Model model) { int m_no = 1;
+	 * 
+	 * List<BrandCartVO> brandCartList = cartservice.brandCartList(m_no);
+	 * 
+	 * model.addAttribute("brandCartList" ,brandCartList); log.info(brandCartList +
+	 * "얍얍얍얍얍"); }
+	 */
+	
+	
+	  // 장바구니 리스트 이미지 보기
+	  
+	  @GetMapping(value ="/CartgetAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	  @ResponseBody public ResponseEntity<List<AttachFileVO>> CartgetAttachList(int p_no)
+	  { log.info("CartgetAttachList....." + p_no); 
+	  return new ResponseEntity<List<AttachFileVO>>(cartservice.CartgetAttachList(p_no), HttpStatus.OK);
+	  }
+
+	
+	// 장바구니 삭제 
+	@PostMapping(value = "/Cartdelete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<List<BrandCartVO>> brandCartList(){
-		int m_no = 1;
-		return new ResponseEntity<List<BrandCartVO>>(cartservice.brandCartList(m_no),HttpStatus.OK);
+	public int Cartdelete(BrandCartVO vo) {
+		
+		int result = cartservice.Cartdelete(vo);
+/*	public int Cartdelete(@RequestParam(value = "chbox[]") List<String> chArr, BrandCartVO vo) {
+
+		 int result = 0;
+		 int cart_no = 0;
+
+		  for(String i : chArr) {   
+		   cart_no = Integer.parseInt(i);
+		   vo.setCart_no(cart_no);
+		   cartservice.Cartdelete(vo);
+		  }   
+		  result = 1;*/
+		
+	return result;
 	}
+	
+
+	
+	
+	
+	
+	//@RequestMapping(value = "/brandCartList", method = RequestMethod.GET)
+	//	public void brandCartList(Model model) {
+	//		int m_no = 1;
+			
+	//		List<BrandCartVO> cartList = cartservice.brandCartList(m_no);
+	//		model.addAttribute("cartList", cartList);
+		}
+		
+		
+		
+		
+	
+
+
 
 
 
@@ -98,4 +167,3 @@ public class BrandCartController {
 	//				new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 	
-}

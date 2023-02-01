@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.StyleTagMapper">
+	<select id="getTagsByStyle_no" resultType="com.kooream.domain.StyleTagVO">
+		select *
+		from style_tag
+		where style_no=#{style_no}
+	</select>
+	<select id="getStyleNoListByTagNo" resultType="long">
+		select style_no
+		from style_tag
+		where tag_no=#{tag_no}
+	</select>
+	<select id="getCountTags" resultType="int">
+		select count(*)
+		from style_tag
+		where style_no=#{style_no}
+	</select>
+	<insert id="insert">
+		insert into style_tag
+		values (#{tag_no}, #{style_no})
+	</insert>
+	<delete id="deleteByStyleNo">
+		delete from style_tag
+		where style_no = #{style_no}
+	</delete>
+	<delete id="delete">
+		delete from style_tag
+		where style_no = #{style_no} and tag_no = #{tag_no}
+	</delete>
+</mapper>

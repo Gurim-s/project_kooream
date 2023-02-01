@@ -10,7 +10,8 @@
 <style type="text/css">
 	#menu_list{
 		float: left;
-		height: 500px;
+		height: 100%;
+		margin-bottom: 100%;
 		width: 130px;
 	}
 	.talkno{
@@ -36,17 +37,20 @@
 		padding-left: 0px;
 		width: 1000px;
 	}
-	hr{
-		width: 1000px;
-	}
-	span{
-		font-size: 30px;
+	#head{
+		font-size: 25px;
 	}
 	button{
-		margin-left: 800px;	
+		border: none;
+		background-color: #fff;	
+		float: right;
 	}
 	#bp{
 		height: 25px;
+	}
+	
+	#title{
+		width: 600px;
 	}
 	
 </style>
@@ -58,44 +62,62 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>정품판별</span>
+		<span id="head">정품판별</span>
 		<button>글쓰기</button>
 	</div>
 	<br/>
 	<hr/>
 	<br/>
 	<div>
-		<select name = "brandname">
+		<!-- <select name = "brandname">
 			<option value="노스페이스">노스페이스</option>
 			<option value="나이키">나이키</option>
 			<option value="슈프림">슈프림</option>
 			<option value="컨버스">컨버스</option>
-		</select>
+		</select> -->
 	</div>
 	<div>
 		<br/>
 		<form action="/community/oriRegister" id="form">
+<!-- 		<div> -->
+<%-- 			<c:forEach var="vo" items="${list }"> --%>
+<!-- 			<div> -->
+<%-- 				<c:if test="${vo.attachList.size() ne 0 }"> --%>
+<%-- 					<c:url var="imgSrc" value="/display"> --%>
+<%-- 						<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param> --%>
+<%-- 					</c:url> --%>
+<%-- 					<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;"> --%>
+<%-- 				</c:if> --%>
+<!-- 			</div> -->
+<!-- 			<div> -->
+<%-- 				<div><small>${vo.brandname }</small></div> --%>
+<%-- 				<div><a class="get" href="${vo.orino }">${vo.oricon }</a></div> --%>
+<%-- 				<div><a class="get" href="${vo.orino }">${vo.oriname }</a></div> --%>
+<!-- 			</div> -->
+<%-- 			</c:forEach> --%>
+<!-- 		</div> -->
+		
 			<table>
 				<c:forEach var="vo" items="${list }">
 					<tr>
 						<td rowspan="3">
 							<c:if test="${vo.attachList.size() ne 0 }">
-								<c:url var="imgSrc" value="/display">
+								<c:url var="imgSrc" value="/displayStyleImage">
 									<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
 								</c:url>
 								<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
 							</c:if>
 						</td>
-						<td>${vo.brandname }</td>
+						<td><small>${vo.brandname }</small></td>
 						<td rowspan="3">${vo.oriname }</td>
 					</tr>
 					<tr>
-						<td><a class="get" href="${vo.orino }">${vo.orititle }</a></td>
+						<td id="title"><a class="get" href="${vo.orino }">${vo.orititle }</a></td>
 					</tr>
 					<tr>
 						<td id="content"><a class="get" href="${vo.orino }">${vo.oricon }</a></td>
 					</tr>
-					<tr id="bp"><td></td></tr>
+					<tr id="bp"><td></td></tr>	
 				</c:forEach>
 			</table>
 		</form>

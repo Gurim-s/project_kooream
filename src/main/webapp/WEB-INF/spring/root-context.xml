@@ -9,13 +9,14 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
+     
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<!-- log4jdbc --> 
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
-		<property name="username" value="scott"></property>
-		<property name="password" value="tiger"></property>
+		<property name="driverClassName" value="${spring.datasource.driverClassName}"></property>
+		<property name="jdbcUrl" value="${spring.datasource.url}"></property>
+		<property name="username" value="${spring.datasource.username}"></property>
+		<property name="password" value="${spring.datasource.password}"></property>
 	</bean>
 	
 	<!-- HikariCP configuration -->
@@ -34,7 +35,9 @@
 	
 	<!-- Service Package를 잡아주는 역할 -->
 	<context:component-scan base-package="com.kooream.service"></context:component-scan>
-	
+	<!-- config파일 자동 로드 location="classpath:database.properties"  /!-->
+    <context:property-placeholder location="/config/*.properties" />
+    
 	<tx:annotation-driven/>
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

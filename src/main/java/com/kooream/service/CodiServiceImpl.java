@@ -10,6 +10,7 @@ import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.SearchCriteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
 import com.kooream.mapper.Codi_TagMapper;
@@ -34,23 +35,35 @@ public class CodiServiceImpl implements CodiService{
 	
 	@Override
 	public List<CodiVO> getListWithPaging(Criteria cri) {
-		log.info("getList.....");
+		log.info("getListWithPaging.....");
 		return mapper.getListWithPaging(cri);
 	}
 	
 	@Override
-	public List<CodiVO> getList(Criteria cri) {
+	public List<CodiVO> getList(SearchCriteria cri) {
 		List<CodiVO> list = mapper.getList(cri);				// 게시글 목록
-		
+		log.info("getList.....");
 		for(CodiVO codivo : list) {								// 게시글 목록 순환
 			int codi_no = codivo.getCodi_no();					// 게시글 번호
 			List<CodiImageVO> images = attachmapper.findbycodi_no(codi_no);	//게시글 번호로 첨부파일 가져옴
+			List<Codi_TagVO> tags = tagmapper.TagBycodi_no(codi_no); // 태그 가져오기 
 			
+			codivo.setCodiTagList(tags);
 			codivo.setAttachList(images);	//첨부파일경로를 codivo에 넣어줌 
 		}
 		
 		return list;
 	}
+	
+	@Override
+	public int getTotal(SearchCriteria cri) {
+		
+		log.info("getTotal	.............................");
+		
+		
+		return mapper.getTotal(cri);
+	}
+	
 	
 	@Transactional
 	@Override
@@ -115,9 +128,10 @@ public class CodiServiceImpl implements CodiService{
 		
 		return list;
 	}
+
 	
 	@Override
-	public List<Codi_TagVO> getCodi_TagList(int codi_no) {
+	public List<Codi_TagVO> getTagList(int codi_no) {
 		log.info("getCodi_TagList ::::::::::::");
 		List<Codi_TagVO> list = tagmapper.TagBycodi_no(codi_no);
 		
@@ -127,7 +141,6 @@ public class CodiServiceImpl implements CodiService{
 		
 		return list;
 	}
-	
 	
 	
 	

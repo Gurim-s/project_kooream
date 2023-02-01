@@ -27,11 +27,10 @@
 
 </head>
 <body>
-	<h1>상품 수정 / 삭제 + 수정할때 사이즈 꼭 선택해주고 수정하기,,,</h1><br/>
+	<h1>상품 수정</h1><br/>
 	<div class="container">
 		<form action="/brandshop/modify" method="post" id="operForm">
 			<table class = "modify">
-
 			<tr>
 				<td>브랜드</td>
 					<td class="form-inline">
@@ -46,13 +45,13 @@
 				</tr>	
 				<tr>
 					<td>상품명_한글</td>
-					<td><input type="text" name="p_name_ko" value="${vo.p_name_ko}"></td>
+					<td><input id ="p_name" type="text" name="p_name_ko" value="${vo.p_name_ko}"></td>
 				</tr>
 			<tr>
 				<td>상품명_영문</td>
-				<td><input type="text" name="p_name_en" value="${vo.p_name_en}"></td>
+				<td><input id = "p_en" type="text" name="p_name_en" value="${vo.p_name_en}"></td>
 			</tr>
-			<tr>		
+		<!-- 	<tr>		
 				<td>상품분류</td>
 				<td class="form-inline">
 						<select id="Category1">
@@ -84,14 +83,14 @@
 							</select> 
 
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>모델번호</td>
-				<td><input type="text" name="p_model_no" value="${vo.p_model_no}"></td>
+				<td><input id ="pm_no" type="text" name="p_model_no" value="${vo.p_model_no}"></td>
 			</tr>
 			<tr>
 				<td>판매금액</td>
-				<td><input type="number" name="p_release_price" value="${vo.p_release_price}"></td>
+				<td><input id = "p_price" type="number" name="p_release_price" value="${vo.p_release_price}"></td>
 			</tr>
 
 			<tr>
@@ -116,12 +115,13 @@
 			<tr>
 				<td class="register_button">
 					<button type="submit" data-oper="modify">수정완료</button>
-					<button data-oper="reset">취소</button>
+					<!-- <button type="reset">취소</button> -->
 					<button type ="submit" data-oper="list">목록으로</button>
 					<button type="submit" data-oper="remove">삭제</button>
-					<input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
-					<input type="hidden" name="amount" value="${cri.amount}"/> 
+					<%-- <input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
+					<input type="hidden" name="amount" value="${cri.amount}"/>  --%>
 					<input type="hidden" name="p_no" value="${vo.p_no }"/>
+					<input type="hidden" name="b_no" value="${vo.b_no }"/>
 				</td>
 			</tr>		
 	</table>
@@ -133,7 +133,7 @@
 		
 // 사이즈 선택-----------------------------------------------------------------
 
-	$('#Category1').change(function () {
+	/* $('#Category1').change(function () {
 		var result =$('#Category1 option:selected').val();
 		if(result == 'top'){
 			$('.T_Category').show();
@@ -162,11 +162,12 @@
 			$('.S_Category').hide();	
 		};
 	});//사이즈 선택 끝-----------------------------------------------------------	
-
+ */
 
 	$(function(){
 		var operForm = $("#operForm");
 		var p_noValue = '${vo.p_no}';
+		var bno = '${vo.b_no}';
 		$("button").on("click", function(e){
 			e.preventDefault();
 			
@@ -175,17 +176,64 @@
 			if(operation == 'remove'){
 				operForm.attr("action", "/brandshop/remove");
 			}else if(operation == 'list'){
-				operForm.attr("action", "/brandshop/view");
+				operForm.attr("action", "/brandshop/view?b_no=" + bno);
 				operForm.attr("method", "get");
 				
-				var pageNumTag = $("input[name=pageNum]").clone();
-				var amountTag = $("input[name=amount]").clone();
-				
-				operForm.empty();	// 내부 비워주기	
-				
-				operForm.append(pageNumTag);
-				operForm.append(amountTag);
+			} else{
+				var brand_select = $("#brand_select").val();
+	     	    var p_name = $("#p_name").val();
+	     	    var p_en = $("#p_en").val();
+	     	    var pm_no = $("#pm_no").val();
+	     	    var p_price = $("#p_price").val();
+	     	    var Category2 = $(".Category2").val();
+			
+	     	   if(brand_select.length == 0){
+	     	        alert("브랜드를 체크해 주세요"); 
+	     	        $("#brand_select").focus();
+	     	        return ;
+	     	    }
+	     	    
+	     	    if(p_name.length == 0){
+	     	        alert("상품(한글) 이름을 입력해 주세요"); 
+	     	        $("#p_name").focus();
+	     	        return;
+	     	    }
+	     	 
+	     	    if(p_en.length == 0){
+	     	        alert("상품(영문) 이름을 입력해주세요");
+	     	        $("#p_en").focus();
+	     	        return;
+	     	    }
+
+	     	    
+	     	    if(pm_no.length == 0){
+	     	        alert("상품 모델번호를 입력해주세요");
+	     	        $("#pm_no").focus();
+	     	        return;
+	     	    }
+	     	    
+	     	    if(p_price.length == 0){
+	     	        alert("상품 금액을 입력해주세요");
+	     	        $("#p_price").focus();
+	     	        return;
+	     	    }
+	     	    
+	     	    if(Category2.length == 0){
+	     	        alert("카테고리를 선택해주세요");
+	     	        $("#Category2").focus();
+	     	        return;
+	     	    }
 			}
+			
+				
+				//var pageNumTag = $("input[name=pageNum]").clone();
+				//var amountTag = $("input[name=amount]").clone();
+				
+					// 내부 비워주기	
+
+				//operForm.append(pageNumTag);
+				//operForm.append(amountTag);
+		
 			
 			operForm.submit();
 		});
@@ -215,7 +263,7 @@
 		              str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
 		              // str += '<div><img src="/brandfile/display?fileName='+ fileCallPath + '" /></div>'; 리스트형태 + 이미지 보여줌
 		              // str += '</a>';
-		              str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
+		              /* str += '<span data-file="'+fileCallPath+'"> X </span>'; */   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
 		              str += '</li>';
 		            }
 		           	
@@ -224,6 +272,7 @@
 			}
 	
 		});
+		
 		var uploadResult = $(".uploadResult ul");
         uploadResult.on("click","span", function(){
             var targetFile = $(this).data("file");
@@ -241,8 +290,8 @@
             });
             
          });   
-	});
-		
+	
+	});		
 
 
 </script>

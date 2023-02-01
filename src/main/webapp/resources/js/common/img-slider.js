@@ -3,7 +3,13 @@
  * 
  */
 
-var imgSlider = () => (function() {
+var imgSlider = (customOption) => (function(customOption) {
+	var option = {
+		ratio: 1,
+		ratioFix: false,
+		editMode: false,
+		offset: false,
+	};
 	var container = document.createElement('div');
 	var imgContainer = document.createElement('div');
 	var ul = document.createElement('ul');
@@ -13,6 +19,7 @@ var imgSlider = () => (function() {
 	
 	init();
 	function init() {
+		option = Object.assign(option, customOption);
 		container.append(imgContainer);
 		imgContainer.append(ul);
 		imgContainer.append(createBtnContainer());
@@ -20,9 +27,9 @@ var imgSlider = () => (function() {
 		idxIndicator = createIdxIndicator();
 		container.append(idxIndicator);
 		container.append(idxContainer);
-		container.addEventListener('mouseover', () => hover('on'));
-		container.addEventListener('mouseout', () => hover('out'));
+		setEvent();
 		setDefaultCss();
+		if (option.editMode) dragImageEvent();
 	}
 	
 	function createBtnContainer() {
@@ -76,8 +83,70 @@ var imgSlider = () => (function() {
 		}
 	}
 	
+	function setEvent() {
+		container.addEventListener('mouseover', () => hover('on'));
+		container.addEventListener('mouseout', () => hover('out'));
+	}
+	
+	function dragImageEvent() {
+		ul.ondragstart = function() {return false;}
+		let isPressed = false;
+		let oldX = 0;
+		let oldY = 0;
+		
+		ul.onmousedown = start;
+		ul.onmouseup = end;
+		ul.onmouseout = end;
+		onmousemove = move;
+		
+		function start(e) {
+			oldX = e.clientX;
+			oldY = e.clientY;
+			isPressed = true;
+		} 
+		
+		function end() {
+			isPressed = false;
+		}
+		
+		function move(e) {
+			if (isPressed == false) return;
+			const img = e.target.closest('img');
+			const li = img.closest('li');
+			const offsetX = e.clientX - oldX;
+			const offsetY = e.clientY - oldY;
+			
+			oldX = e.clientX;
+			img.style.left = (img.offsetLeft + offsetX) + 'px';
+			oldY = e.clientY;
+			img.style.top = (img.offsetTop + offsetY) + 'px';
+			
+			if (img.offsetLeft > 0) img.style.left = '0px';
+			if (img.offsetLeft < li.clientWidth - img.width) img.style.left = (li.clientWidth - img.width) + 'px';
+			if (img.offsetTop > 0) img.style.top = '0px';
+			if (img.offsetTop < li.clientHeight - img.height) img.style.top = (li.clientHeight - img.height) + 'px';
+			img.dataset.offsetX = (100 * img.style.left.slice(0, -2) / img.width) + '%';
+			img.dataset.offsetY = (100 * img.style.top.slice(0, -2) / img.height) + '%';
+		}
+	}
+	
+	/*************************************
+	 * --Method--
+	 ************************************/
+	function setRatio(ratio) {
+		option.ratio = ratio;
+		setDefaultCss();
+	}
+	
+	function setOption(customOption) {
+		option = Object.assign(option, customOption);
+		setEvent();
+		setDefaultCss();
+		if (option.editMode) dragImageEvent();
+	}
+	
 	function add(imgSrc) {
-		ul.innerHTML += '<li><img src="' + imgSrc + '"/></li>';
+		ul.innerHTML += '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>';
 		addIdx();
 		setDefaultCss();
 		slideImg(idxContainer.childElementCount-1);
@@ -86,10 +155,10 @@ var imgSlider = () => (function() {
 	function addList(imgSrcList) { 
 		if(imgSrcList.length == 0) return;
 		
-		var imgTagList = Array.from(imgSrcList)
+		const imgTagList = Array.from(imgSrcList)
 		.reduce((str, imgSrc) => {
 			addIdx();
-			return str + '<li><img src="' + imgSrc + '"/></li>'
+			return str + '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>'
 		}, '');
 		
 		ul.innerHTML += imgTagList;
@@ -97,10 +166,39 @@ var imgSlider = () => (function() {
 		slideImg(0);
 	}
 	
+	function addImgTag(imgTag) {
+		const li = document.createElement('li');
+		li.append(imgTag);
+		ul.append(li);
+		addIdx();
+	}
+	
+	function addImgTagList(imgTagList) {
+		if (imgTagList.length == 0) return;
+		
+		imgTagList.forEach(addImgTag);
+		setDefaultCss();
+		slideImg(0);
+	}
+	
+	function getImgTagList() {
+		const imgTagList = Array.from(ul.querySelectorAll('li img'))
+		.map(x => x.cloneNode());
+		
+		return imgTagList;
+	}
+	
 	function remove(idx) {
 		ul.children[idx].remove();
 		slideImg(idx == 0 ? 0 : idx - 1);
 		removeIdx(idx);
+		refreshIndicator();
+	}
+	
+	function empty() {
+		ul.innerHTML = '';
+		idxContainer.innerHTML = '';
+		idx = 0;
 	}
 	
 	function addIdx() {
@@ -113,7 +211,7 @@ var imgSlider = () => (function() {
 	}
 	
 	function slideImg(v) {
-		var idxLiAll = Array.from(idxContainer.children);
+		const idxLiAll = Array.from(idxContainer.children);
 		idxLiAll[idx].style.backgroundColor = 'lightgray';
 			
 		if (v == 'next') {
@@ -126,9 +224,22 @@ var imgSlider = () => (function() {
 		
 		ul.style.left = (-1 * idx * 100) + '%';
 		idxLiAll[idx].style.backgroundColor = 'black';
-		idxIndicator.innerHTML = (idx+1) + '/' + idxLiAll.length;
+		refreshIndicator();
+	}
+	function refreshIndicator() {
+		const idxLiAll = Array.from(idxContainer.children);
+		idxIndicator.innerHTML = idxLiAll.length == 0
+			? ''
+			: (idx+1) + '/' + idxLiAll.length;
 	}
 	
+	function offsetX(idx) {
+		return ul.querySelectorAll('li img')[idx].dataset.offsetX;
+	}
+	
+	function offsetY(idx) {
+		return ul.querySelectorAll('li img')[idx].dataset.offsetY;
+	}
 	
 	//********************* */
 	//--CSS--
@@ -138,15 +249,23 @@ var imgSlider = () => (function() {
 		var prev = container.querySelector('.prev');
 		var next = container.querySelector('.next');
 
-		//img-container 스타일
+		//container 스타일
 		container.style.width = '100%';
 		container.style.position = 'relative';
 		container.style.backgroundColor = '#eee';
 		container.style.marginBottom = '20px';
+		if (option.ratioFix == true) {
+			container.style.paddingTop = (100 * option.ratio) + '%';
+		}
 		
 		//img-container 스타일
 		imgContainer.style.overflow = 'hidden';
-		imgContainer.style.position = 'relative';
+		if (option.ratioFix == true) {
+			imgContainer.style.width = '100%';
+			imgContainer.style.top = '0';
+			imgContainer.style.left = '0';
+			imgContainer.style.position = 'absolute';
+		}
 		
 		//ul 스타일
 		ul.style.minHeight = '400px';
@@ -159,12 +278,33 @@ var imgSlider = () => (function() {
 		
 		//list 스타일
 		var liWidth = (100 / liAll.length) + '%';
-		ul.querySelectorAll('li')
-		.forEach(li => {
+		var liPaddingTop = (100 / liAll.length * option.ratio) + '%';
+		liAll.forEach(li => {
 			li.style.float = 'left';
 			li.style.width = liWidth;
 			//이미지 스타일
-			li.querySelector('img').style.width = '100%';
+			var liImg = li.querySelector('img');
+			liImg.style.width = '100%';
+			// 비율 고정
+			if (option.ratioFix == false) return;
+			li.style.position = 'relative';
+			li.style.top = '0';
+			li.style.paddingTop = liPaddingTop;
+			li.style.overflow = 'hidden';
+			
+			liImg.style.position = 'absolute';
+			liImg.style.top = liImg.dataset.offsetY;
+			liImg.style.left = liImg.dataset.offsetX;
+			liImg.onload = function() {
+				const imgRatio = liImg.naturalHeight / liImg.naturalWidth;
+				if (imgRatio >= option.ratio) {
+					liImg.style.width = '100%';
+					liImg.style.height = 'auto';
+				} else {
+					liImg.style.width = 'auto';
+					liImg.style.height = '100%';
+				}
+			}
 		});
 		
 		//버튼 스타일
@@ -219,11 +359,18 @@ var imgSlider = () => (function() {
 	
 	return {
 		container: container,
+		setRatio: setRatio,
+		setOption: setOption,
 		add: add,
 		addList: addList,
+		addImgTagList: addImgTagList,
 		remove: remove,
+		empty: empty,
 		slideImg: slideImg,
+		offsetX: offsetX,
+		offsetY: offsetY,
+		getImgTagList: getImgTagList,
 	}
-}());
+}(customOption));
 
 export {imgSlider};

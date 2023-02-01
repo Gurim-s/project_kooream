@@ -1,7 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="include/header.jsp"/>
-	<h1>
-		Hello world!  
-	</h1>
-	<P>  The time on the server is ${serverTime}. </P>
+	<form action="/member/mainPage" method="get" id="startForm">
+		
+	</form>
+	<script type="text/javascript">
+		document.getElementById("startForm").submit();
+	</script>
 <jsp:include page="include/footer.jsp"/>

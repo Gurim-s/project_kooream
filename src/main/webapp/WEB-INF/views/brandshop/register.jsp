@@ -55,14 +55,14 @@
 				</tr>
 				<tr>
 					<td>상품명_한글</td>
-					<td><input type="text" name="p_name_ko"></td>
+					<td><input id ="p_name" type="text" name="p_name_ko"></td>
 				</tr>
 			<tr>
 				<td>상품명_영문</td>
-				<td><input type="text" name="p_name_en"></td>
+				<td><input id = "p_en" type="text" name="p_name_en"></td>
 			</tr>
 			<tr>		
-				<td>상품분류</td>
+				<td>사이즈선택</td>
 				<td class="form-inline">
 						<select id="Category1">
 							<option value="">선택</option>
@@ -96,11 +96,11 @@
 				</tr>
 				<tr>
 					<td>모델번호</td>
-					<td><input type="text" name="p_model_no"></td>
+					<td><input id = "pm_no" type="text" name="p_model_no"></td>
 				</tr>
 			  <tr>
 				<td>판매금액</td>
-				<td><input type="number" name="p_release_price"></td>
+				<td><input id ="p_price" type="number" name="p_release_price"></td>
 				</tr>
 <!-- 			<tr>
 				<td>상세이미지</td>
@@ -116,41 +116,93 @@
 					</select></td>
 			</tr>
 			<tr>
-					<td class = "Brand_name"><input type="hidden" name ="p_brand" value=""></td>
-			</tr>
-			<tr>
 				<td class="register_button">
 					<button data-oper="submit">등록</button>
 					<button data-oper="reset">취소</button>
 					<button data-oper="list">목록으로</button>
 					<input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
 					<input type="hidden" name="amount" value="${cri.amount}"/> 
+					<input type="hidden" name="b_no" value="${b_no}"/> 
 				</td>
 			</tr>		
-	</table>	
+		</table>	
 	</form>
 	</div>
 
-		<script type="text/javascript">
-		  //-------------------------버튼 클릭 스크립트-----------------------------------
+<script type="text/javascript">
+//-------------------------버튼 클릭 스크립트-----------------------------------
 
-		   $(function(){
-			      var formObj = $("form");
-			      
-			      $("button").click(function(e){   
-			         e.preventDefault();   // 기본 이벤트 삭제==기능정지
+		$(function(){
+			var formObj = $("form");
+			var b_no = ${b_no};
+			     // console.log(b_no);
+			
+			// 처음 로드될때 한보이게하기
+			$('.T_Category').hide();
+			$('.T_Category').hide();
+			$('.B_Category').hide();
+			$('.S_Category').hide();
+			$('.A_Category').hide();   
+			  
+			$("button").click(function(e){   
+				e.preventDefault();   // 기본 이벤트 삭제==기능정지
 			         
 			         //위 3가지 버튼 중 하나 클릭하면 그거에 맞는 데이터가 들어옴
-			         var oper = $(this).data("oper");   //data-oper가 remove, list해서 ..
+				var oper = $(this).data("oper");   //data-oper가 remove, list해서 ..
 			         
 			         if(oper == 'list'){
-			            location.href='/board/list?pageNum='+pageNum+'&amount='+amount;
+			            history.go(-1);
 			         }else if(oper == 'reset'){
 			            formObj[0].reset();
 			         }else{
 			            // 게시글 등록
+			        	var brand_select = $("#brand_select").val();
+			     	    var p_name = $("#p_name").val();
+			     	    var p_en = $("#p_en").val();
+			     	    var Category1 = $("#Category1").val();
+			     	    var pm_no = $("#pm_no").val();
+			     	    var p_price = $("#p_price").val();
+
+
+			     	    if(brand_select.length == 0){
+			     	        alert("브랜드를 체크해 주세요"); 
+			     	        $("#brand_select").focus();
+			     	        return ;
+			     	    }
+			     	    
+			     	    if(p_name.length == 0){
+			     	        alert("상품(한글) 이름을 입력해 주세요"); 
+			     	        $("#p_name").focus();
+			     	        return;
+			     	    }
+			     	 
+			     	    if(p_en.length == 0){
+			     	        alert("상품(영문) 이름을 입력해주세요");
+			     	        $("#p_en").focus();
+			     	        return;
+			     	    }
+			     	    
+			     	    if(Category1.length == 0){
+			     	        alert("사이즈를 선택해주세요");
+			     	        $("#Category1").focus();
+			     	        return ;
+			     	    }
+			     	    
+			     	    if(pm_no.length == 0){
+			     	        alert("상품 모델번호를 입력해주세요");
+			     	        $("#pm_no").focus();
+			     	        return;
+			     	    }
+			     	    
+			     	    if(p_price.length == 0){
+			     	        alert("상품 금액을 입력해주세요");
+			     	        $("#p_price").focus();
+			     	        return;
+			     	    }
+			     	    
+
 			            
-			            console.log("submit clicked");
+			            
 			            
 			            var str = '';
 			            
@@ -164,7 +216,7 @@
 			               
 			            formObj.append(str);
 			            formObj.submit();
-			         }   
+			         }
 			         
 			      });
 			   
@@ -270,8 +322,15 @@
 	// 사이즈 선택-----------------------------------------------------------------
 		
 		$('#Category1').change(function () {
+			
 			var result =$('#Category1 option:selected').val();
-			if(result == 'top'){
+			if(result == ''){
+				$('.T_Category').hide();
+				$('.T_Category').hide();
+				$('.B_Category').hide();
+				$('.S_Category').hide();
+				$('.A_Category').hide();
+			}else if(result == 'top'){
 				$('.T_Category').show();
 				$('.T_Category').attr('name','p_size');	// name='p_size' 가 들어간다
 				$('.B_Category').hide();
@@ -300,31 +359,7 @@
 		});
 	// 사이즈 선택 끝-----------------------------------------------------------		
 	
-	// 브랜드 이름 // 내 생각은 브랜드 선택할때 값이 51이면 Brand_name에 value = 
-/* 		$('#brand_select').change(function () {
-			var result2 = $('#brand_select option:selected').val();
-			var Le = 'LE17SEPTEMBRE';
-			if(result2 == "51"){
-				$('input[name=p_brand]').attr('value',Le)
 
-			}else{
-				
-			};
-				
-		
-		
-		
-		});
- */
-			
-	
-	
-	
-	
-		
-
-
-	
 
 	</script>
 	

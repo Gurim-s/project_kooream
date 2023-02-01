@@ -162,7 +162,7 @@
 		<button id="p_i_btn">상품 등록</button>
 	</div>
 	
-	<div class="main-content-box">
+	<div class="main-content-box clearfix">
 		<div class="filter_box" style="border : 1px solid black; width : 210px;">
 			<div class="filter_status" style="padding : 23px 0 15px;">
 				<span class="filter_text">필터</span>

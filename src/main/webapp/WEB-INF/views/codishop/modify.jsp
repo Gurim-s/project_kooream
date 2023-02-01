@@ -23,10 +23,10 @@
 					<span class="title_content">코디소개</span>
 					<input id="textForm" class="form-control" name="codi_content" value="${vo.codi_content }">
 				</div>
-				<div class="row">
-					<span class="title_content">해시태그</span>
-					<input type="textForm" name="hashTags" id="textForm">
-				</div>
+<!-- 				<div class="row"> -->
+<!-- 					<span class="title_content">해시태그</span> -->
+<!-- 					<input type="textForm" name="hashTags" id="textForm"> -->
+<!-- 				</div> -->
 				<div class="row">
 					<span class="title_content">상품태그</span>
 					<input type="textForm" name="m_no" id="textForm" value="${vo.m_no }" readonly="readonly">
@@ -39,17 +39,17 @@
 						<span id="textForm2">키 :  ${vo.codi_cm } </span>
 						<span id="textForm2">무게 : ${vo.codi_kg } </span>
 				</div>
-				<div class="row">
-					<span class="title_content">사진 등록</span>
-					<div>
-						<div>
-							<input type="file" name="uploadFile" multiple="multiple" accept="image/jpeg, image/gif, image/png">
-						</div>
-						<div class="uploadResult">
-			               <ul></ul>
-			            </div>					
-					</div>
-				</div>	<!-- row.... end -->
+<!-- 				<div class="row"> -->
+<!-- 					<span class="title_content">사진 등록</span> -->
+<!-- 					<div> -->
+<!-- 						<div> -->
+<!-- 							<input type="file" name="uploadFile" multiple="multiple" accept="image/jpeg, image/gif, image/png"> -->
+<!-- 						</div> -->
+<!-- 						<div class="uploadResult"> -->
+<!-- 			               <ul></ul> -->
+<!-- 			            </div>					 -->
+<!-- 					</div> -->
+<!-- 				</div>	row.... end -->
 				
 				<div class="Btn-group">
 					<button class="btn btn-go"   id="modify" data-oper="modify">수정</button>

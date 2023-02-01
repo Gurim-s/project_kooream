@@ -28,4 +28,9 @@ public class RntReviewServiceImpl implements RntReviewService{
 		return mapper.getReview(vo);
 	}
 
+	@Override
+	public int removeReview(RntReviewVO vo) {
+		return mapper.removeReview(vo);
+	}
+
 }

@@ -198,6 +198,24 @@ $(function() {
 				return false; // .each() 사용시 return은 이렇게 적어줘야함!
 			}
 		});
+		$("input[type='number']").each(function(index, item){
+			if($(item).val()<=0){
+				alert($(this).parent().prev().text()+"에 0보다 큰 수를 입력해주세요.");
+				check=1;
+				return false;
+			}
+		});
+		var price = $("input[name='p_release_price']").val();
+		var numPrice = parseInt(price);
+		if(!$.isNumeric(price)){
+			alert("발매가를 숫자로 입력해주세요.");
+			check=1;
+			return;
+		}else if(numPrice<=0){
+			alert("발매가를 0보다 큰 수로 입력해주세요.");
+			check=1;
+			return;
+		}
 		
 		if(check==0){
 			if(!$(".fileCheck").length){
