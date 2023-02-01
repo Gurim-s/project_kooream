@@ -2,16 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <style type="text/css">
-	#menu_list{
+	.menu_container {
+		width: 130px;
 		float: left;
-		height: 100%;
+	}
+	#menu_list{
 		margin-bottom: 100%;
 		width: 130px;
 	}
@@ -20,9 +17,6 @@
 	}
 	button{
 		text-align: left;
-	}
-	#oriDate{
-		text-align: right;
 	}
 	.ori_icon{
 		width: 70px;
@@ -39,10 +33,10 @@
         display: none;
         width: 300px;
         height: 350px;
-        padding: 20px 60px;
+        padding: 40px;
         background-color: #fefefe;
         border: 1px solid #888;
-        border-radius: 3px;
+        border-radius: 2.5px;
     }
     .img-container {
     	width: 550px;
@@ -53,90 +47,139 @@
     #date{
     	float: right;
     }
+    #oriTitle{
+    	font-size: 20px;
+    }
+    #oriDate{
+    	float: right;
+    	font-size: 13px;
+    }
+    table{
+    	margin: auto;
+    }
+    td, #oriOk{
+    	text-align: center;
+    }
+    div.main_content {
+    	width: 70%;
+    	float: left;
+    }
+    .img-container {
+    	margin: 0px auto;
+    }
+    button{
+    	border-radius: 5px;
+		border: none;	
+		background-color: #EAEAEA;
+		margin-left: 10px;
+		padding: 3px;
+	}
+	#decRadioCh{
+		float: right;
+	}
 </style>
-</head>
-<body>
-	<ul id="menu_list">
-		<li>뉴스</li>
-		<li><a href="/community/oriList">정품판별</a></li>
-		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
-	</ul>
-	<div>
-		<span id="head">정품판별</span>
-		<button data-oper="oriList">목록</button><button data-oper="oriUpdate">수정</button><button data-oper="oriRemove">삭제</button>
+
+	<div class="menu_container">
+		<ul id="menu_list">
+			<li>뉴스</li>
+			<li><a href="/community/oriList">정품판별</a></li>
+			<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
+		</ul>
 	</div>
-	<br/>
-	<hr/>
-	<br/>
-	<form action="/community/oriUpdate" id="form">
+	<div class="main_content clearfix">
 		<div>
-			<span>${vo.orititle }</span>
-			<span id="oriDate">${vo.oridate }</span>
+			<span id="head">정품판별</span>
+			<button data-oper="oriList">목록</button><button data-oper="oriUpdate">수정</button><button data-oper="oriRemove">삭제</button>
 		</div>
-		<div>
-			<span>${vo.oriname }</span>
-		</div>
-		<div>
-			<div class="img-container"></div>
-			<%-- <c:if test="${vo.attachList.size() ne 0 }">
-				<c:forEach var="ivo" items="${list }">
-					<c:url var="imgSrc" value="/display">
-						<c:param name="fileName" value="${ivo.uploadPath }/${ivo.uuid }_${ivo.fileName }"></c:param>
-					</c:url>
-					<img alt="이미지" src="${imgSrc }">
-				</c:forEach>
-			</c:if> --%>
-		</div>
-		<div>
-			${vo.oricon }
-		</div>
-		<div>
-			<span><a><img src="/resources/img/smiling_icon.png" class="ori_icon" id="dec_ok"></a></span>
-			<span><a><img src="/resources/img/worried_icon.png" class="ori_icon" id="dec_no"></a></span>
-		</div>
-		<div>
-			<span>진품같아요.</span><span>가품같아요.</span>
-		</div>
-		<div>
-			<span id="oriOk">진품 갯수</span><span id="oriNo">가품 갯수</span>
-		</div>
-		<div><input type="hidden" name="orino" value="${vo.orino }"></div>
-	</form>
-	
-	<!-- 정품판별 댓글 내용 출력 폼 -->
-	<div>
-		<strong>구리머들의 판정</strong>
-		<span><input type="radio" name="decCh" value="decList" id="ckList" class="oriDec" checked="checked">전체 보기</span>
-		<span><input type="radio" name="decCh" value="decOk" id="ckOk" class="oriDec">진품 같아요.</span>
-		<span><input type="radio" name="decCh" value="decNo" id="ckNo" class="oriDec">가품 같아요.</span>
-	</div>
-	<div class="replyList">
-		<div>
-			<div><span>댓글쓴이</span>
-				<button id="replyupdatebtn">수정</button><button id="replyremovebtn">삭제</button>
+		<br/>
+		<hr/>
+		<br/>
+		<form action="/community/oriUpdate" id="form">
+			<div>
+				<span id ="oriTitle"><strong>${vo.orititle }</strong></span>
+				<div id="oriDate"><span>${vo.oridate }</span></div>
 			</div>
-			<div><span>작성날짜</span></div>
+			<br/>
+			<div>
+				<span>${vo.oriname }</span>
+			</div>
+			<div style="height: 50px;"></div>
+			<div>
+				<div class="img-container"></div>
+				<%-- <c:if test="${vo.attachList.size() ne 0 }">
+					<c:forEach var="ivo" items="${list }">
+						<c:url var="imgSrc" value="/display">
+							<c:param name="fileName" value="${ivo.uploadPath }/${ivo.uuid }_${ivo.fileName }"></c:param>
+						</c:url>
+						<img alt="이미지" src="${imgSrc }">
+					</c:forEach>
+				</c:if> --%>
+			</div>
+			<div style="height: 70px;"></div>
+			<div>
+				${vo.oricon }
+			</div>
+			<div style="height: 150px;"></div>
+			<div>
+				<table>
+					<tr>
+						<th style="width: 200px;"><a><img src="/resources/img/smiling_icon.png" class="ori_icon" id="dec_ok"></a></th>
+						<th style="width: 200px;"><a><img src="/resources/img/worried_icon.png" class="ori_icon" id="dec_no"></a></th>
+					</tr>
+					<tr>
+						<td>진품 같아요.</td>
+						<td>가품 같아요.</td>
+					</tr>
+					<tr>
+						<td id="oriOk">진품 갯수</td>
+						<td id="oriNo">가품 갯수</td>
+					</tr>
+				</table>
+			</div>
+			<div style="height: 80px;"></div>
+			<div><input type="hidden" name="orino" value="${vo.orino }"></div>
+		</form>
+		
+		<!-- 정품판별 댓글 내용 출력 폼 -->
+		 <div>
+			<span style="font-size: 20px;"><strong>구리머들의 판정</strong></span>
+			<div id="decRadioCh">
+				<span><small><input type="radio" name="decCh" value="decList" id="ckList" class="oriDec" checked="checked">전체 보기</small></span>
+				<span><small><input type="radio" name="decCh" value="decOk" id="ckOk" class="oriDec">진품 같아요.</small></span>
+				<span><small><input type="radio" name="decCh" value="decNo" id="ckNo" class="oriDec">가품 같아요.</small></span>
+			</div>
 		</div>
-		<div>댓글 내용</div>
-	</div>
-	
-	<!-- 판정 클릭시 뜨는 모달창 -->
-	<div id="my_modal">
-		<div><input name="orireplyname" value="replyer">
+		<br/>
+		<br/>	
+		<div class="replyList">
+			<div>
+				<div><span>댓글쓴이</span>
+					<button id="replyupdatebtn">수정</button><button id="replyremovebtn">삭제</button>
+				</div>
+				<div><span>작성날짜</span></div>
+			</div>
+			<div>댓글 내용</div>
 		</div>
-		<div id="title" data-orino="${vo.orino }">판별 내용</div>
-		<div>
-			<textarea id="oricon" rows="10" cols="25" name="oricon" placeholder="정품 혹은 가품이라 생각하는 이유를 적어주세요." style="resize: none;"></textarea>
-		</div>
-		<div>
-			<button id="replyRegister">등록</button>
-			<button id="replyUpdate">수정</button>
-			<button id="replyReset">취소</button>
+		
+		<!-- 판정 클릭시 뜨는 모달창 -->
+		<div id="my_modal">
+			<div>
+			<input type="hidden" name="orireplyname" value="구리머">
+			<strong>구리머</strong></div>
+			<div style="height: 15px;"></div>
+			<div id="title" data-orino="${vo.orino }">판별 내용</div>
+			<div>
+				<textarea id="oricon" rows="12" cols="28" name="oricon" placeholder="정품 혹은 가품이라 생각하는 이유를 적어주세요." style="resize: none;"></textarea>
+			</div>
+			<div>
+				<button id="replyRegister" style="border: none">등록</button>
+				<button id="replyUpdate" style="border: none">수정</button>
+				<button id="replyReset" style="border: none">취소</button>
+			</div>
 		</div>
 	</div>
 
 	
-</body>
 
 <script type="text/javascript" src="/resources/js/community/orireply.js"></script>
 <script type="module" src="/resources/js/community/oriGet.js"></script>
@@ -182,7 +225,7 @@
 					console.log(result);
 					var str = '';
 					
-					str += '<span id="oriOk">'+ result +'</span>'
+					str += '<td id="oriOk">'+ result +'</td>'
 					
 					oriOk.html(str);
 				}
@@ -197,7 +240,7 @@
 					console.log(result);
 					var str = '';
 					
-					str += '<span id="oriNo">'+ result +'</span>'
+					str += '<td id="oriNo">'+ result +'</td>'
 					
 					oriNo.html(str);
 				}
@@ -225,8 +268,10 @@
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div><strong>'+ result[i].orireplyname +'</strong><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
-								str += '<div>'+ result[i].orireplycon+'</div>'
+								str += '<div><strong>'+ result[i].orireplyname +'</strong>'
+								str += '<button id="replyupdatebtn" data-replyno ="'+result[i].orireplyno+'">수정</button><button id="replyremovebtn" data-replyno ="'+result[i].orireplyno	+'">삭제</button></div>' 
+								str += '<div>'+ result[i].orireplycon+'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
+								str += '<br/>'
 							}
 							replyList.html(str);
 						} //--------------------------------- 댓글 유무 확인 end
@@ -245,8 +290,10 @@
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div><strong>'+ result[i].orireplyname +'</strong><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
-								str += '<div>'+ result[i].orireplycon+'</div>'
+								str += '<div><strong>'+ result[i].orireplyname +'</strong>'
+								str += '<button id="replyupdatebtn" data-replyno ="'+result[i].orireplyno+'">수정</button><button id="replyremovebtn" data-replyno ="'+result[i].orireplyno	+'">삭제</button></div>' 
+								str += '<div>'+ result[i].orireplycon+'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
+								str += '<br/>'
 							};
 							replyList.html(str);
 						}//--------------------------------- 댓글 유무 확인 end
@@ -358,7 +405,9 @@
 							for(var i=0; i<result.length; i++){
 								str += '<div><strong>'+ result[i].orireplyname +'</strong>'
 								str += '<button id="replyupdatebtn" data-replyno ="'+result[i].orireplyno+'">수정</button><button id="replyremovebtn" data-replyno ="'+result[i].orireplyno	+'">삭제</button></div>' 
-								str += '<div>'+ result[i].orireplycon+'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
+								str += '<div style="height:5px;"></div>'
+								str += '<div><small>'+ result[i].orireplycon+'</small><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
+								str += '<br/>'
 							}
 							replyList.html(str);
 						}
@@ -435,5 +484,4 @@
 		
 	});
 </script>
-</html>
 <jsp:include page="../include/footer.jsp"/>

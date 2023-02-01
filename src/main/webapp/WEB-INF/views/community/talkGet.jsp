@@ -96,13 +96,16 @@
 				<small class="date-view">날짜</small>
 				</div>
 			</div>
-			<div>내용</div>
+			<div style="font-size: 20px;">내용</div>
 		</div>
-		
-		
+		<div style="height: 75px;"></div>
 		<!-- 댓글 입력 폼 -->
 		<div>
-			<div><input type="text" name="replyname" id="replyname"></div>
+			<div>
+			<strong>구리머</strong>
+			<input type="hidden" name="replyname" value="구리머">
+			</div>
+			<br/>
 			<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none";></textarea></div>
 			<div><button id="addReplyBtn">등록</button></div>
 		</div>
@@ -138,14 +141,20 @@
 				form.submit();
 				
 			}else if(oper == 'talkremove'){
-				form.attr("action", "/community/talkRemove");
+				if(confirm("해당 게시글을 삭제 하시면 정보가 사라집니다. 삭제 하시겠습니까?") == true){
+					form.attr("action", "/community/talkRemove");
+	 				form.submit();
+				}else{
+					return false;
+				}
+				
+				
 				
 				// EL 오류인지 뭔지... list 안타고 계속 update로 타서 그냥 form 안에 값 다 넣어서 태워 보냄
 // 				var str = '';
 // 				str += '<input type="hidden" name="pageNum" value="'+ pageNum +'">';
 // 				str += '<input type="hidden" name="amount" value="'+ amount +'">';
 // 				str += '<input type="hidden" name="talkno" value="'+ talkno '">';
- 				form.submit();
 			}
 			
 		}); // 게시글 관련 내용 ------------------------------------end
@@ -156,7 +165,7 @@
 		// 댓글 관련 내용 ------------------------------------start
 		var talkno = '${vo.talkno }';
 		var replycon = $("#replycon");
-		var replyname = $("#replyname");
+		var replyname = $("input[name=replyname]").val()
 		var m_no = $("#m_no");
 		
 	 	// 댓글 등록
@@ -165,11 +174,7 @@
 		// 댓글 등록 함수 불러오기
 	 	$("#addReplyBtn").click(function() {
 	 		
-	 		// 닉네임 검사
-	 	 	if($("input[name=replyname]").val() == ""){
-				alert('닉네임을 적어주세요.');
-				return;
-			}
+	 		
 	 		// 리플 내용 검사
 	 		if($("textarea[name=replycon]").val() == ""){
 				alert('댓글 내용을 적어주세요.');
@@ -177,7 +182,7 @@
 			}
 	 		
 			replyService.add(
-				{talkreplycon:replycon.val(), talkreplyname:replyname.val(), talkno:talkno, m_no:m_no.val()},
+				{talkreplycon:replycon.val(), talkreplyname:replyname, talkno:talkno, m_no:m_no.val()},
 					function(result) {
 						showList();
 						$("textarea[name=replycon]").val('');
@@ -218,8 +223,9 @@
 							str += '<div>'
 							str += '<small class="date-view">'+displayTime(result[i].talkreplydate)+'</small>'
 							str += '</div>'
+							str += '<div style="height: 10px;"></div>'
 							str += '</div>'
-							str += '<div>'+ result[i].talkreplycon +'</div>'
+							str += '<div style="font-size: 14px;">'+ result[i].talkreplycon +'</div>'
 							str += '<br/>'
 							
 						}
@@ -230,15 +236,22 @@
 						
 						// 댓글 삭제
 						$(".replylist").on("click", ".replyremovebtn", function() {
-							talkreplyno = $(this).data("replyno");
-							console.log(talkreplyno);  
-							replyService.remove(talkreplyno, function(result) {
-								
-								if(result ==='success'){
-									alert("댓글 삭제 완료")
-									showList();
-								}
-							})
+							//var confirm = confirm("댓글을 삭제 하시겠습니까?");
+							
+							if(confirm("해당 댓글을 삭제 하시겠습니까?") == true) {
+								talkreplyno = $(this).data("replyno");
+								console.log(talkreplyno);  
+								replyService.remove(talkreplyno, function(result) {
+									
+									if(result ==='success'){
+										alert("댓글이 삭제 되었습니다.")
+										showList();
+									}
+								});
+							}else{
+								return false;
+							}
+							
 						});
 					
 							
@@ -259,6 +272,7 @@
 								str += '<div>'
 								str += '<small class="date-view">'+displayTime(result.talkreplydate)+'</small>'
 								str += '</div>'
+								str += '<div style="height: 10px;"></div>'
 								str += '</div>'
 								str += '<div><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+ result.talkreplycon +'</textarea></div>'
 								str += '<br/>'
@@ -285,7 +299,7 @@
 									{talkreplyno : talkreplyno, talkreplycon:replyconupdate.val()},
 									function(result) {
 										if(result === 'success'){
-											alert("댓글 수정 완료");
+											alert("댓글 수정이 완료 되었습니다.");
 											
 											showList();
 										}

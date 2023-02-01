@@ -27,6 +27,13 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/community/*")
 @AllArgsConstructor
 public class OriginalController {
+	
+	//정품판별 리스트로 이동(메인)
+	@GetMapping("/index")
+	public String indexList() {
+		return "/community/oriList";
+	}
+	
 
 	private OriginalService service;
 

@@ -71,7 +71,7 @@
 		</div>
 	</header>
 	<main>
-		<div class="wrapper">
+		<div class="wrapper clearfix">
 		
 				
 	

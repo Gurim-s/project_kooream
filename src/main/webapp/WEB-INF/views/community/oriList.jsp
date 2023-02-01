@@ -59,6 +59,9 @@
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 	}
+	#oriTitle{
+		text-decoration: underline;
+	}
 </style>
 </head>
 <body>
@@ -107,29 +110,6 @@
 				</div>
 			</div>
 			</c:forEach>
-			<%-- <table>
-				<c:forEach var="vo" items="${list }">
-					<tr>
-						<td rowspan="3">
-							<c:if test="${vo.attachList.size() ne 0 }">
-								<c:url var="imgSrc" value="/display">
-									<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
-								</c:url>
-								<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
-							</c:if>
-						</td>
-						<td><small>${vo.brandname }</small></td>
-						<td rowspan="3">${vo.oriname }</td>
-					</tr>
-					<tr>
-						<td id="title"><a class="get" href="${vo.orino }">${vo.orititle }</a></td>
-					</tr>
-					<tr>
-						<td id="content"><a class="get" href="${vo.orino }">${vo.oricon }</a></td>
-					</tr>
-					<tr id="bp"><td></td></tr>	
-				</c:forEach>
-			</table> --%>
 		</form>
 		</div>
 	</div>
