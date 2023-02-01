@@ -15,6 +15,10 @@ public interface MemberMapper {
 	public int addAuth(Map<String, Object> map);
 	// 로그인
 	public MemberVO read(String m_id);
+	// 개인정보수정
+	public int successModify(MemberVO vo);
+	// 회원삭제
+	public int deleteMember(int m_no);
 	
 	
 	

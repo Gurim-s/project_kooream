@@ -22,8 +22,6 @@ public class CustomUserDetailsService implements UserDetailsService {
       log.warn("load user by userName : " + m_id);
       MemberVO vo = memberMapper.read(m_id);
       
-      // 전달된 id로 사용자 정보를 검색.
-
       return vo == null ? null : new CustomUser(vo);
       
    }

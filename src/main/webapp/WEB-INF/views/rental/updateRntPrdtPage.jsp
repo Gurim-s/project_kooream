@@ -26,7 +26,8 @@
 		<table>
 			<tr>
 				<td style="width: 100px;">브랜드</td>
-				<td>
+				
+				<!-- <td>
 					<select name="b_no">
 						<option value="9999">GUCCI</option>
 						<option value="9998">DIOR</option>
@@ -34,7 +35,22 @@
 						<option value="9996">CHANEL</option>
 						<option value="9995">PRADA</option>
 					</select>
-				</td>
+				</td> -->
+				<c:if test="${pvo.b_no } eq '9999'">
+					<td><input type="text" value="GUCCI"/> </td>
+				</c:if>
+				<c:if test="${pvo.b_no } eq '9998'">
+					<td><input type="text" value="DIOR"/> </td>
+				</c:if>
+				<c:if test="${pvo.b_no } eq '9997'">
+					<td><input type="text" value="LOUISVUITTON"/> </td>
+				</c:if>
+				<c:if test="${pvo.b_no } eq '9996'">
+					<td><input type="text" value="CHANEL"/> </td>
+				</c:if>
+				<c:if test="${pvo.b_no } eq '9995'">
+					<td><input type="text" value="PRADA"/> </td>
+				</c:if>
 			</tr>
 			<tr>
 				<td>상품명</td>

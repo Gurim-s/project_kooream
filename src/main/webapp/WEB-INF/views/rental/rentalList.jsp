@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	#categroyBox{
@@ -47,10 +48,12 @@
 </style>
 	<!-- 검색버튼 -->
 	<div id="serachBox">
-		<input type="text" id="serachValue">
+		<input type="text" id="serachValue" placeholder="상품명(한글,영문),브랜드명으로 검색하세요.">
 		<button id="serchBtn">검색</button>
 	</div>
-		<button id="rPrdtBtn">상품 등록</button>
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+			<button id="rPrdtBtn">상품 등록</button>
+		</sec:authorize>
 	<!-- 좌측 카테고리 박스------------------------------------------------------- -->
 	<div id="categroyBox">
 		<form id="myForm" action="/rental/rentalList">
@@ -106,9 +109,6 @@
 							<input type="checkbox" class="price" id ="150000" value ="150000">&nbsp;&nbsp;<label for="150000">15만원이하</label><br/>
 						</li>
 					</ul>
-				</li>
-				<li> 
-					<input type="button" id="sbmBtn" value="조회">
 				</li>
 			</ul>
 		</form>
@@ -177,37 +177,53 @@
 			}
 		});
 
-		// 카테고리 별 조회 버튼 클릭 이벤트-----------------------------------------------
+		// 카테고리 별 클릭 이벤트-----------------------------------------------
 		$(".brandType").on("click", function(){		// class brandType 클릭 시
-			$("#searchKeyword").val('');			// 검색창 비워주기
-			$("#serachValue").val('');				// 검색값 저장하는 input 값 비워주기
 			if($(this).is(":checked")){				// 그 brandType이 체크일 경우	
 				
 				$(this).attr("name","brandType")	// name속성에 brandType을 넣어준다.
 			}else{									// 체크가 아닐경우
 				$("#allSlctBtn").prop("checked",false);
 				$(this).removeAttr("name")				// name 속성에 brandType을 제거한다.
-			}										
+			}
+			if($(".brandType:checked").length == 5){ // 브랜드 타입이 다 체크될경우 전체보기 체크되게
+				$("#allSlctBtn").prop("checked",true);
+			}else{
+				$("#allSlctBtn").prop("checked",false);
+			}
+			idx=1;
+			getList();
 		});
 		
 		$(".ctgrType").on("click", function(){
-			$("#searchKeyword").val('');
-			$("#serachValue").val('');
+
 			if($(this).is(":checked")){
 				$(this).attr("name", "ctgrType")
 			}else{
 				$(this).removeAttr("name")	
 			}
+			idx=1;
+			getList();
 		});
-		
 		$(".price").on("click", function(){
-			$("#searchKeyword").val('');
-			$("#serachValue").val('');
+			var target = $(this)						// this -> 클릭된 셀렉트박스
+			if($(this).prop("checked")){
+				$(".price").each(function(idx,item){ 	// target -> 클릭된 셀렉트박스. 위에 this와 동일
+					if($(item).is(":checked") && target.attr("id") !=$(item).attr("id")){ // 새로 체크한게 기존에 체크했던 항목이 아닐경우 
+						$(item).prop("checked", false);									  // check풀기
+						$(item).removeAttr("name");
+					}
+				})
+			}	
+		});
+		$(".price").on("click", function(){
 			if($(this).is(":checked")){
 				$(this).attr("name", "price")
 			}else{
 				$(this).removeAttr("name")	
 			}
+			idx=1;
+			getList();
 		});
 		
 		// 브랜드 전체선택 버튼----------------------------------------------
@@ -219,17 +235,12 @@
 				$(".brandType").prop("checked", false);
 				$(".brandType").removeAttr("name");
 			}
+			idx=1;
+			getList();
 		});
 		
 		// 가격별 조회 하나만 체크되게 하기------------------------------------
-		$(".price").on("click", function(){
-			if($(this).prop("checked")){
-				$(".price").prop("checked",false);
-				$(this).prop("checked",true);
-			}
-				
-			
-		});
+
 		// 카테고리 조회 버튼 클릭 이벤트--------------------------------------------
 		$("#sbmBtn").on("click", function(){
 			var num =0;
@@ -241,8 +252,6 @@
 			if(num==0){
 				$("#allSlctBtn").click();
 			}
-			$("#searchKeyword").val('');
-			$("#serachValue").val('');
 			idx = 1;	// idx를 1로 초기화 해줘야함
 			getList();
 		});
@@ -349,15 +358,7 @@
 		
 		// 검색버튼 클릭이벤트---------------------------------------------
 		$("#serchBtn").on("click", function(){
-			
-			var str = $("#serachValue").val().trim();
-			
-			if(!str){
-				alert("검색할 키워드를 입력해주세요.");
-				return;
-			}
-			$("#allSlctBtn").click();
-			$("#searchKeyword").val(str);
+
 			getList();
 		});
 		
@@ -388,6 +389,7 @@
 	//------------------------------------------------------------------------------------상품 리스트 가져오는 함수--------
 	function getList(){
 		var getListIdx = 8;	// 페이지에 보이는 상품 갯수
+		$("#searchKeyword").val($("#serachValue").val().trim())
 		$.ajax({
             type : "POST",            
             url : "/rental/ajax/rentalList",      

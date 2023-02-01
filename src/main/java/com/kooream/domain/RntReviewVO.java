@@ -16,4 +16,5 @@ public class RntReviewVO {
 	private int p_no, m_no;
 	private Date rp_date;
 	private String rating;
+	private String m_nickname;
 }

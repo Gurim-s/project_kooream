@@ -23,11 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SELECT MEMBER_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO MEMBER
-		VALUES(MEMBER_SEQ.NEXTVAL, 
+		VALUES(#{m_no}, 
 			#{m_id}, 
 			#{m_pw}, 
 			#{m_nickname}, 
-			#{m_name}, 
+			#{m_name},
 			#{m_bday}, 
 			#{m_addr} || '/' || #{m_Detail_addr},
 			#{m_email},
@@ -42,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<resultMap type="com.kooream.domain.MemberVO" id="memberMap">
 		<id property="m_id" column="m_id"/>
+		<result property="m_no" column="m_no"/>
 		<result property="m_id" column="m_id"/>
 		<result property="m_pw" column="m_pw"/>
 		<result property="m_nickname" column="m_nickname"/>
@@ -59,12 +60,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="auth" column="auth"/>
 	</resultMap>
 	
+	<!-- 권한 불러오기 -->
 	<select id="read" resultMap="memberMap">
 		SELECT * 
 		FROM MEMBER A LEFT JOIN MEMBER_AUTH B
 		ON A.M_NO = B.M_NO
 		WHERE A.M_ID=#{m_id}
 	</select>
+	
+	<!-- 회원 정보 업데이트 -->
+	<update id="successModify" parameterType="com.kooream.domain.MemberVO">
+		UPDATE MEMBER 
+		SET m_nickname=#{m_nickname},
+			m_name=#{m_name},
+			m_bday=#{m_bday},
+			m_addr=(#{m_addr} || '/' || #{m_Detail_addr}),
+			m_email=#{m_email},
+			m_phone=#{m_phone}
+		WHERE m_no=#{m_no}
+	</update>
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteMember" parameterType="int">
+		DELETE FROM MEMBER WHERE m_no=#{param1}
+	</delete>
 	
 	
 </mapper>
