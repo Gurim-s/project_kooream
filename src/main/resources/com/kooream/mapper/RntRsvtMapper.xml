@@ -16,16 +16,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				STRT_R_DATE, 
 				RTRN_R_DATE)
 		VALUES(rsvt_seq.nextval, 
-				9999, 
+				#{m_no}, 
 				#{p_no}, 
 				TO_DATE(#{strt_r_date}, 'YYYY/MM/DD'), 
 				TO_DATE(#{rtrn_r_date}, 'YYYY/MM/DD'))
 	</insert>
 	
-	<select id="getRsvt" resultType="com.kooream.domain.RntRsvtVO">
+	<select id="getRsvt" parameterType="com.kooream.domain.RntRsvtVO" resultType="com.kooream.domain.ProductVO">
 		SELECT TO_CHAR(STRT_R_DATE,'YYYY-MM-DD') AS strt_r_date, TO_CHAR(RTRN_R_DATE, 'YYYY-MM-DD') AS rtrn_r_date
 		FROM RSVT_TBL
-		WHERE P_NO=#{p_no} and m_no=9999
+		WHERE P_NO=#{p_no} and m_no=#{m_no}
 	</select>
 	
 	<select id="checkRnt" parameterType="int" resultType="com.kooream.domain.ProductVO">

@@ -108,8 +108,8 @@
 				});
 			}
 		});
-		
-		// 비밀번호 조건에 맞는지 확인----------------------------
+		/*
+		// 비밀번호 조건에 맞는지 확인(테스트위해 잠시 막아둠)----------------------------
 		$("#pwText").on("keyup", function(e){
 			console.log($("#pwText").val());
 			if(!regPw.test($("#pwText").val())){
@@ -121,6 +121,8 @@
 				pwCheckValue = 'y';
 			}
 		});
+		*/
+		pwCheckValue = 'y';
 		
 		// 닉네임 조건에 맞는지 확인-----------------------------
 		$("#nickNameText").on("keyup", function(e){

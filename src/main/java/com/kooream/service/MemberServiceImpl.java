@@ -43,15 +43,15 @@ public class MemberServiceImpl implements MemberService{
 		mapper.addAuth(map);
 		return 1;
 	}
-	/*
+
 	@Override
-	public int goLogin(Map<String,Object> map) {
-		return mapper.goLogin(map);
+	public int successModify(MemberVO vo) {
+		return mapper.successModify(vo);
 	}
 
 	@Override
-	public MemberVO getMemberInfo(Map<String, Object> map) {
-		return mapper.getMemberInfo(map);
+	public int deleteMember(int m_no) {
+		return mapper.deleteMember(m_no);
 	}
-	*/
+	
 }

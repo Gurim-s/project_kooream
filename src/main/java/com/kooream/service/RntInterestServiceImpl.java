@@ -19,7 +19,7 @@ public class RntInterestServiceImpl implements RntInterestService{
 	@Setter(onMethod_= @Autowired)
 	private RntInterestMapper mapper;
 	
-	public int interestRnt(ProductVO vo) {
+	public int interestRnt(RntInterestVO vo) {
 		return mapper.interestRnt(vo);
 	}
 
@@ -29,7 +29,7 @@ public class RntInterestServiceImpl implements RntInterestService{
 	}
 
 	@Override
-	public int intrstRemove(ProductVO vo) {
+	public int intrstRemove(RntInterestVO vo) {
 		return mapper.intrstRemove(vo);
 	}
 

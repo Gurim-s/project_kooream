@@ -33,7 +33,7 @@
 					<button id="joinBtn">회원가입</button>
 				</td>
 				<td>
-					<button>아이디찾기</button>
+					<button id="findIdBtn">아이디찾기</button>
 				</td>
 				<td>
 					<button>비밀번호찾기</button>
@@ -73,6 +73,13 @@
 				$("#myForm").submit();
 			}
 		});
+		
+		$("#findIdBtn").on("click", function(e){
+			e.preventDefault();
+			$("#myForm").attr("action","/member/findId");
+			$("#myForm").submit();
+		});
+		
 	});
 </script>
 <jsp:include page="../include/footer.jsp"/>
