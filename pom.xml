@@ -89,6 +89,20 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		
+		<!-- 메일 api -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.2</version>
+		</dependency>
 				
 		<!-- Servlet -->
 		<dependency>
@@ -200,6 +214,11 @@
 		    <artifactId>gson</artifactId>
 		    <version>2.8.6</version>
 		</dependency>
+		<dependency>
+   		 	<groupId>cglib</groupId>
+ 			<artifactId>cglib</artifactId>
+ 			<version>2.2</version>
+		</dependency>
 		
 		<!-- Spring Security -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
@@ -237,8 +256,13 @@
 		    <version>0.4.8</version>
 		</dependency>
 		
-		
-		
+		<!-- aws-java-sdk-s3 -->
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk-s3</artifactId>
+		    <version>1.11.1001</version>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>

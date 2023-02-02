@@ -67,14 +67,12 @@
 			
 			if(oper == 'talklist'){
 				form.attr("action", "/community/talkList");
-				form.submit();
-			}else{
-				form.submit();
+// 				form.submit();
+			} else {
+// 				form.submit();
 			}
 			
-		})
-		
-		
+		});
 	})
 </script>
 

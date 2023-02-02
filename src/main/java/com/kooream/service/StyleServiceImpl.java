@@ -1,7 +1,5 @@
 package com.kooream.service;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.HashtagVO;
 import com.kooream.domain.StyleImageVO;
+import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleTagVO;
 import com.kooream.domain.StyleVO;
 import com.kooream.mapper.StyleImageMapper;
@@ -31,15 +30,40 @@ public class StyleServiceImpl implements StyleService{
 	private HashtagMapper hashtagMapper;
 	
 	@Override
-	public List<StyleVO> getList(Criteria cri) {
-		List<StyleVO> list = mapper.getList(cri); 
+	public List<StyleVO> getList(StyleQuery query) {
+		List<StyleVO> list = mapper.getList(query); 
+		switch(query.getCategory()) {
+		case "hot":
+			list = mapper.getHotList(query);
+			break;
+		case "recent":
+			list = mapper.getRecentList(query);
+			break;
+		case "follow":
+			list = mapper.getFollowList(query);
+			break;
+		case "tag":
+			list = mapper.getTagList(query);
+			break;
+		case "product":
+			list = mapper.getProductList(query);
+			break;
+		}
+		
 		for (StyleVO styleVO : list) {
 			long style_no = styleVO.getStyle_no();
 			List<StyleImageVO> images = imageMapper.getImagesByStyle_no(style_no);
 			styleVO.setStyle_image(images);
 		}
-		
 		return list;
+	}
+	
+	@Override
+	public List<StyleVO> getListByHashTag(Criteria cri, String hashtag) {
+//		long tag_no = styleTagMapper.getTagNoByHashtag(hashtag);
+//		List<StyleVO> list = mapper.getListByHashTag(cri);
+		
+		return null;
 	}
 	
 	@Override

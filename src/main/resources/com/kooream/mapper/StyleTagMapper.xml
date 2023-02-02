@@ -9,6 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from style_tag
 		where style_no=#{style_no}
 	</select>
+	<select id="getStyleNoListByTagNo" resultType="long">
+		select style_no
+		from style_tag
+		where tag_no=#{tag_no}
+	</select>
 	<select id="getCountTags" resultType="int">
 		select count(*)
 		from style_tag

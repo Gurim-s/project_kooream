@@ -1,5 +1,5 @@
 import {replyService} from '../service/reply-service.js';
-import {displayTime} from '../common/common.js';
+import {showTime} from '../common/common.js';
 
 const replyViewer = (x) => (function(x) {
 	const style_no = x;
@@ -205,37 +205,35 @@ const replyViewer = (x) => (function(x) {
 //		listContainer.style.height
 		
 		const list = listContainer.querySelectorAll('li');
-		console.log(list);
 		list.forEach( x => {
 			x.style.width = '100%';
 			x.style.minHeight = '34px';
 			x.style.padding = '7px 0';
-
-			const profileImg = x.querySelector('.profile-img');
-			if (profileImg) {
-				profileImg.style.width = '34px';
-				profileImg.style.height = '34px';
-				profileImg.style.overflow = 'hidden';
-				profileImg.style.borderRadius = '50%';
-				profileImg.style.float = 'left';
-				
-				const img = profileImg.querySelector('img');
-				img.style.width = '100%';
-				img.style.height = '100%';
-				img.style.objectFit = 'cover';
-			}
 			
+			if (x.className == 'reply-none') return;
+			const profileImg = x.querySelector('.profile-img');
+			profileImg.style.width = '34px';
+			profileImg.style.height = '34px';
+			profileImg.style.overflow = 'hidden';
+			profileImg.style.borderRadius = '50%';
+			profileImg.style.float = 'left';
+			
+			const img = profileImg.querySelector('img');
+			img.style.width = '100%';
+			img.style.height = '100%';
+			img.style.objectFit = 'cover';
+
 			const user_name = x.querySelector('.user-name');
 			user_name.style.fontWeight = 'bold';
 			user_name.style.fontSize = '15px';
 			user_name.style.marginRight = '3px';
-			
-//			const content = x.querySelector('.content');
-			
+
 			const regdate = x.querySelector('.regdate');
 			regdate.style.fontSize = '12px';
 			regdate.style.color = '#777';
 			regdate.style.marginRight = '3px';
+			
+//			const content = x.querySelector('.content');
 			
 			const writeNestedReply = x.querySelector('.write-nested-reply');
 			writeNestedReply.style.fontSize = '12px';

@@ -79,30 +79,30 @@
 	<div>
 		<br/>
 		<form action="/community/oriRegister" id="form">
-		<div>
-			<c:forEach var="vo" items="${list }">
-			<div>
-				<c:if test="${vo.attachList.size() ne 0 }">
-					<c:url var="imgSrc" value="/display">
-						<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
-					</c:url>
-					<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
-				</c:if>
-			</div>
-			<div>
-				<div><small>${vo.brandname }</small></div>
-				<div><a class="get" href="${vo.orino }">${vo.oricon }</a></div>
-				<div><a class="get" href="${vo.orino }">${vo.oriname }</a></div>
-			</div>
-			</c:forEach>
-		</div>
+<!-- 		<div> -->
+<%-- 			<c:forEach var="vo" items="${list }"> --%>
+<!-- 			<div> -->
+<%-- 				<c:if test="${vo.attachList.size() ne 0 }"> --%>
+<%-- 					<c:url var="imgSrc" value="/display"> --%>
+<%-- 						<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param> --%>
+<%-- 					</c:url> --%>
+<%-- 					<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;"> --%>
+<%-- 				</c:if> --%>
+<!-- 			</div> -->
+<!-- 			<div> -->
+<%-- 				<div><small>${vo.brandname }</small></div> --%>
+<%-- 				<div><a class="get" href="${vo.orino }">${vo.oricon }</a></div> --%>
+<%-- 				<div><a class="get" href="${vo.orino }">${vo.oriname }</a></div> --%>
+<!-- 			</div> -->
+<%-- 			</c:forEach> --%>
+<!-- 		</div> -->
 		
-			<%-- <table>
+			<table>
 				<c:forEach var="vo" items="${list }">
 					<tr>
 						<td rowspan="3">
 							<c:if test="${vo.attachList.size() ne 0 }">
-								<c:url var="imgSrc" value="/display">
+								<c:url var="imgSrc" value="/displayStyleImage">
 									<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
 								</c:url>
 								<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
@@ -118,7 +118,7 @@
 						<td id="content"><a class="get" href="${vo.orino }">${vo.oricon }</a></td>
 					</tr>
 					<tr id="bp"><td></td></tr>	
-				</c:forEach> --%>
+				</c:forEach>
 			</table>
 		</form>
 	</div>

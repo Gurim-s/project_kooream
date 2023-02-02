@@ -109,7 +109,7 @@
 			<tr>
 				<td class="register_button">
 					<button type="submit" data-oper="modify">수정완료</button>
-					<button id="list">목록으로</button>
+					<button data-oper="list" id="list">목록으로</button>
 					<input type="hidden" name="p_no" value="${vo.p_no }"/>
 				</td>
 			</tr>		

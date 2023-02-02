@@ -30,7 +30,8 @@ public class RntReviewServiceImpl implements RntReviewService{
 
 	@Override
 	public int removeReview(RntReviewVO vo) {
-		return mapper.removeReview(vo);
+		mapper.removeReview(vo);
+		return 1;
 	}
 
 }

@@ -13,7 +13,6 @@ import {showTime} from '../common/common.js';
 //	let styleList = await styleService.get(category, style_no);
 //	styleList.forEach(x => column.append(template(x)));
 	const style = await styleService.getOne(style_no);
-	console.log(style);
 	column.append(template(style));
 })();
 
@@ -90,7 +89,7 @@ var template = function(style) {
 		const replyTemplate = replyViewer(style_no);
 		replyTemplate.setOption({input: true, nestedReply: true});
 		const replyList = await replyTemplate.get();
-		const updateTarget = e.target.querySelector('span');
+//		const updateTarget = e.target.querySelector('span');
 		
 		m.append(replyList);
 	});
@@ -114,7 +113,7 @@ var template = function(style) {
 
 function strToHashTag(text) {
 	const type = /#[^\s^#]+/g;
-	const strToA = str => '<a href="#" style="color:#3022ff;">'+str+'</a>';
+	const strToA = str => '<a href="/style/list?category=tag&hashtag='+str.substring(1)+'" style="color:#3022ff;">'+str+'</a>';
 	
 	return text.replace(type, strToA);
 }

@@ -8,7 +8,7 @@ var imgService = (function() {
 		if (!imageVO) return "/resources/img/codi_test.png";
 		
 		var {uploadPath, uuid, fileName} = imageVO;
-		return "/displayStyleImage?fileName=" + encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
+		return "/displayImage?fileName=" + encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
 	}
 	
 	function getImageEl(imageVO) {

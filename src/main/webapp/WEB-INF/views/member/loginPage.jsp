@@ -1,50 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="../include/header.jsp"/>
-
-<div>
+<style>
+	button{
+		border: 0;
+		width: 280px;
+		height: 53px;
+		border-radius: 7px;
+		color: white;
+		background-color: black; 
+	}
+	#loginBox{
+		width: 300px;
+		margin: auto;
+		margin-top: 104px;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+	}
+	#loginUl li{
+		padding: 10px;
+	}
+	input{border:0 solid black;}
+	input:focus {outline:none;}
+	.inputBox{
+		border-bottom: 1px solid gray;
+	}
+	.btn{
+		text-align: center;
+	}
+	.btn span{
+		padding: 25px;
+		font-size: 13px;
+	}
+	.spanId, button{
+		font-weight: bold;
+		font-size: 14px;
+	}
+	.btn button,.btn{
+		cursor: pointer;
+	}
+	h1{
+		margin-bottom: 35px;
+	}
+	
+</style>
+<div id="loginBox">
+	<h1 style="text-align: center; ">Login</h2>
 	<form id="myForm" method="post">
-		<table>
-			<tr>
-				<td>
-					<span>아이디</span>
-				</td>
-				<td colspan="2">
-					<input type="text" class="input" name="m_id"> <!-- 시큐리티에 m_id를 보내기위한 고정name -->
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<span>비밀번호</span>
-				</td>
-				<td colspan="2">
-					<input type="password" class="input" name="m_pw"> <!-- 시큐리티에 m_pw를 보내기위한 고정name -->
-					<!-- 시큐리티 토큰 -->
-					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<button id="loginBtn">로그인</button>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<button id="joinBtn">회원가입</button>
-				</td>
-				<td>
-					<button>아이디찾기</button>
-				</td>
-				<td>
-					<button>비밀번호찾기</button>
-				</td>
-			</tr>
-		
-		</table>
+		<ul id="loginUl">
+			<li class="title">
+				<span class="spanId">아이디</span>
+			</li>
+			<li class="inputBox">	
+				<input type="text" class="input" name="m_id"> <!-- 시큐리티에 m_id를 보내기위한 고정name -->
+			</li>
+			<li class="title">
+				<span class="spanId">비밀번호</span>
+			</li>
+			<li class="inputBox">
+				<input type="password" class="input" name="m_pw"> <!-- 시큐리티에 m_pw를 보내기위한 고정name -->
+				<!-- 시큐리티 토큰 -->
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+			</li>
+			<li class="btn">
+				<button id="loginBtn">로그인</button>
+			</li>
+			<li class="btn">
+				<span id="joinBtn">회원가입</span>
+				<span id="findInfoBtn">계정찾기</span>
+			</li>
+		</ul>
 	</form>
 </div>
 
-<script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
 <script  type="text/javascript">
 	$(function(){
 		// 로그인 실패시 문구 출력
@@ -73,6 +100,21 @@
 				$("#myForm").submit();
 			}
 		});
+		/*
+		// 아이디찾기 버튼 클릭 이벤트-이메일
+		$("#findIdBtn").on("click", function(e){
+			e.preventDefault();
+			$("#myForm").attr("action","/member/findId");
+			$("#myForm").submit();
+		});
+		*/
+		
+		// 계정찾기 버튼 클릭 이벤트
+		$("#findInfoBtn").on("click", function(e){
+			e.preventDefault();
+			location.href="/member/findInfoPage";
+		});
+		
 	});
 </script>
 <jsp:include page="../include/footer.jsp"/>

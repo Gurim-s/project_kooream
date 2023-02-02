@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %><!-- 시큐리티 태그 -->
 
 <!DOCTYPE html>
 <html>
@@ -20,18 +21,16 @@
 			<div class="member-nav clearfix">
 				<ul>
 					<li><a href="#">고객센터</a></li>
-					<li><a href="#">관심상품</a></li>
-          <li><a href="#">장바구니</a></li>
+					<li><a href="/rental/interestList">관심상품</a></li>
+          			<li><a href="#">장바구니</a></li>
 					<li><a href="/member/myPage">마이페이지</a></li>
 					<li>
-						<c:choose>
-							<c:when test="${mvo.m_id ne null }">
-								<a href="/member/logout">로그아웃</a>
-							</c:when>
-							<c:otherwise>
-								<a href="/member/loginPage">로그인</a>
-							</c:otherwise>
-						</c:choose>
+						<sec:authorize access="isAnonymous()">
+							<a href="/member/loginPage">로그인</a>
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+							<a href="javascript:listView()">로그아웃</a>
+						</sec:authorize>
 					</li>
 				</ul>
 			</div>
@@ -45,7 +44,7 @@
 			<div>
 				<ul>
 					<li>
-						<a href="/style/list">STYLE</a>
+						<a href="/style/list?category=hot">STYLE</a>
 					</li>
 					<li>
 						<a href="/shop/shop_allList">SHOP</a>
@@ -73,6 +72,27 @@
 	<main>
 		<div class="wrapper">
 		
-				
+<script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
+<script  type="text/javascript">
+
+// 로그아웃시 토큰 보내주기 위한 함수
+function listView(){
+    var f = document.createElement('form');
+    var csrf = "${_csrf.parameterName }";
+    var csrf_value = "${_csrf.token } ";
+    var obj;
+    obj = document.createElement('input');
+    obj.setAttribute('type', 'hidden');
+    obj.setAttribute('name', csrf);
+    obj.setAttribute('value', csrf_value);
+    
+    f.appendChild(obj);
+    f.setAttribute('method', 'post');
+    f.setAttribute('action', '/logout');
+    document.body.appendChild(f);
+    f.submit();
+}
+
+</script>
 	
 	

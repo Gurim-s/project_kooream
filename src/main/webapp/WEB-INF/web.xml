@@ -74,5 +74,20 @@
 			/WEB-INF/spring/security-context.xml
 		</param-value>
 	</context-param>
+	<!-- 시큐리티 권한 에러 났을때 이동할 페이지 만들어줌 -->
+	<!-- 403에러페이지 -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/member/authErrorPage</location>
+	</error-page>
+	
+	<!-- 404에러페이지 -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/member/authErrorPage</location>
+	</error-page>
+	
+	
+	
 	
 </web-app>
