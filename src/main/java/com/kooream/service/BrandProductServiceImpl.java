@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandAdminVO;
 import com.kooream.domain.ProductVO;
-
+import com.kooream.domain.SizeVO;
 import com.kooream.mapper.BrandProductMapper;
 import com.kooream.mapper.BrandProductUploadMapper;
+import com.kooream.mapper.SizeMapper;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -26,28 +27,41 @@ public class BrandProductServiceImpl implements BrandProductService{
 			
 	@Setter(onMethod_ = @Autowired )
 	private BrandProductUploadMapper uploadmapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private SizeMapper sizemapper;
+	
 			
 
 		
-		  
+	// 사이즈도 같이 등록해야되는거같은데,,,ㅠㅠ	  
 	@Transactional
 	@Override 
 	public void register(ProductVO vo) { 
 		mapper.insert(vo);
 				
-		int p_no = mapper.getPno();
+		int p_no = mapper.getPno();	// 이미 p_no를 가지고옴
 				  
 		if(vo.getAttachList() != null && vo.getAttachList(). size()>0) {
-			for(AttachFileVO vo2 : vo.getAttachList()) { 
-				vo2.setP_no(p_no);
+			for(AttachFileVO vo2 : vo.getAttachList()) { // vo.getAttachList() 길이만큼 for문 돌기
+				vo2.setP_no(p_no);	// AttachVO + p_no 
 				uploadmapper.uploadFile(vo2); 
 			} 
 		}
-			 
+		
+		if (vo.getSizeList() != null && vo.getSizeList().size() >0 ) {	// size의길이가 null이 아니고, 0보다 크면
+			for (String size : vo.getSizeList()) {	// 
+				SizeVO sizevo = new SizeVO();	// 
+				sizevo.setPp_size(size);
+				sizevo.setP_no(p_no);
+				
+				sizemapper.addSize(sizevo);
+			}
+		}
 	}
 	
 	
-  
+   // ㅇ여기도 
 	@Override
 	public List<ProductVO> getList(ProductVO vo2) {
 		List<ProductVO> list = mapper.getList(vo2);
@@ -75,6 +89,8 @@ public class BrandProductServiceImpl implements BrandProductService{
 		ProductVO product = mapper.read(vo);
 		//상품 번호를 통해 상품의 이미지 가져오기
 		product.setAttachList(uploadmapper.findByPno(vo.getP_no()));
+		// 상품 번호를 통해서 사이즈 가져오기(?)
+		product.setSizeVoList(sizemapper.findPno(vo.getP_no()));
 		
 		return product;
 	}
@@ -96,6 +112,17 @@ public class BrandProductServiceImpl implements BrandProductService{
 		
 		return mapper.member(vo);
 	}
+
+
+
+	@Override
+	public List<SizeVO> getAttachSize(int p_no) {	// 사이즈 pno가져오기(?)
+		
+		return sizemapper.findPno(p_no);
+	}
+
+
+
 
 	
 	

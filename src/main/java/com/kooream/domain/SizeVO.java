@@ -11,13 +11,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BrandCartVO {
-	private int cart_no, m_no, p_no, p_release_price, b_no ;
-	private String P_NAME_EN, b_name, pp_size;
-	
-	private List<AttachFileVO> attachList;
-	//private ProductVO product;
-	
+public class SizeVO {
+	private int  p_no, pp_stock;
+	private String pp_size;
+
 		
 		
 	}

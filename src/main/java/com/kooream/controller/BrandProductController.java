@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.ProductVO;
+import com.kooream.domain.SizeVO;
 import com.kooream.service.BrandProductService;
 
 import lombok.AllArgsConstructor;
@@ -64,6 +65,7 @@ public class BrandProductController {
 		 * log.info("register....." + vo.getP_no()); log.info("register....." +
 		 * vo.getP_size());
 		 */
+		log.info(vo.getSizeList().size());
 		service.register(vo);
 		rttr.addFlashAttribute("result", "ok");
 		rttr.addAttribute("b_no", vo.getB_no());
@@ -92,10 +94,16 @@ public class BrandProductController {
 		return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
 	  
 	}
+
+		
 	  
 	@GetMapping("/get")	// 누르면 상세페이지 이동
 	public String get(ProductVO vo, Model model, Criteria cri) {
 		log.info("getp_no============"+ vo.getP_no());
+		
+		List<SizeVO> list = service.getAttachSize(vo.getP_no());
+		
+		model.addAttribute("sizeVOlist", list);
 		model.addAttribute("cri", cri);
 		model.addAttribute("vo", service.get(vo));
 		model.addAttribute("vo2", service.member(vo));  // 
@@ -149,6 +157,17 @@ public class BrandProductController {
 		return "redirect:/brandshop/view";
 		  
 	}
+	
+	@GetMapping("/payment")
+	public String payment(ProductVO vo, Model model) {
+		
+		model.addAttribute("vo", service.get(vo));
+		
+		return "brandshop/payment";
+		
+	}
+	
+
 	 
 	
 	

@@ -206,7 +206,6 @@
 	     	        return;
 	     	    }
 
-	     	    
 	     	    if(pm_no.length == 0){
 	     	        alert("상품 모델번호를 입력해주세요");
 	     	        $("#pm_no").focus();

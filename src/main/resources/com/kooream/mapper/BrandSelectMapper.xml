@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.kooream.mapper.BrandSelectMapper">
+
+<select id="getList" resultType="com.kooream.domain.ProductVO">
+	select A.*,B.b_name
+		from product A join brand_member B
+			on A.b_no = B.b_no
+			where b.b_no = #{b_no} and A.p_category = #{p_category}
+			order by p_no desc
+</select>
+<select id="getListprice" resultType="com.kooream.domain.ProductVO">
+	  	
+	    select A.*,B.b_name
+		from product A join brand_member B
+			on A.b_no = B.b_no
+			 where b.b_no = #{b_no} and A.p_release_price <![CDATA[<=]]> #{p_release_price} 
+			order by p_no desc
+		
+
+</select>
+
+		
+		
+
+	
+</mapper> 
