@@ -19,6 +19,8 @@ public interface MemberMapper {
 	public int successModify(MemberVO vo);
 	// 회원삭제
 	public int deleteMember(int m_no);
+	// 계정찾기
+	public MemberVO findInfo(MemberVO vo);
 	
 	
 	

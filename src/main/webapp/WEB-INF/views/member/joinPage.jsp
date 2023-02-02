@@ -1,63 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="../include/header.jsp"/>
-<div>
+
+<style>
+	#joinBox{
+		width: 300px;
+		margin: auto;
+		margin-top: 104px;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+	}
+	#JoinUl li{
+		padding: 3px;
+	}
+	input{border:0 solid black;}
+	input:focus {outline:none;}
+	.inputBox{
+		border-bottom: 1px solid gray;
+	}
+	button{
+		border: 0;
+		width: 280px;
+		height: 53px;
+		border-radius: 7px;
+		color: white;
+		background-color: black;
+		cursor: pointer;
+	}
+	.spanId, button{
+		font-weight: bold;
+	}
+	.checkText{
+		font-size: 3px;
+		color: red;
+	}
+	.title{
+		font-size: 14px;
+		font-weight: bold;
+	}
+	h1{
+		margin-bottom: 35px;
+	}
+	
+</style>
+
+<div id="joinBox">
+	<h1 style="text-align: center; ">Join</h2>
 	<form id="myForm" method="post">
-		<ul>
-			<li>아이디</li>
-			<li>
+		<ul id="JoinUl">
+			<li class="title">아이디</li><!-----------------------------------------------------------아이디  -->
+			<li class="inputBox">
 				<input type="text" id="idText" name="m_id">
 			</li>
-			<li>
-				<div id="idCheck"></div>
+			<li >
+				<div id="idCheck" class="checkText"></div>
 			</li>
-			<li>비밀번호</li>
-			<li>
+			<li class="title">비밀번호</li><!-----------------------------------------------------------비밀번호  -->
+			<li class="inputBox">
 				<input type="password" id="pwText" name="m_pw">
 			</li>
 			<li>
-				<div id="pwCheck"></div>
+				<div id="pwCheck" class="checkText"></div>
 			</li>
-			<li>닉네임</li>
-			<li>
+			<li class="title">닉네임</li><!-----------------------------------------------------------닉네임  -->
+			<li class="inputBox">
 				<input type="text" id="nickNameText" name="m_nickname">
 			</li>
 			<li>
-				<div id="nickNameCheck"></div>
+				<div id="nickNameCheck" class="checkText"></div>
 			</li>
-			<li>이름</li>
-			<li>
+			<li class="title">이름</li><!-----------------------------------------------------------이름  -->
+			<li class="inputBox">
 				<input type="text" id="nameText" name="m_name">
 			</li>
 			<li>
-				<div id="namdCheck"></div>
+				<div id="namdCheck" class="checkText"></div>
 			</li>
-			<li>생년월일</li>
-			<li>
-				<input type="date" name="m_bday">
+			<li class="title">생년월일</li><!-----------------------------------------------------------생년월일  -->
+			<li class="inputBox">
+				<input type="date" name="m_bday" onclick="this.showPicker()">
 			</li>
-			<li>주소</li>
-			<li>
+			<li class="title">주소</li><!-----------------------------------------------------------주소  -->
+			<li class="inputBox">
 				<input type="text" id="sample6_address" name="m_addr" onclick="sample6_execDaumPostcode()" placeholder="주소"><br>
 			</li>
-			<li>상세주소</li>
-			<li>
+			<li class="title">상세주소</li><!-----------------------------------------------------------상세주소  -->
+			<li class="inputBox">
 				<input type="text" id="sample6_detailAddress" name="m_Detail_addr">
 			</li>
-			<li>*이메일은 회원정보를 찾을때 필요하니 정확하게 입력바랍니다.</li>
-			<li>이메일</li>
-			<li>
+			<li  class="checkText">*이메일은 회원정보를 찾을때 필요하니 정확하게 입력바랍니다.</li>
+			<li class="title">이메일</li><!-----------------------------------------------------------이메일  -->
+			<li class="inputBox">
 				<input type="text" id="emailText" name="m_email">
 			</li>
 			<li>
-				<div id="emailCheck"></div>
+				<div id="emailCheck" class="checkText"></div>
 			</li>
-			<li>전화번호</li>
-			<li>
+			<li class="title">전화번호</li><!-----------------------------------------------------------전화번호  -->
+			<li class="inputBox">
 				<input type="text" id="phoneText" name="m_phone" oninput="autoHyphen2(this)" maxlength="13">
 			</li>
 			<li>
-				<div id="phoneCheck"></div>
+				<div id="phoneCheck" class="checkText"></div>
 			</li>
 			<li>
 				<button id="joinBtn">회원가입</button>
@@ -86,6 +129,7 @@
 		// 아이디를 입력할때마다 테이블에 값 있는지, 조건에 맞는지 비교------------------
 		$("#idText").on("keyup", function(e){
 			if(!regId.test($("#idText").val())){
+				$("#idCheck").css("color", "red");
 				$("#idCheck").text("아이디를 5-16자 소문자+숫자로 입력하세요.");
 				idCheckValue = 'n';
 				return;
@@ -98,9 +142,11 @@
 		            data : JSON.stringify({m_id : $("#idText").val()}),	//  JSON.stringify() -> 컨트롤러에서 받는 Object를 json형태로 변환
 		            success : function(result){
 		            	if(result==0){
+							$("#idCheck").css("color", "green");
 							$("#idCheck").text("사용가능한 아이디 입니다.");
 							idCheckValue = 'y';
 		            	}else{
+							$("#idCheck").css("color", "red");
 							$("#idCheck").text("중복된 아이디 입니다.");
 							idCheckValue = 'n';
 		            	}
@@ -127,6 +173,7 @@
 		// 닉네임 조건에 맞는지 확인-----------------------------
 		$("#nickNameText").on("keyup", function(e){
 			if(!regNickName.test($("#nickNameText").val())){
+				$("#nickNameCheck").css("color", "red");
 				$("#nickNameCheck").text("2-16자 영어 또는 숫자 또는 한글로 입력하세요.");
 				nicknameCheckValue = 'n';
 				return;
@@ -139,9 +186,11 @@
 		            data : JSON.stringify({m_nickname : $("#nickNameText").val()}),
 		            success : function(result){
 		            	if(result==0){
+							$("#nickNameCheck").css("color", "green");
 							$("#nickNameCheck").text("사용가능한 닉네임 입니다.");
 							nicknameCheckValue = 'y';
 		            	}else{
+							$("#nickNameCheck").css("color", "red");
 							$("#nickNameCheck").text("중복된 닉네임 입니다.");
 							nicknameCheckValue = 'n';
 		            	}
@@ -155,12 +204,29 @@
 		$("#emailText").on("keyup", function(e){
 			console.log($("#emailText").val());
 			if(!regEmail.test($("#emailText").val())){
+				$("#emailCheck").css("color", "red");
 				$("#emailCheck").text("이메일을 확인하세요.");
 				emailCheckValue = 'n';
 				return;
 			}else{
-				$("#emailCheck").text("사용가능한 이메일입니다.");
-				emailCheckValue = 'y';
+				$.ajax({
+					type : "POST",            
+		            url : "/member/ajax/checkAjax",
+		            dataType : 'json',
+		            contentType : 'application/json',
+		            data : JSON.stringify({m_email : $("#emailText").val()}),
+		            success : function(result){
+		            	if(result==0){
+							$("#emailCheck").css("color", "green");
+							$("#emailCheck").text("사용가능한 이메일 입니다.");
+							emailCheckValue = 'y';
+		            	}else{
+							$("#emailCheck").css("color", "red");
+							$("#emailCheck").text("중복된 이메일 입니다.");
+							emailCheckValue = 'n';
+		            	}
+		            }
+				});
 			}
 		});
 		

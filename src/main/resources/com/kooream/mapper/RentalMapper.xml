@@ -100,7 +100,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateRntPrdt" parameterType="com.kooream.domain.ProductVO">
 		UPDATE PRODUCT 
 		SET 
-		B_NO=#{b_no},
 		P_NAME_KO=#{p_name_ko},
 		P_NAME_EN=#{p_name_en},
 		P_MODEL_NO=#{p_model_no},
