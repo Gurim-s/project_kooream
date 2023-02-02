@@ -29,10 +29,10 @@ public class MemberServiceImpl implements MemberService{
 	@Setter (onMethod_= @Autowired)
 	private PasswordEncoder pwencoder;
 	
-	
+	/*
 	@Setter (onMethod_= @Autowired) 
 	private MemberDAO mdao;
-	 
+	*/
 	
 	
 	@Override
