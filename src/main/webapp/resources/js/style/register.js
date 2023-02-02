@@ -5,7 +5,7 @@ const uploader = imgFileUploader;
 const slider = imgSlider();
 (function() {
 	uploader.setOption({
-		uploadURL: '/uploadStyleImage',
+		uploadURL: '/uploadImageAWS/style',
 		saveName: 'style_image',
 		max: 5,
 		slider: {
@@ -133,8 +133,6 @@ function extractHashTag(text) {
 	.reduce((str, x) => str + x, '');
 	return list; 
 }
-
-
 
 //	$('.editable').each(function(_, textDiv){
 //		if ($(textDiv).prop('tagName') == 'div') return;

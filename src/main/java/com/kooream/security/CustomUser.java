@@ -9,11 +9,13 @@ import org.springframework.security.core.userdetails.User;
 
 import com.kooream.domain.MemberVO;
 
+import lombok.Getter;
+
+@Getter
 public class CustomUser extends User {
 	   
 	   private static final long serialVersionUID = 1L;
 	   private MemberVO member;
-
 	   
 	   public CustomUser(String m_id, String m_pw, Collection<? extends GrantedAuthority> authorities) {
 	      super(m_id, m_pw, authorities);

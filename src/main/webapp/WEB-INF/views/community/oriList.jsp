@@ -70,46 +70,65 @@
 		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
-	<div id="main">
-		<div>
-			<span id="head"><strong>정품판별</strong></span>
-			<button>글쓰기</button>
-		</div>
+	<div>
+		<span id="head">정품판별</span>
+		<button>글쓰기</button>
+	</div>
+	<br/>
+	<hr/>
+	<br/>
+	<div>
+		<!-- <select name = "brandname">
+			<option value="노스페이스">노스페이스</option>
+			<option value="나이키">나이키</option>
+			<option value="슈프림">슈프림</option>
+			<option value="컨버스">컨버스</option>
+		</select> -->
+	</div>
+	<div>
 		<br/>
-		<hr/>
-		<br/>
-		<div>
-			<!-- <select name = "brandname">
-				<option value="노스페이스">노스페이스</option>
-				<option value="나이키">나이키</option>
-				<option value="슈프림">슈프림</option>
-				<option value="컨버스">컨버스</option>
-			</select> -->
-		</div>
-		<div>
-		<br/>
-			<form action="/community/oriRegister" id="form">
-			<c:forEach var="vo" items="${list }">
-			<div id="full">
-				<div id="thumbnail">
-					<c:if test="${vo.attachList.size() ne 0 }">
-						<c:url var="imgSrc" value="/display">
-							<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
-						</c:url>
-						<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
-					</c:if>
-				</div>
-				<div id="sub">
-					<div id="barandName"><small>${vo.brandname }</small></div>
-					<div id="oriTitle"><a class="get" href="${vo.orino }"><strong>${vo.orititle }</strong></a></div>
-					<br/>
-					<div id="oriContent"><a class="get" href="${vo.orino }">${vo.oricon }</a></div>
-				</div>
-				<div>
-					<div id="oriNickname">${vo.oriname }</div>
-				</div>
-			</div>
-			</c:forEach>
+		<form action="/community/oriRegister" id="form">
+<!-- 		<div> -->
+<%-- 			<c:forEach var="vo" items="${list }"> --%>
+<!-- 			<div> -->
+<%-- 				<c:if test="${vo.attachList.size() ne 0 }"> --%>
+<%-- 					<c:url var="imgSrc" value="/display"> --%>
+<%-- 						<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param> --%>
+<%-- 					</c:url> --%>
+<%-- 					<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;"> --%>
+<%-- 				</c:if> --%>
+<!-- 			</div> -->
+<!-- 			<div> -->
+<%-- 				<div><small>${vo.brandname }</small></div> --%>
+<%-- 				<div><a class="get" href="${vo.orino }">${vo.oricon }</a></div> --%>
+<%-- 				<div><a class="get" href="${vo.orino }">${vo.oriname }</a></div> --%>
+<!-- 			</div> -->
+<%-- 			</c:forEach> --%>
+<!-- 		</div> -->
+		
+			<table>
+				<c:forEach var="vo" items="${list }">
+					<tr>
+						<td rowspan="3">
+							<c:if test="${vo.attachList.size() ne 0 }">
+								<c:url var="imgSrc" value="/displayStyleImage">
+									<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
+								</c:url>
+								<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
+							</c:if>
+						</td>
+						<td><small>${vo.brandname }</small></td>
+						<td rowspan="3">${vo.oriname }</td>
+					</tr>
+					<tr>
+						<td id="title"><a class="get" href="${vo.orino }">${vo.orititle }</a></td>
+					</tr>
+					<tr>
+						<td id="content"><a class="get" href="${vo.orino }">${vo.oricon }</a></td>
+					</tr>
+					<tr id="bp"><td></td></tr>	
+				</c:forEach>
+			</table>
 		</form>
 		</div>
 	</div>

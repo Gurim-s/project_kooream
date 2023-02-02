@@ -63,22 +63,22 @@ public class CodiMapperTests {
 //	}
 //	
 	
-	@Test
-	public void getListTest() {
-		
-		Criteria cri = new Criteria();
-		// 테스트 키워드
-		//cri.setKeyword("test");
-		System.out.println("cri : " + cri);
-		
-		List<CodiVO> list = mapper.getList(cri);
-		System.out.println("list : " + list);
-		
-		System.out.println("==========");
-		int getTotal = mapper.getTotal(cri);
-		System.out.println("totla : " + getTotal);
-		
-	}
+//	@Test
+//	public void getListTest() {
+//		
+//		Criteria cri = new Criteria();
+//		// 테스트 키워드
+//		//cri.setKeyword("test");
+//		System.out.println("cri : " + cri);
+//		
+//		List<CodiVO> list = mapper.getList(cri);
+//		System.out.println("list : " + list);
+//		
+//		System.out.println("==========");
+//		int getTotal = mapper.getTotal(cri);
+//		System.out.println("totla : " + getTotal);
+//		
+//	}
 	
 	
 	

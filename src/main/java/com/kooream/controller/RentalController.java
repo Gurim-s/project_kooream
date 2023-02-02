@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kooream.domain.AttachFileVO;
+import com.kooream.domain.MemberVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.domain.RentalMenuVO;
 import com.kooream.domain.RntInterestVO;
 import com.kooream.domain.RntReviewVO;
+import com.kooream.security.UserSession;
 import com.kooream.service.RentalService;
 import com.kooream.service.RntInterestService;
 import com.kooream.service.RntReviewService;
@@ -32,7 +36,7 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 @RequestMapping("/rental/*")
-public class RantalController {
+public class RentalController {
 	
 	@Setter(onMethod_= @Autowired)
 	private RentalService service;
@@ -66,14 +70,16 @@ public class RantalController {
 		List<ProductVO> list = service.getList(vo);
 		return new ResponseEntity<List<ProductVO>>(list, HttpStatus.OK);
 	}
-	 
+	
 	// 렌탈 상품 등록 페이지로 이동
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/addRntPrdtPage")
 	public String addRntPrdtPage() {
 		return "/rental/addRntPrdt";
 	}
 	
 	// 렌탈 상품 등록 후 목록으로 이동
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/addRntPrdt")
 	public String addRntPrdt(ProductVO vo) {
 		
@@ -91,6 +97,12 @@ public class RantalController {
 		ProductVO pvo = service.viewPrdt(vo);
 		// 리뷰 불러오는 쿼리
 		List<RntReviewVO> reviewVO = rp_service.getReview(vo);
+		
+		// 시큐리티에서 회원번호 가져오기
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no());
+		}
 		// 관심상품 여부 보여주는 쿼리
 		RntInterestVO interestVO = interestService.countInterest(vo);
 		
@@ -102,6 +114,7 @@ public class RantalController {
 	}
 	
 	// 상품 수정 페이지 이동
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/updateRntPrdtPage")
 	public String updateRntPrdtPage(ProductVO vo, Model model) {
 		model.addAttribute("pvo", service.viewPrdt(vo));
@@ -112,6 +125,7 @@ public class RantalController {
 	}
 	
 	// 상품 수정 기능
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/updateRntPrdt")
 	public String updateRntPrdt(ProductVO vo, HttpServletRequest http) {
 		service.updateRntPrdt(vo);
@@ -119,6 +133,7 @@ public class RantalController {
 	}
 	
 	// 상품 삭제 기능
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/removeRntPrdt")
 	public String removeRntPrdt(ProductVO vo) {
 		service.removeRntPrdt(vo);
@@ -126,9 +141,15 @@ public class RantalController {
 	}
 	
 	// 관심상품추가 버튼 눌렀을때 기능
+	@Secured({"ROLE_USER"})
 	@PostMapping(value="/insertInterest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public int interestRnt(ProductVO vo) {
+	public int interestRnt(RntInterestVO vo) {
+		// 시큐리티에서 회원번호 가져오기
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no());
+		}
 		
 		// 관심상품 테이블에 상품번호 추가하는 쿼리
 		int result = interestService.interestRnt(vo);
@@ -139,10 +160,15 @@ public class RantalController {
 
 	
 	// 관심상품삭제 버튼 눌렀을때 기능
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping(value = "/removeInterest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public int interesRemovetRnt(ProductVO vo) {
-		
+	public int interesRemovetRnt(RntInterestVO vo) {
+		// 시큐리티에서 회원번호 가져오기
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no());
+		}
 		// 관심상품 테이블에 상품번호 삭제하는 쿼리
 		int result = interestService.intrstRemove(vo);
 	
@@ -150,21 +176,30 @@ public class RantalController {
 	}
 	
 	// 관심상품 내역 불러오기(마이페이지)
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping("/interestList")
 	public String interestList(Model model) {
+		// 시큐리티에서 회원번호 가져오기
+		MemberVO userSession = new UserSession().getSession();
 		
-		//session.getAttribute()
-		int m_no=1;
-		List<ProductVO> list = interestService.interestList(m_no);
+		List<ProductVO> list=null;
+		if(userSession != null) {
+			list = interestService.interestList(userSession.getM_no());
+		}	
 		
 		model.addAttribute("list", list);
 		return "/rental/interestList";
 	}
 	
 	// 관심상품 삭제(마이페이지)
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping("/removeInterest")
-	public String removeInterest(ProductVO vo) {
-		
+	public String removeInterest(RntInterestVO vo) {
+		// 시큐리티에서 회원번호 가져오기
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no());
+		}
 		interestService.intrstRemove(vo);
 		
 		return "/rental/interestList";

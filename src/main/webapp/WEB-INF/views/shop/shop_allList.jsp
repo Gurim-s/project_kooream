@@ -90,7 +90,7 @@
 	.product_box{
 		float: left;
 		width: calc(25% - 10px);
-		height : 410px;
+		height : 450px;
 		cursor:pointer;
 		
 	}
@@ -104,7 +104,6 @@
 	}
 	
 	.product_all{
-		float: left;
 		width: calc(100% - 220px);
 		display: inline-block;
 		grid-column-gap: 20px;
@@ -163,7 +162,7 @@
 		<button id="p_i_btn">상품 등록</button>
 	</div>
 	
-	<div class="main-content-box">
+	<div class="main-content-box clearfix">
 		<div class="filter_box" style="border : 1px solid black; width : 210px;">
 			<div class="filter_status" style="padding : 23px 0 15px;">
 				<span class="filter_text">필터</span>
@@ -218,7 +217,7 @@
 					<div class="product_name_eng">${bid.p_name_en}</div>
 					<div class="product_name_kor">${bid.p_name_ko}</div>		
 					<div class="badge_product">빠른 배송</div>
-					<div class="view_price">${bid.max_bid_sell}원</div>
+					<div class="view_price">${bid.min_bid_buy}원</div>
 					<div class="buy_price">즉시 구매가</div>
 					<div class="buy_price">${bid.p_no}</div>
 				</div>

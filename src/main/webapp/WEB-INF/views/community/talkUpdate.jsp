@@ -69,9 +69,7 @@
 				form.submit();
 			}
 			
-		})
-		
-		
+		});
 	})
 </script>
 

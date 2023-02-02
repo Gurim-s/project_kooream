@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/resources/js/rental/slick.css"/>
 <link rel="stylesheet" type="text/css" href="/resources/js/rental/slick-theme.css"/>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <style>
 	/*
 	#prdtModBtn{
@@ -93,10 +94,10 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">${pvo.p_name_en }</td>
+			<td colspan="2" style="max-width: 230px;">${pvo.p_name_en }</td>
 		</tr>
 		<tr>
-			<td style="border-bottom: 1px solid #ebebeb;" colspan="2" id="p_name_ko">${pvo.p_name_ko }</td>
+			<td style="border-bottom: 1px solid #ebebeb; max-width: 230px;" colspan="2" id="p_name_ko">${pvo.p_name_ko }</td>
 		</tr>
 		<tr>
 			<td colspan="2" style="height: 80px; text-align: right;">
@@ -106,11 +107,15 @@
 		</tr>
 		<tr>
 			<td style="text-align:center;border-bottom: 1px solid #ebebeb; padding: 14px;">
-				<input class="buy" type="button" id="intrstBtn" value="관심상품추가"/>
-				<input class="buy" type="button" id="intrstRemoveBtn" value="관심상품삭제"/>
+				<sec:authorize access="isAuthenticated()">
+					<input class="buy" type="button" id="intrstRemoveBtn" value="관심상품삭제"/>
+					<input class="buy" type="button" id="intrstBtn" value="관심상품추가"/>
+				</sec:authorize>
 			</td>
 			<td style="text-align:center;border-bottom: 1px solid #ebebeb; padding: 14px;">
-				<div><input class="buy" id="rsvtBtn" type="button" value="상품예약"/></div>
+				<sec:authorize access="isAuthenticated()">
+					<div><input class="buy" id="rsvtBtn" type="button" value="상품예약"/></div>
+				</sec:authorize>
 			</td>
 		</tr>
 		<tr style="font-size: 14px; ">
@@ -124,36 +129,41 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="text-align:center;padding: 14px;">
-				<input id="prdtModBtn" class="buy" type="button" value="상품수정"/>
-			</td>
-			<td style="text-align:center;padding: 14px;">
-				<form id="removePrdtForm" action="/rental/removeRntPrdt" method="post" >
-					<input class="buy" type="button" id="prdtRemvBtn" value="상품삭제"/>
-					<input type="hidden" name="p_no" value="${pvo.p_no }">
-				</form>
-			</td>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<td style="text-align:center;padding: 14px;">
+					<input id="prdtModBtn" class="buy" type="button" value="상품수정"/>
+					
+				</td>
+				<td style="text-align:center;padding: 14px;">
+					<form id="removePrdtForm" action="/rental/removeRntPrdt" method="post" >
+						<input class="buy" type="button" id="prdtRemvBtn" value="상품삭제"/>
+						<input type="hidden" name="p_no" value="${pvo.p_no }">
+					</form>
+				</td>
+			</sec:authorize>
 		</tr>
 	</table>
 </div>
 <!-- 한줄평 등록-------------------------------------------------------- -->
-<form id="reviewForm" action="/rental/rgstReview" method="post">
-	<!--별점  -->
-	<div id="rAll" >
-		<span id="1" data-rval="n">☆</span>
-		<span id="2" data-rval="n">☆</span>
-		<span id="3" data-rval="n">☆</span>
-		<span id="4" data-rval="n">☆</span>
-		<span id="5" data-rval="n">☆</span>
-	</div>
-	
-	<div>
-		<input type="text" placeholder="한줄평을 남겨주세요.(최대 100자)" name="rp_content" maxlength="100"/>
-		<input type="button" id="rpBtn" value="한줄평 등록"/>
-		<input type="hidden" name="p_no" value="${pvo.p_no }"/>
-		<input id="rst" type="hidden" name="rating"/>
-	</div>
-</form>
+<sec:authorize access="isAuthenticated()">
+	<form id="reviewForm" action="/rental/rgstReview" method="post">
+		<!--별점  -->
+		<div id="rAll" >
+			<span id="1" data-rval="n">☆</span>
+			<span id="2" data-rval="n">☆</span>
+			<span id="3" data-rval="n">☆</span>
+			<span id="4" data-rval="n">☆</span>
+			<span id="5" data-rval="n">☆</span>
+		</div>
+		
+		<div>
+			<input type="text" placeholder="한줄평을 남겨주세요.(최대 100자)" name="rp_content" maxlength="100"/>
+				<input type="button" id="rpBtn" value="한줄평 등록"/>
+			<input type="hidden" name="p_no" value="${pvo.p_no }"/>
+			<input id="rst" type="hidden" name="rating"/>
+		</div>
+	</form>
+</sec:authorize>
 
 
 
@@ -170,7 +180,7 @@
         </tr>
     </thead>
     <tbody>
-        <c:forEach var="review" items="${reviewVO}" varStatus="status">
+        <c:forEach var="review" items="${reviewVO}">
             <!-- 평점 기준 별표시 출력 -->
             <tr>
                 <td>
@@ -183,8 +193,18 @@
                 		</c:if>
                 	</c:forEach>
                 </td>
-                <td>익명</td>
-                <td><span>${review.rp_content}</span><button id="reviewRemoveBtn">삭제</button></td>
+                <td>${review.m_nickname}</td>
+                <td>
+	                <span>${review.rp_content}</span>
+           	        <sec:authorize access="isAuthenticated()">        
+                		<sec:authentication property="principal" var="pr"/><!-- 시큐리티에 저장된 정보 가져오기 -->
+                		<c:if test="${pr.member.m_no eq review.m_no || pr.member.authList[0].auth eq 'ROLE_ADMIN'}">
+                			<!-- 시큐리티에 저장된 회원번호와 작성자 회원번호가 동일하거나
+                				 시큐리티에 저장된 권한 중에 ROLE_ADMIN 있으면 삭제버튼 출력 -->
+                			<input type="button" id="reviewDeleteBtn" onclick="goRemoveReview(${review.rp_idx},${review.p_no })" value="삭제">
+                   		</c:if>           	
+              		</sec:authorize>
+                </td> 
             </tr>
         </c:forEach>
     </tbody>
@@ -266,7 +286,6 @@
 				$("#rAll").html(str);
 			
 			}
-			
 		});
 		
 		// 댓글 적합성 검사-------------------------------------------------------------------
@@ -285,7 +304,6 @@
 			}
 			$("#reviewForm").submit();
 		});
-		
 		// 상품예약 버튼 클릭 이벤트------------------------------------------------------------
 		$("#rsvtBtn").on("click", function(){
 			location.href="/rsvt/rsvtPage?p_no=${pvo.p_no}";
@@ -302,12 +320,8 @@
 			interestAjax('remove');	
 		});
 		
-		/* // 댓글 삭제 버튼 클릭 이벤트-------------------------------------------------------------
-		$("#reviewRemoveBtn").on("click", function(e){
-			e.preventDefault();
-			location.href="/rental/removeReview;
-		});
-		 */
+		
+		
 		
 		
 		
@@ -346,13 +360,30 @@
             
         });
 		
-		
-		
-		
-		
-		
 	}
 	
+	// 댓글 삭제하는 함수-------------------------------------------------------
+	function goRemoveReview(rp_idx,p_no){
+		var f = document.createElement('form');
+		var obj1;
+		obj1 = document.createElement('input');
+		obj1.setAttribute('type', 'hidden');
+		obj1.setAttribute('name', "rp_idx");
+		obj1.setAttribute('value', rp_idx);
+		
+		var obj2;
+		obj2 = document.createElement('input');
+		obj2.setAttribute('type', 'hidden');
+		obj2.setAttribute('name', "p_no");
+		obj2.setAttribute('value', p_no);
+		
+		f.appendChild(obj1);
+		f.appendChild(obj2);
+		f.setAttribute('method', 'post');
+		f.setAttribute('action', '/rental/removeReview');
+		document.body.appendChild(f);
+		f.submit();
+	}
 	
 	
 	

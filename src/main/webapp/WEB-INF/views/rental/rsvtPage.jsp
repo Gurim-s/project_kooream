@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../include/header.jsp"/>
+
 	<style type="text/css">
 	/* section calendar */
 	
@@ -130,6 +132,12 @@
 	input[type=button],.choose{
 		cursor: pointer;
 	}
+	/* .dontClick{
+		pointer-events : none;
+	} */
+	a[class='go-prev']:hover{
+		background-color: white;
+	}
 </style>
 
 </head>
@@ -160,11 +168,11 @@
 <div>
 	대여금액 : <span id="rntPrice"><fmt:formatNumber value="${pVO.r_price}" pattern="###,###,###"/></span>원
 </div>
-<form id="myForm" action="/rsvt/rgstRsvt" method="get">
+<form id="myForm" action="/rsvt/rgstRsvt" method="post">
 	<input type="hidden" name="strt_r_date">
 	<input type="hidden" name="rtrn_r_date">
 	<input type="hidden" name="p_no" value="${p_no }">
-	<input type="hidden" name="pay">
+	<input type="hidden" name="pay"><!-- 총 결제금액 -->
 	<input type="button" id="payBtn" value="결제하기">
 </form>
 
@@ -176,14 +184,14 @@ $(document).ready(function() {
 	calendarInit();
     
 	// 결제하기 버튼 클릭이벤트
-	//$("#payBtn").on("click",function(){
+	$("#payBtn").on("click",function(){
 		if($("input[name='strt_r_date']").val() && $("input[name='rtrn_r_date']").val()){
 			$("#myForm").submit();
 		}else{
 			alert("예약 하실 날짜를 선택해주세요.");
 			return; 
 		}
-	//});
+	});
 	
 	
 	
@@ -255,7 +263,12 @@ function calendarInit() {
         
         var myDate = new Date(lastYear, lastMonth, lastDay);
         console.log(myDate);
-
+		// 현재날짜 기준 이전달 이동 못하게 막기-----------------------------
+        if(currentMonth == today.getMonth()){
+        	$(".go-prev").addClass("dontClick");
+        }else{
+        	$(".go-prev").removeClass("dontClick");
+        }
         // 지난달 회색으로 표시
         for (var i = prevDate - prevDay + 1; i <= prevDate; i++) {	// i = 26; 6번 진행(26~31)
         	if(myDate.toJSON().substring(0,10) > today.toJSON().substring(0,10)){
@@ -541,8 +554,9 @@ function calendarInit() {
 	        	var msEdtDate = edDate.getTime();
 	        	// 대여기간
 	            var period = (msEdtDate-msStDate)/86400000;
+	            var periodPrice = "${pVO.r_price}";
 	            // 대여기간 반영한 대여금액
-	        	var rntPrice = "${pVO.r_price}"*period;
+	        	var rntPrice = periodPrice*period+(periodPrice*1);
 	        	$("input[name='pay']").val(rntPrice);
 	            $("#rntPrice").html(rntPrice.toLocaleString('ko-KR')); // toLocaleString('ko-KR') : ###,###,###으로 변경
 	            
@@ -566,11 +580,16 @@ function calendarInit() {
     
     // 이전달로 이동
     $('.go-prev').on('click', function() {
-        thisMonth = new Date(currentYear, currentMonth - 1, 2);	// 2022-12-1
-        //if(thisMonth.getFullYear() == today.getFullYear() && thisMonth.getMonth() == today.getMonth()){
-        //	thisMonth = today;
-        //}
-        renderCalender(thisMonth);
+    	if(!$(".go-prev").hasClass("dontClick")){
+	        thisMonth = new Date(currentYear, currentMonth - 1, 2);	// 2022-12-1
+	        //if(thisMonth.getFullYear() == today.getFullYear() && thisMonth.getMonth() == today.getMonth()){
+	        //	thisMonth = today;
+	        //}
+	        renderCalender(thisMonth);
+    	}else{
+    		alert("현재일 기준 이전달은 선택 불가합니다.");
+    		return false;
+    	}
     });
 
     // 다음달로 이동
