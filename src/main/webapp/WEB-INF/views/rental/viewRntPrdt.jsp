@@ -94,10 +94,10 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">${pvo.p_name_en }</td>
+			<td colspan="2" style="max-width: 230px;">${pvo.p_name_en }</td>
 		</tr>
 		<tr>
-			<td style="border-bottom: 1px solid #ebebeb;" colspan="2" id="p_name_ko">${pvo.p_name_ko }</td>
+			<td style="border-bottom: 1px solid #ebebeb; max-width: 230px;" colspan="2" id="p_name_ko">${pvo.p_name_ko }</td>
 		</tr>
 		<tr>
 			<td colspan="2" style="height: 80px; text-align: right;">
@@ -108,8 +108,8 @@
 		<tr>
 			<td style="text-align:center;border-bottom: 1px solid #ebebeb; padding: 14px;">
 				<sec:authorize access="isAuthenticated()">
-					<input class="buy" type="button" id="intrstBtn" value="관심상품추가"/>
 					<input class="buy" type="button" id="intrstRemoveBtn" value="관심상품삭제"/>
+					<input class="buy" type="button" id="intrstBtn" value="관심상품추가"/>
 				</sec:authorize>
 			</td>
 			<td style="text-align:center;border-bottom: 1px solid #ebebeb; padding: 14px;">

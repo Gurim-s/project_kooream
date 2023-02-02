@@ -26,7 +26,7 @@
 	.mul li{
 		padding: 6px;
 	}
-	a{
+	.mul li a{
 		color: #22222280;
 	}
 	
