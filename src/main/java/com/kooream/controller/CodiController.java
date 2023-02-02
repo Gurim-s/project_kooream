@@ -52,7 +52,7 @@ public class CodiController {
 
 	@PostMapping(value = "/list", produces = {
 			MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<List<CodiVO>> list(@RequestBody SearchCriteria cri, 
+	public ResponseEntity<List<CodiVO>> list(@RequestBody SearchCriteria cri,
 											@RequestParam(value = "searchType", required = false, defaultValue = "")String searchType, 
 											@RequestParam(value = "searchName", required = false, defaultValue = "")String searchName, 
 											@RequestParam(value = "searchTagName", required = false, defaultValue = "")String searchTagName
