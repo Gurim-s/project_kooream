@@ -9,8 +9,7 @@ $(function() {
 	pageNum = 1;
 	amount = 12;
 	h_tag = '';
-	
-	
+		
 	getList(pageNum, amount);
  	
 	$('#load').on('click', function(e) {
@@ -83,7 +82,7 @@ function getList(pageNum, amount) {
 			var fileCallPath = encodeURIComponent(codi.attachList[0].uploadPath + "/"
 													+ codi.attachList[0].uuid + "_"
 													+ codi.attachList[0].fileName);
-			$(img_tag).attr('src', '/codidisplay?fileName='+fileCallPath);
+			$(img_tag).attr('src', '/displayImage?fileName='+fileCallPath);
 			
 			
 			

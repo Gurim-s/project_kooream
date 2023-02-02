@@ -4,7 +4,7 @@ $(function() {
 	var uploaderContainer = $('.uploadDiv');
 	var uploader = imgFileUploader;
 	uploader.setOption({
-		uploadURL: '/codi-uploadAjaxAction',
+		uploadURL: '/uploadImageAWS/codi',
 		saveName: 'attachList',
 		max: 5,
 	});

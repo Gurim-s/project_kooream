@@ -30,7 +30,9 @@
 				</div>
 			</div>
       	</div>
-		
+      	<div class="product_list">
+      		<ul></ul>
+      	</div>
 		<div class="model_info">
 			<div class="codi_model">
 				<span>모델 정보</span>
