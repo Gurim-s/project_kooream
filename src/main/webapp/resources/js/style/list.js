@@ -1,27 +1,22 @@
 import {imgService} from '../service/image-service.js';
 import {styleService} from '../service/style-service.js';
 
-//var pageNum, amount;
-var query = {}
-var column = document.querySelectorAll('.list-column');
-var more = document.querySelector('#more');
-var register = document.querySelector('#register');
+const column = document.querySelectorAll('.list-column');
+const more = document.querySelector('#more');
+const register = document.querySelector('#register');
+let query = {};
 
-// 페이지 초기화
 (function() {
-//	pageNum = 1;
-//	amount = 20;
-	const searchParams = new URLSearchParams(location.search);
-	const category = Array.from(searchParams)[0][1];
-	const param = category == 'hot' || category == 'recent'
-		? ''
-		: Array.from(searchParams)[1][1];
+	const searchParams = Array.from(new URLSearchParams(location.search));
+	const category = searchParams.length == 0 ? 'hot' : searchParams[0][1];
+	const param = searchParams.length <= 1 ? '' : searchParams[1][1];
 
 	query = {
 		pageNum: 1,
 		amount: 20,
 		category: category,
 		query: param,
+		isEnd: false,
 	}
 	getList(query);
 	
@@ -33,6 +28,8 @@ var register = document.querySelector('#register');
 		pageNum++;
 		getList(query);
 	});
+	
+	document.addEventListener('scroll', onScrollLoadData, {passive: true});
 })();
 
 async function getList(query) {
@@ -40,6 +37,16 @@ async function getList(query) {
 	styleList.forEach((style, i) => {
 		column[i%4].append(item(style));
 	});
+	
+	if (styleList.length < query.amount) query.isEnd = true; 
+}
+
+function onScrollLoadData() {
+	if (query.isEnd) return;
+	if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+		query.pageNum++;
+		getList(query);
+	}
 }
 
 function item(style) {
