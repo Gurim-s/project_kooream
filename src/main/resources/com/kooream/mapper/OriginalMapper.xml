@@ -32,4 +32,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE orino = #{orino}
 	</update>
 	
+	<!-- <select id="infiniteScroll" resultType="com.kooream.domain.OriginalVO">
+		<![CDATA[
+		SELECT rn, orino, orititle, oricon, oriname, oridate
+		FROM
+		(SELECT /*+index_desc(original_pro pk_original_pro)*/
+		ROWNUM rn, orino, orititle, oricon, oriname, oridate
+		FROM original_pro
+		WHERE ROWNUM <= 20)
+		WHERE rn > 10;
+		]]>
+	</select> -->
+	
 </mapper>

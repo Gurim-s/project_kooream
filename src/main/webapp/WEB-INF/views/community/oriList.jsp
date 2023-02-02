@@ -14,7 +14,7 @@
 		width: 130px;
 	}
 	#main{
-		margin-left: 150px;
+		margin-left: 130px;
 	}
 	.btn{
 		float: right;
@@ -66,7 +66,6 @@
 </head>
 <body>
 	<ul id="menu_list">
-		<li>뉴스</li>
 		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
@@ -75,6 +74,7 @@
 		<button>글쓰기</button>
 	</div>
 	<br/>
+	<div id="main">
 	<hr/>
 	<br/>
 	<div>
@@ -88,47 +88,29 @@
 	<div>
 		<br/>
 		<form action="/community/oriRegister" id="form">
-<!-- 		<div> -->
-<%-- 			<c:forEach var="vo" items="${list }"> --%>
-<!-- 			<div> -->
-<%-- 				<c:if test="${vo.attachList.size() ne 0 }"> --%>
-<%-- 					<c:url var="imgSrc" value="/display"> --%>
-<%-- 						<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param> --%>
-<%-- 					</c:url> --%>
-<%-- 					<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;"> --%>
-<%-- 				</c:if> --%>
-<!-- 			</div> -->
-<!-- 			<div> -->
-<%-- 				<div><small>${vo.brandname }</small></div> --%>
-<%-- 				<div><a class="get" href="${vo.orino }">${vo.oricon }</a></div> --%>
-<%-- 				<div><a class="get" href="${vo.orino }">${vo.oriname }</a></div> --%>
-<!-- 			</div> -->
-<%-- 			</c:forEach> --%>
-<!-- 		</div> -->
-		
-			<table>
-				<c:forEach var="vo" items="${list }">
-					<tr>
-						<td rowspan="3">
-							<c:if test="${vo.attachList.size() ne 0 }">
-								<c:url var="imgSrc" value="/displayStyleImage">
-									<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
-								</c:url>
-								<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
-							</c:if>
-						</td>
-						<td><small>${vo.brandname }</small></td>
-						<td rowspan="3">${vo.oriname }</td>
-					</tr>
-					<tr>
-						<td id="title"><a class="get" href="${vo.orino }">${vo.orititle }</a></td>
-					</tr>
-					<tr>
-						<td id="content"><a class="get" href="${vo.orino }">${vo.oricon }</a></td>
-					</tr>
-					<tr id="bp"><td></td></tr>	
-				</c:forEach>
-			</table>
+ 		<div>
+ 			<c:forEach var="vo" items="${list }">
+				<div id="full">
+					<div id="thumbnail">
+						<c:if test="${vo.attachList.size() ne 0 }">
+							<c:url var="imgSrc" value="/displayImage">
+								<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
+							</c:url>
+							<img alt="제품 이미지" src="${imgSrc }" width="150px;" height="150px;">
+						</c:if>
+					</div>
+					<div id="sub">
+						<div id="barandName"><small>${vo.brandname }</small></div>
+						<div id="oriTitle"><a class="get" href="${vo.orino }"><strong>${vo.orititle }</strong></a></div>
+						<br/>
+						<div id="oriContent"><a class="get" href="${vo.orino }">${vo.oricon }</a></div>
+					</div>
+					<div>
+						<div id="oriNickname">${vo.oriname }</div>
+					</div>
+				</div>
+			</c:forEach>
+ 		</div>
 		</form>
 		</div>
 	</div>
@@ -156,6 +138,93 @@
 			
 			
 		})
+		
+		
+		// 게시글 무한 스크롤 -------------------------------------------
+		var isEnd = false;
+		
+		$(function(){
+	        $(window).scroll(function(){
+	            var $window = $(this);
+	            var scrollTop = $window.scrollTop();
+	            var windowHeight = $window.height();
+	            var documentHeight = $(document).height();
+	            
+	            console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
+	            
+	            // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
+	            if( scrollTop + windowHeight + 50 > documentHeight ){
+	            	//alert("무한 스크롤");
+	                fetchList();
+	            }
+	        })
+	        fetchList();
+	    })
+		
+	    var fetchList = function(){
+	        if(isEnd == true){
+	            return;
+	        }
+	        
+	        // 방명록 리스트를 가져올 때 시작 번호
+	        // renderList 함수에서 html 코드를 보면 <li> 태그에 data-no 속성이 있는 것을 알 수 있다.
+	        // ajax에서는 data- 속성의 값을 가져오기 위해 data() 함수를 제공.
+	        var startNo = $("#full").last().data("no") || 0;
+	        $.ajax({
+	            url:"/community/oriList?orino=" + startNo ,
+	            type: "GET",
+	            dataType: "json",
+	            success: function(result){
+	                // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
+	                // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
+	                let length = result.data.length;
+	                if( length < 5 ){
+	                    isEnd = true;
+	                }
+	                $.each(result.data, function(index, vo){
+	                    renderList(false, vo);
+	                })
+	            }
+	        });
+	    }
+	    
+		var renderList = function(mode, vo){
+	        // 리스트 html을 정의
+	        var str = '';
+	        
+	        str += '<c:forEach var="'+ vo +'" items="' + ${list } + '">'
+			str += '<div id="full" data-no="'+ ${vo.orino } +'">'
+			str += '<div id="thumbnail">'
+			str += '<c:if test="' + ${vo.attachList.size() ne 0 } + '">'
+			str += '<c:url var="imgSrc" value="/displayImage">'
+			str += '<c:param name="fileName" value="' + ${vo.attachList.get(0).uploadPath } + '/' + ${vo.attachList.get(0).uuid }+ '_' + ${vo.attachList.get(0).fileName } + '"></c:param>'
+			str += '</c:url>'
+			str += '<img alt="제품 이미지" src="' + ${imgSrc } + '" width="150px;" height="150px;">'
+			str += '</c:if>'
+			str += '</div>'
+			str += '<div id="sub">'
+			str += '<div id="barandName"><small>' + ${vo.brandname } + '</small></div>'
+			str += '<div id="oriTitle"><a class="get" href="' + ${vo.orino } + '"><strong>' + ${vo.orititle } + '</strong></a></div>'
+			str += '<br/>'
+			str += '<div id="oriContent"><a class="get" href="' + ${vo.orino } + '">' + ${vo.oricon } + '</a></div>'
+			str += '</div>'
+			str += '<div>'
+			str += '<div id="oriNickname">' + ${vo.oriname } + '</div>'
+			str += '</div>'
+			str += '</div>'
+			str += '</c:forEach>'
+	        	
+	        	
+	        	
+	        	
+	        
+	        if( mode ){
+	            $("#full").prepend(html);
+	        }
+	        else{
+	            $("#full").append(html);
+	        }
+	    };
 		
 		
 		

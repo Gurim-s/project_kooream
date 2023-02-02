@@ -60,7 +60,7 @@
 						<a href="/codishop/list">CODI</a>
 					</li>
 					<li>
-						<a href="/community/index">COMMUNITY</a>
+						<a href="/community/oriList">COMMUNITY</a>
 					</li>
 					<li>
 						<a href="#">검색</a>

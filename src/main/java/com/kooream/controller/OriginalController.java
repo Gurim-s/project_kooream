@@ -28,13 +28,6 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class OriginalController {
 	
-	//정품판별 리스트로 이동(메인)
-	@GetMapping("/index")
-	public String indexList() {
-		return "/community/oriList";
-	}
-	
-
 	private OriginalService service;
 
 	// 정품판별 게시판 리스트 화면 이동
@@ -81,7 +74,7 @@ public class OriginalController {
 
 		}
 
-		return "/community/oriList";
+		return "redirect:/community/oriList";
 	}
 
 	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
