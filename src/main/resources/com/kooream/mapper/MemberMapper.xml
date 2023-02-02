@@ -14,6 +14,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="m_nickname != null and m_nickname != ''">
 				M_NICKNAME=#{m_nickname}
 			</if>
+			<if test="m_email != null and m_email != ''">
+				M_EMAIL=#{m_email}
+			</if>
 		</where>
 	</select>
 	
@@ -85,5 +88,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		DELETE FROM MEMBER WHERE m_no=#{param1}
 	</delete>
 	
+	<!-- 계정 찾기 -->
+	<select id="findInfo" parameterType="com.kooream.domain.MemberVO" resultType="com.kooream.domain.MemberVO">
+		SELECT * 
+		FROM MEMBER
+		<choose>
+			<when test="m_id != null and m_id != ''">
+				WHERE M_ID=#{m_id} and M_EMAIL=#{m_email}
+			</when>
+			<otherwise>
+				WHERE M_NAME=#{m_name} and M_BDAY=#{m_bday}
+			</otherwise>
+		</choose>
+	</select>
 	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePw" >
+		update member set pw = #{pw} where id = #{id}
+	</update>
 </mapper>

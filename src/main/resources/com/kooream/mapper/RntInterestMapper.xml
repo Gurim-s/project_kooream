@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 관심상품 여부 -->
-	<select id="countInterest" parameterType="com.kooream.domain.RntInterestVO" resultType="com.kooream.domain.ProductVO">
+	<select id="countInterest" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.RntInterestVO">
 		select count(*) as cnt from interest_tbl where m_no=#{m_no} and p_no=#{p_no}
 	</select>
 	

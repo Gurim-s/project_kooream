@@ -24,11 +24,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -79,10 +82,15 @@ public class MemberController {
 	
 	// 회원가입 기능
 	@PostMapping("/join")
-	public String goJoin(MemberVO vo) {
+	public String goJoin(MemberVO vo, HttpServletResponse response) throws IOException {
 		service.goJoin(vo);
 		
-		return "redirect:/member/loginPage";
+		// 알림창 출력
+		Writer out = response.getWriter();
+		String message = URLEncoder.encode("회원가입에 성공하였습니다.");
+		response.setContentType("text/html; charset=UTF-8");
+		out.write("<script type=\"text/javascript\">alert(decodeURIComponent('"+message+"'.replace(/\\+/g, '%20'))); location.href='/member/loginPage'</script>");
+		return null;
 	}
 	
 	
@@ -151,11 +159,14 @@ public class MemberController {
 		return null;
 	}
 	
-	// 구글 mail api이용
+	
+	// 아이디 찾기 구글 mail api이용
+	/*
 	@PostMapping("/findId")
 	public String findId(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		Properties props = new Properties();
+		
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "smtp.naver.com");
@@ -165,7 +176,8 @@ public class MemberController {
 		//props.setProperty("mail.smtp.ssl.enable", "false");
 		props.put("mail.smtp.port", "587");
 		//props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-		Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator() {
+		
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 	        protected javax.mail.PasswordAuthentication getPasswordAuthentication(){
 	            return new javax.mail.PasswordAuthentication("lhy9704", "vblhyjj1122!@"); // 이메일 보내는 계정의 정보
 	        }
@@ -195,5 +207,30 @@ public class MemberController {
 		out.write("<script type=\"text/javascript\">alert(decodeURIComponent('"+message+"'.replace(/\\+/g, '%20'))); location.href='/member/loginPage'</script>");
 		return null;
 	}
+	*/
+	// 계정찾기 페이지 이동
+	@GetMapping("/findInfoPage")
+	public String findInfoPage() {
+		return "/member/findMemberInfo";
+	}
+	
+	// 계정찾기 기능
+	@PostMapping(value="/ajax/findInfo" , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public MemberVO findInfo(MemberVO vo) {
+		MemberVO result = service.findInfo(vo);
+		
+		return result;
+	}
+	// 비밀번호 찾기
+	@RequestMapping(value = "/findpw", method = RequestMethod.GET)
+	public void findPwGET() throws Exception{
+	}
+
+	@RequestMapping(value = "/findpw", method = RequestMethod.POST)
+	public void findPwPOST(@ModelAttribute MemberVO member, HttpServletResponse response) throws Exception{
+		service.findPw(response, member);
+	}
+	
 	
 }
