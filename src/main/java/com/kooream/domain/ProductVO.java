@@ -19,6 +19,7 @@ public class ProductVO {
 	private String img_url;
 	private String strt_r_date, rtrn_r_date;
 	private String interest_cnt;
+	private int m_no;
 	
 	private int max_bid_sell, min_bid_buy;
 	

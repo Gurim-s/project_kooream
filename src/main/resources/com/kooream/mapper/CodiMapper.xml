@@ -20,30 +20,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				    ROWNUM RN, A.*
 				    FROM (SELECT *
 				    		FROM CODI_BOARD
-				    WHERE
-			]]>
-			   <if test="searchType == 'codi_title'" >codi_title LIKE '%'||#{serchName}||'%'</if>
-			   <if test="searchType == 'codi_content'" >codi_content LIKE '%'||#{serchName}||'%'</if>
-			   <if test="searchType == 'titcont'" >codi_title LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
-			   <if test="searchType == 'codimodel_name'" >codimodel_name LIKE '%'||#{serchName}||'%'</if>
-			   <if test="searchType == null or searchType == '' ">1 = 1</if>
-			<![CDATA[ 
-				ORDER BY CODI_NO DESC)A)
+							]]>
+							WHERE 1=1
+					   <include refid="search"></include>
+					   <if test="searchTagName != null and searchTagName != ''">
+							AND codi_no in (select codi_no from codi_tag WHERE tag_name = #{searchTagName})
+						</if>
+							<![CDATA[ 
+							ORDER BY CODI_NO DESC)A
+						)
 				WHERE RN > (#{pageNum} - 1) * #{amount} AND RN <= #{pageNum} * #{amount}
 			]]>
 	</select>	
-	
 	<select id="getTotal" resultType="int">
-		select count(*) as total from codi_board
-		where 
-			<if test="searchType == 'codi_title'" >codi_title LIKE '%'||#{serchName}||'%'</if>
-			<if test="searchType == 'codi_content'" >codi_content LIKE '%'||#{serchName}||'%'</if>
-			<if test="searchType == 'titcont'" >codi_title LIKE '%'||#{serchName}||'%' OR CODI_CONTENT LIKE '%'||#{serchName}||'%'</if>
-			<if test="searchType == 'codimodel_name'" >codimodel_name LIKE '%'||#{serchName}||'%'</if>
-			<if test="searchType == null or searchType == '' ">1 = 1</if>
+		select count(*) as total from codi_board WHERE 1=1
+		<include refid="search"></include>
+		<if test="searchTagName != null and searchTagName != ''">
+			AND codi_no in (select codi_no from codi_tag WHERE tag_name = #{searchTagName})
+		</if>
 			
 	</select>	
+	
 		
+	<sql id="search">
+		<if test="searchName != null and searchName != ''">
+			<if test="searchType == 'codi_title'" >AND codi_title LIKE '%'||#{searchName}||'%'</if>
+			<if test="searchType == 'codi_content'" >AND codi_content LIKE '%'||#{searchName}||'%'</if>
+			<if test="searchType == 'titcont'" >AND codi_title LIKE '%'||#{searchName}||'%' OR CODI_CONTENT LIKE '%'||#{searchName}||'%'</if>
+			<if test="searchType == 'codimodel_name'" >AND codimodel_name LIKE '%'||#{searchName}||'%'</if>
+		</if>
+	</sql>
 
 	<!-- 게시글 등록 -->
 	<insert id="insert" parameterType="com.kooream.domain.CodiVO">

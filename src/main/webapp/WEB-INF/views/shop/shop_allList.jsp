@@ -83,11 +83,14 @@
 		display: block;
 	}
 	
+	.main-content-box{
+		margin-top: 10px;
+	}
+	
 	.product_box{
 		float: left;
-		border: 1px solid black;
 		width: calc(25% - 10px);
-		height : 410px;
+		height : 450px;
 		cursor:pointer;
 		
 	}
@@ -101,7 +104,6 @@
 	}
 	
 	.product_all{
-		float: left;
 		width: calc(100% - 220px);
 		display: inline-block;
 		grid-column-gap: 20px;
@@ -215,7 +217,7 @@
 					<div class="product_name_eng">${bid.p_name_en}</div>
 					<div class="product_name_kor">${bid.p_name_ko}</div>		
 					<div class="badge_product">빠른 배송</div>
-					<div class="view_price">${bid.max_bid_sell}원</div>
+					<div class="view_price">${bid.min_bid_buy}원</div>
 					<div class="buy_price">즉시 구매가</div>
 					<div class="buy_price">${bid.p_no}</div>
 				</div>

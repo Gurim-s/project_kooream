@@ -1,14 +1,15 @@
 @charset "UTF-8";
 
 #categories {
-	margin: 30px auto;
+	margin: 30px auto 50px auto;
 	text-align: center;
 }
 #categories button {
 	background: white;
-	font-size: 20px;
-	padding: 8px 15px;
+	font-size: 16px;
+	padding: 5px 12px;
 	border-radius: 30% 30% / 50% 50%;
+	border: none;
 }
 #categories button.on {
 	background: black;
@@ -19,8 +20,8 @@
 	float: right;
 	color: white;
 	font-size:30px;
-	width: 40px;
-	height: 40px;
+	width: 31px;
+	height: 31px;
 	padding: 0;
 	background-color: black;
 	border-radius: 50%;
@@ -50,7 +51,7 @@
 	border-radius: 10px;
 }
 .card .info .user_info {
-	height: 30px;
+	height: 26px;
 	float:left;
 }
 .card .info .user_info>div {
@@ -61,7 +62,7 @@
 	height: 100%;
 }
 .card .info .user_info .profile img {
-	width: 30px;
+	width: 26px;
 	height: 100%;
 	border-radius: 50%;
 }
@@ -82,9 +83,14 @@
 	float: left;
 	margin-left: 10px;
 	font-size: 15px;
+	opacity: 50%;
 }
 .card .info .social_info .like img,
 .card .info .social_info .comment img{
 	width: 20px;
 	padding-top: 5px;
+}
+.card .content {
+	margin-left: 5px;
+	font-size: 14px;
 }

@@ -55,8 +55,6 @@ public class BrandProductUploadController {
 		 
 		 List<AttachFileVO> list = new ArrayList<AttachFileVO>(); 	// 메소드 처음 타면 list 생성됨
 		 
-		 
-		 
 		 String uploadFolder = "C:\\upload";
 		 
 		 // make folder

@@ -4,6 +4,11 @@ var CodiReplyService = (function(){
 	
 	function add(reply, callback){
 		console.log("reply................");
+		console.log(reply.reply);
+		if(reply.reply == null || reply.reply ==''){
+				alert('댓글 내용을 입력해 주세요.');
+				return false;
+			}
 		$.ajax({
 		type : 'post',
 		url : '/codi/replies/new',
@@ -15,7 +20,7 @@ var CodiReplyService = (function(){
 	        }
     	},
     	 	error: function(xhr, status, er) {
-	        if(error){
+	        if(er){
 	        	error(er);
         	}
    		}
@@ -63,6 +68,10 @@ var CodiReplyService = (function(){
    		
    		
    		function update(reply, callback, error){
+			if(reply.reply == null || reply.reply ==''){
+				alert('수정할 내용을 입력해 주세요.');
+				return false;
+			}
    			console.log("update reply...." + reply.codi_c_no);
    			console.log("update reply...." + reply.reply);
    			

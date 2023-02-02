@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.BidImageMapper">
+	<insert id="uploadFile">
+			INSERT INTO p_attach(uuid, FileName, FileType, uploadPath, p_no)
+			VALUES(#{uuid}, #{FileName}, #{FileType, jdbcType=VARCHAR}, #{uploadPath}, #{p_no})
+	</insert>
+	
+	<select id="findByPno" resultType="com.kooream.domain.AttachFileVO">
+		select * from p_attach where p_no=#{p_no}
+	</select>
+	
+	<delete id="removeFile">
+		delete from p_attach where uuid=#{uuid}
+	</delete>
+	
+</mapper>

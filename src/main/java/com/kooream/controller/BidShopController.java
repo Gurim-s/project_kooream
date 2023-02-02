@@ -1,14 +1,23 @@
 package com.kooream.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kooream.domain.AttachFileVO;
+import com.kooream.domain.BidShopVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.service.BidShopService;
 
@@ -34,7 +43,7 @@ public class BidShopController {
 	}
 	
 	@GetMapping("/shop_introduce")
-	public String shop_introduce() {
+	public String shop_introduce() { 
 		log.info("introduce...");
 		
 		return "shop/shop_introduce";
@@ -60,14 +69,14 @@ public class BidShopController {
 //		
 //		return "shop/shop_buypage2";
 //	}
-	
+
 	@GetMapping("/shop_register")
 	public String shop_registerPage() {
 		log.info("shop_registerPage...");
-		
+
 		return "shop/shop_register";
 	}
-	
+
 	@PostMapping("/shop_register")
     public String shop_register(ProductVO vo) {
         log.info("shop_register...");
@@ -76,6 +85,15 @@ public class BidShopController {
 
         return "redirect:/shop/shop_allList";
     }
+	
+//	@PostMapping("/shop_buypage")
+//    public String shop_register(BidShopVO vo) {
+//        log.info("shop_buypage...");
+//
+//        service.insertProduct(vo);
+//
+//        return "redirect:/shop/shop_allList";
+//    }
 	
 //	@GetMapping("/shop_bidpage")
 //	public String get(@RequestParam("p_no") int p_no, Model model) {
@@ -93,6 +111,26 @@ public class BidShopController {
         System.out.println(vo.getMin_bid_buy());
         System.out.println("+++++++++++++++++++++");
         model.addAttribute("vo", vo);
+        List<AttachFileVO> attachFileVOs = service.getAttachList(vo.getP_no());
+        List<String> imageUrls = new ArrayList<String>();
+        
+        for(AttachFileVO attachFileVO: attachFileVOs) {
+        	String uploadPath = attachFileVO.getUploadPath();
+        	String uuid = attachFileVO.getUuid();
+        	String fileName = attachFileVO.getFileName();
+        	String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+        	String fileCallPathEncoded = null;
+        	try {
+        		fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+        	
+        	imageUrls.add("/bidfile/display?fileName=" + fileCallPathEncoded);
+        }
+        
+        model.addAttribute("imageUrls", imageUrls);
+        		
         return "shop/shop_introduce";
     }
 	
@@ -108,9 +146,10 @@ public class BidShopController {
 	public String modify(ProductVO vo) {
 		log.info("modify...." + vo );
 		service.modify(vo);
+		
 		return "redirect:/shop/shop_allList";
 	}
-	
+
 	@GetMapping(value = "/remove/{p_no}")	
 	public String remove(@PathVariable("p_no") int p_no) {
 		service.remove(p_no);
@@ -132,4 +171,12 @@ public class BidShopController {
         model.addAttribute("vo", vo);
         return "shop/shop_sellpage";
     }
+	
+	// 이미지 리스트 보여주기
+	@GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody 
+	public ResponseEntity<List<AttachFileVO>> getAttachList(int p_no) {
+		log.info("getAttachList...." + p_no); 
+		return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
+	}
 }

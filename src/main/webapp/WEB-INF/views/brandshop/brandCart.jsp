@@ -148,9 +148,31 @@ $(function(){	// list()함수 실행하기위한
 //				}
 				
 //			}// success 끝
-///		});// 삭제 ajax 끝
-//	}); // 삭제 함수 끝 */
-//----------------------------------------------------------여러개 선택 삭제 비동기
+//		});// 삭제 ajax 끝
+//	}); // 삭제 함수 끝
+	
+	$(document).on("click",".selectDelete_btn",function () {
+		//e.preventDefault();
+		var cartno = $(this).data("cartno");	// this가 버튼 눌린것(?) 이라는 뜻
+		//var pno = $(this).data("pno");	// data-set
+	 	$.ajax({
+			url : "/brandCart/Cartdelete",
+			type : "POST",
+			/* datatype : "json" */
+			data : {cart_no:cartno},  
+			/* /*data : json, */
+			success : function(result){
+				if(result == 1) {          
+					alert("삭제 성공");
+					list();		// 성공시 list() 함수를 타야 새로고침 된다
+				} else {
+					alert("삭제 실패");
+				}
+				
+			}// success 끝
+		});// 삭제 ajax 끝
+	}); // 삭제 함수 끝
+ 	
 
 
 $(".selectDelete_btn").click(function(){

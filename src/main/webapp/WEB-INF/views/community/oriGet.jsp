@@ -16,7 +16,7 @@
 		width: 130px;
 	}
 	#head{
-		font-size: 30px;
+		font-size: 25px;
 	}
 	button{
 		text-align: left;
@@ -140,7 +140,6 @@
 <script type="text/javascript">
 
 	$(function() {
-		//var form = $("#form");
 		var orinoValue = '${vo.orino}';
 		var m_no = '1';
 		
@@ -216,7 +215,7 @@
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div>'+ result[i].orireplyname +'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
+								str += '<div><strong>'+ result[i].orireplyname +'</strong><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
 								str += '<div>'+ result[i].orireplycon+'</div>'
 							}
 							replyList.html(str);
@@ -236,7 +235,7 @@
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div>'+ result[i].orireplyname +'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
+								str += '<div><strong>'+ result[i].orireplyname +'</strong><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
 								str += '<div>'+ result[i].orireplycon+'</div>'
 							};
 							replyList.html(str);
@@ -299,7 +298,7 @@
 			
 				// 댓글 달기
 				replyService.add(
-						{no:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
+						{orino:orinoValue, m_no:m_no, orireplyname:modalInputReplyer.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
 						
 						function(result) {
 							countNo();
@@ -333,7 +332,7 @@
 						}else{
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
-								str += '<div>'+ result[i].orireplyname +'<span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
+								str += '<div><strong>'+ result[i].orireplyname +'</strong><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'
 								str += '<div>'+ result[i].orireplycon+'</div>'
 							}
 							replyList.html(str);
@@ -344,7 +343,7 @@
 			
 		};
 		
-			
+		
 		
 		
 	});

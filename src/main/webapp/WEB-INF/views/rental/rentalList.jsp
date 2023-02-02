@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	#categroyBox{
@@ -47,10 +48,12 @@
 </style>
 	<!-- 검색버튼 -->
 	<div id="serachBox">
-		<input type="text" id="serachValue">
+		<input type="text" id="serachValue" placeholder="상품명(한글,영문),브랜드명으로 검색하세요.">
 		<button id="serchBtn">검색</button>
 	</div>
-		<button id="rPrdtBtn">상품 등록</button>
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+			<button id="rPrdtBtn">상품 등록</button>
+		</sec:authorize>
 	<!-- 좌측 카테고리 박스------------------------------------------------------- -->
 	<div id="categroyBox">
 		<form id="myForm" action="/rental/rentalList">
@@ -107,9 +110,6 @@
 						</li>
 					</ul>
 				</li>
-				<li> 
-					<input type="button" id="sbmBtn" value="조회">
-				</li>
 			</ul>
 		</form>
 	</div>
@@ -131,7 +131,7 @@
 	
 	<!-- 상품 리스트-------------------------------------------------------------- -->
 	<div id="productList" style="display:inline-block;width:75%;margin-top:155px; magin-bottom:50px;">
-	
+		<div>검색하신 상품이 존재하지 않습니다.</div>
 	</div>
 	
 	
@@ -177,29 +177,53 @@
 			}
 		});
 
-		// 카테고리 별 조회 버튼 클릭 이벤트-----------------------------------------------
+		// 카테고리 별 클릭 이벤트-----------------------------------------------
 		$(".brandType").on("click", function(){		// class brandType 클릭 시
-			if($(this).is(":checked")){				// 그 brandType이 체크일 경우				
+			if($(this).is(":checked")){				// 그 brandType이 체크일 경우	
+				
 				$(this).attr("name","brandType")	// name속성에 brandType을 넣어준다.
 			}else{									// 체크가 아닐경우
+				$("#allSlctBtn").prop("checked",false);
 				$(this).removeAttr("name")				// name 속성에 brandType을 제거한다.
-			}										
+			}
+			if($(".brandType:checked").length == 5){ // 브랜드 타입이 다 체크될경우 전체보기 체크되게
+				$("#allSlctBtn").prop("checked",true);
+			}else{
+				$("#allSlctBtn").prop("checked",false);
+			}
+			idx=1;
+			getList();
 		});
 		
 		$(".ctgrType").on("click", function(){
+
 			if($(this).is(":checked")){
 				$(this).attr("name", "ctgrType")
 			}else{
 				$(this).removeAttr("name")	
 			}
+			idx=1;
+			getList();
 		});
-		
+		$(".price").on("click", function(){
+			var target = $(this)						// this -> 클릭된 셀렉트박스
+			if($(this).prop("checked")){
+				$(".price").each(function(idx,item){ 	// target -> 클릭된 셀렉트박스. 위에 this와 동일
+					if($(item).is(":checked") && target.attr("id") !=$(item).attr("id")){ // 새로 체크한게 기존에 체크했던 항목이 아닐경우 
+						$(item).prop("checked", false);									  // check풀기
+						$(item).removeAttr("name");
+					}
+				})
+			}	
+		});
 		$(".price").on("click", function(){
 			if($(this).is(":checked")){
 				$(this).attr("name", "price")
 			}else{
 				$(this).removeAttr("name")	
 			}
+			idx=1;
+			getList();
 		});
 		
 		// 브랜드 전체선택 버튼----------------------------------------------
@@ -211,19 +235,23 @@
 				$(".brandType").prop("checked", false);
 				$(".brandType").removeAttr("name");
 			}
+			idx=1;
+			getList();
 		});
 		
 		// 가격별 조회 하나만 체크되게 하기------------------------------------
-		$(".price").on("click", function(){
-			if($(this).prop("checked")){
-				$(".price").prop("checked",false);
-				$(this).prop("checked",true);
-			}
-				
-			
-		});
-		// 필터 검색 버튼 클릭 이벤트--------------------------------------------
+
+		// 카테고리 조회 버튼 클릭 이벤트--------------------------------------------
 		$("#sbmBtn").on("click", function(){
+			var num =0;
+			$(".brandType").each(function(index,item){
+				if($(this).prop("checked")){
+					num +=1;
+				}
+			});
+			if(num==0){
+				$("#allSlctBtn").click();
+			}
 			idx = 1;	// idx를 1로 초기화 해줘야함
 			getList();
 		});
@@ -330,14 +358,7 @@
 		
 		// 검색버튼 클릭이벤트---------------------------------------------
 		$("#serchBtn").on("click", function(){
-			
-			var str = $("#serachValue").val().trim();
-			
-			if(!str){
-				alert("검색할 키워드를 입력해주세요.");
-				return;
-			}
-			$("#searchKeyword").val(str);
+
 			getList();
 		});
 		
@@ -368,33 +389,42 @@
 	//------------------------------------------------------------------------------------상품 리스트 가져오는 함수--------
 	function getList(){
 		var getListIdx = 8;	// 페이지에 보이는 상품 갯수
+		$("#searchKeyword").val($("#serachValue").val().trim())
 		$.ajax({
             type : "POST",            
             url : "/rental/ajax/rentalList",      
             data : $("#myForm").serialize(),     
             success : function(result){
-				var str = '';
-				var getLength = 0;
-				if((idx*getListIdx)>=result.length){
-					getLength = result.length;
+				if(result.length){	// 리스트로 오기떄문에 .length 붙여줘야됨. 리스트 아니면 .length안붙여도됨
+	            	var str = '';
+					var getLength = 0;
+					if((idx*getListIdx)>=result.length){
+						getLength = result.length;
+					}else{
+						getLength = idx*getListIdx;
+					}
+					
+					for(var i=0; i<getLength; i++){
+						str += '<a href="/rental/viewRntPrdt?p_no='+result[i].p_no+'">';
+						str += '<div class="product" style="display: inline-block;width:225px;height: 330px;float:left;padding:15px">';
+						str += '<img src="/display/'+result[i].img_url+'">';
+						str += '<div>'+result[i].p_brand+'</div>';
+						str += '<div style="font-size:13px">'+result[i].p_name_en+'</div>';
+						str += '<div style="font-size:10px;color: #808080bd;">'+result[i].p_name_ko+'</div>';
+						str += '<div style="font-size: 13px;">'+result[i].r_price+'원</div>';
+						str += '</div>';
+						str += '</a>';
+					}
 				}else{
-					getLength = idx*getListIdx;
-				}
-				
-				for(var i=0; i<getLength; i++){
-					str += '<a href="/rental/viewRntPrdt?p_no='+result[i].p_no+'">';
+					var str='';
 					str += '<div class="product" style="display: inline-block;width:225px;height: 330px;float:left;padding:15px">';
-					str += '<img src="/display/'+result[i].img_url+'">';
-					str += '<div>'+result[i].p_brand+'</div>';
-					str += '<div style="font-size:13px">'+result[i].p_name_en+'</div>';
-					str += '<div style="font-size:10px;color: #808080bd;">'+result[i].p_name_ko+'</div>';
-					str += '<div style="font-size: 13px;">'+result[i].r_price+'원</div>';
+					str += '상품이 존재하지 않습니다.';
 					str += '</div>';
-					str += '</a>';
 				}
-            
 				$("#productList").html(str);
-            }
+				
+				
+            }// ajax end-------------------------------------------
             
         });
 	}

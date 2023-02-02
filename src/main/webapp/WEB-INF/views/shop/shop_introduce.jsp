@@ -6,24 +6,20 @@
 <style>
 	.wrap {
 		width: 100%;
-		border: 1px solid black;
 	}
 	
 	.product_photo {
 		float:left;
 		width: 50%;
-		height: 4000px;
-		border: 1px solid black;
+		height: 2000px;
 	}
 	
 	.product_introduce{
 		float:left;
 		width: 50%;
-		height: 4000px;
-		border: 1px solid black;
+		height: 2000px;
 		position: relative;
 		padding-left: 2%;
-		
 	}
 	
 	li{
@@ -116,13 +112,11 @@
 		margin-top: 17px;
 		display: flex;
 		height: 60px;
-		border: 1px solid black;
 	}
 	
 	.btn_buy {
 		height: 100%;
 		width: 50%;
-		border: 1px solid black;
 		background-color: #ef6253;
 		border-radius: 7px;
 		cursor: pointer;
@@ -171,7 +165,6 @@
 	.btn_sell{
 		height: 100%;
 		width: 50%;
-		border: 1px solid black;
 		background-color: #41b979;
 		border-radius: 7px;
 		margin-left: 11px;
@@ -279,7 +272,6 @@
 		-webkit-box-align: center;
 		align-items: center;
 		width: 100%;
-
 	}
 	
 	.sub_text{
@@ -496,10 +488,11 @@
 	<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
 	<div class="wrap clearfix">
 		<div class="product_photo">
-			<div id="slideShow">
+			<div id="slideShow" id="slideShow">
 			<ul class="slides">
-				<li><img class="product_image" src="../resources/img/iphone.png"></li>
-				<li><img class="product_image" src="../resources/img/ps5.png"></li>
+				<c:forEach items="${imageUrls}" var="imageUrl">
+					<li><img class="product_image" src="${imageUrl}"></li>	
+				</c:forEach>
 		    </ul>  
 				<p class="controller">
 
@@ -524,7 +517,7 @@
 					<span class="recent_price">즉시 구매가</span>
 				<div class="price">
 					<div class="amount">
-						<span class="product_price">${vo.max_bid_sell }</span> 
+						<span class="product_price">${vo.min_bid_buy }</span> 
 						<span class="won">원</span>
 							<!-- <p class="fluctuation">99,000원 (+24.6%)</p> -->
 					</div>
@@ -537,7 +530,7 @@
 							<strong class="buy_text">구매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">${vo.max_bid_sell }원</div>
+							<div class="buy_price">${vo.min_bid_buy }원</div>
 							<div class="buy_now">즉시 구매가</div>
 						</div>
 					</div>
@@ -546,7 +539,7 @@
 							<strong class="buy_text">판매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">${vo.min_bid_buy }원</div>
+							<div class="buy_price">${vo.max_bid_sell }원</div>
 							<div class="buy_now">즉시 판매가</div>
 						</div>
 					</div>
@@ -578,7 +571,7 @@
 			<h3 class="bsinfo">배송정보</h3>
 			<div class="delivery_way_wrap">
 				<div class="way_info">
-					<img src="../resources/img/bsicon.png" style="width:40px; height: 40px;">
+					<img src="/resources/img/bsicon.png" style="width:40px; height: 40px;">
 					<div class="way_desc">
 						<span class="delivery">빠른배송</span>
 						<span class="delivery_won"> 5,000원</span>
@@ -588,7 +581,7 @@
 			</div>
 			<div class="delivery_way_wrap">
 				<div class="way_info">
-					<img src="../resources/img/boxicon.png" style="width:40px; height: 40px;">
+					<img src="/resources/img/boxicon.png" style="width:40px; height: 40px;">
 					<div class="way_desc">
 						<span class="delivery">일반배송</span>
 						<span class="delivery_won"> 3,000원</span>
@@ -598,7 +591,7 @@
 			</div>
 			<div class="delivery_way_wrap">
 				<div class="way_info">
-					<img src="../resources/img/warehouse.png" style="width:40px; height: 40px;">
+					<img src="/resources/img/warehouse.png" style="width:40px; height: 40px;">
 					<div class="way_desc">
 						<span class="delivery">창고보관</span>
 						<span class="delivery_won"> 첫 30일 무료</span>
@@ -607,8 +600,9 @@
 				</div>
 			</div>
 			<div class="graph">
-				그래프 공간
-				넣을지 말지는 나중에 생각
+				<div>그래프 공간</div>
+				<div>넣을지 말지는 나중에 생각</div>
+				<div>못넣을듯</div>
 			</div>
 			<div class="confirm_wrap">
 				<h3 class="confirm_title">구매 전 꼭 확인해주세요!</h3>
@@ -662,17 +656,17 @@
 				</div>
 			<div class="point_guidebox">
 				<div class="bottom_info">
-					<img class="binfo_p" src="../resources/img/guide_icon1.png" style="width:40px; height: 35px;">
+					<img class="binfo_p" src="/resources/img/guide_icon1.png" style="width:40px; height: 35px;">
 					<div class="text_area">100% 정품 보증</div>
 					<p class="text_desc">KREAM에서 검수한 상품이 정품이 아닐 경우, 구매가의 3배를 보상합니다.</p>
 				</div>
 				<div class="bottom_info2">
-					<img class="binfo_p" src="../resources/img/guide_icon2.png" style="width:40px; height: 35px;">
+					<img class="binfo_p" src="/resources/img/guide_icon2.png" style="width:40px; height: 35px;">
 					<div class="text_area">엄격한 다중 검수</div>
 					<p class="text_desc">모든 상품은 검수센터에 도착한 후, 상품별 전문가 그룹의 체계적인 시스템을 거쳐 검수를 진행합니다.</p>
 				</div>
 				<div class="bottom_info2">
-					<img class="binfo_p" src="../resources/img/guide_icon3.png" style="width:40px; height: 35px;">
+					<img class="binfo_p" src="/resources/img/guide_icon3.png" style="width:40px; height: 35px;">
 					<div class="text_area">정품 인증 패키지</div>
 					<p class="text_desc">검수에 합격한 경우에 한하여 KREAM의 정품 인증 패키지가 포함된 상품이 배송됩니다.</p>
 				</div>
@@ -764,13 +758,14 @@
 	}
 	
 	function remove(pno) {
-		if (confirm("확인(예) 또는 취소(아니오)를 선택해주세요.")) {
+		if (confirm("정말 삭제하시겠습니까?")) {
 			alert("삭제 되었습니다.");
 			location.href = "/shop/remove/" + pno;
 		} else {
 			alert("취소되었습니다.");
 		}
 	}
+	
 	function getPage(pno) {
 		location.href="/shop/shop_buypage/" + pno;
 	}
@@ -778,4 +773,21 @@
 	function getSell(pno) {
 		location.href="/shop/shop_sellpage/" + pno;
 	}
+	
+/* 	onscroll = function() {
+		  var nVScroll = document.documentElement.scrollTop || document.body.scrollTop;
+		  if(nVScroll > 40) $("#slides")css("position", "fixed"); 
+		  else $("#slides").css("position", "relative");
+		}; */
+		
+		$(window).scroll(function() {
+			  
+			if($(this).scrollTop() > 200) {
+				$("#slideShow").css('position','fixed');
+			}
+			else {
+				$("#slideShow").css('position','relative');
+			}
+		});
+	
 </script>

@@ -26,15 +26,23 @@
 		<table>
 			<tr>
 				<td style="width: 100px;">브랜드</td>
-				<td>
-					<select name="b_no">
-						<option value="9999">GUCCI</option>
-						<option value="9998">DIOR</option>
-						<option value="9997">LOUISVUITTON</option>
-						<option value="9996">CHANEL</option>
-						<option value="9995">PRADA</option>
-					</select>
-				</td>
+				<c:choose>
+					<c:when test="${pvo.b_no eq 9999}">
+						<td><span>GUCCI</span> </td>
+					</c:when>
+					<c:when test="${pvo.b_no eq 9998}">
+						<td><span>DIOR</span> </td>
+					</c:when>
+					<c:when test="${pvo.b_no eq 9997}">
+						<td><span>LOUISVUITTON</span> </td>
+					</c:when>
+					<c:when test="${pvo.b_no eq 9996}">
+						<td><span>CHANEL</span> </td>
+					</c:when>
+					<c:otherwise>
+						<td><span>PRADA</span> </td>
+					</c:otherwise>
+				</c:choose>
 			</tr>
 			<tr>
 				<td>상품명</td>
@@ -198,6 +206,24 @@ $(function() {
 				return false; // .each() 사용시 return은 이렇게 적어줘야함!
 			}
 		});
+		$("input[type='number']").each(function(index, item){
+			if($(item).val()<=0){
+				alert($(this).parent().prev().text()+"에 0보다 큰 수를 입력해주세요.");
+				check=1;
+				return false;
+			}
+		});
+		var price = $("input[name='p_release_price']").val();
+		var numPrice = parseInt(price);
+		if(!$.isNumeric(price)){
+			alert("발매가를 숫자로 입력해주세요.");
+			check=1;
+			return;
+		}else if(numPrice<=0){
+			alert("발매가를 0보다 큰 수로 입력해주세요.");
+			check=1;
+			return;
+		}
 		
 		if(check==0){
 			if(!$(".fileCheck").length){

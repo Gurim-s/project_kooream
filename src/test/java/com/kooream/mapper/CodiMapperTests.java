@@ -1,5 +1,7 @@
 package com.kooream.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.kooream.domain.CodiVO;
+import com.kooream.domain.Criteria;
 import com.kooream.mapper.CodiMapper;
 
 import lombok.extern.log4j.Log4j;
@@ -59,6 +62,25 @@ public class CodiMapperTests {
 //		
 //	}
 //	
+	
+//	@Test
+//	public void getListTest() {
+//		
+//		Criteria cri = new Criteria();
+//		// 테스트 키워드
+//		//cri.setKeyword("test");
+//		System.out.println("cri : " + cri);
+//		
+//		List<CodiVO> list = mapper.getList(cri);
+//		System.out.println("list : " + list);
+//		
+//		System.out.println("==========");
+//		int getTotal = mapper.getTotal(cri);
+//		System.out.println("totla : " + getTotal);
+//		
+//	}
+	
+	
 	
 	
 	

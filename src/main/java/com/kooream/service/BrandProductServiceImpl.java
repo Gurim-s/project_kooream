@@ -46,7 +46,7 @@ public class BrandProductServiceImpl implements BrandProductService{
 			for(AttachFileVO vo2 : vo.getAttachList()) { // vo.getAttachList() 길이만큼 for문 돌기
 				vo2.setP_no(p_no);	// AttachVO + p_no 
 				uploadmapper.uploadFile(vo2); 
-			} 
+			}
 		}
 		
 		if (vo.getSizeList() != null && vo.getSizeList().size() >0 ) {	// size의길이가 null이 아니고, 0보다 크면
@@ -78,8 +78,6 @@ public class BrandProductServiceImpl implements BrandProductService{
 
 	@Override
 	public List<AttachFileVO> getAttachList(int p_no) {
-		
-		
 		return uploadmapper.findByPno(p_no);
 	}
 	

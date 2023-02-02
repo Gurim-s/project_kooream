@@ -1,57 +1,137 @@
 import {imgFileUploader} from '../common/img-file-uploader.js';
 import {imgSlider} from '../common/img-slider.js';
 
+const uploader = imgFileUploader;
+const slider = imgSlider();
 (function() {
-	const uploader = imgFileUploader;
-	uploader.setURL('/uploadStyleImage');
-	uploader.setSaveName('style_image');
+	uploader.setOption({
+		uploadURL: '/uploadImageAWS/style',
+		saveName: 'style_image',
+		max: 5,
+		slider: {
+			ratio: 1,
+			ratioFix: true,
+			editMode: true,	
+		}
+	});
+	uploader.init();
+	uploader.publish({update:countImgFile});
 	document.querySelector('.uploader-container')
 	.append(uploader.container);
 	
-	const slider = imgSlider();
+	slider.setOption({
+		ratio: 1,
+		ratioFix: true,
+	});
 	document.querySelector('.img-slider-container')
 	.append(slider.container);
 	
+	//************************** */
+	//addEventListener
+	//************************** */
 	document.querySelector('#selectRatio')
-	.addEventListener('click', (e) => {
-		const selected = e.target.closest('ul#selectRatio').querySelector('li.selected');
-		const newSelect = e.target.closest('#selectRatio li');
-		if (!newSelect) return;
-		
-		selected.className = '';
-		newSelect.className = 'selected';
-	});
+	.addEventListener('click', selectRatio);
 	
-	document.querySelectorAll('a.next-step, a.prev-step')
-	.forEach(x => x.addEventListener('click', (e) => {
-		e.preventDefault();
-		const register = e.target.closest('#register-list');	
-		const steps = ['first-step', 'second-step', 'third-step'];
-		const newStep = e.target.classList[0] == 'next-step'
-					? steps.indexOf(register.className)+1 
-					: steps.indexOf(register.className)-1;
-		
-		register.className = steps[newStep];
-	}));
+	document.querySelectorAll('a.next-btn:not(#submit), a.prev-btn')
+	.forEach(x => x.addEventListener('click', changeStep));
 	
 	document.querySelector('a#submit')
-	.addEventListener('click', async (e) => {
-		e.preventDefault();
-		var form = e.target.closest('form');
-		
-		// 이미지 파일 비동기 업로드하고, 업로드 정보를 받아온다.
-		var result = await imgFileUploader.uploadImageAjax();
-		var div = document.createElement('div');
-		div.innerHTML = result;
-		
-		form.append(div);
-		form.submit();
-	});
+	.addEventListener('click', regist);
+	
+	document.querySelector('[name="style_content"]')
+	.addEventListener('input', countText);
+	
+//	document.querySelector('.editable')
+//	.addEventListener('input', function(e) {
+//		console.log(e.target.innerText);
+//	});
+	
 })();
 
-function validation() {
+function countImgFile(count) {
+	const btn = document.querySelector('a.next-btn:nth-child(1)');
+	count == 0 	? btn.className = 'next-btn not-yet'
+				: btn.className = 'next-btn';
+}
+
+function countText(e) {
+	const btn = document.querySelector('a.next-btn#submit');
+	const text = e.target.value;
 	
-	return true;
+	text.length == 0? btn.className = 'next-btn not-yet'
+				  	: btn.className = 'next-btn';
+			
+	if(text.length >= 100) {
+		alert('글내용은 100자까지만 입력가능합니다.');
+		const cutText = text.substring(0, 100);
+		e.target.value = cutText;
+	}
+}
+
+function changeStep(e) {
+	e.preventDefault();
+	if (e.target.classList[1] == 'not-yet') return;
+	
+	const register = e.target.closest('#register-list');
+	const steps = ['first', 'second', 'third'];
+	if (register.className == 'first') {
+		const imgTagList = uploader.slider.getImgTagList();
+		const ratio = document.querySelector('input[name="ratio"]').value;
+		slider.empty();
+		slider.setRatio(ratio);
+		slider.addImgTagList(imgTagList);
+	}
+	
+	const newStep = e.target.classList[0] == 'next-btn'
+					? steps.indexOf(register.className)+1 
+					: steps.indexOf(register.className)-1;
+	register.className = steps[newStep];
+}
+
+function selectRatio(e) {
+	e.preventDefault();
+	const uploader = imgFileUploader;
+	const selected = e.target.closest('ul#selectRatio').querySelector('li.selected');
+	const newSelect = e.target.closest('#selectRatio li');
+	if (!newSelect) return;
+	
+	selected.className = '';
+	newSelect.className = 'selected';
+	uploader.setRatio(Number(newSelect.dataset.ratio));
+	document.querySelector('input[name="ratio"]').value = newSelect.dataset.ratio;
+}
+
+async function regist(e) {
+	e.preventDefault();
+	const text = document.querySelector('[name="style_content"]').value;
+	if (uploader.countFiles == 0 
+		&& alert('이미지는 한장 이상 첨부해야합니다.')) return; 
+	if (text.length == 0
+		&& alert('글 내용을 입력해주세요.')) return;
+	if (text.length >= 100
+		&& alert('글 내용은 100자 까지 입니다..')) return;
+	
+	const form = e.target.closest('form');
+	const imgUploadResult = await imgFileUploader.uploadImageAjax();
+	const hashTagList = extractHashTag(text);
+	const div = document.createElement('div');
+	div.innerHTML += imgUploadResult;
+	div.innerHTML += hashTagList;
+	
+	form.append(div);
+	form.submit();
+}
+
+function extractHashTag(text) {
+	const type = /#[^\s^#]+/g;
+	const strToInput = (str, i) =>
+		'<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
+	
+	const list = text.match(type)
+	.map(x => x.substring(1))
+	.map(strToInput)
+	.reduce((str, x) => str + x, '');
+	return list; 
 }
 
 //	$('.editable').each(function(_, textDiv){
@@ -63,8 +143,9 @@ function validation() {
 //			console.log(data);
 //			if (data == '#') alert('#을 누르셨습니다.');
 //			$(html).val(target.innerHTML);
+//			str = '<div></div>';
+//			
 //			$(text).val(target.innerText);
 //		});
 //	    this.contentEditable = true;
 //	});
-

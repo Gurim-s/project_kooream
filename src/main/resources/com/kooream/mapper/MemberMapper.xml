@@ -14,31 +14,96 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="m_nickname != null and m_nickname != ''">
 				M_NICKNAME=#{m_nickname}
 			</if>
+			<if test="m_email != null and m_email != ''">
+				M_EMAIL=#{m_email}
+			</if>
 		</where>
 	</select>
 	
 	<!-- 회원가입 -->
 	<insert id="goJoin" parameterType="com.kooream.domain.MemberVO">
+		<selectKey keyProperty="m_no" resultType="int" order="BEFORE">
+			SELECT MEMBER_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO MEMBER
-		VALUES(MEMBER_SEQ.NEXTVAL, 
+		VALUES(#{m_no}, 
 			#{m_id}, 
 			#{m_pw}, 
 			#{m_nickname}, 
-			#{m_name}, 
+			#{m_name},
 			#{m_bday}, 
 			#{m_addr} || '/' || #{m_Detail_addr},
 			#{m_email},
 			#{m_phone})
 	</insert>
 	
-	<!-- 로그인시 아이디,비번 있는지 확인 -->
-	<select id="goLogin" parameterType="map" resultType="int">
-		SELECT COUNT(*) FROM MEMBER WHERE M_ID=#{m_id} AND M_PW=#{m_pw}
+	<!-- 회원가입시 권한테이블에 m_no, auth 넣어주기 -->
+	<insert id="addAuth" parameterType="map">
+		INSERT INTO MEMBER_AUTH
+		VALUES(#{m_no}, #{auth})
+	</insert>
+	
+	<resultMap type="com.kooream.domain.MemberVO" id="memberMap">
+		<id property="m_id" column="m_id"/>
+		<result property="m_no" column="m_no"/>
+		<result property="m_id" column="m_id"/>
+		<result property="m_pw" column="m_pw"/>
+		<result property="m_nickname" column="m_nickname"/>
+		<result property="m_name" column="m_name"/>
+		<result property="m_bday" column="m_bday"/>
+		<result property="m_addr" column="m_addr"/>
+		<result property="m_email" column="m_email"/>
+		<result property="m_phone" column="m_phone"/>
+		<result property="m_Detail_addr" column="m_Detail_addr"/>
+		<collection property="authList" resultMap="authMap"/>
+	</resultMap>
+	
+	<resultMap type="com.kooream.domain.MemberAuthVO" id="authMap">
+		<result property="m_no" column="m_no"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<!-- 권한 불러오기 -->
+	<select id="read" resultMap="memberMap">
+		SELECT * 
+		FROM MEMBER A LEFT JOIN MEMBER_AUTH B
+		ON A.M_NO = B.M_NO
+		WHERE A.M_ID=#{m_id}
 	</select>
 	
-	<!-- 세션에 저장할 회원정보 가져오기 -->
-	<select id="getMemberInfo" parameterType="map" resultType="com.kooream.domain.MemberVO">
-		SELECT * FROM MEMBER WHERE M_ID=#{m_id}
+	<!-- 회원 정보 업데이트 -->
+	<update id="successModify" parameterType="com.kooream.domain.MemberVO">
+		UPDATE MEMBER 
+		SET m_nickname=#{m_nickname},
+			m_name=#{m_name},
+			m_bday=#{m_bday},
+			m_addr=(#{m_addr} || '/' || #{m_Detail_addr}),
+			m_email=#{m_email},
+			m_phone=#{m_phone}
+		WHERE m_no=#{m_no}
+	</update>
+	
+	<!-- 회원 삭제 -->
+	<delete id="deleteMember" parameterType="int">
+		DELETE FROM MEMBER WHERE m_no=#{param1}
+	</delete>
+	
+	<!-- 계정 찾기 -->
+	<select id="findInfo" parameterType="com.kooream.domain.MemberVO" resultType="com.kooream.domain.MemberVO">
+		SELECT * 
+		FROM MEMBER
+		<choose>
+			<when test="m_id != null and m_id != ''">
+				WHERE M_ID=#{m_id} and M_EMAIL=#{m_email}
+			</when>
+			<otherwise>
+				WHERE M_NAME=#{m_name} and M_BDAY=#{m_bday}
+			</otherwise>
+		</choose>
 	</select>
 	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePw" >
+		update member set pw = #{pw} where id = #{id}
+	</update>
 </mapper>

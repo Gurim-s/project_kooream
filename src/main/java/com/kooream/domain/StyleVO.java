@@ -19,6 +19,8 @@ public class StyleVO {
 	private String style_content;
 	private long count_like;
 	private long count_reply;
+	private double ratio; 
 	
 	private List<StyleImageVO> style_image;
+	private List<String> hashtags;
 }

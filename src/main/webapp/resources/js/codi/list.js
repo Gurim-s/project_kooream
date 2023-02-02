@@ -1,11 +1,16 @@
 
-var pageNum;
-var amount;
+var pageNum = 1;
+var amount = 12;
 var column = $('.list-column');
+let h_tag = '';
+
 
 $(function() {
 	pageNum = 1;
 	amount = 12;
+	h_tag = '';
+	
+	
 	getList(pageNum, amount);
  	
 	$('#load').on('click', function(e) {
@@ -14,29 +19,38 @@ $(function() {
 		getList(pageNum, amount);
 	});
 	
+	$('#searchBtn').on('click',function(e){
+		e.preventDefault();
+		getList(pageNum, amount);
+		$('#first').empty();
+		$('#second').empty();
+		$('#third').empty();
+		$('#force').empty();
+	});
+	
+	$('').on('click', function(e) {
+		$(e.target).text();
+	});
+	
 	
 
-	$('#search-btn').on('click',function(e){
-		e.preventDefault();
-		var url = "${pageContext.request.contextPath}/codishop/list";
-		url = url + "?searchType=" + $('#searchType').val();
-		url = url + "&searchName=" + $('#searchName').val();
-		
-		location.href = url;
-		console.log(url);
-		
-		
-	});
-
-
-
 });
+
+
 function getList(pageNum, amount) {
-	$.ajax({
+	console.log("searchName : " + $('#searchName').val());
+	console.log("searchType : " + $('#searchType').val());
+	// 리스트 초기화
+	
+
+	$.ajax({	
 		url: "list",
 		data: JSON.stringify({
 			pageNum: pageNum,
-			amount: amount
+			amount: amount,
+			searchType : $('#searchType').val(),
+			searchName : $('#searchName').val()
+//			searchTagName : /*tag*/
 		}),
 		type: 'post',
 		dataType:"json",
@@ -60,10 +74,7 @@ function getList(pageNum, amount) {
 													+ codi.attachList[0].uuid + "_"
 													+ codi.attachList[0].fileName);
 			$(img_tag).attr('src', '/codidisplay?fileName='+fileCallPath);
-			
-			
-			
-			
+
 			var text_Line1 = $('<div></div>');
 			$(text_Line1).append('<h3>' + codi.codi_title + '</h3>');
 			
@@ -77,7 +88,9 @@ function getList(pageNum, amount) {
 			
 			var tags = '';
 			for(var i=0; i<codi.codiTagList.length; i++){
-				tags += '<a href="#" class="tag_a">#'+codi.codiTagList[i].tag_name+'</a>'	
+				// 새로운 화면으로 이동 (tags.jsp)
+//				tags += '<a href="/codishop/tags?tag_name='+codi.codiTagList[i].tag_name+'">#'+ codi.codiTagList[i].tag_name+'</a>';
+				tags += '<a href="#">#'+ codi.codiTagList[i].tag_name+'</a>';
 			};
 			
 			var text_Line4 = $('<div></div>');

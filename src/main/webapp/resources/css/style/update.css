@@ -20,13 +20,13 @@
 	position: relative;
 	transition: 0.5s;
 }
-#register-list.first-step {
+#register-list.first {
 	left: 0px;
 }
-#register-list.second-step {
+#register-list.second {
 	left: -600px;
 }
-#register-list.third-step {
+#register-list.third {
 	left: -1200px;
 }
 #register-list>li {
@@ -37,26 +37,35 @@
 	width: 100%;
 	float: left;
 }
-#register-list li:not(:first-of-type) .btn-container {
+#register-list li .btn-container {
 	margin-bottom: 30px;
 }
-#register-list .btn-container .next-step,
-#register-list .btn-container .prev-step,
-#register-list .btn-container #submit {
+#register-list .btn-container .next-btn,
+#register-list .btn-container .prev-btn{
+	display: block;
 	width: 120px;
 	height: 30px;
-	background-color: white;
+	background-color: black;
+	color: white;
 	border: 1px solid black;
 	border-radius: 10px;
 	font-size: 20px;
 	text-align: center;
 	line-height: 30px;
 }
-#register-list .btn-container .next-step,
+#register-list .btn-container .next-btn.not-yet {
+	background-color: lightgray;
+	border: 1px solid lightgray;
+	color: white;
+}
+#register-list .btn-container .next-btn.not-yet:hover{
+	cursor: default;
+}
+#register-list .btn-container .next-btn,
 #register-list .btn-container #submit {
 	float: right;	
 }
-#register-list .btn-container .prev-step {
+#register-list .btn-container .prev-btn {
 	float: left;
 }
 #selectRatio {
@@ -85,11 +94,11 @@
 	width: 50px;
 	height: 50px;
 }
-#selectImg>#selectRatio li[data-ratio="3/4"] {
-	width: 42px;
-	height: 56px;
+#selectImg>#selectRatio li[data-ratio="1.33"] {
+	width: 45px;
+	height: 60px;
 }
-#selectImg>#selectRatio li[data-ratio="4/3"] {
+#selectImg>#selectRatio li[data-ratio="0.75"] {
 	width: 64px;
 	height: 48px;
 }
@@ -118,20 +127,20 @@
 	resize: none;
 	margin: 0 10px;
 }
-.form-wrapper form .form-btn {
-	text-align: center;
-	margin-top: 30px;
-}
-.form-wrapper form .form-btn button {
-	width: 100px;
-	height: 40px;
-	font-size: 22px;
-	border: 1px solid black;
-	border-radius: 20px 20px / 50% 50%;
-	background-color: white;
-}
-.form-wrapper form .form-btn button[type="submit"] {
-	color: white;
-	background-color: black;
-	margin-right: 20px;
-}
+/* .form-wrapper form .form-btn { */
+/* 	text-align: center; */
+/* 	margin-top: 30px; */
+/* } */
+/* .form-wrapper form .form-btn button { */
+/* 	width: 100px; */
+/* 	height: 40px; */
+/* 	font-size: 22px; */
+/* 	border: 1px solid black; */
+/* 	border-radius: 20px 20px / 50% 50%; */
+/* 	background-color: white; */
+/* } */
+/* .form-wrapper form .form-btn button[type="submit"] { */
+/* 	color: white; */
+/* 	background-color: black; */
+/* 	margin-right: 20px; */
+/* } */

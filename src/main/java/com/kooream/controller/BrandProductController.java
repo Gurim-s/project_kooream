@@ -92,7 +92,6 @@ public class BrandProductController {
 	public ResponseEntity<List<AttachFileVO>> getAttachList(int p_no) {
 		log.info("getAttachList...." + p_no); 
 		return new ResponseEntity<List<AttachFileVO>>(service.getAttachList(p_no),HttpStatus.OK);
-	  
 	}
 
 		

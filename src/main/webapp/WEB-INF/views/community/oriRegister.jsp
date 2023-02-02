@@ -42,7 +42,7 @@
 			<div>작성자</div>
 			<div>
 				<input type="text" name="oriname">
-				<input type="text" name="m_no">
+				<!-- <input type="text" name="m_no"> -->
 			</div>
 			<br/>
 			<div>제목</div>
@@ -92,6 +92,23 @@
 				location.href = '/community/oriList';
 			}else if(oper == 'oriRegister'){
 				
+				if( $("input[name=orititle]").val() == ""){
+					alert('제목을 적어 주세요.');
+					return false;
+				}
+				if( $("input[name=oriname]").val() == ""){
+					alert('닉네임을 적어 주세요.');
+					return false;
+				}
+				if( $("textarea[name=oricon]").val() == ""){
+					alert('내용을 적어 주세요.');
+					return false;
+				}
+				if( $("input[name=uploadFile]").val() == ""){
+					alert('사진을 넣어 주세요.');
+					return false;
+				}
+				
 				var str = '';
 				$(".uploadResult ul li").each(function(i, obj) {
 					
@@ -101,6 +118,8 @@
 					str += '<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'" >';
 					str += '<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'" >'; 
 				});
+				
+				   
 				
 				
 				
