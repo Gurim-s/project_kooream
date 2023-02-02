@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.Criteria;
 import com.kooream.domain.StyleImageVO;
+import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleVO;
 import com.kooream.service.StyleService;
 
@@ -35,38 +37,20 @@ import lombok.extern.log4j.Log4j;
 public class StyleController {
 	private StyleService service;
 	
+	
 	@GetMapping("/list")
 	public String list() {
 		return "/style/list";
 	}
 	
-	@PostMapping(value = "/list/hot",
+	@PostMapping(value = "/list",
 			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
 			consumes = "application/json")
-	public ResponseEntity<List<StyleVO>> listHot(@RequestBody Criteria cri) {
-		List<StyleVO> list = service.getList(cri);
-		log.info(cri.getAmount() + "" + cri.getPageNum());
+	public ResponseEntity<List<StyleVO>> listHot(@RequestBody StyleQuery query) {
+		List<StyleVO> list = service.getList(query);
+		
 		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 	}
-	
-	@PostMapping(value = "/list/tag/{hashtag}",
-			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
-			consumes = "application/json")
-	ResponseEntity<List<StyleVO>> listHashtag(@PathVariable("hashtag") String hashtag, @RequestBody Criteria cri) {
-		List<StyleVO> list = service.getList(cri);
-		log.info(cri.getAmount() + "" + cri.getPageNum());
-//		List<StyleVO> list = service.getListByHashTag(cri, hashtag);
-//		log.info(cri.getAmount() + "" + cri.getPageNum());
-		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
-	}
-	
-//	@GetMapping(value = "/list/recent",
-//				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-//	public ResponseEntity<List<StyleVO>> listRecent() {
-//		List<StyleVO> list = service.getList();
-//		
-//		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
-//	}
 	
 	@GetMapping(value = "/{style_no}",
 				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -81,15 +65,6 @@ public class StyleController {
 		model.addAttribute("category", category);
 		model.addAttribute("style_no", style_no);
 		return "/style/detail";
-	}
-	
-	@GetMapping(value = {"/detail_list/{category}/{style_no}",
-						 "/detail_list/tag/{category}/{style_no}"},
-				produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<List<StyleVO>> detailList(@PathVariable("category") String category, @PathVariable("style_no") long style_no,
-			@RequestBody Criteria cri) {
-		
-		return new ResponseEntity<List<StyleVO>>(service.getList(new Criteria(1, cri.getPageNum()*cri.getAmount())), HttpStatus.OK);
 	}
 	
 	@GetMapping("/register")
