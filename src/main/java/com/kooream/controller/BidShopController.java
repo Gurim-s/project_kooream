@@ -37,17 +37,38 @@ public class BidShopController {
 		log.info("list...");
 		
 		List<ProductVO> bidList = service.getList();
-	
+		for (ProductVO productVO : bidList) {
+			int p_no = productVO.getP_no();
+			List<AttachFileVO> attachFileList = service.getAttachList(p_no);
+			List<String> imageUrls = new ArrayList<String>();
+			for(AttachFileVO attachFileVO: attachFileList) {
+				String uploadPath = attachFileVO.getUploadPath();
+				String uuid = attachFileVO.getUuid();
+				String fileName = attachFileVO.getFileName();
+				String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+				String fileCallPathEncoded = null;
+				try {
+					fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				
+				imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
+			}
+			
+			productVO.setImageUrls(imageUrls);
+		}
+		
 		model.addAttribute("bidList", bidList);
 		return "shop/shop_allList";
 	}
 	
-	@GetMapping("/shop_introduce")
-	public String shop_introduce() { 
-		log.info("introduce...");
-		
-		return "shop/shop_introduce";
-	}
+//	@GetMapping("/shop_introduce")
+//	public String shop_introduce() { 
+//		log.info("introduce...");
+//		
+//		return "shop/shop_introduce";
+//	}
 //	
 //	@GetMapping("/shop_bidpage")
 //	public String shop_bidpage() {
@@ -63,12 +84,19 @@ public class BidShopController {
 		return "shop/shop_buypage";
 	}
 	
-//	@GetMapping("/shop_buypage2")
-//	public String shop_buypage2() {
-//		log.info("shop_buypage...");
-//		
-//		return "shop/shop_buypage2";
-//	}
+	@GetMapping("/shop_paymentPage")
+	public String shop_paymentPage() {
+		log.info("shop_paymentPage...");
+		
+		return "shop/shop_paymentPage";
+	}
+	
+	@GetMapping("/shop_Sell_Sizeselect")
+	public String shop_sizeselect() {
+		log.info("shop_sizeselect...");
+		
+		return "shop/shop_Sell_Sizeselect";
+	}
 
 	@GetMapping("/shop_register")
 	public String shop_registerPage() {
@@ -126,7 +154,7 @@ public class BidShopController {
 				e.printStackTrace();
 			}
         	
-        	imageUrls.add("/bidfile/display?fileName=" + fileCallPathEncoded);
+        	imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
         }
         
         model.addAttribute("imageUrls", imageUrls);
@@ -161,17 +189,92 @@ public class BidShopController {
 
         ProductVO vo = service.read(p_no);
         model.addAttribute("vo", vo);
+        
+        List<AttachFileVO> attachFileVOs = service.getAttachList(vo.getP_no());
+        List<String> imageUrls = new ArrayList<String>();
+        
+        for(AttachFileVO attachFileVO: attachFileVOs) {
+        	String uploadPath = attachFileVO.getUploadPath();
+        	String uuid = attachFileVO.getUuid();
+        	String fileName = attachFileVO.getFileName();
+        	String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+        	String fileCallPathEncoded = null;
+        	try {
+        		fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+        	
+        	imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
+        }
+        
+        model.addAttribute("imageUrls", imageUrls);
+        
         return "shop/shop_buypage";
     }
 	
 	@GetMapping(value = "/shop_sellpage/{p_no}")
     public String get2(@PathVariable("p_no") int p_no, Model model) {
 
-        ProductVO vo = service.read(p_no);
+		ProductVO vo = service.read(p_no);
         model.addAttribute("vo", vo);
+        List<AttachFileVO> attachFileVOs = service.getAttachList(vo.getP_no());
+        List<String> imageUrls = new ArrayList<String>();
+        
+        for(AttachFileVO attachFileVO: attachFileVOs) {
+        	String uploadPath = attachFileVO.getUploadPath();
+        	String uuid = attachFileVO.getUuid();
+        	String fileName = attachFileVO.getFileName();
+        	String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+        	String fileCallPathEncoded = null;
+        	try {
+        		fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+        	
+        	imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
+        }
+        
+        model.addAttribute("imageUrls", imageUrls);
         return "shop/shop_sellpage";
     }
 	
+	@GetMapping(value = "/shop_Sell_Sizeselect/{p_no}")
+	public String get3(@PathVariable("p_no") int p_no, Model model) {
+		
+		
+		ProductVO vo = service.read(p_no);
+		/* BidShopVO vo = service.sizeRead(p_no); */
+		model.addAttribute("vo", vo);
+		
+		List<BidShopVO> vo2 = service.sizeRead(vo.getP_no());
+		model.addAttribute("vo2", vo2);
+		
+		List<AttachFileVO> attachFileVOs = service.getAttachList(vo.getP_no());
+		List<String> imageUrls = new ArrayList<String>();
+		
+		System.out.println(vo.getP_no());
+		
+		for(AttachFileVO attachFileVO: attachFileVOs) {
+			String uploadPath = attachFileVO.getUploadPath();
+			String uuid = attachFileVO.getUuid();
+			String fileName = attachFileVO.getFileName();
+			String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+			String fileCallPathEncoded = null;
+			try {
+				fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			
+			imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
+		}
+		
+		model.addAttribute("imageUrls", imageUrls);
+		return "shop/shop_Sell_Sizeselect";
+	}
+
 	// 이미지 리스트 보여주기
 	@GetMapping(value="/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody 

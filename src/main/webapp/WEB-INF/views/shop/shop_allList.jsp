@@ -212,7 +212,9 @@
 		<div class="product_all">
 			<c:forEach items="${bidList}" var="bid">
 				<div class="product_box" onclick="getPage(${bid.p_no})">
-					<img class="product_image" src="../resources/img/ps5.png">
+					<c:if test="${not empty bid.imageUrls }">
+						<img class="product_image" src="${bid.imageUrls.get(0) }">
+					</c:if>
 					<div class="brand_name" >${bid.p_brand}</div>
 					<div class="product_name_eng">${bid.p_name_en}</div>
 					<div class="product_name_kor">${bid.p_name_ko}</div>		
@@ -221,7 +223,6 @@
 					<div class="buy_price">즉시 구매가</div>
 					<div class="buy_price">${bid.p_no}</div>
 				</div>
-				
 			</c:forEach>
 <!-- 		<div class="product_box">
 				<img class="product_image" src="../resources/img/ps5.png">
@@ -288,7 +289,7 @@
 // 		location.href="/shop/shop_bidpage/";
 		
 /* 		actionForm.attr("action", "/shop/shop_bidpage");
-		
+
 		var str ='';
 		str += '<input type="hidden" name="p_no" value="'${bid.p_no}'">';
 		
@@ -299,6 +300,7 @@
 	function getPage(pno) {
 		location.href="/shop/shop_introduce/" + pno;
 	}
+
 /* 	$(".product_box").click(function(e) {
 		// <a> 클릭 시 페이지 이동이 이루어지지 않게 하기 위해
 		e.preventDefault();	// 기본 href 경로 이동 방지	
