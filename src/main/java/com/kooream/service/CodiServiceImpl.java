@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kooream.domain.CodiImageVO;
 import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
+import com.kooream.domain.Codi_itemVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.SearchCriteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
 import com.kooream.mapper.Codi_TagMapper;
+import com.kooream.mapper.Codi_itemMapper;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -31,6 +33,9 @@ public class CodiServiceImpl implements CodiService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private Codi_TagMapper tagmapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private Codi_itemMapper itemmapper;
 	
 	
 	@Override
@@ -142,7 +147,11 @@ public class CodiServiceImpl implements CodiService{
 		return list;
 	}
 	
-	
-	
+	/*
+	 * // 상품 태그
+	 * 
+	 * @Override public List<Codi_itemVO> getCodiAndPno(int coid_no, int p_no) {
+	 * return itemmapper.getCodiAndPno(p_no, p_no); }
+	 */
 	
 }

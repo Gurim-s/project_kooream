@@ -3,16 +3,14 @@ import {imgService} from '../service/image-service.js';
 
 var codi_no = $('.codi_box').data('codi-no');
 $(function() {
-	console.log(codi_no);
 	
-	$.ajax({
+	// 이미지 비동기 가져오기
+		$.ajax({
 		type : 'get',
 		url : '/codishop/getImages/'+codi_no ,
     	success: function(result) {
-    		console.log(result);
 // 	    		var image = $('#uploadReslut');
-	    		
-    		//이미지 슬라이더 모듈 가져오기
+//    		이미지 슬라이더 모듈 가져오기
     		var imgContainer = document.querySelector('#uploadReslut'); // 1. 이미지 슬라이더를 넣을 공간 선택
     		var slider = imgSlider();									// 2. 모듈(함수) 불러오기 ** 슬라이더 생성
     		imgContainer.append(slider.container);						// 3. 생성한 슬라이더를 1번에서 선택한 공간에 넣어주기
@@ -24,14 +22,9 @@ $(function() {
 // 	    					+ result[i].fileName);
     			imgSrcList.push(imgService.originPath(result[i]));
     		}
-//    		console.log(imgSrcList);
 // 	    		var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	    		//	result[i]
-	    		
     		slider.addList(imgSrcList);
-	    		
-	    		
-	    		
 // 	    		$(image).append(str);
     	},
 	 	error: function(xhr, status, er) {
@@ -39,20 +32,40 @@ $(function() {
 		}
 	});
 	
+//	$.ajax({
+//		type : 'get',
+//		url : '/codishop/getproduct/'+codi_no,
+//		success : function(result){
+//			var item = $('.product_list');
+//			
+//			var str = '';
+//		for(var i=0; i<result.length; i++){
+//			var iteam = result[i];
+//			
+//			str += '<a href="/brandshop/view?b_no ='+item.b_no+'" class="item_tag"></a>'
+//			
+//		}
+//		
+//		
+//		item.html(str);
+//		}
+//	})
+	
+		
+	
+	
+	
 	$.ajax({
 		type: 'get',
 		url : '/codishop/getTag/'+codi_no ,
 		success : function(result){
-			console.log(result);
 			var tag = $('#uploadTag');
-			console.log(tag);
 			
 			var str = '';
 		for(var i=0; i<result.length; i++){
 			var tag = result[i];
-			console.log(tag.tag_name);
 			
-			str += '<a href="#" class="brand_keyword">'+tag.tag_name+'</a>'		
+			str += '<a href="/codishop/list?searchTagName='+tag.tag_name+'" class="brand_keyword">'+tag.tag_name+'</a>'		
 			}
 			
 			 $("#uploadTag").html(str);
@@ -135,7 +148,6 @@ function showList() {
 				$(".c_reply_text").hide();
 				$(".remove_btn").hide();
 				$(".update_open").hide();
-				console.log($(".List_btn")[0]);
 				
 				$(".List_btn").on("click", function(e){
 					var target = $(e.target).closest('button');
@@ -159,9 +171,7 @@ function showList() {
 					var update_btn = $(target).closest('div').find("");
 					var gomain = $(e.target).closest('li').find('.comment-main');
 				
-//					console.log($(target).data('textopen'));
 					if($(target).data('textopen')=='close'){
-						console.log(gomain);
 						$(update_btn).show();
 						$(gomain).find('.c_reply').hide();
 						$(gomain).find('.c_reply_text').show();
@@ -174,7 +184,6 @@ function showList() {
 				
 				$('.update_btn').on('click', function(e) {
 					var gomain = $(e.target).closest('li').find('.comment-main');
-					console.log('.c_reply_text');
 					var cno = $(e.target).closest('li').data('cno');
 					var vo = {};
 					var second = $('#c_reply_text');
@@ -217,7 +226,6 @@ $(".remove_btn").hide();
 $(".update_btn").hide();
 // 댓글 List Btn............start
 $(".List_btn").on("click", function(){
-	console.log($(this).alt);
 	var thisAlt = $(this).alt();
 	if(thisAlt=='목록열림'){
 		$(".replytext").val("");
