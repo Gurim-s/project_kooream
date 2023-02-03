@@ -116,7 +116,7 @@
 <%-- 		<c:out value="imgSrc"></c:out> --%>
 <!-- 		<img src="/brandfile/display?fileName=   "/> -->
 							
-			<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
+			<c:url value="/displayImage" var="imgSrc"><!-- c:url 자동 인코딩  -->
 				<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
 				<!-- get(0)은 attachList가 list 형태이기 때문에 맨 처음 사진만 불러오려고 0번으로 지정해서 불러오는 중임 -->
 			</c:url>
@@ -151,6 +151,7 @@
 	<div class = "btn">
 		<button type="button" id="product_buy">구매하기</button><br/><br/>
 		<button type="button" id="product_cart">장바구니</button><br/><br/>
+		<input type="hidden" name = "pp_size" value = "">
 	</div>
 	<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
 		<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
@@ -193,7 +194,7 @@
 		<!-- 메인이미지 제외(0번)하고 1번부터 for문 시작해서 끝은 리스트의 길이는 size라고 함 근데 -1 해줘야함 검색해보기 -->
 			<c:set var="attachDate" value="${vo.attachList.get(index) }"></c:set>
 		<!-- index가 1 부터 list 끝까지 / get안에 index를 넣어서 그 길이만큼 for문 돌리기   -->
-			<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
+			<c:url value="/displayImage" var="imgSrc"><!-- c:url 자동 인코딩  -->
 				<c:param name="fileName" value="${attachDate.uploadPath }/${attachDate.uuid }_${attachDate.fileName }"></c:param>	
 			</c:url> <!-- if문  -->
 				<img alt="상품이미지" src="${imgSrc }" style="float: center;">
@@ -312,17 +313,37 @@ $(function () {	// 수정페이지로 이동
 		location.href="/brandshop/modify?p_no=${vo.p_no}&b_no=${vo.b_no}"
 
 	});
+	<!-- ------------------------------------------ 사이즈선택  ---------------------------------------------------- -->	
+	$(document).on("click",".sizebtn", function () {
+		
+		var sizeval =  $(this).text();
+		const modal = document.querySelector('.modal');
+		console.log(sizeval);
+		if(sizeval != null){
+			$(".sizesee").html('<div class = "sizee" >'+ sizeval +'</div>');
+		}
+		
+		$("input[name='pp_size']").attr('value', sizeval);
+
+		
+		
+	})	;
 
 <!-- ------------------------------------------ 장바구니 담기 ---------------------------------------------------- -->	
 	$("#product_cart").click(function (e) {
-		e.preventDefault();
+ 		e.preventDefault();
 		//var formData = $("#form1").serialize();
+		var sizeval = $("input[name='pp_size']").val()
+		if (sizeval.length == 0){
+			alert("사이즈를 선택해 주세요");
+			return;
+		}
 		console.log("gggggggggggggggggggggggggg");
 		$.ajax({
 			url : "/brandCart/addCart",	
 			type : "POST",	// post or get
 			//datetype :'form',	// form이 아닐 경우에만 json
-			data : {p_no:pno, b_no:bno}, // 가지고 갈 값 적기 // 컬럼명 값
+			data : {p_no:pno, b_no:bno, pp_size:sizeval}, // 가지고 갈 값 적기 // 컬럼명 값
 			dataType : 'json',
 			success : function (result) {
 				alert("카트담기 성공")
@@ -338,10 +359,15 @@ $(function () {	// 수정페이지로 이동
 
 	$("#product_buy").click(function (e) {
 		e.preventDefault();
+		var sizeval = $("input[name='pp_size']").val()
+		if (sizeval.length == 0){
+			alert("사이즈를 선택해 주세요");
+			return;
+		}
 		$.ajax({
 			url : "/Payment/addpayment",
 			type : "POST",
-			data : {p_no:pno, b_no:bno, sum_price:price},
+			data : {p_no:pno, b_no:bno, sum_price:price, pp_size:sizeval },
 			dataType : 'json',
 			success : function (result) {
 				location.href = "/Payment/payment" //  location.href 기본적으로 getMapping
@@ -354,16 +380,7 @@ $(function () {	// 수정페이지로 이동
 			}); 
 		
 		});
-	<!-- ------------------------------------------ 사이즈선택  ---------------------------------------------------- -->	
-	$(document).on("click",".sizebtn", function () {
-		var sizeval =  $(this).text();
-		console.log(sizeval);
-		if(sizeval != null){
-			$(".sizesee").html('<div class = "sizee" >'+ sizeval +'</div>');
-		}
-		
-		
-	})	;
+
 
 
 

@@ -251,7 +251,7 @@
 					var fileName = json[i].attachList[0].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
 					str += '<div class = "product">'
-					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';	// 이미지
+					str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 				}
 				//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
 // 				for(var j=0; j<json[i].attachList.length; j++) {
@@ -334,7 +334,7 @@
 						var fileName = json[i].attachList[0].fileName;
 						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
 						str += '<div class = "product">'
-						str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';	// 이미지
+						str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 					}
 	
 					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
@@ -387,7 +387,7 @@
 						var fileName = json[i].attachList[0].fileName;
 						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
 						str += '<div class = "product">'
-						str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';	// 이미지
+						str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 					}
 	
 					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
