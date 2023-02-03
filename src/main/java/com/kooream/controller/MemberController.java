@@ -222,15 +222,28 @@ public class MemberController {
 		
 		return result;
 	}
-	// 비밀번호 찾기
-	@RequestMapping(value = "/findpw", method = RequestMethod.GET)
-	public void findPwGET() throws Exception{
-	}
-
-	@RequestMapping(value = "/findpw", method = RequestMethod.POST)
-	public void findPwPOST(@ModelAttribute MemberVO member, HttpServletResponse response) throws Exception{
-		service.findPw(response, member);
-	}
 	
+	// 비밀번호 업데이트
+	@PostMapping("/updatePw")
+	public String updatePw(MemberVO vo, HttpServletResponse response) throws IOException {
+		
+		int result = service.updatePw(vo);
+		
+		if(result>0) {
+			// 알림창 출력
+			Writer out = response.getWriter();
+			String message = URLEncoder.encode("새 비밀번호가 생성되었습니다. 로그인해주세요.");
+			response.setContentType("text/html; charset=UTF-8");
+			out.write("<script type=\"text/javascript\">alert(decodeURIComponent('"+message+"'.replace(/\\+/g, '%20'))); location.href='/member/loginPage'</script>");
+		}else {
+			// 알림창 출력
+			Writer out = response.getWriter();
+			String message = URLEncoder.encode("비밀번호 생성을 실패하였습니다.");
+			response.setContentType("text/html; charset=UTF-8");
+			out.write("<script type=\"text/javascript\">alert(decodeURIComponent('"+message+"'.replace(/\\+/g, '%20'))); location.href='/member/loginPage'</script>");
+		}
+
+		return null;
+	}
 	
 }
