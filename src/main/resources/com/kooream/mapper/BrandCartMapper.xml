@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="brandCartList" resultType="com.kooream.domain.BrandCartVO">
 	select 
      b.B_NAME,
-     c.cart_no, c.m_no, c.p_no, c.pp_size
+     c.cart_no, c.m_no, c.p_no, c.pp_size,
      p.P_NAME_EN, p.P_SIZE, p.b_no, p.P_RELEASE_PRICE
  from Cart c
      inner join PRODUCT p

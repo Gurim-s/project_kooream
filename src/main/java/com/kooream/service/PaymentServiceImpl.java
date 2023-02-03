@@ -42,16 +42,17 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 
-//	@Override
-//	public List<PaymentVO> paymentList(int m_no) {
-//		List<PaymentVO> list = paymapper.paymentList(m_no);
-//	}
-//		for (BrandCartVO vo : list) {
-//				List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
-//				int productList = mapper.getPno();
-//				vo.setAttachList(attach);
-//		return list;
-//	}
+	@Override
+	public List<PaymentVO> paymentList(int m_no) {
+		List<PaymentVO> list = paymapper.paymentList(m_no);
+	
+		for (PaymentVO vo : list) {
+				List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
+				//int productList = mapper.getPno();
+				vo.setAttachList(attach);
+		}
+		return list;
+	}
 	
 
 	// 장바구니 리스트 가지고오기
@@ -95,6 +96,7 @@ public class PaymentServiceImpl implements PaymentService{
 		
 //	return cartmapper.brandCartList(m_no);
 }
+
 	
 	
 

@@ -16,7 +16,7 @@ public interface PaymentMapper{
 	
 	//public int addCart(BrandCartVO vo);
 
-	//public List<BrandCartVO> brandCartList(int m_no);
+	public List<PaymentVO> paymentList(int m_no);
 
 	//public int Cartdelete(BrandCartVO vo);
 	
