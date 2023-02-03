@@ -16,9 +16,7 @@ import lombok.extern.log4j.Log4j;
 @WebAppConfiguration
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 //@Configuration
-@PropertySource("classpath:properties/awss3.properties")
 public class Properties {
-	@Value("${bucketName}")
 	private String bucketName = "hello";
 	
 	@Test
