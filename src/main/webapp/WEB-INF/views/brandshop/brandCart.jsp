@@ -21,6 +21,9 @@
 	.remove_button{
 		float: right;
 	}
+	#total_sum{
+		float: right;
+	}
 
 
 </style>
@@ -32,12 +35,13 @@
 	<li>
 		<div class="allCheck">
 			<input type="checkbox" name="allCheck" id="allCheck" /><label for="allCheck"> 모두 선택</label> 
-		<!-- <div class="delBtn">
-			<button type="button" class="selectDelete_btn">선택 삭제</button> 
-		</div> -->
+		 <div class="delBtn">
+			<button type="button" class="selectDelete_btn">삭제</button> 
+		</div> 
 		</div>
 		<br/>
 		<hr/>
+		<br/>
 	</li>
 </ul>
 <!---------------------------------장바구니 리스트-------------------------------- -->
@@ -49,14 +53,17 @@
             </div>
 		</div>
 	</div>
-<!---------------------------------장바구니 리스트 끝-------------------------------- -->
+<!---------------------------------상품 합계-------------------------------- -->
+
 	<hr/>
 	<div>
-     <!--  	총 상품 금액 : <input name="total_sum" type="text" size="20" readonly> -->
+	<p>합계</p><div  id="total_sum" ></div>
 	</div>
     <br/>
-	
+    <br/>
+<!---------------------------------스크립트 시작-------------------------------- -->	
 <script type="text/javascript">
+
 
 $(function(){	// list()함수 실행하기위한
 	list();
@@ -81,9 +88,10 @@ $(function(){	// list()함수 실행하기위한
 				for(var i=0; i<json.length; i++) {
 					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 							// brandshop(컨트롤러) 에서 /get을 탐  
-					str += '<div class="checkBox"><input type="checkbox" name="chBox" class="chBox" data-cartno="'+json[i].cart_no+'" data-price="'+json[i].p_release_price+'" /></div>'
+					str += '<input type="checkbox" class="chkbox"  data-cartno="'+json[i].cart_no+'" data-price="'+json[i].p_release_price+'" /><br/><br/>'
 					str += '<div class = "product">'
 					// 이미지 하나만 보여주기 
+					
 					if(json[i].attachList.length > 0) {
 						var uploadPath = json[i].attachList[0].uploadPath;
 						var uuid = json[i].attachList[0].uuid;
@@ -100,7 +108,7 @@ $(function(){	// list()함수 실행하기위한
 					str += '<div class="p_info" style="font-weight: bold; font-size: 15px;" data-price = "'+json[i].p_release_price+'">'+json[i].p_release_price+'원</div><br/>';
 					str += '</a>'
 					str += '</div>'
-					str += '<button class = "remove_button" data-cartno="'+json[i].cart_no+'" >삭제</button>'
+					/* str += '<button class = "remove_button" data-cartno="'+json[i].cart_no+'" >삭제</button>' */
 					str += '<br/><br/>'
 					str += '<hr/>'
 					str += '<br/>'
@@ -120,8 +128,8 @@ $(function(){	// list()함수 실행하기위한
 		
  	};// ------- list 함수 끝
 
-			
-	$(document).on("click",".remove_button",function () {
+//----------------------------------------------------------삭제 비동기(여러개삭제 만드니깐 안돼서 막아둠ㅠ)
+/* 	$(document).on("click",".remove_button",function () {
 		//e.preventDefault();
 		var cartno = $(this).data("cartno");	// this가 버튼 눌린것(?) 이라는 뜻
 		//var pno = $(this).data("pno");	// data-set
@@ -129,19 +137,19 @@ $(function(){	// list()함수 실행하기위한
 			url : "/brandCart/Cartdelete",
 			type : "POST",
 			/* datatype : "json" */
-			data : {cart_no:cartno},  
+//			data : {cart_no:cartno},  
 			/* /*data : json, */
-			success : function(result){
-				if(result == 1) {          
-					alert("삭세 성공");
-					list();		// 성공시 list() 함수를 타야 새로고침 된다
-				} else {
-					alert("삭제 실패");
-				}
+//			success : function(result){
+//				if(result == 1) {          
+//					alert("삭제 성공");
+//					list();		// 성공시 list() 함수를 타야 새로고침 된다
+//				} else {
+//					alert("삭제 실패");
+//				}
 				
-			}// success 끝
-		});// 삭제 ajax 끝
-	}); // 삭제 함수 끝
+//			}// success 끝
+//		});// 삭제 ajax 끝
+//	}); // 삭제 함수 끝
 	
 	$(document).on("click",".selectDelete_btn",function () {
 		//e.preventDefault();
@@ -166,18 +174,110 @@ $(function(){	// list()함수 실행하기위한
 	}); // 삭제 함수 끝
  	
 
-	$("#allCheck").click(function(){	// 체크박스 선택하면 모두 체크박스 선택
+
+$(".selectDelete_btn").click(function(){
+	var confirm_val = confirm("정말 삭제하시겠습니까?");
+  
+		if(confirm_val) {
+   			var checkArr = new Array();
+   
+		$("input[class='chkbox']:checked").each(function(){
+			checkArr.push($(this).attr("data-cartno"));
+   		});
+    
+			$.ajax({
+				url : "/brandCart/Cartdelete",
+				type : "POST",
+				data : { chArr : checkArr },
+				success : function(result){
+				    if(result==1){
+					   	alert("선택한 항목이 삭제되었습니다.");
+					   	list();
+				    }else{
+				    	alert("선택한 항목 삭제 실패")
+				    }
+   				}
+  			});
+ 		}
+});
+
+
+//----------------------------------------------------------여러개 선택 삭제 비동기
+/* 
+	
+	$(".selectDelete_btn").click(function(){
+		var confirm_val = confirm("정말 삭제하시겠습니까?");
+	  
+		var deletecount = $(".chkbox").length;
+		if(confirm_val) {
+			for(var i = 0; i<deletecount; i++){
+				if ($(".chkbox")[i].checked == true){	// 체크가 되어진 것만 값 가지고오기
+					var obj2 = $(".chkbox")[i];
+					var cartnolist = Number($(obj2).attr("data-cartno"));
+					console.log(cartnolist);
+				}
+			} 
+		$.ajax({
+		    url : "/brandCart/Cartdelete",
+		    type : "post",
+		    data : { cart_no : cartnolist },
+		    success : function(result){
+		    	if(result==1){
+			    	alert("선택한 항목이 삭제되었습니다.");
+			     	list();
+		    	}else{
+		    		alert("선택한 항목 삭제 실패")
+		    	}
+
+			}
+		});
+			
+	 }
+	 }); */
+
+// --------------------------------------------------------------상품 합계 구하기
+
+$(document).on("click",".chkbox",function (){
+	itemSum();
+}) ;
+function itemSum() {
+	
+	var sum = 0;
+	var count = $(".chkbox").length;
+	
+	for (var i = 0; i < count; i++) {
+		 if ($(".chkbox")[i].checked == true){	// 체크가 되어진 것만 값 가지고오기
+			var obj = $(".chkbox")[i];
+		 	//console.log($(".chkbox")[i])
+		 	// => class="chkbox" data-cartno=cart_no data-price=p_release_price 값 찍히는에 그중에서 
+			sum += Number($(obj).attr("data-price"));	// data-price의 속성(attr)가지고와서 숫자로 변환하고(숫자로 변환하기전은 string) 더해줌 
+		}
+	}
+    $("#total_sum").html(sum + " 원");
+
+	 	
+}	
+	
+//------------------------------------- 체크박스 선택하면 모두 체크박스 선택
+ 	$("#allCheck").click(function(){
 		var chk = $("#allCheck").prop("checked");
 		if(chk) {
-			$(".chBox").prop("checked", true);
+			$(".chkbox").prop("checked", true);
+			itemSum();
 		} else {
-			$(".chBox").prop("checked", false);
+			$(".chkbox").prop("checked", false);
+			itemSum();
 		}
-	});
-		
-	$(".chBox").click(function(){		// 개별체크박스 선택하면 체크박스 해제
+	}); 
+//-------------------------------------- 개별체크박스 선택하면 체크박스 해제		
+	$(".chBox").click(function(){		
 		$("#allCheck").prop("checked", false);
 	});
+
+
+
+
+	
 
 
 
