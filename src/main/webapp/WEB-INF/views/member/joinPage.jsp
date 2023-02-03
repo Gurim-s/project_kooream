@@ -159,10 +159,12 @@
 		$("#pwText").on("keyup", function(e){
 			console.log($("#pwText").val());
 			if(!regPw.test($("#pwText").val())){
+				$("#pwCheck").css("color", "red");
 				$("#pwCheck").text("비밀번호를 8-16자 영어+숫자+특수문자로 입력하세요.");
 				pwCheckValue = 'n';
 				return;
 			}else{
+				$("#pwCheck").css("color", "green");
 				$("#pwCheck").text("사용가능한 비밀번호입니다.");
 				pwCheckValue = 'y';
 			}
