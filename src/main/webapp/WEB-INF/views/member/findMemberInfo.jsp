@@ -52,47 +52,76 @@
     background-color: #000000;
     display: none; }
 
-.layerpop {
-    display: none;
-    z-index: 1000;
-    background: #fff;
-    cursor: move; }
-
-.layerpop_area #title {
-    padding: 10px 10px 10px 10px;
-    border: 0px solid #aaaaaa;
-    background: #f1f1f1;
-    color: white;
-    font-size: 1.3em;
-    font-weight: bold;
-    line-height: 24px;
-    background-color: black;
-    border-top-right-radius: 13px;
-    border-top-left-radius: 13px;
-    font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
-    }
-
-.layerpop_area .layerpop_close {
-    width: 25px;
-    height: 25px;
-    display: block;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent url('btn_exit_off.png') no-repeat;
-    color: white;
-    font-weight: bold;
-    }
-
-.layerpop_area .layerpop_close:hover {
-    background: transparent url('btn_exit_on.png') no-repeat;
-    cursor: pointer; }
-
-.layerpop_area #content {
-    width: 96%;    
-    margin: 2%;
-    color: black;
-    font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;}
+	.layerpop {
+	    display: none;
+	    z-index: 1000;
+	    background: #fff;
+	     
+	}
+	
+	.layerpop_area #title {
+	    padding: 10px 10px 10px 10px;
+	    border: 0px solid #aaaaaa;
+	    background: #f1f1f1;
+	    color: white;
+	    font-size: 1.3em;
+	    font-weight: bold;
+	    line-height: 24px;
+	    background-color: black;
+	    border-top-right-radius: 13px;
+	    border-top-left-radius: 13px;
+	    font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+	    }
+	
+	.layerpop_area .layerpop_close {
+	    width: 25px;
+	    height: 25px;
+	    display: block;
+	    position: absolute;
+	    top: 10px;
+	    right: 10px;
+	    background: transparent url('btn_exit_off.png') no-repeat;
+	    color: white;
+	    font-weight: bold;
+	    }
+	
+	.layerpop_area .layerpop_close:hover {
+	    background: transparent url('btn_exit_on.png') no-repeat;
+	    cursor: pointer; }
+	
+	.layerpop_area #content {
+	    width: 96%;    
+	    margin: 2%;
+	    color: black;
+	    font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+	}
+	#content{
+		font-size: 30px; 
+		text-align: center; 
+		font-weight: bold;  
+		
+	}
+	.pwTitle{
+		font-size: 15px;
+		text-align: left;
+		margin-top: 15px;
+	}
+	.newPwDiv{
+		text-align: left;
+		border-bottom: 1px solid #c9bdbd;
+    	width: 443px;
+    	margin-left: 10px;
+	}
+	article div{
+		margin-bottom: 5px;
+	}
+	.checkText{
+		font-size: 3px;
+		color: red;
+		text-align: left;
+		height: 15px;
+		margin-left: 17px;
+	}
 </style>
 
 <div id="findInfoBox">
@@ -140,12 +169,14 @@
     <div id="mask"></div>
 
     <!--Popup Start -->
-    <div id="layerbox" class="layerpop" style="width: 500px; height: 270px; border-radius: 13px;">
+    <div id="layerbox" class="layerpop" style="width: 500px; height: 300px; border-radius: 13px;">
+    	<form id="goPw">
         <article class="layerpop_area">
         	<div id="title">찾기에 성공하였습니다.</div>
-        	<a href="javascript:popupClose();" class="layerpop_close" id="layerbox_close">X</a> <br>
-        	<div id="content" style="font-size: 30px; text-align: center; font-weight: bold;  margin-top: 60px;">레이어 팝업 내용<br/></div>
+        	<a href="javascript:popupClose();" class="layerpop_close" id="layerbox_close">X</a>
+        	<div id="content">레이어 팝업 내용<br/></div>
         </article>
+        </form>
     </div>
 </div>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -171,7 +202,7 @@ $(function(){
 		if($("#findIdBtn").is(":checked")){
 			form = $("#findIdForm").serialize();
 		}else{
-			form = $("#findPwForm").serialize();		
+			form = $("#findPwForm").serialize();
 		}
 		
 		$.ajax({
@@ -183,8 +214,21 @@ $(function(){
 					//$("#modal").css("display","block");
 					// 체크된게 아이디찾기인지 비번찾기인지 구분하여 모달창 타이을 변경
 					if($("#findPwBtn").is(":checked")){
-						$("#title").text("비밀번호찾기에 성공하였습니다.");
-						$("#content").text(result.m_pw);
+						$("#title").text("일치하는 계정을 찾았습니다.");
+						// $("#content").text(result.m_pw);
+						var pwStr="";
+						
+						pwStr += '<div class="pwTitle">  &nbsp;&nbsp;&nbsp;  새로 생성할 비밀번호 입력</div>';
+						pwStr += '<div  class="newPwDiv">&nbsp;<input type="password" id="pwText" name="m_pw"></div>';
+						pwStr += '<div id="pwCheck" class="checkText"> </div>';
+						pwStr += '<div class="pwTitle">  &nbsp;&nbsp;&nbsp;  비밀번호 확인</div>';
+						pwStr += '<div class="newPwDiv">&nbsp;<input type="password" id="newPwText"></div>';
+						pwStr += '<div id="newPwCheck" class="checkText"> </div>';
+						pwStr += '<div><button style="margin-top: 5px;" id="updatePwBtn">비밀번호생성</button></div>';
+						pwStr += '<div><input type="hidden" name="m_id" value="'+result.m_id+'"></div>';
+						
+						$("#content").html(pwStr);
+						
 					}else{
 						$("#title").text("아이디찾기에 성공하였습니다.");
 						$("#content").text(result.m_id);
@@ -197,6 +241,53 @@ $(function(){
 				}
             }
         });
+	});
+	
+	// 비밀번호 조건에 맞는지 확인(테스트위해 잠시 막아둠)----------------------------
+	
+	// 비밀번호 정규식
+	var regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+	var pwCheckValue = 'y';
+	var newPwCheckValue = 'y';
+	
+	/*
+	// 비밀번호 입력
+	$(document).on("keyup","#pwText",function(e){
+		console.log($(this).val());
+		if(!regPw.test($("#pwText").val())){
+			$("#pwCheck").css("color", "red");
+			$("#pwCheck").text("비밀번호를 8-16자 영어+숫자+특수문자로 입력하세요.");
+			pwCheckValue = 'n';
+			return;
+		}else{
+			$("#pwCheck").css("color", "green");
+			$("#pwCheck").text("사용가능한 비밀번호입니다.");
+			pwCheckValue = 'y';
+		}
+	});
+	// 비밀번호 확인 입력
+	$(document).on("keyup","#newPwText",function(e){
+		if($("#pwText").val()==$("#newPwText").val()){
+			$("#newPwCheck").css("color", "green");
+			$("#newPwCheck").text("확인 되었습니다.");
+			newPwCheckValue = 'y';
+		}else{
+			$("#newPwCheck").css("color", "red");
+			$("#newPwCheck").text("위에 입력한 비밀번호와 같지 않습니다.");
+			newPwCheckValue = 'n';
+		}
+	});
+	*/
+	
+	// 비밀번호 생성 버튼 클릭 이벤트
+	$(document).on("click", "#updatePwBtn",function(e){
+		e.preventDefault();
+		if(pwCheckValue=='y' && newPwCheckValue=='y'){
+			$("#goPw").attr("action", "/member/updatePw");
+			$("#goPw").attr("method", "post");
+			$("#goPw").submit();
+		}
+		
 	});
 	
 	

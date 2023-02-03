@@ -23,55 +23,56 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>구림톡</span>
+		<span>정품판별</span>
 	</div>
 	<br/>
 	<hr/>
 	<br/>
-	<form action="/community/talkUpdate" method="post" id="form">
-		<div>제목<input type="text" name="talktitle" value="${vo.talktitle }"></div>
-		<div><input type="hidden" name="talkname" value="${vo.talkname }">${vo.talkname }</div>
-		<div><textarea rows="15" cols="150%" name="talkcon" style="resize: none";>${vo.talkcon }</textarea></div>
+	<form action="/community/oriUpdate" method="post" id="form">
 		<div>
-			<input type="hidden" name="talkno" value="${vo.talkno }">
-			<button class="btn-insert" data-oper="talkupdate">수정 완료</button>
-			<button class="btn-list" data-oper="talklist">목록</button>
-		</div>
-		<div>
-			<input type="hidden" name="pageNum" value="${cri.pageNum }">
-			<input type="hidden" name="amount" value="${cri.amount }">
+			<div>${vo.oriname }</div>
+			<div><input type="text" name="orititle" value="${vo.orititle }"></div>
+			<div><small>*이미지 파일은 제품에 대한 정품 판별 의견 때문에 수정 불가합니다.</small></div>
+			<div>${vo.brandname }</div>
+			<div><small>*브랜드 수정은 제품에 대한 정품 판별 의견 때문에 수정 불가합니다.</small></div>
+			<div></div>
+			<div><textarea rows="15" cols="150%" style="resize: none" name="oricon">${vo.oricon }</textarea></div>
+			<div>
+				<button data-oper="oriUpdate">수정버튼</button>
+				<button data-oper="oriList">목록</button>
+				<input type="hidden" name="orino" value="${vo.orino }">
+			</div>
 		</div>
 	</form>
 </body>
 <script type="text/javascript">
-	$(function () {
-		
+	$(function() {
 		var form = $("#form");
 		var oper = $(this).data("oper");
 		
 		$("button").click(function(e) {
-			e.preventDefault();	// 버튼 기본 이벤트 막기
+			e.preventDefault();
 			
-			if(oper == 'talklist'){
-				form.attr("action", "/community/talkList");
+			if(oper == 'oriList'){
+				form.attr("action", "/community/oriList");
 				form.submit();
 			}else{
-				if($("input[name=talktitle]").val() == ""){
+				if($("input[name=orititle]").val() == ""){
 					alert('수정할 제목을 입력 해주세요.')
 					return false;
 				}
-				if($("textarea[name=talkcon]").val() == ""){
+				if($("textarea[name=oricon]").val() == ""){
 					alert('수정할 내용을 입력 해주세요.')
 					return false;
 				}
 				
 				form.submit();
 			}
-			
-		});
+		})
+		
+		
 	})
 </script>
-
 </html>
 
 <jsp:include page="../include/footer.jsp"/>
