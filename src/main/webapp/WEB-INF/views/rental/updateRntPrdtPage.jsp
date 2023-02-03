@@ -134,7 +134,7 @@ $(function() {
 		}
 		
 		$.ajax({
-			url : '/rntfile/uploadAjaxAction',
+			url : '/uploadImageAWS/rental',
 			processData : false,						// 쓰임새는 없지만 필요해서 작성
 			contentType : false,						// 쓰임새는 없지만 필요해서 작성
 			data : formData,
