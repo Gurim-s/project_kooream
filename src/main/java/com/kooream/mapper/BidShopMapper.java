@@ -16,4 +16,5 @@ public interface BidShopMapper {
 	public void insertProduct(ProductVO vo);
 	public int getPno();
 	public List<BidShopVO> sizeread(int p_no);
+	public List<ProductVO> searchProductTag(String[] keywords);
 }
