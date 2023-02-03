@@ -21,4 +21,10 @@ public interface OriginalService {
 	
 	// 정품판별 게시글 조회
 	public OriginalVO oriGet (int orino);
+	
+	// 정품판별 게시글 삭제
+	public boolean oriRemove(int orino);
+	
+	// 정품판별 게시글 수정
+	public boolean oriUpdate(OriginalVO vo);
 }

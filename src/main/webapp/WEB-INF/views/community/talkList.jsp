@@ -45,6 +45,12 @@
 		border: none;
 		background-color: #fff;	
 	}
+	.pagination{
+		text-align: center;
+	}
+	.paginate_button{
+		display: inline-block;
+	}
 	
 </style>
 <script type="text/javascript">
@@ -54,7 +60,6 @@
 </head>
 <body>
 	<ul id="menu_list">
-		<li>뉴스</li>
 		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>

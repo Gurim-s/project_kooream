@@ -12,8 +12,10 @@
 	#menu_list{
 		float: left;
 		height: 100%;
-		margin-bottom: 100%;
 		width: 130px;
+	}
+	#main{
+		margin-left: 150px;
 	}
 	#head{
 		font-size: 25px;
@@ -23,8 +25,12 @@
 		height: 300px;
 	}
 	button{
-		border: none;
-		background-color: #fff;
+		border-radius: 5px;
+		border: none;	
+		background-color: #BEBEBE;
+		margin-left: 10px;
+		padding: 3px;
+		
 	}
 	#date{
     	float: right;
@@ -36,71 +42,73 @@
     	float: right;
     	width: 40px;
     }
+    .date-view{
+    	float: right;
+    }
+    #talkname{
+    	width: 300px;
+    }
+   
 </style>
 </head>
 <body>
 	<ul id="menu_list">
-		<li>뉴스</li>
 		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
-	<div>
-		<span id="head"><strong>구림톡</strong></span>
+	<div id="main">
+		<div>
+			<span id="head"><strong>구림톡</strong></span>
+			<div>
+				<button class="btn" data-oper="talkupdate">수정</button>
+				<button class="btn" data-oper="talkremove">삭제</button>
+				<button class="btn" data-oper="talklist">목록</button>
+			</div>
+		</div>
+		<br/>
+		<hr/>
+		<br/>
+		<form action="/community/talkUpdate" id="form">
+			<div>
+				<strong id="title">${vo.talktitle }</strong>
+				<span id="date"><small>${vo.talkdate }</small></span>
+			</div>
+			<div><input type="hidden" name="m_no" value=${vo.m_no }></div>
+			<div>${vo.talkname }</div>
+			<div id="talk-con-box">
+				<div id="talk-con">${vo.talkcon }</div>
+			</div>
+			
+			<div>
+				<input type="hidden" name="pageNum" value="${pageNum }">
+				<input type="hidden" name="amount" value="${amount }">
+				<input type="hidden" name="talkno" value="${vo.talkno }">
+			</div>
+		</form>
+		
+		<!-- 댓글 출력 폼 -->
+		<div class="replylist">
+			<div data-replyno ="1"><span><strong>닉네임</strong></span>
+				<button class="replyBtn" id="replyupdatebtn">수정</button>
+				<button class="replyBtn" id="replyremovebtn">삭제</button>
+				<div>
+				<small class="date-view">날짜</small>
+				</div>
+			</div>
+			<div style="font-size: 20px;">내용</div>
+		</div>
+		<div style="height: 75px;"></div>
+		<!-- 댓글 입력 폼 -->
+		<div>
+			<div>
+			<strong>구리머</strong>
+			<input type="hidden" name="replyname" value="구리머">
+			</div>
+			<br/>
+			<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none";></textarea></div>
+			<div><button id="addReplyBtn">등록</button></div>
+		</div>
 	</div>
-	<br/>
-	<hr/>
-	<br/>
-	<form action="/community/talkUpdate" id="form">
-		<div>
-			<strong id="title">${vo.talktitle }</strong>
-			<span id="date"><small>${vo.talkdate }</small></span>
-		</div>
-		<div><input type="hidden" name="m_no" value=${vo.m_no }></div>
-		<div>${vo.talkname }</div>
-		<div id="talk-con-box">
-			<div id="talk-con">${vo.talkcon }</div>
-		</div>
-		<div>
-			<button class="btn" data-oper="talkupdate">수정</button>
-			<button class="btn" data-oper="talkremove">삭제</button>
-			<button class="btn" data-oper="talklist">목록</button>
-		</div>
-		<div>
-			<input type="hidden" name="pageNum" value="${pageNum }">
-			<input type="hidden" name="amount" value="${amount }">
-			<input type="hidden" name="talkno" value="${vo.talkno }">
-		</div>
-	</form>
-	
-	<!-- 댓글 출력 폼 -->
-	<table class="replylist">
-		<tr>
-			<td>닉네임</td>
-			<td data-replyno ="1">댓글번호</td>
-			<td><button class="replyBtn" id="replyupdatebtn">수정</button></td>
-			<td><button class="replyBtn" id="replyupdatebtn">삭제</button></td>
-			<td>작성날짜</td>
-		</tr>
-		<tr>
-			<td>댓글 내용</td>
-		</tr>
-	</table>
-	
-	
-	<!-- 댓글 입력 폼 -->
-	<table>
-		<tr>
-			<td>닉네임 : <input type="text" name="replyname" id="replyname"></td>
-			<!-- <td>회원 번호 : <input type="text" name="m_no" id="m_no"></td> -->
-		</tr>
-		<tr>
-			<td>
-				<textarea rows="5" cols="50" name="replycon" id="replycon"></textarea>
-			</td>
-			<td><button id="addReplyBtn">등록</button></td>
-		</tr>
-	</table>
-	
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
 <script type="text/javascript" src="/resources/js/community/reply.js"></script>
@@ -132,14 +140,20 @@
 				form.submit();
 				
 			}else if(oper == 'talkremove'){
-				form.attr("action", "/community/talkRemove");
+				if(confirm("해당 게시글을 삭제 하시면 정보가 사라집니다. 삭제 하시겠습니까?") == true){
+					form.attr("action", "/community/talkRemove");
+	 				form.submit();
+				}else{
+					return false;
+				}
+				
+				
 				
 				// EL 오류인지 뭔지... list 안타고 계속 update로 타서 그냥 form 안에 값 다 넣어서 태워 보냄
 // 				var str = '';
 // 				str += '<input type="hidden" name="pageNum" value="'+ pageNum +'">';
 // 				str += '<input type="hidden" name="amount" value="'+ amount +'">';
 // 				str += '<input type="hidden" name="talkno" value="'+ talkno '">';
- 				form.submit();
 			}
 			
 		}); // 게시글 관련 내용 ------------------------------------end
@@ -150,7 +164,7 @@
 		// 댓글 관련 내용 ------------------------------------start
 		var talkno = '${vo.talkno }';
 		var replycon = $("#replycon");
-		var replyname = $("#replyname");
+		var replyname = $("input[name=replyname]").val()
 		var m_no = $("#m_no");
 		
 	 	// 댓글 등록
@@ -159,19 +173,15 @@
 		// 댓글 등록 함수 불러오기
 	 	$("#addReplyBtn").click(function() {
 	 		
+	 		
 	 		// 리플 내용 검사
 	 		if($("textarea[name=replycon]").val() == ""){
 				alert('댓글 내용을 적어주세요.');
 				return;
 			}
-	 		// 닉네임 검사
-	 	 	if($("input[name=replyname]").val() == ""){
-				alert('닉네임을 적어주세요.');
-				return;
-			}
 	 		
 			replyService.add(
-				{talkreplycon:replycon.val(), talkreplyname:replyname.val(), talkno:talkno, m_no:m_no.val()},
+				{talkreplycon:replycon.val(), talkreplyname:replyname, talkno:talkno, m_no:m_no.val()},
 					function(result) {
 						showList();
 						$("textarea[name=replycon]").val('');
@@ -204,17 +214,19 @@
 						return;
 					}else{
 						// 댓글이 있으면
+						
 						for(var i=0; i<result.length; i++){
-							str += '<tr>';
-							str += '<td><strong>'+ result[i].talkreplyname +'</strong></td>';
-							str += '<td>'+result[i].talkreplyno+'</td>';
-							str += '<td><button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno	+ '">수정</button></td>';
-							str += '<td><button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno	+ '">삭제</button></td>';
-							str += '<td><small>'+displayTime(result[i].talkreplydate)+'</small></td>';
-							str += '</tr>';
-							str += '<tr>';
-							str += '<td class="reply-con">'+ result[i].talkreplycon +'</td>';
-							str += '</tr>';
+							str += '<div data-replyno ="1"><span><strong>'+ result[i].talkreplyname +'</strong></span>'
+							str += '<button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
+							str += '<button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno+'">삭제</button>'
+							str += '<div>'
+							str += '<small class="date-view">'+displayTime(result[i].talkreplydate)+'</small>'
+							str += '</div>'
+							str += '<div style="height: 10px;"></div>'
+							str += '</div>'
+							str += '<div style="font-size: 14px;">'+ result[i].talkreplycon +'</div>'
+							str += '<br/>'
+							
 						}
 						replylist.html(str);
 						
@@ -223,60 +235,59 @@
 						
 						// 댓글 삭제
 						$(".replylist").on("click", ".replyremovebtn", function() {
-							talkreplyno = $(this).data("replyno");
-							console.log(talkreplyno);  
-							replyService.remove(talkreplyno, function(result) {
-								
-								if(result ==='success'){
-									alert("댓글 삭제 완료")
-									showList();
-								}
-							})
+							//var confirm = confirm("댓글을 삭제 하시겠습니까?");
+							
+							if(confirm("해당 댓글을 삭제 하시겠습니까?") == true) {
+								talkreplyno = $(this).data("replyno");
+								console.log(talkreplyno);  
+								replyService.remove(talkreplyno, function(result) {
+									
+									if(result ==='success'){
+										alert("댓글이 삭제 되었습니다.")
+										showList();
+									}
+								});
+							}else{
+								return false;
+							}
+							
 						});
 					
-						//수정 이벤트
-// 						$('.replyupdatebtn').on('click', function(e) {
-// 							var old = $(e.target).closest('tr').next('tr').find('.reply-con').text();
-// 							var str = '<textarea rows="5" cols="50">'+old+'</textarea>';
-							
-// 							$(e.target).closest('tr').next('tr').html(str);
-// 						});
-						
-						
 							
 						
 						// 댓글 수정
 						$('.replyupdatebtn').on('click', function(e) {
 							var talkreplyno = $(e.target).data("replyno");
-							var test = $(e.target).closest('tr');
-							var test2 = $(test).next('tr').remove();
+							var test = $(e.target).closest('div');
+							var test2 = $(test).next('div').remove();
 							
 							var str = '';
 							replyService.get(talkreplyno, function(result){
 								console.log(result);
-							
-								str += '<tr>';
-								str += '<td>'+result.talkreplyname +'</td>';
-								str += '<td>'+result.talkreplyno+'</td>';
-								str += '<td><button class="replyBtn" id="replyupdate-ok" data-replybtn ="'+result.talkreplyno	+ '">수정 완료</button></td>';
-								str += '<td><button class="replyBtn" id="replyreset" data-replybtn ="'+result.talkreplyno	+ '">취소</button></td>';
-								str += '<td>'+result.talkreplydate+'</td>';
-								str += '</tr>';
-								str += '<tr>';
-								str += '<td><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+result.talkreplycon +'</textarea></td>';
-								str += '</tr>';
+								
+								str += '<div data-replyno ="1"><span><strong>'+ result.talkreplyname +'</strong></span>'
+								str += '<button class="replyupdate-ok" data-replybtn ="'+result.talkreplyno+ '">수정 완료</button>'
+								str += '<button class="replyreset" data-replybtn ="'+result.talkreplyno+ '">취소</button>'
+								str += '<div>'
+								str += '<small class="date-view">'+displayTime(result.talkreplydate)+'</small>'
+								str += '</div>'
+								str += '<div style="height: 10px;"></div>'
+								str += '</div>'
+								str += '<div><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+ result.talkreplycon +'</textarea></div>'
+								str += '<br/>'
+								
 							
 								test.html(str);
 								
 								
 								// 댓글 수정 취소 버튼
-								$("#replyreset").click(function() {
+								$(".replyreset").click(function() {
 									showList();
 								});
 								
 								var replyconupdate = $('#replyconupdate');
 								// 댓글 수정
-								$("#replyupdate-ok").on("click", function() {
+								$(".replyupdate-ok").on("click", function() {
 									
 									if($("textarea[name=replycon]").val() == ""){
 										alert('수정할 내용을 입력 해주세요.')
@@ -287,24 +298,17 @@
 									{talkreplyno : talkreplyno, talkreplycon:replyconupdate.val()},
 									function(result) {
 										if(result === 'success'){
-											alert("댓글 수정 완료");
+											alert("댓글 수정이 완료 되었습니다.");
 											
 											showList();
 										}
 									});
-								})
-								
-								
-								
+								}); // 댓글 수정 비동기 ------------------------------------end
 								
 							});
 							
 							
-							
-							
-
-							
-						});
+						}); // 댓글 수정 관련 ----------------------------------------------end
 						
 						
 					}

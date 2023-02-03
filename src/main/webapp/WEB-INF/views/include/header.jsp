@@ -60,7 +60,7 @@
 						<a href="/codishop/list">CODI</a>
 					</li>
 					<li>
-						<a href="/community/index">COMMUNITY</a>
+						<a href="/community/oriList">COMMUNITY</a>
 					</li>
 					<li>
 						<a href="#">검색</a>
@@ -70,7 +70,7 @@
 		</div>
 	</header>
 	<main>
-		<div class="wrapper">
+		<div class="wrapper clearfix">
 		
 <script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
 <script  type="text/javascript">

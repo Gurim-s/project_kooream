@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.OriginalReplyVO;
 import com.kooream.mapper.OriginalReplyMapper;
@@ -60,6 +61,33 @@ public class OriginalReplySeviceImpl implements OriginalReplyService{
 	public List<OriginalReplyVO> chNo(int orino) {
 		log.info("original reply NO List......" + orino);
 		return mapper.chNo(orino);
+	}
+	
+	// 댓글 삭제
+	@Transactional
+	@Override
+	public int remove(int orireplyno) {
+		log.info("reply remove................." + orireplyno);
+		
+		int result = mapper.delete(orireplyno);
+		return result;
+	}
+	
+	// 댓글 조회
+	@Override
+	public OriginalReplyVO get(int orireplyno) {
+		log.info("original reply get.........." + orireplyno);
+		
+		return mapper.read(orireplyno);
+	}
+	
+	// 댓글 수정
+	@Override
+	public int modify(OriginalReplyVO vo) {
+		log.info("original modify................" + vo);
+		
+		int result = mapper.update(vo);
+		return result;
 	}
 	
 }
