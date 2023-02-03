@@ -39,7 +39,7 @@
 		</div>
 		<div class="header-bottom clearfix">
 			<div class="logo-container">
-				<a href="#">
+				<a href="/member/mainPage">
 					<img alt="로고이미지" src="<c:url value='/resources/img/kooream.png'/>">
 				</a>
 			</div>

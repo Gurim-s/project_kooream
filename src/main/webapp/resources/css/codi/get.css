@@ -82,14 +82,7 @@
 }
 textarea {
     writing-mode: horizontal-tb !important;
-    font-style: ;
-    font-variant-ligatures: ;
-    font-variant-caps: ;
-    font-variant-numeric: ;
-    font-variant-east-asian: ;
-    font-weight: ;
-    font-stretch: ;
-    font-size: ;
+  
     font-family: monospace;
     text-rendering: auto;
     color: fieldtext;
