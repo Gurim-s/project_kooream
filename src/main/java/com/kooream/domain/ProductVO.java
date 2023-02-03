@@ -22,5 +22,11 @@ public class ProductVO {
 	private int m_no;
 	
 	private int max_bid_sell, min_bid_buy;
+	
 	private List<AttachFileVO> attachList;
+	
+	private List<SizeVO> sizeVoList;
+	private List<String> sizeList;
+		
+	
 }

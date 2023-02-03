@@ -42,7 +42,7 @@
 		display: none;
 	}
 	.imgbox{
-		width: 100%;
+		width: 200px;
 		position: relative;
 	}
 	.title_image{
@@ -68,9 +68,12 @@
 		width: 150px;
 		height: 150px;
 
-
-	}.p_info{
+	}
+	.p_info{
 		width: 200px;
+	}
+	.logo_name {
+		left: 550px;
 	}
 
 
@@ -86,43 +89,33 @@
 <div class = "img box">
 <div class="title_image"></div>
 <div class="logo_image"></div>
+<div class = "logo_name"></div>
 
 </div>
 <!-- ------------------체크박스 카테고리 시작------------------------ -->
-<!-- <div id = "box">
+ <div id = "box">
 	<ul>
 		<li class = "menu">
 			<p>카테고리</p>
 				<ul class = "sub">
-					<li><input type ="checkbox" value = "top">  상의</li>
-					<li><input type ="checkbox" value = "bottom">  하의</li>
-					<li><input type ="checkbox" value = "shoes">  신발</li>
-					<li><input type ="checkbox" value = "acc">  패션잡화</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_clothes">  의류</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_shoes">  신발</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_acc">  패션잡화</li>
 				</ul>
 		</li>
 		
 		<li class = "menu">
-			<p>브랜드</p>
+			<p>금액</p>
 				<ul class = "sub" >
-					<li><input type ="checkbox" value = "51">  LE17SEPTEMBRE</li>
-					<li><input type ="checkbox" value = "52">  Polar Skate Co.</li>
-					<li><input type ="checkbox" value = "53">  Punch Drunk Parties</li>
-					<li><input type ="checkbox" value = "54">  THE IDENTITY PROJECT</li>
-					<li><input type ="checkbox" value = "55">  The Museum Visitor</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "50000">  5만원 이하</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "100000">  10만원 이하</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "150000">  15만원 이하</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "200000">  20만원 이하</li>
 				</ul>
 		</li>
-		
-		<li class = "menu">
-			<p>가격</p>
-				<ul class = "sub" >
-					<li><input type ="checkbox" value = "상의">  상의</li>
-					<li><input type ="checkbox" value = "하의">  하의</li>
-					<li><input type ="checkbox" value = "패션잡화">  패션잡화</li>
-					<li><input type ="checkbox" value = "신발">  신발</li>
-				</ul>
-		</li>
+
 	</ul>
-</div> -->
+</div> 
 <!-- ------------------체크박스 카테고리 끝------------------------ -->	
 
 
@@ -193,6 +186,10 @@
 				$(".logo_image").append("<img class = 'logo' src='../resources/img/"+ i +"_logo.png'>");
 			}
 		}
+		
+		if(b_no == 51){
+			$(".logo_name").append('<div class = "logoname" style="font-weight: bold; font-size: 15px; ">LE17SEPTEMBRE</div>')
+		}
 
 //--------------------------------------------수정 페이지 이동--------------------------------------------------
 	$(".register").click(function (e) {
@@ -218,9 +215,15 @@
             }
         });
     });
+
+
 // 상품 이미지 리스트에 보여주기--------------------------------------------------------
- 	$(function() {		// 상품이미지 보여주기
- 		
+ 	$(function() {
+ 		list();
+ 	});	
+ 	
+ 	function list() {// 상품이미지 보여주기
+		
  		var bno = '${b_no}';
  		//console.log(bno + "123454654654645");
  		
@@ -236,7 +239,7 @@
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
 				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
-						// brandshop(컨트롤러) 에서 /get을 탐  
+					// brandshop(컨트롤러) 에서 /get을 탐  
 				
 				
 				// 이미지 하나만 보여주기 
@@ -263,6 +266,7 @@
 				str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
 				str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
 				str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
+				
 				str += '</a>'
 				str += '</div>'
 				str += '<br/>'
@@ -271,15 +275,17 @@
 			
 			str += '</div>'
 			str += '<br/>';
-			$('.brand').append(str);
+			$('.brand').html(str);	// 원래 $('.brand').append(str);
 		});
 
- 	});
+ 	};
+ 	
    	var result = '<c:out value="${result}"/>';
 	// rttr 객체를 통해 받아온 값이 빈 값이 아닐 때(데이터 변경) 알림 메소드 실행
 	if(result != ''){
 		checkResult(result);
 	}
+
 	
 // --------------------alert 창 띄우기--------------------------------------------------------
 	// 뒤로 가기 할 때 문제가 될 수 있으므로,
@@ -297,8 +303,120 @@
 			alert("게시글이 등록되었습니다.");
 		}
 	}
+//--------------------------체크박스 비동기 시작---------------------------------------------------------
+// --------------------카테고리(의류)--------------------------------------------------------
+
+ 	$(".brand_category").click(function () {
+ 		var val = $("input[name='brand_category']:checked").val()
+ 		console.log(b_no);
+ 		console.log(val);
+ 		if(val!=null){
+	 		$.ajax({
+	 			url : "/select/getList",
+	 			type : "get",
+	 			data : {b_no:b_no,p_category:val},
+	 			dataType:"json",
+				contentType:"application/json",
+	 		})
+	 		.done(function(json) {
+	 			
+				var str='<div class="container">';
+				console.log(json);
+				for(var i=0; i<json.length; i++) {
+					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+						// brandshop(컨트롤러) 에서 /get을 탐  
+					
+					// 이미지 하나만 보여주기 
+					
+					if(json[i].attachList.length > 0) {
+						var uploadPath = json[i].attachList[0].uploadPath;
+						var uuid = json[i].attachList[0].uuid;
+						var fileName = json[i].attachList[0].fileName;
+						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+						str += '<div class = "product">'
+						str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';	// 이미지
+					}
+	
+					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
+					str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
+					str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
+					str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
+					str += '</a>'
+					str += '</div>'
+					str += '<br/>'
+	
+				}
+				
+				str += '</div>'
+				str += '<br/>';
+				$('.brand').html(str);
+			});
+ 		}
+ 		else if(val==null){
+ 			list();	
+ 		}
+ 	});
+// --------------------카테고리(금액)--------------------------------------------------------
+
+ 	$(".brand_price").click(function () {
+ 		var val2 = $("input[name='brand_price']:checked").val()
+ 		console.log(b_no);
+ 		console.log(val2);
+ 		
+ 		if(val2!=null){
+	 		$.ajax({
+	 			url : "/select/pricegetList",
+	 			type : "get",
+	 			data : {b_no:b_no,p_release_price:val2},
+	 			dataType:"json",
+				contentType:"application/json",
+	 		})
+	 		.done(function(json) {
+	 			
+				var str='<div class="container">';
+				console.log(json);
+				for(var i=0; i<json.length; i++) {
+					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+						// brandshop(컨트롤러) 에서 /get을 탐  
+					
+					// 이미지 하나만 보여주기 
+					
+					if(json[i].attachList.length > 0) {
+						var uploadPath = json[i].attachList[0].uploadPath;
+						var uuid = json[i].attachList[0].uuid;
+						var fileName = json[i].attachList[0].fileName;
+						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+						str += '<div class = "product">'
+						str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';	// 이미지
+					}
+	
+					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
+					str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
+					str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
+					str += '<div style="font-weight: bold; font-size: 15px;" >'+json[i].p_release_price+'원</div>';
+					str += '</a>'
+					str += '</div>'
+					str += '<br/>'
+	
+				}
+				
+				str += '</div>'
+				str += '<br/>';
+				$('.brand').html(str);
+			});
+ 		}
+ 		else if(val2==null){
+ 			list();	
+ 		}
+ 	}) 		
  
- 
+// --------------------숫자에 , 붙이기 --------------------------------------------------------
+ 		
+ 		
+ 		
+ 		
+			
+
  
  </script>
 
