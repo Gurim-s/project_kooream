@@ -98,13 +98,13 @@ $(function(){	// list()함수 실행하기위한
 						var fileName = json[i].attachList[0].fileName;
 						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
 						
-						str += '<img class = "p_image" style = "width : 200px;" src="/brandfile/display?fileName='+ fileCallPath + '" /><br/>';	// 이미지
+						str += '<img class = "p_image" style = "width : 200px;" src="/displayImage?fileName='+ fileCallPath + '" /><br/>';	// 이미지
 					}//-------- if문 끝
 					
 					/*브랜드명, 영문명, 사이즈, 가격  mapper.xml에서 조인해서 가지고오고, Vo에 이름 만들면 가지고 올수있음 */
 					str += '<div class="p_info" style="font-weight: bold; font-size: 15px;">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div><br/>';
 					str += '<div class="p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_NAME_EN+'</div><br/>';
-					str += '<div class="p_info" style="color: gray; font-size: 15px;">'+json[i].p_size+'</div><br/>';
+					str += '<div class="p_info" style="color: gray; font-size: 15px;">'+json[i].pp_size+'</div><br/>';
 					str += '<div class="p_info" style="font-weight: bold; font-size: 15px;" data-price = "'+json[i].p_release_price+'">'+json[i].p_release_price+'원</div><br/>';
 					str += '</a>'
 					str += '</div>'
@@ -151,30 +151,30 @@ $(function(){	// list()함수 실행하기위한
 //		});// 삭제 ajax 끝
 //	}); // 삭제 함수 끝
 	
-	$(document).on("click",".selectDelete_btn",function () {
-		//e.preventDefault();
-		var cartno = $(this).data("cartno");	// this가 버튼 눌린것(?) 이라는 뜻
+//	$(document).on("click",".selectDelete_btn",function () {
+//		//e.preventDefault();
+//		var cartno = $(this).data("cartno");	// this가 버튼 눌린것(?) 이라는 뜻
 		//var pno = $(this).data("pno");	// data-set
-	 	$.ajax({
-			url : "/brandCart/Cartdelete",
-			type : "POST",
+//	 	$.ajax({
+//			url : "/brandCart/Cartdelete",
+//			type : "POST",
 			/* datatype : "json" */
-			data : {cart_no:cartno},  
+//			data : {cart_no:cartno},  
 			/* /*data : json, */
-			success : function(result){
-				if(result == 1) {          
-					alert("삭제 성공");
-					list();		// 성공시 list() 함수를 타야 새로고침 된다
-				} else {
-					alert("삭제 실패");
-				}
+//			success : function(result){
+//				if(result == 1) {          
+//					alert("삭제 성공");
+//					list();		// 성공시 list() 함수를 타야 새로고침 된다
+//				} else {
+//					alert("삭제 실패");
+//				}
 				
-			}// success 끝
-		});// 삭제 ajax 끝
-	}); // 삭제 함수 끝
+//			}// success 끝
+//		});// 삭제 ajax 끝
+//	}); // 삭제 함수 끝
  	
 
-
+	//----------------------------------------------------------여러개 선택 삭제 비동기
 $(".selectDelete_btn").click(function(){
 	var confirm_val = confirm("정말 삭제하시겠습니까?");
   
