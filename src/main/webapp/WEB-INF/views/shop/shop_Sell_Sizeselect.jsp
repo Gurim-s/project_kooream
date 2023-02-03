@@ -159,7 +159,9 @@
 	<div class="buy_before">
 		<div class="product_info">
 			<div class="infobox">
-				<img class="product_image" src="../resources/img/ps5.png">
+					<c:forEach items="${imageUrls}" var="imageUrl" begin="0" end="0">
+						<img class="product_image" src="${imageUrl }">
+					</c:forEach>
 				<div class="product_infobox">
 					<div class="code">${vo.p_model_no }</div>
 					<div class="name">${vo.p_name_en }</div>
@@ -170,55 +172,18 @@
 				</div>
 			</div>
 			<div class="all_box">
-				<div class="select_box">
-					<div class="size_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">225
+				<c:forEach items="${vo2}" var="imageUrl" begin="0" end="5">
+					<div class="select_box">
+						<div class="size_product">
+							<img class="badge_logo" src="../resources/img/badge_logo.png">${imageUrl.p_size }
+						</div>
+						<div class="size_price">
+							${imageUrl.bid_sell }
+						</div>
 					</div>
-					<div class="size_price">
-						410,600
-					</div>
-				</div>
-				<div class="select_box">
-					<div class="size_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">225
-					</div>
-					<div class="size_price">
-						410,600
-					</div>
-				</div>
-				<div class="select_box">
-					<div class="size_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">225
-					</div>
-					<div class="size_price">
-						410,600
-					</div>
-				</div>
-				<div class="select_box">
-					<div class="size_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">225
-					</div>
-					<div class="size_price">
-						410,600
-					</div>
-				</div>
-				<div class="select_box">
-					<div class="size_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">225
-					</div>
-					<div class="size_price">
-						410,600
-					</div>
-				</div>
-				<div class="select_box">
-					<div class="size_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">225
-					</div>
-					<div class="size_price">
-						410,600
-					</div>
-				</div>
-			</div> <!-- box_all -->
+				</c:forEach>
+			</div>
+		</div> <!-- box_all -->
 			<div class="bid_or_buy">
 				<div class="buy_box">
 					<div class="btn_box">
@@ -227,7 +192,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>
 </div>
 
@@ -240,6 +204,14 @@
 	        $(".select_box").css({"border": "1px solid black"})
 	    } else { 
 	        $(".select_box").css({"border": "normal"})
+	    }
+		
+		if($(".select_box").css("font-weight") == "nomal")
+	    {
+	        $(".select_box").css({"font-weight": "normal"})
+	        $(".select_box").css({"border": "none"})
+	    } else { 
+	        $(".select_box").css({"border": "bold"})
 	    }
 	});
 

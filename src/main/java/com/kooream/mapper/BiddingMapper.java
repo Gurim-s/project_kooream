@@ -10,4 +10,5 @@ public interface BiddingMapper {
 	public int getMinBidding(int p_no);
 	public void insertBuyBid(BidShopVO vo);
 	public void nowsell(BidShopVO vo);
+	public void nowbuy(BidShopVO vo);
 }

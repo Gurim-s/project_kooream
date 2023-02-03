@@ -22,4 +22,6 @@ public interface BidShopService {
 	public void insertProduct(ProductVO vo);
 
 	public List<AttachFileVO> getAttachList(int p_no);
+
+	public List<BidShopVO> sizeRead(int p_no);
 }

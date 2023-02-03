@@ -1,6 +1,7 @@
 package com.kooream.domain;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -24,9 +25,9 @@ public class ProductVO {
 	private int max_bid_sell, min_bid_buy;
 	
 	private List<AttachFileVO> attachList;
+	private List<String> imageUrls;
 	
 	private List<SizeVO> sizeVoList;
 	private List<String> sizeList;
-		
 	
 }

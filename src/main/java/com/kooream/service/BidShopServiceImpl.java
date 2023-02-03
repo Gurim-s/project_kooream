@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.AttachFileVO;
+import com.kooream.domain.BidShopVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.mapper.BidImageMapper;
-import com.kooream.mapper.BidShopProductMapper;
+import com.kooream.mapper.BidShopMapper;
 import com.kooream.mapper.BiddingMapper;
 
 import lombok.Setter;
@@ -20,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 public class BidShopServiceImpl implements BidShopService {
 
 	@Setter(onMethod_ = @Autowired)
-	private BidShopProductMapper mapper;
+	private BidShopMapper mapper;
 	@Setter(onMethod_ = @Autowired)
 	private BiddingMapper biddingMapper;
 	@Setter(onMethod_ = @Autowired)
@@ -104,5 +105,13 @@ public class BidShopServiceImpl implements BidShopService {
 	@Override
 	public List<AttachFileVO> getAttachList(int p_no) {
 		return bidproMapper.findByPno(p_no);
+	}
+
+	@Override
+	public List<BidShopVO> sizeRead(int p_no) {
+		log.info("read..." + p_no);
+		
+		List<BidShopVO> list = mapper.sizeread(p_no);
+		return list;
 	}
 }

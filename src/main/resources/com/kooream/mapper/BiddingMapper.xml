@@ -17,11 +17,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 	</select>
 	<insert id="insertBuyBid">
-		INSERT INTO BIDDING VALUES(99, #{p_no}, #{bid_sell}, #{bid_buy})
+		INSERT INTO BIDDING(m_no, p_no, bid_sell, bid_buy) VALUES(99, #{p_no}, #{bid_sell}, #{bid_buy})
 	</insert>
 	
 	<delete id="nowsell">
-		delete from BIDDING where p_no=#{p_no} and bid_sell=#{bid_sell}
+		delete from BIDDING where p_no=#{p_no} and bid_sell=#{bid_sell} and
+		ROWNUM = (SELECT MIN(ROWNUM) FROM BIDDING where p_no =#{p_no} and bid_sell = #{bid_sell})
 	</delete>
 	
+	<delete id="nowbuy">
+		DELETE from BIDDING where p_no=#{p_no} and bid_buy=#{bid_buy} and
+		ROWNUM = (SELECT MIN(ROWNUM) FROM BIDDING where p_no = #{p_no} and BID_BUY = #{bid_buy})
+	</delete>
 </mapper>
