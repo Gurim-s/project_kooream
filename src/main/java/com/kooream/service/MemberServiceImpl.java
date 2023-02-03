@@ -141,7 +141,7 @@ public class MemberServiceImpl implements MemberService{
 			}
 			vo.setM_pw(pw);
 			// 비밀번호 변경
-			mdao.updatePw(vo);
+//			mdao.updatePw(vo);
 			// 비밀번호 변경 메일 발송
 			sendEmail(vo, "findpw");
 

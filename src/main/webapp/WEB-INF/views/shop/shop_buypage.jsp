@@ -285,7 +285,10 @@
 		<div class="buy_before">
 			<div class="product_info">
 				<div class="infobox">
-					<img class="product_image" src="/resources/img/ps5.png">
+				<c:forEach items="${imageUrls}" var="imageUrl" begin="0" end="0">
+					<img class="product_image" src="${imageUrl }">
+				</c:forEach>
+					<!-- <img class="product_image" src="/resources/img/ps5.png"> -->
 					<div class="product_infobox">
 						<div class="code">${vo.p_model_no }</div>
 						<div class="name">${vo.p_name_en }</div>
@@ -329,6 +332,7 @@
 								<dd class="price">
 									<input type="number" placeholder="희망가 입력" id="bid_sell" name="bid_sell" class="price_input">
 									<input type="hidden" name="p_no" value="${vo.p_no}">
+									<input type="hidden" name="bid_buy" id="bid_buy" value="${vo.min_bid_buy }">
 									<span class="won">원</span>
 								</dd>
 							</dl>
@@ -345,7 +349,7 @@
 						</div>
 					</div>
 					<div class="now_buy_btn">
-						<div class="btn_box full">즉시 구매 하기</div>
+						<div class="btn_box full" onclick="now_buy()">즉시 구매 하기</div>
 					</div>
 					<div class="buy_bid_btn">
 						<div class="btn_box full" onclick="test()">구매 입찰 하기</div>
@@ -381,14 +385,28 @@
 
 	function test() {
 		var bid_price = $('#bid_sell').val();
+		var now_buy = ${vo.min_bid_buy };
 
 		if(bid_price == '' || bid_price < 1){
 			alert("입찰가를 확인하여해주세요");
 			return false;
 		}
-
-		var form = $('#buyBidForm');
-		form.submit();
+	
+		if (now_buy == 0) {
+			var form = $('#buyBidForm');
+			form.submit();
+		} else if (bid_price > now_buy){
+			alert("구매 입찰가는 즉시 구매가보다 높을 수 없습니다.");
+			return false;
+		}
+		
+	}
+	
+	function now_buy() {
+		var form = $('form');
+		$('input[name="bid_sell"]').remove();
+		form.attr("action", "/shop/now_buy");
+		$(form).submit();
 	}
 
 </script>

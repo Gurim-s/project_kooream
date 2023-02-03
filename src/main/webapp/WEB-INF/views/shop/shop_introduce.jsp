@@ -3,504 +3,18 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="../include/header.jsp"/>
-<style>
-	.wrap {
-		width: 100%;
-	}
-	
-	.product_photo {
-		float:left;
-		width: 50%;
-		height: 2000px;
-	}
-	
-	.product_introduce{
-		float:left;
-		width: 50%;
-		height: 2000px;
-		position: relative;
-		padding-left: 2%;
-	}
-	
-	li{
-		list-style-type: none;
-	}
-	
-	.product_image{
-		width: 300px;
-		height: 300px;
-	}
-	
-	.product_name_eng{
-		margin-bottom: 4px;
-		font-size: 18px;
-		letter-spacing: -.09px;
-		font-weight: 400;
-	}
-	
-	.product_name_kor{
-		line-height: 17px;
-		font-size: 14px;
-		letter-spacing: -.21px;
-		letter-spacing: -.15px;
-		color: rgba(34,34,34,.5);
-	}
-	
-/* 	.introduce_box {
-		position: relative;
-		padding-left: 3.334%;
-	} */
-	
-	.detail_size{
-		padding-top: 19px;
-		padding-bottom: 12px;
-		border-bottom: 1px solid #ebebeb;
-	}
-	
-	.all_size{
-		display: block;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -.21px;
-		font-weight: 700;
-		float: right;
-	}
-	
-	.detail_price {
-		margin-top: 11px;
-		min-height: 44px;
-	}
-	
-	.recent_price {
-		float: left;
-		padding-top: 5px;
-		display: inline-block;
-		font-size: 12px;
-		color: rgba(34,34,34,.8);
-	}
-	
-	.price {
-		float: right;
-		padding-top: 2px;
-		text-align: right;
-    }
-	
-	.product_price {
-		display: inline-block;
-		line-height: 26px;
-		vertical-align: top;
-		font-size: 20px;
-		letter-spacing: -.1px;
-	}
-	
-	.won {
-		font-size: 19px;
-		letter-spacing: -.27px;
-	}
-	
-	.amount {
-		font-weight: bold;
-	}
-	
-	.fluctuation{
-		color: #f15746;
-		font-size: 13px;
-		font-weight: normal;
-	}
-	
-	.btn_box{
-		margin-top: 17px;
-		display: flex;
-		height: 60px;
-	}
-	
-	.btn_buy {
-		height: 100%;
-		width: 50%;
-		background-color: #ef6253;
-		border-radius: 7px;
-		cursor: pointer;
-	}
-
-	.buy_box {
-		float: left;
-		width: 55px;
-		height: 100%;
-		border-right: 1px solid #da5b4e;
-	}
-	
-	.sell_box{
-		float: left;
-		width: 55px;
-		height: 100%;
-		border-right: 1px solid #3a9b68;
-	}
-	
-	.buy_text {
-		display: inline-block;
-		font-size: 18px;
-		color:white;
-		margin-top: 14px;
-		margin-left: 7px;
-	}
-	
-	.buy_price_box{
-		float: left;
-		margin-left: 7px;
-		margin-top: 10px;
-	}
-	
-	.buy_price{
-		color:white;
-		font-size: 15px;
-		font-weight: 700;
-	}
-	
-	.buy_now{
-		color:white;
-		font-size: 11px;
-		font-weight: 600;
-	}
-	
-	.btn_sell{
-		height: 100%;
-		width: 50%;
-		background-color: #41b979;
-		border-radius: 7px;
-		margin-left: 11px;
-		cursor: pointer;
-	}
-	
-	.interest_p{
-		display: flex;
-		-webkit-box-align: center;
-		align-items: center;
-		-webkit-box-pack: center;
-		justify-content: center;
-		border: 1px solid #ebebeb;
-		border-radius: 10px;
-		color: #333;
-		margin-top: 12px;
-		height:58px;
-	}
-	
-	.inter_p {
-		font-size: 15px;
-		font-weight: 400;
-		letter-spacing: normal;
-	}
-	
-	.inter_count {
-		font-size: 15px;
-		font-weight: 600;
-		letter-spacing: normal;
-	}
-	
-	.intro_title{
-		line-height: 22px;
-		padding: 40px 0 20px;
-		font-size: 18px;
-		letter-spacing: -.15px;
-	}
-	
-	.detail_product_wrap{
-		display: flex;
-		min-height: 20px;
-		padding-top: 20px;
-		padding-bottom: 20px;
-		border-top: 1px solid #ebebeb;
-		border-bottom: 1px solid #ebebeb;
-	}
-	
-	.product_title{
-		line-height: 14px;
-		font-size: 12px;
-		letter-spacing: -.33px;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.model_num{
-		margin-top: 4px;
-		word-break: break-word;
-		line-height: 17px;
-		font-size: 14px;
-		font-weight: 600;
-	}
-	
-	.model_box{
-		padding: 0 12px;
-		width: 25%;
-	}
-	
-	.model_intro{
-		margin-top: 4px;
-		word-break: break-word;
-		line-height: 17px;
-		font-size: 14px;
-	}
-	
-	.bsinfo{
-		line-height: 17px;
-		padding-bottom: 0;
-		font-size: 14px;
-		letter-spacing: -.21px;
-		font-weight: 400;
-		color: rgba(34,34,34,.8);
-		padding-top : 40px;
-	}
-	
-	.delivery_way_wrap{
-		padding-top : 12px;
-		padding: 18px 0;
-	}
-	
-	.delivery {
-		margin: auto;
-		font-weight: 600;
-		font-size: 14px;
-		letter-spacing: -.21px;
-	}
-	
-	.delivery_won{
-	font-size: 14px;
-	letter-spacing: -.21px;
-	}
-	
-	
-	.way_info{
-		display: flex;
-		-webkit-box-align: center;
-		align-items: center;
-		width: 100%;
-	}
-	
-	.sub_text{
-		line-height: 16px;
-		margin-top: 3px;
-		font-size: 14px;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.delivery_est{
-		color: #297dcb;
-	}
-	
-	.way_desc{
-		margin-left: 20px;
-	}
-	
-	.delivery_way_wrap{
-		border-bottom: 1px solid #ebebeb;
-	}
-	
-	.graph{
-		height: 200px;
-		width: 100%;
-		border: 1px solid black;
-		text-align: center;
-	}
-	
-	.confirm_wrap{
-		padding-top: 39px;
-	}
-	
-	.confirm_title{
-		line-height: 22px;
-		padding-bottom: 12px;
-		font-size: 18px;
-		letter-spacing: -.27px;
-		border-bottom: 1px solid #ebebeb;
-	}
-	
-	.confirm_content{
-		font-size: 15px;
-		letter-spacing: -.15px;
-	}
-	
-	.dropdown_head, .confirm_info, .refund_head{
-		padding: 18px 0 17px;
-		border-bottom: 1px solid #ebebeb;
-		cursor: pointer;
-		width: 100%;
-	}
-	
-	.dropdown_content, .confirm_txt, .refund_txt{
-		padding: 20px 0;
-		border-bottom: 1px solid #ebebeb;
-		border-top: 1px solid #222;
-		display: none;
-	}
-	
-	.title_txt, .content_item{
-		font-size: 13px;
-		letter-spacing: -.07px;
-		color: rgba(34,34,34,.8);
-		margin-top: 20px;
-	}
-	
-	.main_txt{
-		margin-top: 10px;
-	}
-	
-	.buy_txt{
-		margin-top: 20px;
-	}
-	
-	.title_head{
-		font-weight: bold;
-		font-size: 13px;
-	}
-	
-	.main_txt_bold{
-		font-weight: bold;
-	}
-	
-	.confirm_txt_body{
-		margin-top: 38px;
-	}
-	
-	.point_guidebox{
-	padding-top: 40px;
-	}
-	
-	.binfo_p{
-		float: left;
-		margin-right: 14px;
-	}
-	
-	.bottom_info2{
-	margin-top: 20px;
-	}
-	
-	.text_area{
-		display: block;
-		line-height: 16px;
-		font-size: 13px;
-		letter-spacing: -.07px;
-		font-weight: 600;
-		letter-spacing: normal;	
-	}
-	
-	.text_desc{
-		margin-top: 1px;
-		line-height: 16px;
-		font-size: 13px;
-		letter-spacing: normal;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.notice_product{
-		margin-top: 20px;
-		padding-top: 40px;
-		border-top: 1px solid #f0f0f0;
-		font-size: 12px;
-		color: #909090
-	}
-
-/* 보여줄 구간의 높이와 넓이 설정 */
-	#slideShow{
-		width: 500px;
-		height: 300px;
-		position: relative;
-		margin: 50px auto;
-		overflow: hidden;   
-		/*리스트 형식으로 이미지를 일렬로 
-		정렬할 것이기 때문에, 500px 밖으로 튀어 나간 이미지들은
-		hidden으로 숨겨줘야됨*/
-	}
-
-	.slides{
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 2500px; /* 슬라이드할 사진과 마진 총 넓이 */
-		transition: left 0.5s ease-out; 
-		/*ease-out: 처음에는 느렸다가 점점 빨라짐*/
-	}
-
-/* 첫 번째 슬라이드 가운데에 정렬하기위해
-첫번째 슬라이드만 margin-left조정 */
-	.slides li:first-child{
-		margin-left: 100px;
-	}
-
-/* 슬라이드들 옆으로 정렬 */
-	.slides li:not(:last-child){
-		float: left;
-		margin-right: 100px;
-	}
-
-	.slides li{
-		float: left;
-	}
-
-	.controller span{
-		position: absolute;
-		background-color: transparent;
-		color: black;
-		text-align: center;
-		border-radius: 50%;
-		padding: 10px 20px;
-		top: 50%;
-		font-size: 1.3em;
-		cursor: pointer;
-	}
-
-	/* 이전, 다음 화살표에 마우스 커서가 올라가 있을때 */
-	.controller span:hover{
-		background-color: rgba(128, 128, 128, 0.11);
-	}
-
-	.prev{
-		left: 10px;
-	}
-	
-	.brand_name {
-		box-sizing: border-box;
-		display: inline-block;
-		vertical-align: top;
-		line-height: 19px;
-		padding-top: 1px;
-		margin-bottom: 9px;
-		font-size: 18px;
-		letter-spacing: -.27px;
-		font-weight: 800;
-		border-bottom: 2px solid #222;
-	}
-
-/* 이전 화살표에 마우스 커서가 올라가 있을때 
-이전 화살표가 살짝 왼쪽으로 이동하는 효과*/
-	.prev:hover{
-		transform: translateX(-10px);
-	}
-
-	.next{
-		right: 10px;
-	}
-
-	/* 다음 화살표에 마우스 커서가 올라가 있을때 
-	이전 화살표가 살짝 오른쪽으로 이동하는 효과 */
-	.next:hover{
-		transform: translateX(10px);
-	}
-</style>
+<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/shop/shop_introduce.css'/>">
 	<button id="modify_btn" onclick="modiPage(${vo.p_no})">상품 수정</button>
 	<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
 	<div class="wrap clearfix">
 		<div class="product_photo">
 			<div id="slideShow" id="slideShow">
-			<ul class="slides">
+			<div id="imgSlider"></div>
+			<ul class="slides" style="display:none;">
 				<c:forEach items="${imageUrls}" var="imageUrl">
 					<li><img class="product_image" src="${imageUrl}"></li>	
 				</c:forEach>
 		    </ul>  
-				<p class="controller">
-
-			<!-- &lang: 왼쪽 방향 화살표
-			&rang: 오른쪽 방향 화살표 -->
-			<span class="prev">&lang;</span>  
-			<span class="next">&rang;</span>
-				</p>
 			</div>
 		</div>
 		<div class="product_introduce">
@@ -679,43 +193,8 @@
 		</div>
 	</div>
 <jsp:include page="../include/footer.jsp"/>
-
+<script type="module" src="<c:url value='/resources/js/shop/shop_introduce.js'/>"></script>
 <script type="text/javascript">
-	const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
-	const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
-	let currentIdx = 0; //현재 슬라이드 index
-	const slideCount = slideImg.length; // 슬라이드 개수
-	const prev = document.querySelector('.prev'); //이전 버튼
-	const next = document.querySelector('.next'); //다음 버튼
-	const slideWidth = 300; //한개의 슬라이드 넓이
-	const slideMargin = 100; //슬라이드간의 margin 값
-
-	//전체 슬라이드 컨테이너 넓이 설정
-	slides.style.width = (slideWidth + slideMargin) * slideCount + 'px';
-
-	function moveSlide(num) {
-		slides.style.left = -num * 400 + 'px';
-		currentIdx = num;
-	}
-
-	prev.addEventListener('click', function () {
-		/*첫 번째 슬라이드로 표시 됐을때는 
-		이전 버튼 눌러도 아무런 반응 없게 하기 위해 
-		currentIdx !==0일때만 moveSlide 함수 불러옴 */
-		
-		if (currentIdx !== 0) moveSlide(currentIdx - 1);
-	});
-
-	next.addEventListener('click', function () {
-		/* 마지막 슬라이드로 표시 됐을때는 
-		다음 버튼 눌러도 아무런 반응 없게 하기 위해
-		currentIdx !==slideCount - 1 일때만 
-		moveSlide 함수 불러옴 */
-		if (currentIdx !== slideCount - 1) {
-			moveSlide(currentIdx + 1);
-		}
-	});
-	
 	// 배송기간 안내 접기 펼치기
 	$(".dropdown_head").click(function(){
 		if($(".dropdown_content").css("display") == "none")
@@ -740,7 +219,7 @@
 	        $(".confirm_info").css({"font-weight": "normal"})
 	    }
 	});
-	
+
 	$(".refund_head").click(function(){
 		if($(".refund_txt").css("display") == "none")
 	    {
@@ -771,23 +250,24 @@
 	}
 	
 	function getSell(pno) {
-		location.href="/shop/shop_sellpage/" + pno;
+		/* location.href="/shop/shop_sellpage/" + pno; */
+		location.href="/shop/shop_Sell_Sizeselect/" + pno;
 	}
-	
+
 /* 	onscroll = function() {
 		  var nVScroll = document.documentElement.scrollTop || document.body.scrollTop;
 		  if(nVScroll > 40) $("#slides")css("position", "fixed"); 
 		  else $("#slides").css("position", "relative");
 		}; */
-		
+
 		$(window).scroll(function() {
-			  
 			if($(this).scrollTop() > 200) {
 				$("#slideShow").css('position','fixed');
+				$("#slideShow").css('width', '600px');
 			}
 			else {
 				$("#slideShow").css('position','relative');
+				$("#slideShow").css('width', '100%');
 			}
 		});
-	
 </script>

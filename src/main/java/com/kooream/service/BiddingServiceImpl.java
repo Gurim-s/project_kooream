@@ -29,4 +29,9 @@ import lombok.extern.log4j.Log4j;
 	public void now_sell(BidShopVO vo) {
 		mapper.nowsell(vo);
 	}
+
+	@Override
+	public void now_buy(BidShopVO vo) {
+		mapper.nowbuy(vo);
+	}
   }

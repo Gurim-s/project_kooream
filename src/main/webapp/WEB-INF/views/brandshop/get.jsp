@@ -39,41 +39,41 @@
 		position: center;
 		
 	}
-     .modal {
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        width: 100%;
-        height: 100%;
-
-        display: none;
-
-        background-color: rgba(0, 0, 0, 0.4);
-      }
-
-      .modal.show {
-        display: block;
-      }
-
-      .modal_body {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-
-        width: 400px;
-        height: 600px;
-
-        padding: 40px;
-
-        text-align: center;
-
-        background-color: rgb(255, 255, 255);
-        border-radius: 10px;
-        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-
-        transform: translateX(-50%) translateY(-50%);
-      }
+	.modal {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	
+	  width: 100%;
+	  height: 100%;
+	
+	  display: none;
+	
+	  background-color: rgba(0, 0, 0, 0.4);
+	}
+	
+	.modal.show {
+	  display: block;
+	}
+	
+	.modal_body {
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	
+	  width: 400px;
+	  height: 600px;
+	
+	  padding: 40px;
+	
+	  text-align: center;
+	
+	  background-color: rgb(255, 255, 255);
+	  border-radius: 10px;
+	  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	
+	  transform: translateX(-50%) translateY(-50%);
+	}
       
       .top-menu li a{
         display: inline-block;
@@ -93,10 +93,13 @@
 	.top-menu li{ 
 		display: inline-block;	/* top-menu 리스트 가로정렬  */
 	}
+	#product_buy{
+		background: red; 
+		color: white;
 	
+	}
 
-
-
+	
 
 </style>
 </head>
@@ -104,121 +107,105 @@
 	<div>
 		<h1 class="page-header"> 상세보기 페이지</h1>
 	</div>
-		<div >
-			<%-- <label>상품 번호</label>
-			<input name ="p_no" value="${vo.p_no }" readonly="readonly"/> --%>
-<!-- 			<label>상품 메인 이미지</label> -->
-				<div class= "brand">
-					<ul>
-						<li>
-<%-- 							<c:url var="imgSrc" value="${vo.attachList.get(0).uploadPath + vo.attachList.get(0).uuid +vo.attachList.get(0).fileName}" /> --%>
-<%-- 							<c:out value="imgSrc"></c:out> --%>
-<!-- 							<img src="/brandfile/display?fileName=   "/> -->
-							
-							<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
-								<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
-								<!-- get(0)은 attachList가 list 형태이기 때문에 맨 처음 사진만 불러오려고 0번으로 지정해서 불러오는 중임 -->
-							</c:url>
-							<img alt="상품이미지" src="${imgSrc }">
-						</li>
-					</ul>
-				</div>
-			<%-- <div>
-			${vo.b_name }"</div> --%>
-				<div class = "p_right">
-				<div>${vo2.b_name }</div>
-				<div>${vo.p_name_en }</div>
-				<div>${vo.p_name_ko }</div>
-			<br/>
-			<div><span>옵션</span></div>
-			<!-- <div class = "modal">
-				<div class="modal_body">사이즈 선택
-					<div>
-						<hr/>
-						<br/><br/><br/>
-						<button style="width: 300px;">FREE</button>
-					</div>
-				</div>
-			</div>
-			<button class="btn_size">옵션선택</button> -->
-			<!-- <span style="font-size: 20px; float: right;">옵션선택</span></a></div> -->
-			<br/>
-			<br/>
-			<hr/>
 		
-			<br/>
-			<div>구매가</div>
-			<div><span style="font-size: 25px; float: right;">${vo.p_release_price }원</span></div>
-			<br/>
-			<br/>
-			<div class = "btn">
-			<button id = "product_buy" style="background: red; color: white;">구매하기</button><br/>
-			<br/>
-
-				<button type="button" id="product_cart">장바구니</button><br/>
-
-			
-			<br/>
-			</div>
-			<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
-			<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
-			<!-- <button type="button" id = "product_remove"> 삭제하기</button> -->
-			</div>
-				<form action="/brandshop/modify" method="get" id="operForm">
-				<%-- <input type="hidden" name="pageNum" value="${cri.pageNum }">
-				<input type="hidden" name="amount" value="${cri.amount }"> --%>
-			</form>
-			<br/>
-			</div>
-			<div>
-				<p>배송정보</p>
-				<p>브랜드배송 무료</p>
-				<p>입점한 브랜드에서 직접 택배 배송</p>
-			</div>
+<!-- ------------------------------------------이미지 보여주기---------------------------------------------------- -->
+<div class= "brand">
+	<ul>
+		<li>
+<%-- 		<c:url var="imgSrc" value="${vo.attachList.get(0).uploadPath + vo.attachList.get(0).uuid +vo.attachList.get(0).fileName}" /> --%>
+<%-- 		<c:out value="imgSrc"></c:out> --%>
+<!-- 		<img src="/brandfile/display?fileName=   "/> -->
+							
+			<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
+				<c:param name="fileName" value="${vo.attachList.get(0).uploadPath }/${vo.attachList.get(0).uuid }_${vo.attachList.get(0).fileName }"></c:param>
+				<!-- get(0)은 attachList가 list 형태이기 때문에 맨 처음 사진만 불러오려고 0번으로 지정해서 불러오는 중임 -->
+			</c:url>
+				<img alt="상품이미지" src="${imgSrc }">
+		</li>
+	</ul>
+</div>
+<!-- ------------------------------------------ 상품 정보---------------------------------------------------- -->
+<div class = "p_right"><!-- 상품정보 오른쪽 정렬용 -->
+	<div>${vo2.b_name }</div>
+	<div>${vo.p_name_en }</div>
+	<div>${vo.p_name_ko }</div>
+<br/>
+<!-- ------------------------------------------ 옵션선택(모달창) ---------------------------------------------------- -->
+<div class="modal">
+      <div class="modal_body">옵션<br/>
+			<c:forEach var="size" items="${sizeVOlist}">
+				<button class = "sizebtn" >${size.pp_size }</button><br/><br/>
+			</c:forEach>
+      
+      
+      </div>
+</div>
+    <button class="btn-open-popup">옵션선택</button>
+    <div class = "sizesee" style="float: right;"></div>
+<!-- ------------------------------------------ 구매가격 ---------------------------------------------------- -->
+	<div>구매가</div>
+	<div><span style="font-size: 25px; float: right;">${vo.p_release_price }원</span></div>
+	<br/>
+	<br/>
+<!-- ------------------------------------------ 버튼 ---------------------------------------------------- -->
+	<div class = "btn">
+		<button type="button" id="product_buy">구매하기</button><br/><br/>
+		<button type="button" id="product_cart">장바구니</button><br/><br/>
 	</div>
+	<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
+		<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+		<!-- <button type="button" id = "product_remove"> 삭제하기</button> -->
+	</div>
+		<form action="/brandshop/modify" method="get" id="operForm">
 	
-	
-	<div class = "full" >
+		</form>
+		<br/>
+
+<!-- ------------------------------------------ 배송 관련 ---------------------------------------------------- -->
+	<div>
+		<p>배송정보</p>
+		<p>브랜드배송 무료</p>
+		<p>입점한 브랜드에서 직접 택배 배송</p>
+	</div>
+</div>	
+<!-- ------------------------------------------ 중간 메뉴 ---------------------------------------------------- -->	
+<div class = "full" >
 	<br/>
 	<br/>
 		<ul class = "top-menu">
-
-		<li><a href = "#tag1">상품상세보기</a></li>
-		<li><a href = "#tag2">교환 및 반품</a></li>
-		<li><a href = "#">스타일</a></li>
+			<li><a href = "#tag1">상품상세보기</a></li>
+			<li><a href = "#tag2">교환 및 반품</a></li>
+			<li><a href = "#">스타일</a></li>
 		</ul>
-
 	<br/>
 	<br/>
 	<br/>
 	<br/>
 	
 	<div  style="margin-left:auto; margin-right:auto; text-align: center;">본 상품은 '${vo2.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
-	</div>
+</div>
 	<a name = "tag1"></a>
-	<div style="margin: 100px;">
+<!-- ------------------------------------------ 상세이미지 ---------------------------------------------------- -->	
+<div style="margin: 100px;">
 	<ul>
 		<li>
 		<c:forEach var="index" begin="1" end="${vo.attachList.size() - 1 }" step="1"> 
-		<!-- 메인이미지 제외(0번)하고 1번부터 for문 시작해서 끝은 리스의 길이는 size라고 함 근데 -1 해줘야함 검색해보기 -->
+		<!-- 메인이미지 제외(0번)하고 1번부터 for문 시작해서 끝은 리스트의 길이는 size라고 함 근데 -1 해줘야함 검색해보기 -->
 			<c:set var="attachDate" value="${vo.attachList.get(index) }"></c:set>
 		<!-- index가 1 부터 list 끝까지 / get안에 index를 넣어서 그 길이만큼 for문 돌리기   -->
 			<c:url value="/brandfile/display" var="imgSrc"><!-- c:url 자동 인코딩  -->
 				<c:param name="fileName" value="${attachDate.uploadPath }/${attachDate.uuid }_${attachDate.fileName }"></c:param>	
 			</c:url> <!-- if문  -->
-			<img alt="상품이미지" src="${imgSrc }" style="float: center;">
+				<img alt="상품이미지" src="${imgSrc }" style="float: center;">
 		</c:forEach>
-		
 		</li>
-	
 	</ul>
-	</div>
-	<div class = "brands">
-	</div>
-	<br/>
+</div>
 
+	<br/>
+<!-- ------------------------------------------ 판매자 정보 ---------------------------------------------------- -->	
 	<a name = "tag2"></a>
-	<h3>판매자 정보</h3>
+<h3>판매자 정보</h3>
 	<br/>
 	<table class="brand_member" border="1" >
 		<tr>
@@ -245,8 +232,8 @@
 	</table>
 	<br/>
 	<br/>
-	
-		<h3>교환 및 반품 안내</h3>
+<!-- ------------------------------------------ 교환 및 반품 안내 ---------------------------------------------------- -->		
+<h3>교환 및 반품 안내</h3>
 	<br/>
 	<table class="brand_member" border="1" >
 		<tr>
@@ -288,47 +275,45 @@
 	<br/>
 	
 
-
+<!-- ------------------------------------------ 스크립트 시작 ---------------------------------------------------- -->		
 <script type="text/javascript">
+<!-- ------------------------------------------ 모달창 ---------------------------------------------------- -->		
+const body = document.querySelector('body');
+const modal = document.querySelector('.modal');
+const btnOpenPopup = document.querySelector('.btn-open-popup');
 
-//	const body = document.querySelector('body');
-//	const modal = document.querySelector('.modal');
-//	const btn_size = document.querySelector('.btn_size');
-	
-//	btn_size.addEventListener('click', () => {
-//	  modal.classList.toggle('show');
-	
-//	  if (modal.classList.contains('show')) {
-//	    body.style.overflow = 'hidden';
-//	  }
-//	});
-	
-//	modal.addEventListener('click', (event) => {
-//	  if (event.target === modal) {
-//	    modal.classList.toggle('show');
-	
-//	    if (!modal.classList.contains('show')) {
-//	      body.style.overflow = 'auto';
-//	    }
-//	  }
-//	});
+btnOpenPopup.addEventListener('click', () => {
+  modal.classList.toggle('show');
 
+  if (modal.classList.contains('show')) {
+    body.style.overflow = 'hidden';
+  }
+});
 
+modal.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    modal.classList.toggle('show');
+
+    if (!modal.classList.contains('show')) {
+      body.style.overflow = 'auto';
+    }
+  }
+});
+<!-- ------------------------------------------ 수정페이지 이동 ---------------------------------------------------- -->		
 $(function () {	// 수정페이지로 이동
 
 	var operForm = $("#operForm");
-	
 	var pno = '${vo.p_no}';	
 	var bno = '${vo.b_no}';	
+	var price ='${vo.p_release_price}';
 
 
-	
 	$("#product_modify").click(function () {
 		location.href="/brandshop/modify?p_no=${vo.p_no}&b_no=${vo.b_no}"
 
 	});
 
-
+<!-- ------------------------------------------ 장바구니 담기 ---------------------------------------------------- -->	
 	$("#product_cart").click(function (e) {
 		e.preventDefault();
 		//var formData = $("#form1").serialize();
@@ -349,7 +334,42 @@ $(function () {	// 수정페이지로 이동
 			});
 			
 		});
-});
+	<!-- ------------------------------------------ 구매하기  ---------------------------------------------------- -->	
+
+	$("#product_buy").click(function (e) {
+		e.preventDefault();
+		$.ajax({
+			url : "/Payment/addpayment",
+			type : "POST",
+			data : {p_no:pno, b_no:bno, sum_price:price},
+			dataType : 'json',
+			success : function (result) {
+				location.href = "/Payment/payment" //  location.href 기본적으로 getMapping
+			},
+			error : function () {
+				alert("구매하기 실패")
+				
+			}
+				
+			}); 
+		
+		});
+	<!-- ------------------------------------------ 사이즈선택  ---------------------------------------------------- -->	
+	$(document).on("click",".sizebtn", function () {
+		var sizeval =  $(this).text();
+		console.log(sizeval);
+		if(sizeval != null){
+			$(".sizesee").html('<div class = "sizee" >'+ sizeval +'</div>');
+		}
+		
+		
+	})	;
+
+
+
+
+})	;
+
 		
 		
 

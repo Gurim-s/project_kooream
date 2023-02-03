@@ -59,4 +59,15 @@ public class BiddingController {
 
         return "redirect:/shop/shop_allList";
     }
+	
+	@PostMapping("/now_buy")
+	public String shop_nowbuy(BidShopVO vo) {
+		log.info("now_sell..");
+		
+		service.now_buy(vo);
+		System.out.println(vo.getBid_buy());
+		System.out.println(vo.getP_no());
+		
+		return "redirect:/shop/shop_allList";
+	}
 }

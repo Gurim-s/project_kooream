@@ -36,7 +36,7 @@
 			<table class = "register">
 			<tr>
 				<td>이미지 등록</td>
-					<td><input type="file" name="uploadFile" multiple="multiple"></td>
+					<td><input id = "p_image" type="file" name="uploadFile" multiple="multiple"></td>
 			<td class="uploadResult">
 				<ul></ul>
 			</td>
@@ -64,33 +64,32 @@
 			<tr>		
 				<td>사이즈선택</td>
 				<td class="form-inline">
-						<select id="Category1">
+						<select id="Category1"> <!--  form으로 이것만 보내야되는건가,,? -->
 							<option value="">선택</option>
 							<option value="top">1. 상의</option>
 							<option value="bottom">2. 하의</option>
 							<option value="shoes">3. 신발</option>
 							<option value="acc">4. 패션잡화</option>
 						</select>
-							<select class="T_Category" name="">
-								<option value="S">S</option>
-								<option value="M">M</option>
-								<option value="L">L</option>
-							</select>
-							<select class="B_Category" name="">
-								<option value="46">46</option>
-								<option value="48">48</option>
-								<option value="50">50</option>
-							</select>
-							<select class="S_Category" name="">
-								<option value="230">230</option>
-								<option value="240">240</option>
-								<option value="250">250</option>
-								<option value="260">260</option>
-							</select>
-
-							<select class="A_Category" name="">
-								<option value="FREE">FREE</option>
-							</select> 
+							<div>
+							<input type="checkbox" class = "T_Category"  value="S" name ="sizeList" >S
+							<input type="checkbox" class = "T_Category"  value="M" name ="sizeList" >M
+							<input type="checkbox" class = "T_Category"  value="L" name ="sizeList" >L
+							</div>
+							<div>
+							<input type="checkbox" class = "B_Category"  value="46" name ="sizeList" >46
+							<input type="checkbox" class = "B_Category"  value="48" name ="sizeList" >48
+							<input type="checkbox" class = "B_Category"  value="50" name ="sizeList" >50
+							</div>
+							<div>
+							<input type="checkbox" class = "S_Category"  value="230" name ="sizeList" >230
+							<input type="checkbox" class = "S_Category"  value="240" name ="sizeList" >240
+							<input type="checkbox" class = "S_Category"  value="250" name ="sizeList" >250
+							<input type="checkbox" class = "S_Category"  value="260" name ="sizeList" >260
+							</div>
+							<div>
+							<input type="checkbox" class = "A_Category"  value="FREE" name ="sizeList" >FREE
+							</div>
 
 				</td>
 				</tr>
@@ -124,7 +123,43 @@
 					<input type="hidden" name="amount" value="${cri.amount}"/> 
 					<input type="hidden" name="b_no" value="${b_no}"/> 
 				</td>
-			</tr>		
+			</tr>
+<!-- 			<tr>
+
+				<td>사이즈선택</td>
+				<td class="form-inline">
+						<input type="checkbox" id="Category1">
+							<option value="">선택</option>
+							<option value="top">1. 상의</option>
+							<option value="bottom">2. 하의</option>
+							<option value="shoes">3. 신발</option>
+							<option value="acc">4. 패션잡화</option>
+						</select>
+							<select class="T_Category" name="">
+								<option value="S">S</option>
+								<option value="M">M</option>
+								<option value="L">L</option>
+							</select>
+							<select class="B_Category" name="">
+								<option value="46">46</option>
+								<option value="48">48</option>
+								<option value="50">50</option>
+							</select>
+							<select class="S_Category" name="">
+								<option value="230">230</option>
+								<option value="240">240</option>
+								<option value="250">250</option>
+								<option value="260">260</option>
+							</select>
+
+							<select class="A_Category" name="">
+								<option value="FREE">FREE</option>
+							</select> 
+
+					</select>
+				</td>
+			</tr>	 -->
+				
 		</table>	
 	</form>
 	</div>
@@ -162,8 +197,15 @@
 			     	    var Category1 = $("#Category1").val();
 			     	    var pm_no = $("#pm_no").val();
 			     	    var p_price = $("#p_price").val();
+			     	    var p_image = $("#p_image").val();
 
-
+			     	    if(!p_image.length){
+			     	    	
+			     	    	
+			     	        alert("이미지를 선택해주세요");
+			     	        return;
+			     	    }
+			     	    
 			     	    if(brand_select.length == 0){
 			     	        alert("브랜드를 체크해 주세요"); 
 			     	        $("#brand_select").focus();
@@ -199,7 +241,7 @@
 			     	        $("#p_price").focus();
 			     	        return;
 			     	    }
-			     	    
+
 
 			            
 			            
@@ -242,7 +284,7 @@
 		
 	
 
-	// 업로드
+	//--------------------------------------------------------------업로드
 		$("input[type='file']").change(function(){
 			var formData = new FormData();	// 스크립트에서 Form태그 생성
 	        var inputFile = $("input[name='uploadFile']");
@@ -271,8 +313,19 @@
 	            }
 	         });
 		});	// click 함수 end
-		
-		// 파일 업로드 후 업로드 된 파일 결과 화면에 보여주기
+//-------------------------------------------------------checkbox는 자동적으로 배열로 들어가서 배열로 안만들어도된대,,,,
+/* 		$(".T_Category").click(function(){
+			
+			var chk_arr = [];
+			$("input[name='sizeList']:checked").each(function () {
+				var chk = $(this).val()
+				chk_arr.push(chk)
+				console.log(chk);
+				
+				
+			}) */
+			
+//----------------------------------- 파일 업로드 후 업로드 된 파일 결과 화면에 보여주기
 		var uploadResult = $(".uploadResult ul");
 		function showUploadFile(uploadResultArr) {
 			
@@ -332,33 +385,30 @@
 				$('.A_Category').hide();
 			}else if(result == 'top'){
 				$('.T_Category').show();
-				$('.T_Category').attr('name','p_size');	// name='p_size' 가 들어간다
 				$('.B_Category').hide();
 				$('.S_Category').hide();
 				$('.A_Category').hide();
 				
 			}else if(result == 'bottom'){
 				$('.B_Category').show();
-				$('.B_Category').attr('name','p_size');
 				$('.T_Category').hide();
 				$('.S_Category').hide();
 				$('.A_Category').hide();
 			}else if(result == 'shoes'){
 				$('.S_Category').show();
-				$('.S_Category').attr('name','p_size');
 				$('.T_Category').hide();
 				$('.B_Category').hide();
 				$('.A_Category').hide();
 			}else{
 				$('.A_Category').show();
-				$('.A_Category').attr('name','p_size');
 				$('.T_Category').hide();
 				$('.B_Category').hide();
 				$('.S_Category').hide();	
 			};
 		});
 	// 사이즈 선택 끝-----------------------------------------------------------		
-	
+
+
 
 
 	</script>

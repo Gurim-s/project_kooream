@@ -86,18 +86,7 @@ public class BrandCartController {
 	  return new
 	  ResponseEntity<List<BrandCartVO>>(cartservice.brandCartList(m_no),HttpStatus.OK); 
 	  }
-	 
-	/*
-	 * @RequestMapping(value = "/brandCartList", method = RequestMethod.GET) public
-	 * void brandCartList(Model model) { int m_no = 1;
-	 * 
-	 * List<BrandCartVO> brandCartList = cartservice.brandCartList(m_no);
-	 * 
-	 * model.addAttribute("brandCartList" ,brandCartList); log.info(brandCartList +
-	 * "얍얍얍얍얍"); }
-	 */
-	
-	
+
 	  // 장바구니 리스트 이미지 보기
 	  
 	  @GetMapping(value ="/CartgetAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -107,42 +96,52 @@ public class BrandCartController {
 	  }
 
 	
-	// 장바구니 삭제 
-	@PostMapping(value = "/Cartdelete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	// 장바구니 삭제 // 원래 만들었던 삭제
+	
+//	  @PostMapping(value = "/Cartdelete", produces =MediaType.APPLICATION_JSON_UTF8_VALUE)
+	  
+//	  @ResponseBody public int Cartdelete(BrandCartVO vo) {
+	  
+//	  int result = cartservice.Cartdelete(vo);
+	  
+//	  return result; 
+//	  }
+	 
+
+
+	// 장바구니삭제 
 	@ResponseBody
-	public int Cartdelete(BrandCartVO vo) {
-		
-		int result = cartservice.Cartdelete(vo);
-/*	public int Cartdelete(@RequestParam(value = "chbox[]") List<String> chArr, BrandCartVO vo) {
-
-		 int result = 0;
-		 int cart_no = 0;
-
-		  for(String i : chArr) {   
-		   cart_no = Integer.parseInt(i);
-		   vo.setCart_no(cart_no);
-		   cartservice.Cartdelete(vo);
-		  }   
-		  result = 1;*/
-		
-	return result;
+	@PostMapping(value = "/Cartdelete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public int Cartdelete(
+	     @RequestParam(value = "chArr[]") List<String> chArr, BrandCartVO vo) {
+	// logger.info("delete cart");
+	 
+	// MemberVO member = (MemberVO)session.getAttribute("member");
+	// String userId = member.getUserId();
+	 
+	 int result = 0;
+	 int cartno = 0;
+	 
+	 
+	 //if(member != null) {
+	 // cart.setUserId(userId);
+	  
+	  for(String i : chArr) {   
+	   cartno = Integer.parseInt(i);
+	   vo.setCart_no(cartno);
+	   cartservice.Cartdelete(vo);
+	  }   
+	  result = 1;
+	 
+	 return result;  
 	}
+}
+		
+
 	
 
 	
-	
-	
-	
-	//@RequestMapping(value = "/brandCartList", method = RequestMethod.GET)
-	//	public void brandCartList(Model model) {
-	//		int m_no = 1;
-			
-	//		List<BrandCartVO> cartList = cartservice.brandCartList(m_no);
-	//		model.addAttribute("cartList", cartList);
-		}
-		
-		
-		
+
 		
 	
 
@@ -150,20 +149,6 @@ public class BrandCartController {
 
 
 
-		
-		
-	
-		
-		
-				// 화면에 사용할 값을 return 값에 넣어줌
-	
-	//@PostMapping(value="/addCart", produces = {MediaType.APPLICATION_JSON_VALUE})
-	//public ResponseEntity<String> addCart(@RequestBody BrandCartVO vo){
-		
-	//	int insertCount = cartservice.addCart(vo);
-		
-	//	return insertCount == 1?
-	//			new ResponseEntity<String>("success", HttpStatus.OK):
-	//				new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+
 
 	
