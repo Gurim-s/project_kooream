@@ -16,20 +16,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ]]>
     </insert>
     
-    <select id="searchProductTag" resultType="com.kooream.domain.ProductVO">
-    	select p_no, p_name_ko, p_name_en, p_release_price, p_class
-		from (select /*+index_desc(product product_pk) */
-			  	rownum rn, p_no, p_name_ko, p_name_en, p_release_price, p_class
-			  from product
-			  where
-			  	<foreach collection="keywords" item="keyword" separator="or">
-			  		p_name_ko like '%'||#{keyword}||'%' or
-			  		p_name_en like '%'||#{keyword}||'%'
-			  	</foreach>
-			  )
-		where rn > (#{pageNum} -1) * #{amount}
-    </select>
-    
     <select id="read" resultType="com.kooream.domain.ProductVO">
 		<![CDATA[
 			select * from PRODUCT where p_no = #{p_no}

@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PaymentVO {
 	private int buy_no, p_no, sum_price, b_no ;
+	private String pp_size;
 	private Date buy_date;
 
 	private List<AttachFileVO> attachList;

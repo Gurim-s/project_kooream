@@ -5,6 +5,7 @@ import java.util.List;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BidShopVO;
 import com.kooream.domain.ProductVO;
+import com.kooream.domain.SearchKeyword;
 
 public interface BidShopMapper {
 
@@ -16,5 +17,5 @@ public interface BidShopMapper {
 	public void insertProduct(ProductVO vo);
 	public int getPno();
 	public List<BidShopVO> sizeread(int p_no);
-	public List<ProductVO> searchProductTag(String[] keywords);
+	public List<ProductVO> searchProductTag(SearchKeyword keyword);
 }

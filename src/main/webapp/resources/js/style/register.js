@@ -1,3 +1,4 @@
+import {productSearchService} from '../service/product-search-service.js';
 import {imgFileUploader} from '../common/img-file-uploader.js';
 import {imgSlider} from '../common/img-slider.js';
 
@@ -45,7 +46,16 @@ const slider = imgSlider();
 //	.addEventListener('input', function(e) {
 //		console.log(e.target.innerText);
 //	});
-	
+	const productSearchInput = document.querySelector('input[name="productSearch"]');
+	productSearchInput.addEventListener('keyup', async function(e) {
+		const keyword = e.target.value;
+		const result = await productSearchService.searchProduct({
+			keyword: keyword,
+			pageNum: 1,
+			amount: 10,
+		});
+		console.log(result);
+	});
 })();
 
 function countImgFile(count) {

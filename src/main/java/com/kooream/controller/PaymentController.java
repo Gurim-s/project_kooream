@@ -66,21 +66,21 @@ public class PaymentController {
 
 	  // 주문페이지이동 페이지로 이동
 	  @GetMapping("/payment") public String view(Model model) { 
-		  return "brandshop/payment";
+		  return "brandshop/shop_paymentPage";
 	  }
 	 
 	
 	
-	  // 장바구니 리스트 보기
+	  // 주문페이지 리스트 보기
 	  
-//	  @GetMapping("/brandCartList")
+	  @GetMapping("/paymentList")
 	  
-//	  @ResponseBody public ResponseEntity<List<PaymentVO>> paymentList(Model model){
-//		  int m_no = 1;
-	  //model.addAttribute("brandCartList",brandCartList(model));
+	  @ResponseBody public ResponseEntity<List<PaymentVO>> paymentList(Model model){
+		  int m_no = 1;
+	  model.addAttribute("brandCartList",paymentList(model));
 	  
-//	  return new ResponseEntity<List<PaymentVO>>(payservice.paymentList(m_no),HttpStatus.OK);
-//	  }
+	  return new ResponseEntity<List<PaymentVO>>(payservice.paymentList(m_no),HttpStatus.OK);
+	  }
 	 
 	 
 	/*
