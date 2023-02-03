@@ -125,7 +125,7 @@
 	<!-- 배너 이미지-------------------------------------------------------- -->
 	<div class="slick" style="width:502px">
 		<c:forEach var="image" items="${imageList }">
-			<div style="width:700px"><img src="/display/${image.img_url }"/></div>
+			<div style="width:700px"><img src="/displayImage?fileName=${image.img_url }"/></div>
 		</c:forEach>
 	</div>
 	
@@ -395,6 +395,7 @@
             url : "/rental/ajax/rentalList",      
             data : $("#myForm").serialize(),     
             success : function(result){
+            	console.log(result);
 				if(result.length){	// 리스트로 오기떄문에 .length 붙여줘야됨. 리스트 아니면 .length안붙여도됨
 	            	var str = '';
 					var getLength = 0;
@@ -407,7 +408,7 @@
 					for(var i=0; i<getLength; i++){
 						str += '<a href="/rental/viewRntPrdt?p_no='+result[i].p_no+'">';
 						str += '<div class="product" style="display: inline-block;width:225px;height: 330px;float:left;padding:15px">';
-						str += '<img src="/display/'+result[i].img_url+'">';
+						str += '<img src="/displayImage?fileName='+encodeURI(result[i].img_url)+'">';
 						str += '<div>'+result[i].p_brand+'</div>';
 						str += '<div style="font-size:13px">'+result[i].p_name_en+'</div>';
 						str += '<div style="font-size:10px;color: #808080bd;">'+result[i].p_name_ko+'</div>';

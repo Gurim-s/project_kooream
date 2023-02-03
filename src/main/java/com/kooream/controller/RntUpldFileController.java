@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kooream.domain.AttachFileVO;
 import com.kooream.service.RntUpldFileService;
+import com.kooream.service.S3Service;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -28,7 +29,9 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequestMapping("/rntfile/*")
 public class RntUpldFileController {
-	 
+	@Setter(onMethod_= @Autowired)
+	private S3Service s3Service;
+	
 	@Setter(onMethod_= @Autowired)
 	private RntUpldFileService service;
 	
@@ -42,16 +45,16 @@ public class RntUpldFileController {
 		 
 		 
 		 
-		 String uploadFolder = "C:\\upload";
+//		 String uploadFolder = "C:\\upload";
 		 
 		 // make folder
 		 String uploadFolderPath =  getFolder();
-		 File uploadPath = new File(uploadFolder, uploadFolderPath);
-		 log.info("upload path : " + uploadPath);
+//		 File uploadPath = new File(uploadFolder, uploadFolderPath);
+//		 log.info("upload path : " + uploadPath);
 		 
-		 if(uploadPath.exists() == false) {
-			 uploadPath.mkdirs();
-		 }
+//		 if(uploadPath.exists() == false) {
+//			 uploadPath.mkdirs();
+//		 }
 	
 		 for(MultipartFile multipartFile : uploadFile) {				// 파일 있는 만큼 for문 돈다
 			log.info("-------------------------------------");
@@ -61,12 +64,12 @@ public class RntUpldFileController {
 			AttachFileVO attachVo = new AttachFileVO();
 
 			String uploadFileName = multipartFile.getOriginalFilename();
+			attachVo.setFileName(uploadFileName);	// dto에 파일명(원본) 저장
 			
 			// uploadFileName : 실제업로드할 파일명(원본)
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1); // 내용이 올때 달라붙어있어서 떼려고 사용 
 			log.info("only file name : " + uploadFileName);
 			
-			attachVo.setFileName(uploadFileName);	// dto에 파일명(원본) 저장
 			
 			// UUID.randomUUID(); : 업로드하는 파일명을 중복방지를 위해 랜덤값으로 생성함
 			UUID uuid = UUID.randomUUID();
@@ -76,14 +79,15 @@ public class RntUpldFileController {
 			
 			try {
 				// uploadFileName : 원본 파일명 앞에 랜덤값 붙어있음
-				File saveFile = new File(uploadPath, uploadFileName);
-				multipartFile.transferTo(saveFile);
+//				File saveFile = new File(uploadPath, uploadFileName);
+//				multipartFile.transferTo(saveFile);
+
+				String s3Path = uploadFolderPath + "/"+ uploadFileName;
+				s3Service.uploadAWS(multipartFile, s3Path);
 				
 				attachVo.setUuid(uuid.toString());
 				attachVo.setUploadPath(uploadFolderPath);
-				
 				list.add(attachVo);
-				
 				service.uploadFile(attachVo);
 				
 				
@@ -100,7 +104,7 @@ public class RntUpldFileController {
 	 private String getFolder() {
 		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");	// 년, 월, 일로 폴더 생성
 		 Date date = new Date();
-		 String str = sdf.format(date);
+		 String str = "product" + "-" + sdf.format(date);
 		 return str.replace("-", File.separator);					// '-' 기준으로 하위폴더 생성예정  separator : 파일 생성명령어
 	 }
 	 

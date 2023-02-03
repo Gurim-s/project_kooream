@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.kooream.domain.MemberVO;
 import com.kooream.mapper.MemberMapper;
-import com.kooream.security.MemberDAO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -29,10 +28,6 @@ public class MemberServiceImpl implements MemberService{
 	@Setter (onMethod_= @Autowired)
 	private PasswordEncoder pwencoder;
 	
-	/*
-	@Setter (onMethod_= @Autowired) 
-	private MemberDAO mdao;
-	*/
 	
 	
 	@Override
@@ -68,9 +63,15 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO findInfo(MemberVO vo) {
 		return mapper.findInfo(vo);
 	}
+
+	@Override
+	public int updatePw(MemberVO vo) {
+		vo.setM_pw(pwencoder.encode(vo.getM_pw()));
+		return mapper.updatePw(vo);
+	}
 	
 	
-	
+	/*
 	//비밀번호 찾기 이메일발송
 	@Override
 	public void sendEmail(MemberVO vo, String div) throws Exception {
@@ -149,5 +150,5 @@ public class MemberServiceImpl implements MemberService{
 			out.close();
 		}
 	}
-	
+	*/
 }
