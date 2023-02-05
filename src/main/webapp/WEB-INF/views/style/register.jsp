@@ -4,9 +4,6 @@
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/style/register.css'/>">
-	<div id="title">
-		<h1>STYLE 등록</h1>
-	</div>
 	<div class="form-wrapper">
 		<form action="/style/register" method="post">
 			<ul id="register-list" class="first">
@@ -34,10 +31,7 @@
 						<a href="#" class="next-btn">다음</a>
 					</div>
 					<div class="clearfix"></div>
-					<div class="img-slider-container"></div>
-					<div class="product-tag">
-						<input type="text" name="productSearch" />
-					</div>
+					<div class="product-tag-selector-container"></div>
 				</li>
 				<li id="inputContent">
 					<div class="btn-container">
@@ -50,7 +44,6 @@
 					<div class="recommend-tags"></div>
 				</li>
 			</ul>
-			<div class="clearfix"></div>
 		</form>
 	</div>
 	<script type="module" src="<c:url value='/resources/js/style/register.js'/>"></script>

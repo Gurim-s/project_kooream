@@ -78,6 +78,8 @@ var modal = () => (function() {
 		container.style.top = '0';
 		container.style.left = '0';
 		
+		modal.style.overflow = 'hidden';
+		modal.style.zIndex = '2';
 		if (option.type == 'center') {
 			modal.style.width = option.width;
 			modal.style.height = option.height;

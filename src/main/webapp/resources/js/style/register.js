@@ -1,9 +1,8 @@
-import {productSearchService} from '../service/product-search-service.js';
+import {productTagSelector} from '../common/product-tag-selector.js';
 import {imgFileUploader} from '../common/img-file-uploader.js';
-import {imgSlider} from '../common/img-slider.js';
 
 const uploader = imgFileUploader;
-const slider = imgSlider();
+const tagSelector = productTagSelector();
 (function() {
 	uploader.setOption({
 		uploadURL: '/uploadImageAWS/style',
@@ -20,12 +19,13 @@ const slider = imgSlider();
 	document.querySelector('.uploader-container')
 	.append(uploader.container);
 	
-	slider.setOption({
-		ratio: 1,
+	tagSelector.slider.setOption({
+		ratio:1,
 		ratioFix: true,
+		tagMode: true,
 	});
-	document.querySelector('.img-slider-container')
-	.append(slider.container);
+	document.querySelector('.product-tag-selector-container')
+	.append(tagSelector.container);
 	
 	//************************** */
 	//addEventListener
@@ -46,16 +46,6 @@ const slider = imgSlider();
 //	.addEventListener('input', function(e) {
 //		console.log(e.target.innerText);
 //	});
-	const productSearchInput = document.querySelector('input[name="productSearch"]');
-	productSearchInput.addEventListener('keyup', async function(e) {
-		const keyword = e.target.value;
-		const result = await productSearchService.searchProduct({
-			keyword: keyword,
-			pageNum: 1,
-			amount: 10,
-		});
-		console.log(result);
-	});
 })();
 
 function countImgFile(count) {
@@ -87,9 +77,9 @@ function changeStep(e) {
 	if (register.className == 'first') {
 		const imgTagList = uploader.slider.getImgTagList();
 		const ratio = document.querySelector('input[name="ratio"]').value;
-		slider.empty();
-		slider.setRatio(ratio);
-		slider.addImgTagList(imgTagList);
+		tagSelector.slider.empty();
+		tagSelector.slider.setRatio(ratio);
+		tagSelector.slider.addImgTagList(imgTagList);
 	}
 	
 	const newStep = e.target.classList[0] == 'next-btn'

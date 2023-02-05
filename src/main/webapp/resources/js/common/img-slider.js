@@ -8,6 +8,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		ratio: 1,
 		ratioFix: false,
 		editMode: false,
+		tagEditMode: false,
 		offset: false,
 	};
 	var container = document.createElement('div');
@@ -30,6 +31,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		setEvent();
 		setDefaultCss();
 		if (option.editMode) dragImageEvent();
+		if (option.tagEditMode) dragTagEvent();
 	}
 	
 	function createBtnContainer() {
@@ -130,6 +132,53 @@ var imgSlider = (customOption) => (function(customOption) {
 		}
 	}
 	
+	function dragTagEvent() {
+		ul.ondragstart = function() {return false;}
+		let isPressed = false;
+		let oldX = 0;
+		let oldY = 0;
+		
+		ul.onmousedown = start;
+		ul.onmouseup = end;
+		ul.onmouseout = end;
+		onmousemove = move;
+		
+		function start(e) {
+			e.preventDefault();
+			if (e.target.className !== 'tag-pointer') return;
+			oldX = e.clientX;
+			oldY = e.clientY;
+			isPressed = true;
+		} 
+		
+		function end(e) {
+			e.preventDefault();
+			if (e.target.className !== 'tag-pointer') return;
+			isPressed = false;
+		}
+		
+		function move(e) {
+			e.preventDefault();
+			if (e.target.className !== 'tag-pointer') return;
+			if (isPressed === false) return;
+			const tag = e.target.closest('.product-tag');
+			const productInfo = tag.querySelector('.product-info');
+			const offsetX = e.clientX - oldX;
+			const offsetY = e.clientY - oldY;
+			
+			oldX = e.clientX;
+			tag.style.left = (tag.offsetLeft + offsetX) + 'px';
+			oldY = e.clientY;
+			tag.style.top = (tag.offsetTop + offsetY) + 'px';
+			if (tag.offsetLeft < 240) {
+				productInfo.style.left = '30px';
+			}
+			if (tag.offsetLeft > 350) {
+				productInfo.style.left = '-200px';
+			}
+		}
+	}
+	
 	/*************************************
 	 * --Method--
 	 ************************************/
@@ -143,6 +192,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		setEvent();
 		setDefaultCss();
 		if (option.editMode) dragImageEvent();
+		if (option.tagEditMode) dragTagEvent();
 	}
 	
 	function add(imgSrc) {
@@ -186,6 +236,76 @@ var imgSlider = (customOption) => (function(customOption) {
 		.map(x => x.cloneNode());
 		
 		return imgTagList;
+	}
+	
+	function addProductTag(product) {
+		const currentImg = Array.from(ul.children)[idx];
+		currentImg.append(productTemplate(product));
+	}
+	
+	function productTemplate(product) {
+		const container = document.createElement('div');
+		container.className = 'product-tag';
+		const pointer = document.createElement('div');
+		pointer.className = 'tag-pointer';
+		const template = document.createElement('div');
+		template.className = 'product-info';
+		container.append(pointer);
+		container.append(template);
+		const str = (
+			'<div class="product-img">' +
+				'<img src="/resources/img/codi_test.png" />' +
+			'</div>' +
+			'<div class="name-price">' +
+				'<p class="name">'+product.p_name_en+'</p>'+
+				'<p class="price">'+product.p_release_price+'원</p>'+
+			'</div>'
+		);
+		template.innerHTML = str;
+		
+		container.style.position = 'absolute';
+		container.style.bottom = '10px';
+		container.style.zIndex = '1';
+		
+		pointer.style.height = '12px';
+		pointer.style.width = '12px';
+		pointer.style.backgroundColor = 'black';
+		pointer.style.border = '2px solid white';
+		pointer.style.borderRadius = '50%';
+		pointer.style.display = 'inline-block';
+		pointer.style.margin = '10px';
+		
+		template.style.width = '200px';
+		template.style.overflow = 'hidden';
+		template.style.position = 'relative';
+		template.style.top = '-34px';
+		template.style.left = '34px';
+		template.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
+		template.style.borderRadius = '10px';
+		template.style.padding = '3px 0';
+		
+		const imgContainer = template.querySelector('.product-img');
+		imgContainer.style.height = '40px';
+		imgContainer.style.float = 'left';
+		imgContainer.style.marginRight = '5px';
+		imgContainer.style.marginLeft = '7px';
+		
+		const img = template.querySelector('img');
+		img.style.height = '90%';
+		img.style.borderRadius = '10px';
+		
+		const name = template.querySelector('p.name');
+		name.style.fontSize = '14px';
+		name.style.height = '20px';
+		name.style.overflow = 'hidden';
+		name.style.color = '#ccc';
+		
+		const price = template.querySelector('p.price');
+		name.style.height = '20px';
+		price.style.fontSize = '14px';
+		price.style.color = '#fff';
+		
+		return container;
 	}
 	
 	function remove(idx) {
@@ -249,7 +369,6 @@ var imgSlider = (customOption) => (function(customOption) {
 		var prev = container.querySelector('.prev');
 		var next = container.querySelector('.next');
 
-		//container 스타일
 		container.style.width = '100%';
 		container.style.position = 'relative';
 		container.style.backgroundColor = '#eee';
@@ -258,7 +377,6 @@ var imgSlider = (customOption) => (function(customOption) {
 			container.style.paddingTop = (100 * option.ratio) + '%';
 		}
 		
-		//img-container 스타일
 		imgContainer.style.overflow = 'hidden';
 		if (option.ratioFix == true) {
 			imgContainer.style.width = '100%';
@@ -267,7 +385,6 @@ var imgSlider = (customOption) => (function(customOption) {
 			imgContainer.style.position = 'absolute';
 		}
 		
-		//ul 스타일
 		ul.style.minHeight = '400px';
 		ul.style.width = liAll.length * 100 + '%';
 		ul.style.position = 'relative';
@@ -276,16 +393,15 @@ var imgSlider = (customOption) => (function(customOption) {
 		ul.style.left = '0%';
 		ul.style.transition = '0.5s';
 		
-		//list 스타일
 		var liWidth = (100 / liAll.length) + '%';
 		var liPaddingTop = (100 / liAll.length * option.ratio) + '%';
 		liAll.forEach(li => {
 			li.style.float = 'left';
 			li.style.width = liWidth;
-			//이미지 스타일
+
 			var liImg = li.querySelector('img');
 			liImg.style.width = '100%';
-			// 비율 고정
+
 			if (option.ratioFix == false) return;
 			li.style.position = 'relative';
 			li.style.top = '0';
@@ -307,7 +423,6 @@ var imgSlider = (customOption) => (function(customOption) {
 			}
 		});
 		
-		//버튼 스타일
 		[prev, next].forEach(x => {
 			x.style.position = "absolute";
 			x.style.top = "50%";
@@ -325,14 +440,12 @@ var imgSlider = (customOption) => (function(customOption) {
 		next.style.right = "5%";
 		next.style.transform = 'tanslate3d(50%, -50%, 0)';
 		
-		//인덱스 컨테이너
 		var idxContainer = container.querySelector('.idx-container');
 		idxContainer.style.position = 'absolute';
 		idxContainer.style.bottom = '-3%';
 		idxContainer.style.left = '50%';
 		idxContainer.style.transform = 'tanslate3d(-50%, 0, 0)';
 		
-		//인덱스
 		idxContainer.querySelectorAll('li')
 		.forEach(x => {
 			x.style.width ="8px";
@@ -370,6 +483,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		offsetX: offsetX,
 		offsetY: offsetY,
 		getImgTagList: getImgTagList,
+		addProductTag: addProductTag,
 	}
 }(customOption));
 
