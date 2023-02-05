@@ -72,23 +72,23 @@
 							<option value="acc">4. 패션잡화</option>
 						</select>
 							<div>
-							<input type="checkbox" class = "T_Category"  value="S" name ="sizeList" >S
-							<input type="checkbox" class = "T_Category"  value="M" name ="sizeList" >M
-							<input type="checkbox" class = "T_Category"  value="L" name ="sizeList" >L
+							<input type="checkbox" class = "T_Category"  value="S" name ="sizeList" >s
+							<input type="checkbox" class = "T_Category"  value="M" name ="sizeList" >m
+							<input type="checkbox" class = "T_Category"  value="L" name ="sizeList" >l
 							</div>
 							<div>
-							<input type="checkbox" class = "B_Category"  value="46" name ="sizeList" >46
-							<input type="checkbox" class = "B_Category"  value="48" name ="sizeList" >48
-							<input type="checkbox" class = "B_Category"  value="50" name ="sizeList" >50
+							<input type="checkbox" class = "B_Category"  value="46" name ="sizeList" >
+							<input type="checkbox" class = "B_Category"  value="48" name ="sizeList" >
+							<input type="checkbox" class = "B_Category"  value="50" name ="sizeList" >
 							</div>
 							<div>
-							<input type="checkbox" class = "S_Category"  value="230" name ="sizeList" >230
-							<input type="checkbox" class = "S_Category"  value="240" name ="sizeList" >240
-							<input type="checkbox" class = "S_Category"  value="250" name ="sizeList" >250
-							<input type="checkbox" class = "S_Category"  value="260" name ="sizeList" >260
+							<input type="checkbox" class = "S_Category"  value="230" name ="sizeList" >
+							<input type="checkbox" class = "S_Category"  value="240" name ="sizeList" >
+							<input type="checkbox" class = "S_Category"  value="250" name ="sizeList" >
+							<input type="checkbox" class = "S_Category"  value="260" name ="sizeList" >
 							</div>
 							<div>
-							<input type="checkbox" class = "A_Category"  value="FREE" name ="sizeList" >FREE
+							<input type="checkbox" class = "A_Category"  value="FREE" name ="sizeList" >
 							</div>
 
 				</td>
@@ -301,7 +301,7 @@
 			}
 			
 			$.ajax({
-	            url : '/brandfile/uploadAjaxAction',
+	            url : '/uploadImageAWS/product',
 	            processData : false,            // 쓰임새는 없지만 필요해서 작성 //현재상황에서는 안쓰지만 필수데이터 false를 해야 전송이 된다
 	            contentType : false,            // 쓰임새는 없지만 필요해서 작성
 	            data : formData,

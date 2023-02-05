@@ -418,7 +418,7 @@
 						<dl class="price_box">
 							<dt class="price_title">총 결제금액</dt>
 							<dd class="price empty_price">
-								<span class="amount">-</span>
+								<span class="amount">${vo.sum_price}</span>
 							</dd>
 						</dl>
 					</div>

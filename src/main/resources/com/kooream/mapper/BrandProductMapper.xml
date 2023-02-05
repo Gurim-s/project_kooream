@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from PRODUCT where p_no=#{p_no}
 	</delete>
 	<!--  get에서 판매자 정보 보기위해서 만든 mapper -->
-	<select id="member"  resultType="com.kooream.domain.BrandAdminVO">	
+ 	<select id="member"  resultType="com.kooream.domain.BrandAdminVO">	
 		select * from brand_member where b_no=#{b_no}
 	</select>
 	
