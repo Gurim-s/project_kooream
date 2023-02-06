@@ -72,9 +72,9 @@ public class SizeController {
 
 //    @PostMapping("/Sizeadd") public String insertDate(SizeVO vo) {
 //   log.info( "나아아알짜 입력 시작!! : " + vo);
- 
+
 //    service.addSize(vo);
- 
+
 //    return "redirect:/main/main"; 
 //    }
 	

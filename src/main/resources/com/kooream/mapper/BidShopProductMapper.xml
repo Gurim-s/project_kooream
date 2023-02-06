@@ -4,11 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kooream.mapper.BidShopProductMapper">
-	<select id="getList" resultType="com.kooream.domain.ProductVO">
+<!-- 	<select id="getList" resultType="com.kooream.domain.ProductVO">
 		select A.* from product A order by p_no desc
-	</select>
+	</select> -->
 	
-	<insert id="insertProduct" parameterType="com.kooream.domain.ProductVO">
+<!-- 	<insert id="insertProduct" parameterType="com.kooream.domain.ProductVO">
 	<![CDATA[
         insert into PRODUCT
         (p_no, b_no, p_name_ko, p_name_en, p_size, p_model_no, p_release_date, p_release_price, p_category, p_class, p_brand)
@@ -63,5 +63,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	      from PRODUCT
 	      WHERE rownum = 1
 	      order by p_no desc
-	</select>
+	</select> -->
 </mapper>

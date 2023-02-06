@@ -112,6 +112,7 @@ public class BidShopServiceImpl implements BidShopService {
 		log.info("read..." + p_no);
 		
 		List<BidShopVO> list = mapper.sizeread(p_no);
+		
 		return list;
 	}
 }
