@@ -9,14 +9,14 @@
     margin: auto;	
 }
 
-
-
 .wrapper{
 	width: 800px;
 }
+
 .social_title{
 	text-align: center;
 }
+
 .brand_keyword{
 	display: inline-block;
     padding: 8px 10px;
@@ -24,22 +24,27 @@
     border-radius: 12px;
     font-size: 15px;
 }
+
 .codi_img{
  	margin : auto;
 	width: 600px;
 	height: 800px;
 }
+
 .title>span {
 	font-weight: bold;
 	font-size: 30px;
 }
+
 .content>span{
 	font-size : 20px;
 }
+
 .form_section_title>span{
 	font-weight: bold;
 	font-size : 20px;
 }
+
 .codi_img{
 	text-align: center;
 }
@@ -49,13 +54,21 @@
 	font-size: 20px;
 
 }
+
+.container>span{
+	font-weight: bold;
+	font-size: 20px;
+}
+
 .date>span{
 	font-size: 10px;
 }
+
 .codi_model>span{
 	font-weight: bold;
 	font-size: 20px;
 }
+
 /* 버튼 이미지  */
 .comment-inner-text {
    width: 100%;
@@ -69,14 +82,7 @@
 }
 textarea {
     writing-mode: horizontal-tb !important;
-    font-style: ;
-    font-variant-ligatures: ;
-    font-variant-caps: ;
-    font-variant-numeric: ;
-    font-variant-east-asian: ;
-    font-weight: ;
-    font-stretch: ;
-    font-size: ;
+  
     font-family: monospace;
     text-rendering: auto;
     color: fieldtext;
@@ -215,3 +221,5 @@ input{
 	background-color: transparent;
 	border: none;
 }
+
+

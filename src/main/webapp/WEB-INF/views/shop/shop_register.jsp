@@ -267,7 +267,7 @@
 			}
 			
 			$.ajax({
-	            url : '/brandfile/uploadAjaxAction',
+	            url : '/uploadImageAWS/product',
 	            processData : false,            // 쓰임새는 없지만 필요해서 작성 //현재상황에서는 안쓰지만 필수데이터 false를 해야 전송이 된다
 	            contentType : false,            // 쓰임새는 없지만 필요해서 작성
 	            data : formData,

@@ -285,7 +285,9 @@
 		<div class="buy_before">
 			<div class="product_info">
 				<div class="infobox">
-					<img class="product_image" src="/resources/img/ps5.png">
+					<c:forEach items="${imageUrls}" var="imageUrl" begin="0" end="0">
+						<img class="product_image" src="${imageUrl }">
+					</c:forEach>
 					<div class="product_infobox">
 						<div class="code">${vo.p_model_no }</div>
 						<div class="name">${vo.p_name_en }</div>
@@ -327,7 +329,7 @@
 							<dl class="bid_now_box">
 								<dt class="price_now_title">입찰</dt>
 								<dd class="price">
-									<input type="number" placeholder="희망가 입력" name="bid_buy" class="price_input"/>
+									<input type="number" placeholder="희망가 입력" name="bid_buy" id="bid_buy" class="price_input"/>
 									<span class="won">원</span>
 									<input type="hidden" name="p_no" value="${vo.p_no}">
 									<input type="hidden" name="bid_sell" id="bid_sell" value="${vo.max_bid_sell }">
@@ -377,11 +379,24 @@
 	
 	function bid_sell() {
 		var form = $('form');
-		console.log(form);
-		form.attr("action", "/shop/shop_sellpage")
-		form.submit();
+		var bid_price = $('#bid_buy').val();
+		var now_sell = ${vo.max_bid_sell };
+		console.log(now_sell);
+		console.log(bid_price);
+		
+		if (now_sell == 0) {
+			var form = $('#buyBidForm');
+			form.attr("action", "/shop/shop_sellpage")
+			form.submit();
+		} else if (bid_price < now_sell){
+			alert("판매 입찰가는 즉시 판매가보다 낮을 수 없습니다.");
+			return false;
+		} else {
+			form.attr("action", "/shop/shop_sellpage")
+			form.submit();
+		}
 	}
-	
+
 	function now_sell() {
 		var form = $('form');
 		$('input[name="bid_buy"]').remove();

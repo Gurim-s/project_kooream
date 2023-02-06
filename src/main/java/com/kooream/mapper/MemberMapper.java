@@ -21,12 +21,8 @@ public interface MemberMapper {
 	public int deleteMember(int m_no);
 	// 계정찾기
 	public MemberVO findInfo(MemberVO vo);
+	// 비밀번호 업데이트
+	public int updatePw(MemberVO vo);
 	
 	
-	
-	
-	/*
-	public int goLogin(Map<String, Object> map);
-	public MemberVO getMemberInfo(Map<String, Object> map);
-	*/
 }

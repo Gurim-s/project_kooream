@@ -23,7 +23,9 @@
 					<li><a href="#">고객센터</a></li>
 					<li><a href="/rental/interestList">관심상품</a></li>
           			<li><a href="#">장바구니</a></li>
-					<li><a href="/member/myPage">마이페이지</a></li>
+						<sec:authorize access="hasRole('ROLE_USER')">
+							<li><a href="/member/myPage">마이페이지</a></li>
+						</sec:authorize>
 					<li>
 						<sec:authorize access="isAnonymous()">
 							<a href="/member/loginPage">로그인</a>
@@ -37,7 +39,7 @@
 		</div>
 		<div class="header-bottom clearfix">
 			<div class="logo-container">
-				<a href="#">
+				<a href="/member/mainPage">
 					<img alt="로고이미지" src="<c:url value='/resources/img/kooream.png'/>">
 				</a>
 			</div>
@@ -60,7 +62,7 @@
 						<a href="/codishop/list">CODI</a>
 					</li>
 					<li>
-						<a href="/community/index">COMMUNITY</a>
+						<a href="/community/oriList">COMMUNITY</a>
 					</li>
 					<li>
 						<a href="#">검색</a>
@@ -70,7 +72,7 @@
 		</div>
 	</header>
 	<main>
-		<div class="wrapper">
+		<div class="wrapper clearfix">
 		
 <script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
 <script  type="text/javascript">

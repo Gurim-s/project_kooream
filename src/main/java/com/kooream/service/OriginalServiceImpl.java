@@ -83,7 +83,20 @@ public class OriginalServiceImpl implements OriginalService {
 		return vo;
 	}
 
+	// 정품판별 게시글 삭제
+	@Override
+	public boolean oriRemove(int orino) {
+		log.info("original remove.............." +  orino);
+		return mapper.oriRemove(orino) == 1;
+	}
 	
-	
+	// 정품판별 게시글 수정
+	@Override
+	public boolean oriUpdate(OriginalVO vo) {
+		log.info("original update..........." + vo);
+		int result = mapper.oriUpdate(vo);
+		
+		return result == 1? true : false;
+	}
 	
 }

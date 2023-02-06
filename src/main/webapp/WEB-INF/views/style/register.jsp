@@ -36,7 +36,7 @@
 					<div class="clearfix"></div>
 					<div class="img-slider-container"></div>
 					<div class="product-tag">
-						
+						<input type="text" name="productSearch" />
 					</div>
 				</li>
 				<li id="inputContent">

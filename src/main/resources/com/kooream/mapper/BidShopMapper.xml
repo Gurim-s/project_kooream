@@ -47,4 +47,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="remove">
 		delete from PRODUCT where p_no=#{p_no}
 	</delete>
+	<select id="sizeread" resultType="com.kooream.domain.BidShopVO">
+		<![CDATA[
+			select max(bid_sell) as bid_sell, p_size, p_no 
+			from bidding
+			group by p_size, p_no
+			having p_no=#{p_no}
+		]]>
+	</select>
+	
+	<select id="getPno" resultType="int">
+	      select p_no
+	      from PRODUCT
+	      WHERE rownum = 1
+	      order by p_no desc
+	</select>
+	
+    <select id="searchProductTag" resultType="com.kooream.domain.ProductVO">
+    	select p_no, p_name_ko, p_name_en, p_release_price, p_class
+		from (select /*+index_desc(product product_pk) */
+			  	rownum rn, p_no, p_name_ko, p_name_en, p_release_price, p_class
+			  from product
+			  where
+			  	<foreach collection="keywordList" item="arr" separator="or">
+			  		p_name_ko like '%'||#{arr}||'%' or
+			  		p_name_en like '%'||#{arr}||'%'
+			  	</foreach>
+			  )
+		where rn > (#{pageNum} -1) * #{amount}
+    </select>
+	
 </mapper>
