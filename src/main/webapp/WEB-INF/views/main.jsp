@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <jsp:include page="include/header.jsp"/>
 <link rel="stylesheet" href="/resources/css/main/main.css">
-	
 	<div id="mainSlideContainer">
 		<div id="slideShow">
 			<ul class="slides">
@@ -51,18 +50,18 @@
 	</div>
 	<div id="mainContents">
 		<br/>
-		<div id="brand" class="clearfix">
-			<h3>Brand Focus</h3>
-			<span>최신 브랜드 목록</span>
+			<div id="style" class="clearfix">
+			<h3>Style Focus</h3>
+			<span>최신 스타일 목록</span>
 			<hr/>
-			<div id="brand-list" class="clearfix">
+			<div id="style-list" class="clearfix">
 				<div class="brand-column" id="first">
 				</div>
 				<div class="brand-column" id="second">
 				</div>
 				<div class="brand-column" id="third">
 				</div>
-				<div class="brand-column" id="force">
+				<div class="brand-column" id="fourth">
 				</div>
 			</div>
 		</div>
@@ -77,16 +76,25 @@
 				</div>
 				<div class="list-column" id="third">
 				</div>
-				<div class="list-column" id="force">
+				<div class="list-column" id="fourth">
 				</div>
 			</div>
 		</div>
-		
-		
-		
-		
-		
-		
+		<div id="brand" class="clearfix">
+			<h3>Brand Focus</h3>
+			<span>최신 브랜드 목록</span>
+			<hr/>
+			<div id="brand-list" class="clearfix">
+				<div class="brand-column" id="first">
+				</div>
+				<div class="brand-column" id="second">
+				</div>
+				<div class="brand-column" id="third">
+				</div>
+				<div class="brand-column" id="fourth">
+				</div>
+			</div>
+		</div>
 	</div>
-<script src="/resources/js/main/main.js"></script>
+<script type="module" src="/resources/js/main/main.js"></script>
 <jsp:include page="include/footer.jsp"/>
