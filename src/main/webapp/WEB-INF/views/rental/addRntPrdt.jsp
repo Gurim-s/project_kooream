@@ -4,16 +4,48 @@
 <style>
 	#title{
 		text-align: center;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		margin-top: 85px;
 	}
 	#addBox{
 		width: 600px;
 		margin: auto;
+		margin-top: 58px;
 	}
 	input[type="text"],input[type="number"],select{
 		 width: 450px;
 	}
 	#btn{
 		text-align: center;
+	}
+	input[type="text"],input[type="number"]{
+		border: 0px;
+	}
+	#content{
+		border-bottom: 1px solid gray;
+	}
+	td:nth-child(odd){
+		text-align: center;
+		font-weight: bold;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		height: 45px;
+		width: 100px;
+	}
+	select{
+		height: 40px;
+	}
+	#btn input{
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		border: 0;
+		width: 145px;
+		height: 53px;
+		border-radius: 7px;
+		color: white;
+		background-color: black;
+		cursor: pointer;
+	}
+	td:nth-child(even){
+		border-bottom: 1px solid gray;
 	}
 	
 </style>
@@ -22,7 +54,7 @@
 	<form action="/rental/addRntPrdt" id="MyForm" method="post">
 		<table>
 			<tr>
-				<td style="width: 100px;">브랜드</td>
+				<td>브랜드</td>
 				<td>
 					<select name="b_no">
 						<option value="9999">GUCCI</option>
@@ -35,19 +67,19 @@
 			</tr>
 			<tr>
 				<td>상품명</td>
-				<td><input name="p_name_ko" type="text" maxlength="150"/> </td>
+				<td class="content"><input name="p_name_ko" type="text" maxlength="150"/> </td>
 			</tr>
 			<tr>
 				<td>상품명_EN</td>
-				<td><input name="p_name_en" type="text" maxlength="150"/> </td>
+				<td class="content"><input name="p_name_en" type="text" maxlength="150"/> </td>
 			</tr>
 			<tr>
 				<td>모델번호</td>
-				<td><input name="p_model_no" type="text" maxlength="30"/> </td>
+				<td class="content"><input name="p_model_no" type="text" maxlength="30"/> </td>
 			</tr>
 			<tr>
 				<td>발매가</td>
-				<td><input name="p_release_price" type="number" maxlength="10"/> </td>
+				<td class="content"><input name="p_release_price" type="number" maxlength="10"/> </td>
 			</tr>
 			<tr>
 				<td>카테고리</td>
@@ -61,11 +93,11 @@
 			</tr>
 			<tr>
 				<td>재고</td>
-				<td><input name="p_stock" type="number"/> </td>
+				<td class="content"><input name="p_stock" type="number"/> </td>
 			</tr>
 			<tr>
 				<td>대여금액</td>
-				<td><input name="r_price" type="number" maxlength="10"/> </td>
+				<td class="content"><input name="r_price" type="number" maxlength="10"/> </td>
 			</tr>
 			<tr>
 				<td>상품이미지</td>
