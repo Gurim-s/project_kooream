@@ -3,8 +3,29 @@
 <!DOCTYPE html>
 </div>
 </main>
+	<hr/>
 <footer>
-	<h1>여기는 footer영역입니다</h1>
+	<div class="info">
+		<h3>소개</h3>
+		<span>사이트 : www.KOOREAM.com</span>
+	</div>
+	<div class="team">
+		<h3>
+		<a href=#none id="show" onclick="if(hide.style.display=='none') {hide.style.display='';show.innerText='내용접기'} 
+		else {hide.style.display='none';show.innerText='개발자'}">개발자</a>
+		</h3>
+		<div id="hide" style="display: none">
+		<span>조장 : 오태양 / 팀원 : 오경종, 곽대근, 박혜경, 박수연, 이하영</span>
+		</div>
+	</div>
+	<div class="add">
+		<h3>주소</h3>
+		<span>KR 서울특별시 구로구 서울시 구로구 시흥대로 163길 33, 주호타워 구트아카데미</span>
+	</div>
+	<div class="tel">
+		<h3>번호</h3>
+		<span>02-837-9922</span>
+	</div>
 </footer>
 </body>
 </html>
