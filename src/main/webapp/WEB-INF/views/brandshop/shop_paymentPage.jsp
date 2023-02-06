@@ -532,7 +532,6 @@ $(function(){	// list()함수 실행하기위한
 			$('.product_info').html(str);	// 여기서 append를 사용하면 내용이 계속 쌓이는거고 새로가지고오지 못한다.. 그래서 html사용해야함,,,,,
 			
 			for(var i= 0; i<json.length; i++){
-				var str='<div class="sumprcie">';
 				var price = json[i].sum_price;
 				//console.log(price);
 				if(price != null){
@@ -542,7 +541,7 @@ $(function(){	// list()함수 실행하기위한
 					
 				}
 			}
-				str +='</div>'
+			
 			$('.price_text').html(sum);
 
 			
