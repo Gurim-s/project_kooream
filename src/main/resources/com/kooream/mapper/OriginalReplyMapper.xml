@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="getList" resultType="com.kooream.domain.OriginalReplyVO">
-		SELECT orireplyno, orireplyname, orireplycon, orireplydate  FROM originalreply 
+		SELECT orireplyno, orireplyname, orireplycon, orireplydate, oridecision  FROM originalreply 
 		WHERE orino = #{orino} ORDER BY orireplyno ASC
 	</select>
 

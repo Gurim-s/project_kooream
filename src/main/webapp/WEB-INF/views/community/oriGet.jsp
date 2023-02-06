@@ -152,7 +152,7 @@
 		<br/>	
 		<div class="replyList">
 			<div>
-				<div><span>댓글쓴이</span>
+				<div><strong>댓글쓴이</strong>
 					<button id="replyupdatebtn">수정</button><button id="replyremovebtn">삭제</button>
 				</div>
 				<div><span>작성날짜</span></div>
@@ -403,6 +403,15 @@
 							// 댓글이 있으면
 							for(var i=0; i<result.length; i++){
 								str += '<div><strong>'+ result[i].orireplyname +'</strong>'
+								
+								alert(result[i].oridecision)
+								
+								if(result[i].oridecision == 'oriOk'){
+									str += '<span style="color: red;">진품</span>';
+								}else if(result[i].oridecision = oriNo){
+									str += '<span style="color: blue;">가품</span>';
+								}
+								
 								str += '<button id="replyupdatebtn" data-replyno ="'+result[i].orireplyno+'">수정</button><button id="replyremovebtn" data-replyno ="'+result[i].orireplyno	+'">삭제</button></div>' 
 								str += '<div style="height:5px;"></div>'
 								str += '<div><small>'+ result[i].orireplycon+'</small><span><small id="date">'+ displayTime(result[i].orireplydate) +'</small></span></div>'

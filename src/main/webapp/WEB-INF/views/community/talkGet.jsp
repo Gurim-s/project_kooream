@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -59,11 +60,16 @@
 	<div id="main">
 		<div>
 			<span id="head"><strong>구림톡</strong></span>
+			<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal.member" var="mvo"/>
 			<div>
-				<button class="btn" data-oper="talkupdate">수정</button>
-				<button class="btn" data-oper="talkremove">삭제</button>
+				<c:if test="${mvo.m_no eq vo.m_no }">
+					<button class="btn" data-oper="talkupdate">수정</button>
+					<button class="btn" data-oper="talkremove">삭제</button>
+				</c:if>
 				<button class="btn" data-oper="talklist">목록</button>
 			</div>
+			</sec:authorize>
 		</div>
 		<br/>
 		<hr/>
@@ -99,15 +105,23 @@
 		</div>
 		<div style="height: 75px;"></div>
 		<!-- 댓글 입력 폼 -->
-		<div>
-			<div>
-			<strong>구리머</strong>
-			<input type="hidden" name="replyname" value="구리머">
-			</div>
-			<br/>
-			<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none";></textarea></div>
-			<div><button id="addReplyBtn">등록</button></div>
-		</div>
+		<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.member" var="mvo"/>
+			<c:choose>
+				<c:when test="${not empty mvo }">
+					<div>
+						<div>
+						<strong>${mvo.m_nickname }</strong>
+						<input type="hidden" name="replyname" value="${mvo.m_nickname }">
+						</div>
+						<br/>
+						<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none;"></textarea></div>
+						<div><button id="addReplyBtn">등록</button></div>
+					</div>
+				</c:when>
+				<c:otherwise>로그인 후 댓글 작성이 가능합니다.</c:otherwise>
+			</c:choose>
+		</sec:authorize>
 	</div>
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
@@ -174,7 +188,7 @@
 	 	$("#addReplyBtn").click(function() {
 	 		
 	 		
-	 		// 리플 내용 검사
+	 		// 댓글 내용 검사
 	 		if($("textarea[name=replycon]").val() == ""){
 				alert('댓글 내용을 적어주세요.');
 				return;

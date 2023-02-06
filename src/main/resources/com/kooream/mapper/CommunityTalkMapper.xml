@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="talkInsert">
 		INSERT INTO talk(talkno, m_no, talkname, talktitle, talkcon, talkdate)
-		VALUES (seq_talk.nextval, 1, #{talkname}, #{talktitle}, #{talkcon}, sysdate)
+		VALUES (seq_talk.nextval, #{m_no}, #{talkname}, #{talktitle}, #{talkcon}, sysdate)
 	</insert>
 	
 	<select id="talkGet" resultType="com.kooream.domain.CommunityTalkVO">

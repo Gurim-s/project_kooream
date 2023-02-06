@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -35,15 +36,20 @@
 				<td><input type="number" name="m_no"></td>
 			</tr> -->
 			<tr>
-				<td>제목</td>
-				<td><input type="text" name="talktitle"></td>
+				<td colspan="2"><input type="text" name="talktitle" placeholder="제목을 입력해주세요."></td>
 			</tr>
 			<tr>
-				<td>닉네임</td>
-				<td><input type="text" name="talkname"></td>
+				<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="principal.member" var="mvo"/>
+				<td><strong>${ mvo.m_nickname}</strong></td>
+				<td><input type="hidden" name="talkname" value="${ mvo.m_nickname}"></td>
+				<td><input type="hidden" name="m_no" value="${ mvo.m_no}"></td>
+				</sec:authorize>
 			</tr>
 			<tr>
 				<td>내용</td>
+			</tr>
+			<tr>	
 				<td><textarea rows="15" cols="30" name="talkcon"></textarea></td>
 			</tr>
 			<tr>
