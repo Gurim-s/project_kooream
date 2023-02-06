@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.mapper.CommunityTalkMapper;
 import com.kooream.domain.CommunityTalkVO;
@@ -27,6 +28,7 @@ public class CommunityTalkServiceImpl implements CommunityTalkService{
 //	}
 	
 	// 구림톡 게시글 등록
+	@Transactional
 	@Override
 	public void talkRegister(CommunityTalkVO vo) {
 		log.info("register......." + vo);
