@@ -74,7 +74,6 @@
 	<main>
 		<div class="wrapper clearfix">
 		
-<script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
 <script  type="text/javascript">
 
 // 로그아웃시 토큰 보내주기 위한 함수

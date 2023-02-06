@@ -12,6 +12,7 @@ public interface MemberService {
 	public int successModify(MemberVO vo);
 	public int deleteMember(int m_no);
 	public MemberVO findInfo(MemberVO vo);
+	public int matchPw(MemberVO vo);
 	public int updatePw(MemberVO vo);
 	
 	/*
