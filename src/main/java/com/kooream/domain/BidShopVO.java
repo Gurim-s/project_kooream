@@ -11,5 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BidShopVO {
 	private int m_no, p_no, bid_sell, bid_buy;
-	String p_size;
+	String pp_size;
 }

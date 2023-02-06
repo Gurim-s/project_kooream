@@ -4,12 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kooream.mapper.BidShopMapper">
-	<insert id="insert">
-		INSERT INTO BIDDING VALUES(#{M_NO}, #{P_NO}, #{BID_SELL}, #{BID_BUY})
-	</insert>
-	
 	<select id="getList" resultType="com.kooream.domain.ProductVO">
-		select A.* from product A order by p_no desc
+		select A.* from product A where p_class='shop' order by p_no desc
 	</select>
 	
 	<insert id="insertProduct" parameterType="com.kooream.domain.ProductVO">
@@ -47,12 +43,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="remove">
 		delete from PRODUCT where p_no=#{p_no}
 	</delete>
+	
 	<select id="sizeread" resultType="com.kooream.domain.BidShopVO">
 		<![CDATA[
-			select max(bid_sell) as bid_sell, p_size, p_no 
-			from bidding
-			group by p_size, p_no
-			having p_no=#{p_no}
+		select nvl(max(bid_sell), 0) as bid_sell, p.pp_size, p.p_no
+		from product_size p left outer join bidding b on p.pp_size = b.pp_size
+		where p.p_no = #{p_no}
+		group by p.pp_size, p.p_no order by pp_size
 		]]>
 	</select>
 	
