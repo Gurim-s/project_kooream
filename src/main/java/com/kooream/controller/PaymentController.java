@@ -56,7 +56,7 @@ public class PaymentController {
 	// 주문 추가 컨트롤러
 	@PostMapping(value="/addpayment", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public int addPayment(PaymentVO vo){	// 장바구니 담기
+	public int addPayment(PaymentVO vo){	
 
 		 int result = payservice.addPayment(vo);
 
@@ -77,72 +77,24 @@ public class PaymentController {
 	  
 	  @ResponseBody public ResponseEntity<List<PaymentVO>> paymentList(Model model){
 		  int m_no = 1;
-	  model.addAttribute("brandCartList",paymentList(model));
+	 // model.addAttribute("brandCartList",paymentList(model));
 	  
 	  return new ResponseEntity<List<PaymentVO>>(payservice.paymentList(m_no),HttpStatus.OK);
 	  }
+	 	
+	
+	  // 주문내역 리스트 이미지 보기
+	  
+	  @GetMapping(value ="/paymentgetAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	  
+	  @ResponseBody public ResponseEntity<List<AttachFileVO>> paymentgetAttachList(int
+	  p_no) { log.info("CartgetAttachList....." + p_no); 
+	  return new ResponseEntity<List<AttachFileVO>>(payservice.paymentgetAttachList(p_no),
+	  HttpStatus.OK); }
+}
 	 
-	 
-	/*
-	 * @RequestMapping(value = "/brandCartList", method = RequestMethod.GET) public
-	 * void brandCartList(Model model) { int m_no = 1;
-	 * 
-	 * List<BrandCartVO> brandCartList = cartservice.brandCartList(m_no);
-	 * 
-	 * model.addAttribute("brandCartList" ,brandCartList); log.info(brandCartList +
-	 * "얍얍얍얍얍"); }
-	 */
-	
-	
-	/*
-	 * // 장바구니 리스트 이미지 보기
-	 * 
-	 * @GetMapping(value ="/CartgetAttachList", produces =
-	 * MediaType.APPLICATION_JSON_UTF8_VALUE)
-	 * 
-	 * @ResponseBody public ResponseEntity<List<AttachFileVO>> CartgetAttachList(int
-	 * p_no) { log.info("CartgetAttachList....." + p_no); return new
-	 * ResponseEntity<List<AttachFileVO>>(cartservice.CartgetAttachList(p_no),
-	 * HttpStatus.OK); }
-	 */
-	
-		/*
-		 * // 장바구니 삭제
-		 * 
-		 * @PostMapping(value = "/Cartdelete", produces =
-		 * MediaType.APPLICATION_JSON_UTF8_VALUE)
-		 * 
-		 * @ResponseBody public int Cartdelete(BrandCartVO vo) {
-		 * 
-		 * int result = cartservice.Cartdelete(vo);
-		 */
-/*	public int Cartdelete(@RequestParam(value = "chbox[]") List<String> chArr, BrandCartVO vo) {
-
-		 int result = 0;
-		 int cart_no = 0;
-
-		  for(String i : chArr) {   
-		   cart_no = Integer.parseInt(i);
-		   vo.setCart_no(cart_no);
-		   cartservice.Cartdelete(vo);
-		  }   
-		  result = 1;*/
-		
-	//return result;
-//	}
 	
 
-	
-	
-	
-	
-	//@RequestMapping(value = "/brandCartList", method = RequestMethod.GET)
-	//	public void brandCartList(Model model) {
-	//		int m_no = 1;
-			
-	//		List<BrandCartVO> cartList = cartservice.brandCartList(m_no);
-	//		model.addAttribute("cartList", cartList);
-		}
 		
 		
 		
@@ -155,18 +107,4 @@ public class PaymentController {
 
 		
 		
-	
-		
-		
-				// 화면에 사용할 값을 return 값에 넣어줌
-	
-	//@PostMapping(value="/addCart", produces = {MediaType.APPLICATION_JSON_VALUE})
-	//public ResponseEntity<String> addCart(@RequestBody BrandCartVO vo){
-		
-	//	int insertCount = cartservice.addCart(vo);
-		
-	//	return insertCount == 1?
-	//			new ResponseEntity<String>("success", HttpStatus.OK):
-	//				new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-
 	

@@ -27,6 +27,7 @@
 		width: 90%;
 	}
 
+
 </style>
 </head>
 <body>
@@ -71,24 +72,24 @@
 							<option value="shoes">3. 신발</option>
 							<option value="acc">4. 패션잡화</option>
 						</select>
-							<div>
-							<input type="checkbox" class = "T_Category"  value="S" name ="sizeList" >s
-							<input type="checkbox" class = "T_Category"  value="M" name ="sizeList" >m
-							<input type="checkbox" class = "T_Category"  value="L" name ="sizeList" >l
+							<div class = "sizecheck">
+							<label class="T_Category"><input type="checkbox" class="T_Category" value="S" name ="sizeList" >s</label>
+							<label class="T_Category"><input type="checkbox" class = "T_Category" value="M" name ="sizeList" >m</label>
+							<label class="T_Category"><input type="checkbox" class = "T_Category" value="L" name ="sizeList" >l</label>
 							</div>
-							<div>
-							<input type="checkbox" class = "B_Category"  value="46" name ="sizeList" >
-							<input type="checkbox" class = "B_Category"  value="48" name ="sizeList" >
-							<input type="checkbox" class = "B_Category"  value="50" name ="sizeList" >
+							<div class = "sizecheck">
+							<label class="B_Category"><input type="checkbox" class = "B_Category" value="46" name ="sizeList" >46</label>
+							<label class="B_Category"><input type="checkbox" class = "B_Category" value="48" name ="sizeList" >48</label>
+							<label class="B_Category"><input type="checkbox" class = "B_Category" value="50" name ="sizeList" >50</label>
 							</div>
-							<div>
-							<input type="checkbox" class = "S_Category"  value="230" name ="sizeList" >
-							<input type="checkbox" class = "S_Category"  value="240" name ="sizeList" >
-							<input type="checkbox" class = "S_Category"  value="250" name ="sizeList" >
-							<input type="checkbox" class = "S_Category"  value="260" name ="sizeList" >
+							<div class = "sizecheck">
+							<label class="S_Category"><input type="checkbox" class = "S_Category" value="230" name ="sizeList" >230</label>
+							<label class="S_Category"><input type="checkbox" class = "S_Category" value="240" name ="sizeList" >240</label>
+							<label class="S_Category"><input type="checkbox" class = "S_Category" value="250" name ="sizeList" >250</label>
+							<label class="S_Category"><input type="checkbox" class = "S_Category" value="260" name ="sizeList" >260</label>
 							</div>
-							<div>
-							<input type="checkbox" class = "A_Category"  value="FREE" name ="sizeList" >
+							<div class = "sizecheck">
+							<label class="A_Category"><input type="checkbox" class = "A_Category"  value="FREE" name ="sizeList" >Free</label>
 							</div>
 
 				</td>
@@ -166,109 +167,99 @@
 
 <script type="text/javascript">
 //-------------------------버튼 클릭 스크립트-----------------------------------
-
-		$(function(){
-			var formObj = $("form");
-			var b_no = ${b_no};
-			     // console.log(b_no);
+$(function(){
+	var formObj = $("form");
+	var b_no = ${b_no};
+		// console.log(b_no);
 			
-			// 처음 로드될때 한보이게하기
-			$('.T_Category').hide();
-			$('.T_Category').hide();
-			$('.B_Category').hide();
-			$('.S_Category').hide();
-			$('.A_Category').hide();   
+	// 처음 로드될때 한보이게하기
+	$('.T_Category').hide();
+	$('.T_Category').hide();
+	$('.B_Category').hide();
+	$('.S_Category').hide();
+	$('.A_Category').hide();   
 			  
-			$("button").click(function(e){   
-				e.preventDefault();   // 기본 이벤트 삭제==기능정지
+	$("button").click(function(e){   
+		e.preventDefault();   // 기본 이벤트 삭제==기능정지
 			         
 			         //위 3가지 버튼 중 하나 클릭하면 그거에 맞는 데이터가 들어옴
-				var oper = $(this).data("oper");   //data-oper가 remove, list해서 ..
+		var oper = $(this).data("oper");   //data-oper가 remove, list해서 ..
 			         
-			         if(oper == 'list'){
-			            history.go(-1);
-			         }else if(oper == 'reset'){
-			            formObj[0].reset();
-			         }else{
+		if(oper == 'list'){
+			history.go(-1);
+		}else if(oper == 'reset'){
+			formObj[0].reset();
+		}else{
 			            // 게시글 등록
-			        	var brand_select = $("#brand_select").val();
-			     	    var p_name = $("#p_name").val();
-			     	    var p_en = $("#p_en").val();
-			     	    var Category1 = $("#Category1").val();
-			     	    var pm_no = $("#pm_no").val();
-			     	    var p_price = $("#p_price").val();
-			     	    var p_image = $("#p_image").val();
+			var brand_select = $("#brand_select").val();
+			var p_name = $("#p_name").val();
+			var p_en = $("#p_en").val();
+			var Category1 = $("#Category1").val();
+			var pm_no = $("#pm_no").val();
+			var p_price = $("#p_price").val();
+			var p_image = $("#p_image").val();
 
-			     	    if(!p_image.length){
-			     	    	
-			     	    	
-			     	        alert("이미지를 선택해주세요");
-			     	        return;
-			     	    }
+				if(!p_image.length){
+			    	alert("이미지를 선택해주세요");
+			     	return;
+			    }
 			     	    
-			     	    if(brand_select.length == 0){
-			     	        alert("브랜드를 체크해 주세요"); 
-			     	        $("#brand_select").focus();
-			     	        return ;
-			     	    }
+			    if(brand_select.length == 0){
+			     	alert("브랜드를 체크해 주세요"); 
+			     	$("#brand_select").focus();
+			     	return;
+				}
 			     	    
-			     	    if(p_name.length == 0){
-			     	        alert("상품(한글) 이름을 입력해 주세요"); 
-			     	        $("#p_name").focus();
-			     	        return;
-			     	    }
+			    if(p_name.length == 0){
+			     	alert("상품(한글) 이름을 입력해 주세요"); 
+			    	$("#p_name").focus();
+			     	return;
+			    }
 			     	 
-			     	    if(p_en.length == 0){
-			     	        alert("상품(영문) 이름을 입력해주세요");
-			     	        $("#p_en").focus();
-			     	        return;
-			     	    }
+			    if(p_en.length == 0){
+			     	alert("상품(영문) 이름을 입력해주세요");
+			     	$("#p_en").focus();
+			     	return;
+			    }
 			     	    
-			     	    if(Category1.length == 0){
-			     	        alert("사이즈를 선택해주세요");
-			     	        $("#Category1").focus();
-			     	        return ;
-			     	    }
+			    if(Category1.length == 0){
+			     	 alert("사이즈를 선택해주세요");
+			     	 $("#Category1").focus();
+			     	 return ;
+			    }
 			     	    
-			     	    if(pm_no.length == 0){
-			     	        alert("상품 모델번호를 입력해주세요");
-			     	        $("#pm_no").focus();
-			     	        return;
-			     	    }
+			    if(pm_no.length == 0){
+			     	 alert("상품 모델번호를 입력해주세요");
+			     	 $("#pm_no").focus();
+			     	 return;
+			    }
 			     	    
-			     	    if(p_price.length == 0){
-			     	        alert("상품 금액을 입력해주세요");
-			     	        $("#p_price").focus();
-			     	        return;
-			     	    }
+			    if(p_price.length == 0){
+			     	 alert("상품 금액을 입력해주세요");
+			     	 $("#p_price").focus();
+			     	 return;
+			    }
 
-
-			            
-			            
-			            
-			            var str = '';
+			    var str = '';
 			            
 			            //upload 안에 li들을 갖고 for문 돌릴거임
-			            $(".uploadResult ul li").each(function(i, obj){
-			               var jobj = $(obj);   //특정 요소 변수에 담음
-			               str += '<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'" >';
-			               str += '<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'" >';
-			               str += '<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'" >';
-			            });   
-			               
-			            formObj.append(str);
-			            formObj.submit();
-			         }
+			$(".uploadResult ul li").each(function(i, obj){
+				var jobj = $(obj);   //특정 요소 변수에 담음
+				str += '<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'" >';
+				str += '<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'" >';
+				str += '<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'" >';
+			});   
+					               
+				formObj.append(str);
+				formObj.submit();
+		}
 			         
-			      });
-			   
-			      
-			      
-			   });
+	});
+});
 	// 업로드 전 제약
-		$(function () {
-			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");		// 확장자 (정규식) 업로드할수없는 파일
-			var maxSize = 5242880;	//5MB
+	$(function () {
+		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");		// 확장자 (정규식) 업로드할수없는 파일
+		var maxSize = 5242880;	//5MB
 			
 			function checkExtension(fileName, fileSize) {
 				if(fileSize >= maxSize){
@@ -284,11 +275,11 @@
 		
 	
 
-	//--------------------------------------------------------------업로드
-		$("input[type='file']").change(function(){
-			var formData = new FormData();	// 스크립트에서 Form태그 생성
-	        var inputFile = $("input[name='uploadFile']");
-			var files = inputFile[0].files;			// 0번에 있는 파일	f12누르면 fileList
+//--------------------------------------------------------------업로드
+	$("input[type='file']").change(function(){
+		var formData = new FormData();	// 스크립트에서 Form태그 생성
+	    var inputFile = $("input[name='uploadFile']");
+		var files = inputFile[0].files;			// 0번에 있는 파일	f12누르면 fileList
 			console.log(files);
 			
 			for(var i=0; i<files.length; i++){
@@ -312,7 +303,7 @@
 	              	showUploadFile(result);
 	            }
 	         });
-		});	// click 함수 end
+	});	// click 함수 end
 //-------------------------------------------------------checkbox는 자동적으로 배열로 들어가서 배열로 안만들어도된대,,,,
 /* 		$(".T_Category").click(function(){
 			
@@ -326,7 +317,7 @@
 			}) */
 			
 //----------------------------------- 파일 업로드 후 업로드 된 파일 결과 화면에 보여주기
-		var uploadResult = $(".uploadResult ul");
+	var uploadResult = $(".uploadResult ul");
 		function showUploadFile(uploadResultArr) {
 			
 			var str='';	// 태그들을 한번에 동적으로 실행
@@ -374,9 +365,9 @@
 	});
 	// 사이즈 선택-----------------------------------------------------------------
 		
-		$('#Category1').change(function () {
+	$('#Category1').change(function () {
 			
-			var result =$('#Category1 option:selected').val();
+		var result =$('#Category1 option:selected').val();
 			if(result == ''){
 				$('.T_Category').hide();
 				$('.T_Category').hide();
@@ -405,11 +396,8 @@
 				$('.B_Category').hide();
 				$('.S_Category').hide();	
 			};
-		});
+	});
 	// 사이즈 선택 끝-----------------------------------------------------------		
-
-
-
 
 	</script>
 	

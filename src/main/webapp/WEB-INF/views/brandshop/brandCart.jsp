@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <jsp:include page="../include/header.jsp"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,10 +60,14 @@
 
 	<hr/>
 	<div>
-	<p>합계</p><div  id="total_sum" ></div>
+		<p>합계</p><div  id="total_sum" ></div>
 	</div>
     <br/>
     <br/>
+    
+<!---------------------------------상품 구매하기-------------------------------- -->
+<button type="button" id="product_buy">구매하기</button>
+
 <!---------------------------------스크립트 시작-------------------------------- -->	
 <script type="text/javascript">
 
@@ -88,7 +95,7 @@ $(function(){	// list()함수 실행하기위한
 				for(var i=0; i<json.length; i++) {
 					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 							// brandshop(컨트롤러) 에서 /get을 탐  
-					str += '<input type="checkbox" class="chkbox"  data-cartno="'+json[i].cart_no+'" data-price="'+json[i].p_release_price+'" /><br/><br/>'
+					str += '<input type="checkbox" class="chkbox"  data-cartno="'+json[i].cart_no+'" data-price="'+json[i].p_release_price+'" data-pno="'+json[i].p_no+'" data-ppsize="'+json[i].pp_size+'" /><br/><br/>'
 					str += '<div class = "product">'
 					// 이미지 하나만 보여주기 
 					
@@ -120,7 +127,7 @@ $(function(){	// list()함수 실행하기위한
 		
 		
 	 		}else{
-					str += '<p>장바구니에 상품이 없습니다.</p>'
+				str += '<p>장바구니에 상품이 없습니다.</p>'
 				$('.brand').html(str);
 			
 	 		}// ------- else 문 끝
@@ -174,32 +181,33 @@ $(function(){	// list()함수 실행하기위한
 //	}); // 삭제 함수 끝
  	
 
-	//----------------------------------------------------------여러개 선택 삭제 비동기
-$(".selectDelete_btn").click(function(){
-	var confirm_val = confirm("정말 삭제하시겠습니까?");
-  
-		if(confirm_val) {
-   			var checkArr = new Array();
-   
-		$("input[class='chkbox']:checked").each(function(){
-			checkArr.push($(this).attr("data-cartno"));
-   		});
-    
-			$.ajax({
-				url : "/brandCart/Cartdelete",
-				type : "POST",
-				data : { chArr : checkArr },
-				success : function(result){
-				    if(result==1){
-					   	alert("선택한 항목이 삭제되었습니다.");
-					   	list();
-				    }else{
-				    	alert("선택한 항목 삭제 실패")
-				    }
-   				}
-  			});
- 		}
-});
+//----------------------------------------------------------여러개 선택 삭제 비동기
+	$(".selectDelete_btn").click(function(){
+		var confirm_val = confirm("정말 삭제하시겠습니까?");
+	  
+			if(confirm_val) {
+	   			var checkArr = new Array();
+	   
+			$("input[class='chkbox']:checked").each(function(){
+				checkArr.push($(this).attr("data-cartno"));
+				
+	   		});
+	    
+				$.ajax({
+					url : "/brandCart/Cartdelete",
+					type : "POST",
+					data : { chArr : checkArr },
+					success : function(result){
+					    if(result==1){
+						   	alert("선택한 항목이 삭제되었습니다.");
+						   	list();
+					    }else{
+					    	alert("선택한 항목 삭제 실패")
+					    }
+	   				}
+	  			});
+	 		}
+	});
 
 
 //----------------------------------------------------------여러개 선택 삭제 비동기
@@ -237,26 +245,26 @@ $(".selectDelete_btn").click(function(){
 
 // --------------------------------------------------------------상품 합계 구하기
 
-$(document).on("click",".chkbox",function (){
-	itemSum();
-}) ;
-function itemSum() {
-	
-	var sum = 0;
-	var count = $(".chkbox").length;
-	
-	for (var i = 0; i < count; i++) {
-		 if ($(".chkbox")[i].checked == true){	// 체크가 되어진 것만 값 가지고오기
-			var obj = $(".chkbox")[i];
-		 	//console.log($(".chkbox")[i])
-		 	// => class="chkbox" data-cartno=cart_no data-price=p_release_price 값 찍히는에 그중에서 
-			sum += Number($(obj).attr("data-price"));	// data-price의 속성(attr)가지고와서 숫자로 변환하고(숫자로 변환하기전은 string) 더해줌 
-		}
-	}
-    $("#total_sum").html(sum + " 원");
-
-	 	
-}	
+	$(document).on("click",".chkbox",function (){
+		itemSum();
+	}) ;
+		function itemSum() {
+			
+			var sum = 0;
+			var count = $(".chkbox").length;
+			
+			for (var i = 0; i < count; i++) {
+				 if ($(".chkbox")[i].checked == true){	// 체크가 되어진 것만 값 가지고오기
+					var obj = $(".chkbox")[i];
+				 	console.log($(".chkbox")[i])
+				 	// => class="chkbox" data-cartno=cart_no data-price=p_release_price 값 찍히는에 그중에서 
+					sum += Number($(obj).attr("data-price"));	// data-price의 속성(attr)가지고와서 숫자로 변환하고(숫자로 변환하기전은 string) 더해줌 
+				}
+			}
+		    $("#total_sum").html(sum + " 원");
+		
+			 	
+		}	
 	
 //------------------------------------- 체크박스 선택하면 모두 체크박스 선택
  	$("#allCheck").click(function(){
@@ -274,17 +282,55 @@ function itemSum() {
 		$("#allCheck").prop("checked", false);
 	});
 
+<!-- ------------------------------------------ 구매하기  ---------------------------------------------------- -->	
+
+	$("#product_buy").click(function (e) {
+		e.preventDefault();
+		
+		if("input[class='chkbox']:checked" == false){ //alert 창안떠 ㅠ씨앙
+			alert("상품 선택 후 구매해주세요");
+			return;
+		}else{
+			var confirm_val = confirm("구매하시겠습니까? 확인누르시면 구매창으로 이동합니다");
+				if(confirm_val){
+					
+					var count = $(".chkbox").length;
+					
+					for (var i = 0; i < count; i++) {
+						 if ($(".chkbox")[i].checked == true){	// 체크가 되어진 것만 값 가지고오기
+							// var payArr = new Array();
+							 
+							var obj = $(".chkbox")[i];
+						 	console.log($(".chkbox")[i]);
+						 	// => class="chkbox" data-cartno=cart_no data-price=p_release_price 값 찍히는에 그중에서 
+							 var pno = (Number($(obj).attr("data-pno"))); 
+							 var ppsize = ($(obj).attr("data-ppsize"))  ;	// data-price의 속성(attr)가지고와서 숫자로 변환하고(숫자로 변환하기전은 string) 더해줌 
+							var price = (Number($(obj).attr("data-price")));
+							 /*  payArr.push($(obj).attr("data-ppsize")); */
+							 console.log(pno);
+						 
+							 $.ajax({
+									url : "/Payment/addpayment",
+									type : "POST",
+									data : {p_no:pno,sum_price :price,  pp_size:ppsize},
+									dataType : 'json',
+									success : function (result) {
+										location.href = "/Payment/payment" //  location.href 기본적으로 getMapping
+									},
+									error : function () {
+										alert("구매하기 실패")
+										
+									}
+							 });
+						};
+					
+					}	
+				}
+		}
+	});
 
 
 
-	
-
-
-
-	
-	
-
-	
 
 </script>
 </body>

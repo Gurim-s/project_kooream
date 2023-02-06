@@ -14,11 +14,10 @@ public interface PaymentMapper{
 
 	public int addPayment(PaymentVO vo);
 	
-	//public int addCart(BrandCartVO vo);
 
 	public List<PaymentVO> paymentList(int m_no);
 
-	//public int Cartdelete(BrandCartVO vo);
+
 	
 
 	
