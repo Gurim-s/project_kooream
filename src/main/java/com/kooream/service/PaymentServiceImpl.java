@@ -35,13 +35,14 @@ public class PaymentServiceImpl implements PaymentService{
 	private BrandProductMapper mapper;
 
 	
+	// 주문내역 추가
 	@Override
 	public int addPayment(PaymentVO vo) {
 		
 		return paymapper.addPayment(vo);
 	}
 
-
+	// 주문리스트 불러오기
 	@Override
 	public List<PaymentVO> paymentList(int m_no) {
 		List<PaymentVO> list = paymapper.paymentList(m_no);
@@ -53,51 +54,21 @@ public class PaymentServiceImpl implements PaymentService{
 		}
 		return list;
 	}
+
+	@Override
+	public List<AttachFileVO> paymentgetAttachList(int p_no) {
+
+		return uploadmapper.findByPno(p_no);
+	}
+}
 	
 
 	// 장바구니 리스트 가지고오기
-	/*
-	 * @Override public List<BrandCartVO> brandCartList(int m_no) {
-	 * List<BrandCartVO> list = cartmapper.brandCartList(m_no);
-	 */
-		
-		
-	//	for (BrandCartVO vo : list) {
-	//		List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
-		//	int productList = mapper.getPno();
-	//		vo.setAttachList(attach);
-			//vo.setProductList(productList);;
-			
-	//	}
-
-	//	return list;
-	//}
-
-
-//	@Override
-//	public List<AttachFileVO> CartgetAttachList(int p_no) {
-		
-	//	return uploadmapper.findByPno(p_no);
-	//}
-
 	
 
-//	@Override
-//	public int Cartdelete(BrandCartVO vo) {
+	 
 		
-//		return cartmapper.Cartdelete(vo);
-//	}
 
-
-
-
-//	@Override
-//	public List<BrandCartVO> brandCartList(int m_no) {
-		
-//	return cartmapper.brandCartList(m_no);
-}
-
-	
 	
 
   

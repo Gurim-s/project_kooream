@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.BrandCartMapper">
 <insert id="addCart">	
 		INSERT INTO Cart(Cart_no, M_no, p_no, pp_size)
-		VALUES(cart_no_seq.nextval, 1, #{p_no}, #{pp_size} )
+		VALUES(cart_no_seq.nextval, #{m_no}, #{p_no}, #{pp_size} )
 </insert>
 <select id="brandCartList" resultType="com.kooream.domain.BrandCartVO">
 	select 
@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          on c.p_no = p.p_no 
     inner join brand_member b
         on p.b_no = b.b_no
-     where c.m_no = 1
+     where c.m_no = #{m_no}
      order by cart_no desc
 </select>
 <!-- <select id="brandCartList" resultType="com.kooream.domain.BrandCartVO">

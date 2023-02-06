@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ public class BrandProductController {
 		return "brandshop/index";
 	}
 
-  
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/register")	// 등록 페이지 단순 이동
 	public String register(Model model, int b_no) {
 		model.addAttribute("b_no", b_no);
@@ -53,7 +54,7 @@ public class BrandProductController {
 	
 	}
   
-  
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/register")	// 등록 페이지 삽입 
 	public String register(ProductVO vo,RedirectAttributes rttr) { 
 		
@@ -110,7 +111,7 @@ public class BrandProductController {
 	}
 	
 	
-	  
+	@Secured({"ROLE_ADMIN"})  
 	@GetMapping("/modify")	// 수정버트은을 누르면 수정 페이지로 이동
 	public String modify(ProductVO vo, Model model, Criteria cri) {
 		  
@@ -119,7 +120,7 @@ public class BrandProductController {
 		  
 		return "brandshop/modify";	//.jsp
 	}
-	  
+	@Secured({"ROLE_ADMIN"})  
 	@PostMapping("/modify")	// 수정페이지에서 수정하고 수정한 결과 저장
 	public String modify(ProductVO vo, RedirectAttributes rttr, Criteria cri) {
 		log.info("modify...." + vo );

@@ -15,7 +15,7 @@ public interface PaymentService {
 	public List<PaymentVO> paymentList(int m_no);	// 장바구니 리스트 가져오기
 	
 	// 장바구니 사진 리스트 가지고오기
-	//public List<AttachFileVO> CartgetAttachList(int p_no);
+	public List<AttachFileVO> paymentgetAttachList(int p_no);
 	
 	// 장바구니 삭제
 	//public int Cartdelete(BrandCartVO vo);
