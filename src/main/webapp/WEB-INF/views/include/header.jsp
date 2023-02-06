@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>KOOREAM</title>
 <!-- 	<link rel="stylesheet" type="text/css" href="WEB-INF/views/include/common.css"> -->
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/common.css'/>">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/header.css'/>">
