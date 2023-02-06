@@ -1,5 +1,6 @@
 package com.kooream.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,18 +9,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.Criteria;
 import com.kooream.domain.HashtagVO;
+import com.kooream.domain.ProductVO;
+import com.kooream.domain.StyleProductTagVO;
 import com.kooream.domain.StyleImageVO;
 import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleTagVO;
 import com.kooream.domain.StyleVO;
 import com.kooream.mapper.StyleImageMapper;
 import com.kooream.mapper.StyleMapper;
+import com.kooream.mapper.StyleProductTagMapper;
 import com.kooream.mapper.StyleReplyMapper;
 import com.kooream.mapper.StyleTagMapper;
+import com.kooream.mapper.BidShopMapper;
 import com.kooream.mapper.HashtagMapper;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Service
 @AllArgsConstructor
 public class StyleServiceImpl implements StyleService{
@@ -28,6 +35,8 @@ public class StyleServiceImpl implements StyleService{
 	private StyleReplyMapper replyMapper;
 	private StyleTagMapper styleTagMapper;
 	private HashtagMapper hashtagMapper;
+	private StyleProductTagMapper productTagMapper;
+	private BidShopMapper productMapper;
 	
 	@Override
 	public List<StyleVO> getList(StyleQuery query) {
@@ -70,8 +79,28 @@ public class StyleServiceImpl implements StyleService{
 	public StyleVO get(long style_no) {
 		StyleVO style = mapper.get(style_no);
 		List<StyleImageVO> images = imageMapper.getImagesByStyle_no(style_no);
+		List<List<StyleProductTagVO>> productTagList = new ArrayList<List<StyleProductTagVO>>();
+		for (StyleImageVO image : images) {
+			StyleProductTagVO vo = new StyleProductTagVO();
+			vo.setStyle_no(style_no);
+			vo.setFileName(image.getFileName());
+			vo.setUuid(image.getUuid());
+			
+			List<StyleProductTagVO> tagList = productTagMapper.getTagList(vo);
+			productTagList.add(tagList);
+		}
+		
+//		List<Integer> pnoList = productTagMapper.getPNoListByStyleNo(style_no);
+//		List<ProductVO> productList = new ArrayList<>(); 
+//		if (pnoList != null && pnoList.size() != 0) {
+//			for (Integer pno : pnoList) {
+//				productList.add(productMapper.read(pno));
+//			}
+//		}
 		
 		style.setStyle_image(images);
+//		style.setProductList(productList);
+		style.setProductTagList(productTagList);
 		return style;
 	}
 	
@@ -85,10 +114,22 @@ public class StyleServiceImpl implements StyleService{
 	public void register(StyleVO vo) {
 		mapper.insert(vo);		
 		long style_no = mapper.getStyle_no();
-		if (vo.getStyle_image() != null) {
-			for (StyleImageVO image : vo.getStyle_image()) {
+		List<StyleImageVO> imageList = vo.getStyle_image(); 
+		if (imageList != null && imageList.size() != 0) {
+			for (int i=0; i<imageList.size(); i++) {
+				StyleImageVO image = imageList.get(i);
 				image.setStyle_no(style_no);
 				imageMapper.insert(image);
+				
+				if (vo.getProductTagList() != null && vo.getProductTagList().size() > i) {
+					List<StyleProductTagVO> productTagList = vo.getProductTagList().get(i);
+					for (StyleProductTagVO productTag : productTagList) {
+						productTag.setStyle_no(style_no);
+						productTag.setFileName(image.getFileName());
+						productTag.setUuid(image.getUuid());
+						productTagMapper.insert(productTag);
+					}
+				}
 			}
 		}
 		

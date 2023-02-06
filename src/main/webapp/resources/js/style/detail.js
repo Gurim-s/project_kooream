@@ -1,6 +1,7 @@
 import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
+import {productSearchService} from '../service/product-search-service.js';
 import {modal} from '../common/modal.js';
 import {replyViewer} from '../common/reply-viewer.js';
 import {showTime} from '../common/common.js';
@@ -68,6 +69,16 @@ var template = function(style) {
 	var imgSrcList = style.style_image.map(x => imgService.getImageEl(x));
 	slider.addImgTagList(imgSrcList);
 	
+	// 상품 정보 가져오기
+	const productContainer = template.querySelector('.product-container');
+	style.productTagList.flat()
+	.map(x => x.p_no)
+	.filter((x, i, arr) => arr.indexOf(x) === i)
+	.reduce(async (_, x) => {
+		productContainer.append(await productTagTemplate(x));
+	});
+	
+	
 	/***********************************
 	 * addEventListener
 	 **********************************/
@@ -109,6 +120,47 @@ var template = function(style) {
 	});
 	
 	return template;
+}
+
+var productTagTemplate = async function(p_no) {
+	const container = document.createElement('a');
+	container.className = 'product-info';
+	container.href = '../shop_introduce/'+p_no;
+	
+	const product = await productSearchService.getProduct(p_no);
+	console.log(product);
+	const str = (
+		'<div class="product-img">' +
+				'<img src="'+imgService.originPath(product.attachList[0])+'" />' +
+		'</div>' +
+		'<div class="name-price">' +
+			'<p class="name">'+product.p_name_en+'</p>'+
+			'<p class="price">'+product.p_release_price+'원</p>'+
+		'</div>'
+	);
+	container.innerHTML += str;
+	
+	container.style.display = 'inline-block';
+	container.style.width = '100px';
+	container.style.marginLeft = '5px';
+	
+	const productImg = container.querySelector('.product-img img');
+	productImg.style.width = '100px';
+	productImg.style.height = '100px';
+	
+	const name = container.querySelector('.name');
+	name.style.fontSize = '15px';
+	name.style.width = '100px';
+	name.style.height = '20px';
+	name.style.overflow = 'hidden';
+	
+	const price = container.querySelector('.price');
+	price.style.fontSize = '15px';
+	price.style.fontWeight = 'bold';
+	price.style.width = '100px';
+	
+	
+	return container;
 }
 
 function strToHashTag(text) {

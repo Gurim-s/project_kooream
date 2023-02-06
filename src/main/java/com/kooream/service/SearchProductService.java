@@ -7,4 +7,5 @@ import com.kooream.domain.SearchKeyword;
 
 public interface SearchProductService {
 	public List<ProductVO> searchProductTag(SearchKeyword keyword);
+	public ProductVO getProduct(int p_no);
 }

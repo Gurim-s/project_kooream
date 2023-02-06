@@ -113,12 +113,16 @@ async function regist(e) {
 	
 	const form = e.target.closest('form');
 	const imgUploadResult = await imgFileUploader.uploadImageAjax();
+	const productTagList = tagSelector.getProductTagsInput();
 	const hashTagList = extractHashTag(text);
 	const div = document.createElement('div');
 	div.innerHTML += imgUploadResult;
+	div.innerHTML += productTagList;
 	div.innerHTML += hashTagList;
 	
 	form.append(div);
+	console.log(div);
+	console.log(form);
 	form.submit();
 }
 
@@ -126,12 +130,13 @@ function extractHashTag(text) {
 	const type = /#[^\s^#]+/g;
 	const strToInput = (str, i) =>
 		'<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
+	const list = text.match(type);
+	if (list == null) return text;
 	
-	const list = text.match(type)
-	.map(x => x.substring(1))
+	const result = list.map(x => x.substring(1))
 	.map(strToInput)
 	.reduce((str, x) => str + x, '');
-	return list; 
+	return result; 
 }
 
 //	$('.editable').each(function(_, textDiv){

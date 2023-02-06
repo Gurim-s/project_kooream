@@ -243,9 +243,17 @@ var imgSlider = (customOption) => (function(customOption) {
 		currentImg.append(productTemplate(product));
 	}
 	
+	function getProductTagList() {
+		const list = Array.from(ul.children)
+		.map(x => x.querySelectorAll('.product-tag'));
+		
+		return list;
+	}
+	
 	function productTemplate(product) {
 		const container = document.createElement('div');
 		container.className = 'product-tag';
+		container.dataset.p_no = product.p_no;
 		const pointer = document.createElement('div');
 		pointer.className = 'tag-pointer';
 		const template = document.createElement('div');
@@ -264,7 +272,8 @@ var imgSlider = (customOption) => (function(customOption) {
 		template.innerHTML = str;
 		
 		container.style.position = 'absolute';
-		container.style.bottom = '10px';
+		container.style.top = '520px';
+		container.style.left = '10px';
 		container.style.zIndex = '1';
 		
 		pointer.style.height = '12px';
@@ -301,7 +310,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		name.style.color = '#ccc';
 		
 		const price = template.querySelector('p.price');
-		name.style.height = '20px';
+		price.style.height = '20px';
 		price.style.fontSize = '14px';
 		price.style.color = '#fff';
 		
@@ -484,6 +493,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		offsetY: offsetY,
 		getImgTagList: getImgTagList,
 		addProductTag: addProductTag,
+		getProductTagList: getProductTagList,
 	}
 }(customOption));
 

@@ -48,11 +48,34 @@ const productTagSelector = () => (function() {
 	
 	function chooseProduct(product) {
 		slider.addProductTag(product);
+		getProductTagsInput();
+	}
+	
+	function getProductTagsInput() {
+		const list = slider.getProductTagList();
+		const result = list.map((tagList, i) => Array.from(tagList).map((tag, j) => _tagsToInput(tag, i, j)))
+		.flat()
+		.reduce((init, str) => init + str, '');
+		
+		return result;
+	}
+	
+	function _tagsToInput(tag, i, j) {
+		const p_no = tag.dataset.p_no;
+		const offsetX = tag.style.left;
+		const offsetY = tag.style.top;
+		const result = (
+			'<input type="hidden" name="productTagList['+i+']['+j+'].p_no" value="'+p_no+'"/>' +
+			'<input type="hidden" name="productTagList['+i+']['+j+'].offsetX" value="'+offsetX+'"/>' +
+			'<input type="hidden" name="productTagList['+i+']['+j+'].offsetY" value="'+offsetY+'"/>'
+		);
+		return result;
 	}
 	
 	return {
 		container: container,
 		slider: slider,
+		getProductTagsInput: getProductTagsInput,
 	};
 })();
 

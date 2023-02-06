@@ -15,8 +15,9 @@ const productSearchService = (function() {
 		return result.json();
 	}
 	
-	function getProduct(p_no) {
-		return {};
+	async function getProduct(p_no) {
+		const result = await fetch('/search/product/'+p_no);
+		return result.json();
 	}
 	
 	return {
