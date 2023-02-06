@@ -238,9 +238,13 @@ var imgSlider = (customOption) => (function(customOption) {
 		return imgTagList;
 	}
 	
-	function addProductTag(product) {
-		const currentImg = Array.from(ul.children)[idx];
-		currentImg.append(productTemplate(product));
+	function addProductTag(product, x, y, i) {
+		if (i === undefined) i = idx;
+		if (x === undefined) x = 0;
+		if (y === undefined) y = 0;
+		
+		const currentImg = Array.from(ul.children)[i];
+		currentImg.append(productTemplate(product, x, y));
 	}
 	
 	function getProductTagList() {
@@ -250,16 +254,20 @@ var imgSlider = (customOption) => (function(customOption) {
 		return list;
 	}
 	
-	function productTemplate(product) {
+	function productTemplate(product, x, y) {
 		const container = document.createElement('div');
 		container.className = 'product-tag';
 		container.dataset.p_no = product.p_no;
+		
 		const pointer = document.createElement('div');
 		pointer.className = 'tag-pointer';
+		
 		const template = document.createElement('div');
 		template.className = 'product-info';
+		
 		container.append(pointer);
 		container.append(template);
+		
 		const str = (
 			'<div class="product-img">' +
 				'<img src="/resources/img/codi_test.png" />' +
@@ -272,8 +280,8 @@ var imgSlider = (customOption) => (function(customOption) {
 		template.innerHTML = str;
 		
 		container.style.position = 'absolute';
-		container.style.top = '520px';
-		container.style.left = '10px';
+		container.style.top = x == '0'? '520px': x;
+		container.style.left = y == '0'? '10px': y;
 		container.style.zIndex = '1';
 		
 		pointer.style.height = '12px';

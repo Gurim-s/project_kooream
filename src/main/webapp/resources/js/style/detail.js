@@ -40,6 +40,7 @@ var template = function(style) {
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
+		'<div class="product-count"></div>' + 
 		'<div class="product-container">'+
 		'</div>' +
 		'<div class="reply-like-summary">'+
@@ -71,12 +72,20 @@ var template = function(style) {
 	
 	// 상품 정보 가져오기
 	const productContainer = template.querySelector('.product-container');
-	style.productTagList.flat()
-	.map(x => x.p_no)
-	.filter((x, i, arr) => arr.indexOf(x) === i)
-	.reduce(async (_, x) => {
-		productContainer.append(await productTagTemplate(x));
-	});
+	setProductTags(style.productTagList, productContainer, slider);
+	console.log(style.productTagList.length);
+	console.log(style);
+//	const productTagList = await Promise.all(style.productTagList.flat().map(getProduct));
+//	console.log(1);
+	
+	
+	//.filter((x, i, arr) => arr.indexOf(x) === i)
+	
+//	template.querySelector('.product-count').innerHTML = '상품 태그 ' + productList.length + ' 개';
+//	productList.forEach(async x => {
+//		const product = await productTagTemplate(x);
+//		productContainer.append(product);
+//	});
 	
 	
 	/***********************************
@@ -122,13 +131,28 @@ var template = function(style) {
 	return template;
 }
 
-var productTagTemplate = async function(p_no) {
+async function getProduct(x) {
+	x.product = await productSearchService.getProduct(x.p_no);
+	return x;
+}
+
+async function setProductTags(list, productContainer, slider) {
+	const productList = await Promise.all(list.flat().map(getProduct));
+	productList.forEach(x => {
+		slider.addProductTag(x.product, x.offsetX, x.offsetY, x.idx);
+	});
+	productList.forEach(x => {
+		productContainer.append(productTagTemplate(x));
+	});
+	
+}
+
+function productTagTemplate(productTag) {
 	const container = document.createElement('a');
 	container.className = 'product-info';
-	container.href = '../shop_introduce/'+p_no;
+	container.href = '../shop_introduce/'+productTag.p_no;
 	
-	const product = await productSearchService.getProduct(p_no);
-	console.log(product);
+	const product = productTag.product;
 	const str = (
 		'<div class="product-img">' +
 				'<img src="'+imgService.originPath(product.attachList[0])+'" />' +
@@ -142,11 +166,12 @@ var productTagTemplate = async function(p_no) {
 	
 	container.style.display = 'inline-block';
 	container.style.width = '100px';
-	container.style.marginLeft = '5px';
+	container.style.margin = '5px 0px 10px 5px';
 	
 	const productImg = container.querySelector('.product-img img');
 	productImg.style.width = '100px';
 	productImg.style.height = '100px';
+	productImg.style.borderRadius = '10px';
 	
 	const name = container.querySelector('.name');
 	name.style.fontSize = '15px';
@@ -158,7 +183,6 @@ var productTagTemplate = async function(p_no) {
 	price.style.fontSize = '15px';
 	price.style.fontWeight = 'bold';
 	price.style.width = '100px';
-	
 	
 	return container;
 }
