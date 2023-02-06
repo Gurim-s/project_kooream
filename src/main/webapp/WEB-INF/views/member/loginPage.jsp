@@ -19,7 +19,10 @@
 	#loginUl li{
 		padding: 10px;
 	}
-	input{border:0 solid black;}
+	input{
+		border:0 solid black;
+		width: 280px;
+	}
 	input:focus {outline:none;}
 	.inputBox{
 		border-bottom: 1px solid gray;

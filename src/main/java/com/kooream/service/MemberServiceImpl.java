@@ -65,10 +65,16 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+	public int matchPw(MemberVO vo) {
+		return mapper.matchPw(vo);
+	}
+	
+	@Override
 	public int updatePw(MemberVO vo) {
 		vo.setM_pw(pwencoder.encode(vo.getM_pw()));
 		return mapper.updatePw(vo);
 	}
+
 	
 	
 	/*

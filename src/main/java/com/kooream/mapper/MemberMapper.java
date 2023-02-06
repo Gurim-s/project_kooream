@@ -15,6 +15,8 @@ public interface MemberMapper {
 	public int addAuth(Map<String, Object> map);
 	// 로그인
 	public MemberVO read(String m_id);
+	// 비밀번호 맞는지 확인
+	public int matchPw(MemberVO vo);
 	// 개인정보수정
 	public int successModify(MemberVO vo);
 	// 회원삭제

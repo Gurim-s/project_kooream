@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td>발매가</td>
-				<td><input name="p_release_price" type="text" maxlength="10"/> </td>
+				<td><input name="p_release_price" type="number" maxlength="10"/> </td>
 			</tr>
 			<tr>
 				<td>카테고리</td>
@@ -181,14 +181,24 @@ $(function() {
 	$("#registBtn").on("click", function(){
 		
 		var check = 0;
+		var price = $("input[name='p_release_price']").val();
 		$("input[type='text'], input[type='number']").each(function(index, item){ // foreach문과 동일. 같은 태그가 여러개일때 j쿼리로 가져오는 경우 사용가능
 			if(!$(item).val()){ // val이 없으면
 				var str = $(item).parent().prev().text() // item 부모의 형제가 가지고 있는 text
 				alert(str + "을(를) 입력해주세요.");
 				check=1;
 				return false; // .each() 사용시 return은 이렇게 적어줘야함!
+			}else if($(item).attr("type")=='number' && $(item).val()<=0){
+				alert($(this).parent().prev().text()+"에 0보다 큰 수를 입력해주세요.");
+				check=1;
+				return false;	
+			}else if($(item).attr("name")=='p_release_price' && !$.isNumeric(price)){
+				alert("발매가를 숫자로 입력해주세요.");
+				check=1;
+				return false;	
 			}
 		});
+		/*
 		$("input[type='number']").each(function(index, item){
 			if($(item).val()<=0){
 				alert($(this).parent().prev().text()+"에 0보다 큰 수를 입력해주세요.");
@@ -202,7 +212,7 @@ $(function() {
 			check=1;
 			return;
 		}
-		
+		*/
 		if(!$(".fileCheck").length){
 			alert("파일을 등록해주세요.");
 			check=1;

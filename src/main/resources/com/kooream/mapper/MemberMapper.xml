@@ -70,7 +70,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON A.M_NO = B.M_NO
 		WHERE A.M_ID=#{m_id}
 	</select>
-	
+	<!-- 회원 정보 수정전 비밀번호 확인 -->
+	<select id="matchPw" parameterType="com.kooream.domain.MemberVO" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE m_pw=#{m_pw} AND m_no=#{m_no}
+	</select>
 	<!-- 회원 정보 업데이트 -->
 	<update id="successModify" parameterType="com.kooream.domain.MemberVO">
 		UPDATE MEMBER 

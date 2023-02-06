@@ -38,4 +38,9 @@ public class RntRsvtServiceImpl implements RntRsvtService{
 		return mapper.checkRnt(m_no);
 	}
 
+	@Override
+	public int removeRsvt(ProductVO vo) {
+		return mapper.removeRsvt(vo);
+	}
+
 }
