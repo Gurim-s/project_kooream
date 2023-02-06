@@ -22,5 +22,8 @@ public class StyleVO {
 	private double ratio; 
 	
 	private List<StyleImageVO> style_image;
+	private List<List<StyleProductTagVO>> productTagList;
 	private List<String> hashtags;
+	
+	private List<ProductVO> productList;
 }

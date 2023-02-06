@@ -31,4 +31,11 @@ public class SearchProductController {
 		
 		return new ResponseEntity<List<ProductVO>>(list, HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "/search/product/{p_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<ProductVO> getList(@PathVariable("p_no") int p_no) {
+		ProductVO product = service.getProduct(p_no);
+		
+		return new ResponseEntity<ProductVO>(product, HttpStatus.OK);
+	}
 }
