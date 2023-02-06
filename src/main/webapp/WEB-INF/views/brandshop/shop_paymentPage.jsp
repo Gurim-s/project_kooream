@@ -414,7 +414,7 @@
 					<div class="price_bind">
 						<dl class="price_addition">
 							<dt class="price_title"><span>구매가</span></dt>
-							<dd class="price_text">가격</dd>
+							<dd class="price_text"></dd>
 						</dl>
 						<dl class="price_addition">
 							<dt class="price_title2"><span>배송비</span></dt>
@@ -530,7 +530,22 @@ $(function(){	// list()함수 실행하기위한
 			
 			str += '</div>'	// <div class = infobox"> 끝
 			$('.product_info').html(str);	// 여기서 append를 사용하면 내용이 계속 쌓이는거고 새로가지고오지 못한다.. 그래서 html사용해야함,,,,,
-		
+			
+			for(var i= 0; i<json.length; i++){
+				var str='<div class="sumprcie">';
+				var price = json[i].sum_price;
+				//console.log(price);
+				if(price != null){
+					var sum = 0;
+					sum += Number(price);
+					console.log(sum);
+					
+				}
+			}
+				str +='</div>'
+			$('.price_text').html(sum);
+
+			
 		});// ---------done 끝
 		
  	};// ------- list 함수 끝

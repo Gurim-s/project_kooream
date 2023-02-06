@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -33,9 +34,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandCartVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.MemberVO;
 import com.kooream.domain.PaymentVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.mapper.BrandCartMapper;
+import com.kooream.security.UserSession;
 import com.kooream.service.BrandCartService;
 import com.kooream.service.BrandProductService;
 import com.kooream.service.BrandProductUploadService;
@@ -56,27 +59,37 @@ public class PaymentController {
 	// 주문 추가 컨트롤러
 	@PostMapping(value="/addpayment", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public int addPayment(PaymentVO vo){	
+	public int addPayment(PaymentVO vo){
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no()); // 회원번호 불러오기
 
-		 int result = payservice.addPayment(vo);
+		}
+
+		int result = payservice.addPayment(vo);
 
 		return result;
 	}
 	
-
+		
 	  // 주문페이지이동 페이지로 이동
-	  @GetMapping("/payment") public String view(Model model) { 
+	@Secured({"ROLE_USER"})	// 로그인한 사람들만 페이지 이동가능
+	@GetMapping("/payment") public String view(Model model) { 
 		  return "brandshop/shop_paymentPage";
-	  }
+	}
 	 
 	
 	
 	  // 주문페이지 리스트 보기
 	  
-	  @GetMapping("/paymentList")
+	@GetMapping("/paymentList")
 	  
-	  @ResponseBody public ResponseEntity<List<PaymentVO>> paymentList(Model model){
-		  int m_no = 1;
+	@ResponseBody public ResponseEntity<List<PaymentVO>> paymentList(Model model){
+		int m_no=0;
+		MemberVO userSession = new UserSession().getSession();
+			if(userSession != null) {
+				m_no = userSession.getM_no(); // 회원번호 불러오기
+			}	
 	 // model.addAttribute("brandCartList",paymentList(model));
 	  
 	  return new ResponseEntity<List<PaymentVO>>(payservice.paymentList(m_no),HttpStatus.OK);
@@ -85,12 +98,12 @@ public class PaymentController {
 	
 	  // 주문내역 리스트 이미지 보기
 	  
-	  @GetMapping(value ="/paymentgetAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value ="/paymentgetAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	  
-	  @ResponseBody public ResponseEntity<List<AttachFileVO>> paymentgetAttachList(int
-	  p_no) { log.info("CartgetAttachList....." + p_no); 
-	  return new ResponseEntity<List<AttachFileVO>>(payservice.paymentgetAttachList(p_no),
-	  HttpStatus.OK); }
+	@ResponseBody public ResponseEntity<List<AttachFileVO>> paymentgetAttachList(int p_no){ 
+		log.info("CartgetAttachList....." + p_no); 
+	return new ResponseEntity<List<AttachFileVO>>(payservice.paymentgetAttachList(p_no),HttpStatus.OK); 
+	}
 }
 	 
 	

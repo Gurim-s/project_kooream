@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> <!-- 관리자 권한 -->
 
 <jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
@@ -162,7 +163,10 @@
 		<input type="hidden" name = "pp_size" value = "">
 </div>
 	<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
-		<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+			<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+		</sec:authorize>
+		
 		<!-- <button type="button" id = "product_remove"> 삭제하기</button> -->
 	</div>
 		<form action="/brandshop/modify" method="get" id="operForm">

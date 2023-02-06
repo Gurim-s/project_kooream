@@ -7,15 +7,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.PaymentMapper">
 <insert id="addPayment">	
 		INSERT INTO order_t(buy_no, M_no, p_no, b_no, sum_price, pp_size )
-		VALUES(oder_no_seq.nextval, 1, #{p_no}, #{b_no}, #{sum_price}, #{pp_size} )
+		VALUES(oder_no_seq.nextval, #{m_no}, #{p_no}, #{b_no}, #{sum_price}, #{pp_size} )
 </insert>
 <select id="paymentList" resultType="com.kooream.domain.PaymentVO">
- select
+select 
  o. * ,
  p.p_model_no, p.p_name_ko, p.p_name_en
  from order_t o
     inner join product p
     on o.p_no = p.p_no
+    where o.m_no = #{m_mo}
     order by buy_no desc
 
 </select>
