@@ -1,52 +1,96 @@
 import {imgService} from '../service/image-service.js';
 import {styleService} from '../service/style-service.js';
+import {memberService} from '../service/member-service.js';
 
-const column = document.querySelectorAll('.list-column');
-const more = document.querySelector('#more');
-const register = document.querySelector('#register');
-let query = {};
+const view = {
+	memberDetailInfo: document.querySelector('#memberDetailInfo'),
+	categories: document.querySelector('#categories'),
+	column: document.querySelectorAll('.list-column'),
+	altEmpty: document.querySelector('#empty-list'),
+}
+const btn = {
+	register: document.querySelector('#register'),
+}
+const events = {
+	moveRegister: () => {
+		location.href = 'register';
+	},
+	onScrollLoadData: () => {
+		if (query.isEnd) return;
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+			query.pageNum++;
+			getList(query);
+		}
+	},
+}
+let query;
 
 (function() {
+	query = setQuery();
+	setContentHeader();
+	getList(query);
+	setEvent();
+})();
+
+function setQuery() {
 	const searchParams = Array.from(new URLSearchParams(location.search));
 	const category = searchParams.length == 0 ? 'hot' : searchParams[0][1];
 	const param = searchParams.length <= 1 ? '' : searchParams[1][1];
-
-	query = {
+	
+	const query = {
 		pageNum: 1,
 		amount: 20,
 		category: category,
 		query: param,
 		isEnd: false,
 	}
-	getList(query);
+	return query; 
+}
+
+function setContentHeader() {
+	switch (query.category) {
+		case '':
+		case 'hot':
+		case 'tag':
+		case 'following':
+		case 'recent':
+			
+			break;
+		case 'member':
+			loadMemberDetailInfo();
+			break;
+	}
+}
+
+function setEvent() {
+	btn.register.addEventListener('click', events.moveRegister);
+	document.addEventListener('scroll', events.onScrollLoadData, {passive: true});
+}
+
+async function loadMemberDetailInfo() {
+	const mno = document.querySelector('input[name="pri_m_no"]').value;
+	view.categories.className = 'hide';
+	view.memberDetailInfo.className = 'show';	
+	if (query.query == mno) {
+		view.memberDetailInfo.querySelector('.follow-btn').classList.add('hide');
+	} else {
+		view.memberDetailInfo.querySelector('.info-update-btn').classList.add('hide');
+	}
 	
-	register.addEventListener('click', function() {
-		location.href = 'register';
-	});
+	const member = await memberService.getMemberInfo(query.query);
+	view.memberDetailInfo.querySelector('.nickname').innerHTML = member.m_nickname;
 	
-	more.addEventListener('click', function() {
-		pageNum++;
-		getList(query);
-	});
-	
-	document.addEventListener('scroll', onScrollLoadData, {passive: true});
-})();
+	console.log(member);
+}
 
 async function getList(query) {
 	const styleList = await styleService.getList(query);
 	styleList.forEach((style, i) => {
-		column[i%4].append(item(style));
+		view.column[i%4].append(item(style));
 	});
 	
-	if (styleList.length < query.amount) query.isEnd = true; 
-}
-
-function onScrollLoadData() {
-	if (query.isEnd) return;
-	if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-		query.pageNum++;
-		getList(query);
-	}
+	if (styleList.length < query.amount) query.isEnd = true;
+	if (view.column[0].children.length == 0) {view.altEmpty.className = '';} 
 }
 
 function item(style) {

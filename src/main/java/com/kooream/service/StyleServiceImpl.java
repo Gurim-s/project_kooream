@@ -57,6 +57,8 @@ public class StyleServiceImpl implements StyleService{
 		case "product":
 			list = mapper.getProductList(query);
 			break;
+		case "member":
+			list = mapper.getMemberList(query);
 		}
 		
 		for (StyleVO styleVO : list) {

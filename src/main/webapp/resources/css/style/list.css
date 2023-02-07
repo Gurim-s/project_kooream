@@ -1,5 +1,44 @@
 @charset "UTF-8";
 
+.hide {
+	display:none;
+}
+#memberDetailInfo {
+	width: 400px;
+	margin: 30px auto 50px auto;
+}
+#memberDetailInfo .profile-img{
+	display: block;
+	width: 140px;
+	height: 140px;
+	margin: 0 auto 10px auto;
+	border-radius: 50%;
+}
+#memberDetailInfo span {
+	display: block;
+	margin: 0 0 7px 0;
+	text-align: center;
+}
+#memberDetailInfo .nickname {
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+#memberDetailInfo .follow-btn:not(.hide),
+#memberDetailInfo .info-update-btn:not(.hide) {
+	display: block;
+	width: 160px;
+	height: 40px;
+	color: white;
+	text-align: center;
+	line-height: 40px;
+	font-size: 15px;
+	font-weight: bold;
+	background-color: black;
+	border-radius: 10px;
+	margin: 5px auto;
+}
 #categories {
 	margin: 30px auto 50px auto;
 	text-align: center;
@@ -40,6 +79,29 @@
 #styleList .list-column .card {
 	width: 100%;
 }
+#empty-list {
+	width: 260px;
+	height: 300px;
+	margin: 100px auto 300px auto;
+}
+#empty-list img {
+	display: block;
+	width: 100px;
+	margin: 0 auto 5px auto;
+	opacity: 0.1;
+}
+#empty-list strong {
+	display: block;
+	margin: 0 auto 10px auto;
+	text-align: center;
+	font-size: 15px;
+}
+#empty-list p {
+	text-align: center;
+	font-size: 15px;
+	color: rgba(0, 0, 0, 0.5);
+}
+
 .card-link:not(:first-child) .card{
 	margin-top: 50px;
 }

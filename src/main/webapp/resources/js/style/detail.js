@@ -6,11 +6,11 @@ import {modal} from '../common/modal.js';
 import {replyViewer} from '../common/reply-viewer.js';
 import {showTime} from '../common/common.js';
 
+const pri_mno = document.querySelector('header input[name="pri_m_no"]').value;
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
 	const [category, style_no] = Array.from(searchParams).map(x  => x[1]);
 	const column = document.querySelector('.list-column');
-	
 //	let styleList = await styleService.get(category, style_no);
 //	styleList.forEach(x => column.append(template(x)));
 	const style = await styleService.getOne(style_no);
@@ -34,9 +34,9 @@ var template = function(style) {
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
-				'<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>' +
-				'<a href="#" class="update-btn">수정</a>' +
-				'<a href="#" class="remove-btn">삭제</a>' +
+				(style.mno !== pri_mno
+					? '<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>'
+					: '<a href="#" class="update-btn">수정</a><a href="#" class="remove-btn">삭제</a>') +
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
@@ -73,20 +73,13 @@ var template = function(style) {
 	// 상품 정보 가져오기
 	const productContainer = template.querySelector('.product-container');
 	setProductTags(style.productTagList, productContainer, slider);
-	console.log(style.productTagList.length);
-	console.log(style);
-//	const productTagList = await Promise.all(style.productTagList.flat().map(getProduct));
-//	console.log(1);
 	
+	const productTagCount = style.productTagList.flat()
+	.map(x => x.p_no)
+	.filter((x, i, arr) => arr.indexOf(x) === i)
+	.length;
 	
-	//.filter((x, i, arr) => arr.indexOf(x) === i)
-	
-//	template.querySelector('.product-count').innerHTML = '상품 태그 ' + productList.length + ' 개';
-//	productList.forEach(async x => {
-//		const product = await productTagTemplate(x);
-//		productContainer.append(product);
-//	});
-	
+	template.querySelector('.product-count').innerHTML = '상품 태그 ' + productTagCount + ' 개';
 	
 	/***********************************
 	 * addEventListener
@@ -114,19 +107,19 @@ var template = function(style) {
 		m.append(replyList);
 	});
 	
-	template.querySelector('.update-btn')
-	.addEventListener('click', (e) => {
+	template.querySelectorAll('.update-btn').forEach(
+		x=> x.addEventListener('click', (e) => {
 		e.preventDefault();
 		
 		location.href = '/style/update?style_no=' + style.style_no;
-	});
+	}));
 	
-	template.querySelector('.remove-btn')
-	.addEventListener('click', (e) => {
+	template.querySelectorAll('.remove-btn').forEach(
+		x=> x.addEventListener('click', (e) => {
 		e.preventDefault();
 		
 		location.href = '/style/remove?style_no=' + style.style_no;
-	});
+	}));
 	
 	return template;
 }
@@ -141,10 +134,10 @@ async function setProductTags(list, productContainer, slider) {
 	productList.forEach(x => {
 		slider.addProductTag(x.product, x.offsetX, x.offsetY, x.idx);
 	});
+	console.log(productList);
 	productList.forEach(x => {
 		productContainer.append(productTagTemplate(x));
 	});
-	
 }
 
 function productTagTemplate(productTag) {

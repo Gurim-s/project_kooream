@@ -2,6 +2,7 @@
  * img-slider 모듈입니다.
  * 
  */
+import {imgService} from '../service/image-service.js';
 
 var imgSlider = (customOption) => (function(customOption) {
 	var option = {
@@ -270,7 +271,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		
 		const str = (
 			'<div class="product-img">' +
-				'<img src="/resources/img/codi_test.png" />' +
+				'<img src="' + imgService.originPath(product.attachList[0]) +'" />' +
 			'</div>' +
 			'<div class="name-price">' +
 				'<p class="name">'+product.p_name_en+'</p>'+

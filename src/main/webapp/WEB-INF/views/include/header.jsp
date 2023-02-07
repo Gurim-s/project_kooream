@@ -17,6 +17,14 @@
 </head>
 <body>
 	<header>
+		<sec:authentication property="principal" var="pri"/>
+		<c:if test="${pri eq 'anonymousUser' }">
+			<c:set var="mno" value="${pri}"/>
+		</c:if>
+		<c:if test="${pri ne 'anonymousUser' }">
+			<c:set var="mno" value="${pri.member.m_no }"/>
+		</c:if>
+		<input type="hidden" name="pri_m_no" value="${mno }"/>		
 		<div class="header-top">
 			<div class="member-nav clearfix">
 				<ul>

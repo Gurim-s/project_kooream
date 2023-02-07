@@ -15,6 +15,7 @@ public interface StyleMapper {
 	public List<StyleVO> getFollowList(StyleQuery query);
 	public List<StyleVO> getTagList(StyleQuery query);
 	public List<StyleVO> getProductList(StyleQuery query);
+	public List<StyleVO> getMemberList(StyleQuery query);
 	public StyleVO get(long style_no);
 	public int getCountReply(long style_no);
 	public long insert(StyleVO vo);

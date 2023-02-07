@@ -22,13 +22,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,6 +100,13 @@ public class MemberController {
 		return null;
 	}
 	
+	// 회원 정보 조회
+	@GetMapping(value = "/{m_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<MemberVO> getMemberInfo(@PathVariable("m_no") int m_no) {
+		MemberVO member = service.getMemberInfoByMno(m_no);
+		
+		return new ResponseEntity<MemberVO>(member, HttpStatus.OK);
+	}
 	
 	// 마이페이지 이동
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
