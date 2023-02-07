@@ -79,7 +79,6 @@
 				<strong id="title">${vo.talktitle }</strong>
 				<span id="date"><small>${vo.talkdate }</small></span>
 			</div>
-			<%-- <div><input type="text" name="m_no" value=${vo.m_no }></div> --%>
 			<div>${vo.talkname }</div>
 			<div id="talk-con-box">
 				<div id="talk-con">${vo.talkcon }</div>
@@ -113,7 +112,7 @@
 						<div>
 						<strong>${mvo.m_nickname }</strong>
 						<input type="hidden" name="replyname" value="${mvo.m_nickname }">
-						<input type="text" name="m_no" value="${mvo.m_no}">
+						<input type="hidden" name="m_no" value="${mvo.m_no}">
 						</div>
 						<br/>
 						<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none;"></textarea></div>
@@ -236,7 +235,7 @@
 							str += '<sec:authorize access="isAuthenticated()">'
 							str += '<sec:authentication property="principal.member" var="mvo"/>'
 							
-							if(result[i].m_no == 'mvo.m_no'){
+							if(result[i].m_no == ${mvo.m_no}){
 								str += '<button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
 								str += '<button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno+'">삭제</button>'
 							}

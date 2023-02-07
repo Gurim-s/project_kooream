@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.mapper.CommunityTalkMapper;
+import com.kooream.mapper.CommunityTalkReplyMapper;
 import com.kooream.domain.CommunityTalkVO;
 import com.kooream.domain.Criteria;
 
@@ -20,6 +21,9 @@ public class CommunityTalkServiceImpl implements CommunityTalkService{
 	@Setter(onMethod_ = @Autowired)
 	private CommunityTalkMapper mapper;
 	
+	@Setter(onMethod_ = @Autowired)
+	private CommunityTalkReplyMapper replyMapper;
+	
 	// 구림톡 게시글 리스트 (페이징 처리 하기 전)
 //	@Override
 //	public List<CommunityTalkVO> getTalkList() {
@@ -28,7 +32,6 @@ public class CommunityTalkServiceImpl implements CommunityTalkService{
 //	}
 	
 	// 구림톡 게시글 등록
-	@Transactional
 	@Override
 	public void talkRegister(CommunityTalkVO vo) {
 		log.info("register......." + vo);
@@ -46,9 +49,15 @@ public class CommunityTalkServiceImpl implements CommunityTalkService{
 	}
 	
 	// 구림톡 게시글 삭제하기
+	@Transactional
 	@Override
 	public boolean talkRemove(int talkno) {
 		log.info("talk remove.............." + talkno);
+		
+		if(replyMapper.getList(talkno) != null) {
+			replyMapper.allDelete(talkno);
+		}
+		
 		return mapper.talkRemove(talkno) == 1;
 	}
 	

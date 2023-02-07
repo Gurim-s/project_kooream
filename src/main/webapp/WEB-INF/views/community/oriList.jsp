@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -71,7 +72,10 @@
 	</ul>
 	<div>
 		<span id="head">정품판별</span>
+		
+		<sec:authorize access="isAuthenticated()">
 		<button>글쓰기</button>
+		</sec:authorize>
 	</div>
 	<br/>
 	<div id="main">

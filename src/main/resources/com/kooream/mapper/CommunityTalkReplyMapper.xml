@@ -10,12 +10,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="getList" resultType="com.kooream.domain.CommunityTalkReplyVO">
-		SELECT talkreplyno, talkreplyname, talkreplycon, talkreplydate  FROM talkreply 
+		SELECT talkreplyno, talkreplyname, talkreplycon, talkreplydate, m_no  FROM talkreply 
 		WHERE talkno = #{talkno} ORDER BY talkreplyno ASC 
 	</select>
 	
 	<delete id="delete">
 		DELETE FROM talkreply WHERE talkreplyno = #{talkreplyno}
+	</delete>
+	
+	<delete id="allDelete">
+		DELETE FROM talkreply WHERE talkno = #{talkno}
 	</delete>
 	
 	<update id="update">
@@ -26,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<select id="read" resultType="com.kooream.domain.CommunityTalkReplyVO">
-		SELECT talkreplyno, talkreplycon, talkreplyname, talkreplydate, talkno FROM talkreply
+		SELECT talkreplyno, talkreplycon, talkreplyname, talkreplydate, talkno, m_no FROM talkreply
 		WHERE talkreplyno = #{talkreplyno}
 	</select>
 	

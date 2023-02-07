@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.OriginalReplyMapper">
 	<insert id="insert">
 		INSERT INTO originalreply  (orireplyno, orino, m_no, orireplyname, orireplycon, oridecision, orireplydate)
-		VALUES (seq_originalreply.nextval, #{orino}, 1, #{orireplyname}, #{orireplycon}, #{oridecision}, sysdate)
+		VALUES (seq_originalreply.nextval, #{orino}, #{m_no}, #{orireplyname}, #{orireplycon}, #{oridecision}, sysdate)
 	</insert>
 	
 	<select id="getList" resultType="com.kooream.domain.OriginalReplyVO">
