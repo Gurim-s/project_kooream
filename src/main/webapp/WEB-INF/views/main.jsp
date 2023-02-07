@@ -55,13 +55,13 @@
 			<span>최신 스타일 목록</span>
 			<hr/>
 			<div id="style-list" class="clearfix">
-				<div class="brand-column" id="first">
+				<div class="style-column" id="first">
 				</div>
-				<div class="brand-column" id="second">
+				<div class="style-column" id="second">
 				</div>
-				<div class="brand-column" id="third">
+				<div class="style-column" id="third">
 				</div>
-				<div class="brand-column" id="fourth">
+				<div class="style-column" id="fourth">
 				</div>
 			</div>
 		</div>

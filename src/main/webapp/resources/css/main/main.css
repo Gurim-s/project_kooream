@@ -81,12 +81,26 @@ li {
 #mainContents {
 	margin-top: 550px;
 }
+#style-list {
+	width: 100%;
+	margin: 10px auto;
+	display: flex;
+	text-align : center;
+	}
+
 #codi-list {
 	width: 100%;
 	margin: 10px auto;
 	display: flex;
 	text-align : center;
 	}
+#brand-list	{
+	width: 100%;
+	margin: 10px auto;
+	display: flex;
+	text-align : center;
+}
+	
 .codi_img{
 	
 	width: 160px;

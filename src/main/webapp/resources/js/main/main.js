@@ -6,6 +6,8 @@ import {styleService} from '../service/style-service.js';
 var pageNum =1;
 var amount = 4;
 var column = $('.list-column');
+var column1 = $('.style-column');
+
 
 (function() {
 	setSlide();
@@ -46,7 +48,7 @@ function setSlide() {
 		}
 	});
 }
-
+// 코디 리스트 가져오기
 function getCodiList(pageNum, amount){
 	$.ajax({	
 		url: "../codishop/list",
@@ -61,32 +63,33 @@ function getCodiList(pageNum, amount){
 	.done(function(json) {
 		//console.log(json);
 		$.each(json, function(idx, codi) {
-		// 1개의 정보 
-		var card_box = $('<a href="../codishop/get?codi_no='+codi.codi_no+ '"><div></div></a>');			
-		$(card_box).attr('class','codi_card'); // class 부여
-		// 설명란
-		var text_box = $('<div></div>');
-		$(text_box).attr('class', 'codi_text');
-		// 이미지 박스
-		var img_box = $('<div></div>');	
-		$(img_box).attr('class', 'codi_img_box');
-		
-		var img_tag = $('<img></img>');	// img_tag div 태그 생성 
-		$(img_tag).attr('class', 'codi_img');
-		var fileCallPath = encodeURIComponent(codi.attachList[0].uploadPath + "/"
-												+ codi.attachList[0].uuid + "_"
-												+ codi.attachList[0].fileName);
-		$(img_tag).attr('src', '/displayImage?fileName='+fileCallPath);
-		$(img_box).append(img_tag);	 // 이미지 박스에 이미지 태그 넣어주기 
-		$(card_box).append(img_box);
-		var textLine1 = $('<div></div>');
-		$(textLine1).append('<h4>'+codi.codi_title+'</h4>')
-		$(text_box).append(textLine1);	 
-		$(card_box).append(text_box);
-		$(column[idx % 4]).append(card_box);
+			// 1개의 정보 
+			var card_box = $('<a href="../codishop/get?codi_no='+codi.codi_no+ '"><div></div></a>');			
+			$(card_box).attr('class','codi_card'); // class 부여
+			// 설명란
+			var text_box = $('<div></div>');
+			$(text_box).attr('class', 'codi_text');
+			// 이미지 박스
+			var img_box = $('<div></div>');	
+			$(img_box).attr('class', 'codi_img_box');
+			
+			var img_tag = $('<img></img>');	// img_tag div 태그 생성 
+			$(img_tag).attr('class', 'codi_img');
+			var fileCallPath = encodeURIComponent(codi.attachList[0].uploadPath + "/"
+													+ codi.attachList[0].uuid + "_"
+													+ codi.attachList[0].fileName);
+			$(img_tag).attr('src', '/displayImage?fileName='+fileCallPath);
+			$(img_box).append(img_tag);	 // 이미지 박스에 이미지 태그 넣어주기 
+			$(card_box).append(img_box);
+			var textLine1 = $('<div></div>');
+			$(textLine1).append('<h4>'+codi.codi_title+'</h4>')
+			$(text_box).append(textLine1);	 
+			$(card_box).append(text_box);
+			$(column[idx % 4]).append(card_box);
 		}); //each 
 	});  // .done ... end
 };// getList() end
+// 스타일 리스트 가져오기
 async function getStyleList(pageNum, amount){
 	var query = {
 		pageNum: 1,
@@ -96,4 +99,29 @@ async function getStyleList(pageNum, amount){
 	var styleList = await styleService.getList(query);
 	console.log(styleList);
 	console.log(styleList[0].style_no);
-}
+	console.log(styleList[1].style_content);
+	$.each(styleList, function(idx, style){
+		var card_box = $('<a href="../style/detail?category=hot&style_no='+style.style_no+'"><div></div></a>')	
+		$(card_box).attr('class','style_card'); // class 부여
+		
+		var text_box = $('<div></div>');
+		$(text_box).attr('class', 'style_text');
+		
+		var img_box = $('<div></div>');	
+		$(img_box).attr('class', 'style_img_box');
+		var img_tag = $('<img></img>');
+		$(img_tag).attr('class','codi_img');
+		console.log(style.style_image[0]);
+		var fileCallPath = encodeURIComponent(style.style_image[0].uploadPath+"/"
+												+ style.style_image[0].uuid + "_"
+												+ style.style_image[0].fileName);
+		$(img_tag).attr('src', '/displayImage?fileName='+fileCallPath);
+		$(img_box).append(img_tag);
+		$(card_box).append(img_box);
+		var textLine1 = $('<div></div>');
+		$(textLine1).append('<h4>'+style.style_content+'</h4>')
+		$(text_box).append(textLine1);
+		$(card_box).append(text_box);
+		$(column1[idx % 4]).append(card_box);
+	}); // each end 
+}; // getStyleList end
