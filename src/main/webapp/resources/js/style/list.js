@@ -1,52 +1,112 @@
 import {imgService} from '../service/image-service.js';
 import {styleService} from '../service/style-service.js';
+import {memberService} from '../service/member-service.js';
 
-const column = document.querySelectorAll('.list-column');
-const more = document.querySelector('#more');
-const register = document.querySelector('#register');
-let query = {};
+const member_no = document.querySelector('input[name="pri_m_no"]').value;
+const view = {
+	memberDetailInfo: document.querySelector('#memberDetailInfo'),
+	categories: document.querySelector('#categories'),
+	listKeyword: document.querySelector('#listKeyword'),
+	column: document.querySelectorAll('.list-column'),
+	altEmpty: document.querySelector('#empty-list'),
+}
+const btn = {
+	register: document.querySelector('#register'),
+}
+const events = {
+	onScrollLoadData: () => {
+		if (query.isEnd) return;
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+			query.pageNum++;
+			getList(query);
+		}
+	},
+}
+let query;
 
 (function() {
+	query = setQuery();
+	setContentHeader();
+	getList(query);
+	setEvent();
+})();
+
+function setQuery() {
 	const searchParams = Array.from(new URLSearchParams(location.search));
 	const category = searchParams.length == 0 ? 'hot' : searchParams[0][1];
 	const param = searchParams.length <= 1 ? '' : searchParams[1][1];
-
-	query = {
+	
+	const query = {
 		pageNum: 1,
 		amount: 20,
 		category: category,
 		query: param,
 		isEnd: false,
 	}
-	getList(query);
+	return query; 
+}
+
+function setContentHeader() {
+	switch (query.category) {
+		case '':
+		case 'hot':
+		case 'recent':
+		case 'following':
+		case 'tag':
+			loadCategoriesHeader();
+			break;
+		case 'member':
+			loadMemberDetailInfo();
+			break;
+	}
+}
+
+function setEvent() {
+	btn.register.addEventListener('click', events.moveRegister);
+	document.addEventListener('scroll', events.onScrollLoadData, {passive: true});
+}
+
+function loadCategoriesHeader() {
+	view.categories.className = 'show';
+	view.categories.querySelector('#register')
+	.className = isNaN(member_no)? 'hide': 'show';
 	
-	register.addEventListener('click', function() {
-		location.href = 'register';
-	});
+	if (['hot', 'recent', 'following'].includes(query.category)) {
+		view.categories.querySelector('#' + query.category)
+		.className = 'on';
+	}
 	
-	more.addEventListener('click', function() {
-		pageNum++;
-		getList(query);
-	});
+	if (query.query === '') return;
+	loadListTitle();
+}
+
+function loadListTitle() {
+	const listTitle = view.categories.querySelector('#listKeyword h1'),
+		  queryType = query.category == 'tag'? '#': '';
 	
-	document.addEventListener('scroll', onScrollLoadData, {passive: true});
-})();
+	listTitle.innerHTML = '<strong>'+ queryType +query.query+'</strong>';
+}
+
+async function loadMemberDetailInfo() {
+	view.memberDetailInfo.className = 'show';
+	if (query.query == member_no) {
+		view.memberDetailInfo.querySelector('.follow-btn').classList.add('hide');
+	} else {
+		view.memberDetailInfo.querySelector('.info-update-btn').classList.add('hide');
+	}
+	
+	const member = await memberService.getMemberInfo(query.query);
+	view.memberDetailInfo.querySelector('.nickname').innerHTML = member.m_nickname;
+}
 
 async function getList(query) {
 	const styleList = await styleService.getList(query);
 	styleList.forEach((style, i) => {
-		column[i%4].append(item(style));
+		view.column[i%4].append(item(style));
 	});
 	
-	if (styleList.length < query.amount) query.isEnd = true; 
-}
-
-function onScrollLoadData() {
-	if (query.isEnd) return;
-	if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-		query.pageNum++;
-		getList(query);
-	}
+	if (styleList.length < query.amount) query.isEnd = true;
+	if (view.column[0].children.length == 0) {view.altEmpty.className = '';} 
 }
 
 function item(style) {
@@ -110,6 +170,6 @@ function item(style) {
 		countImg.style.textAlign = 'center';
 		countImg.style.lineHeight = '16px';
 	}
-	 
+	
 	return template;
 }

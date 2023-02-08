@@ -92,6 +92,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteMember" parameterType="int">
 		DELETE FROM MEMBER WHERE m_no=#{param1}
 	</delete>
+	<!-- 회원 정보 조회 -->
+	<select id="getMemberInfoByMno" resultType="com.kooream.domain.MemberVO">
+		select *
+		from member
+		where m_no=#{m_no}
+	</select>
 	
 	<!-- 계정 찾기 -->
 	<select id="findInfo" parameterType="com.kooream.domain.MemberVO" resultType="com.kooream.domain.MemberVO">

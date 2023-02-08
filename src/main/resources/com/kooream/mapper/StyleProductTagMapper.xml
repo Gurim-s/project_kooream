@@ -7,16 +7,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTagList" resultType="com.kooream.domain.StyleProductTagVO">
 		select *
 		from style_product_tag
-		where style_no=#{style_no} and fileName=#{fileName} and uuid=#{uuid}
+		where style_no=#{style_no} and idx=#{idx}
 	</select>
 	
 	<select id="getPNoListByStyleNo" resultType="int">
 		select distinct p_no
 		from style_product_tag
-		where style_no=#{style};
+		where style_no=#{style}
 	</select>
+	
 	<insert id="insert">
 		insert into style_product_tag
-		values (#{style_no}, #{p_no}, #{uuid}, #{fileName}, #{offsetX}, #{offsetY})
+		values (#{style_no}, #{p_no}, #{offsetX}, #{offsetY}, #{idx})
 	</insert>
 </mapper>

@@ -6,11 +6,11 @@ import {modal} from '../common/modal.js';
 import {replyViewer} from '../common/reply-viewer.js';
 import {showTime} from '../common/common.js';
 
+const pri_mno = document.querySelector('header input[name="pri_m_no"]').value;
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
 	const [category, style_no] = Array.from(searchParams).map(x  => x[1]);
 	const column = document.querySelector('.list-column');
-	
 //	let styleList = await styleService.get(category, style_no);
 //	styleList.forEach(x => column.append(template(x)));
 	const style = await styleService.getOne(style_no);
@@ -34,12 +34,13 @@ var template = function(style) {
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
-				'<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>' +
-				'<a href="#" class="update-btn">수정</a>' +
-				'<a href="#" class="remove-btn">삭제</a>' +
+				(style.mno !== pri_mno
+					? '<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>'
+					: '<a href="#" class="update-btn">수정</a><a href="#" class="remove-btn">삭제</a>') +
 			'</div>' +
 		'</div>' +
 		'<div class="img-container"></div>' +
+		'<div class="product-count"></div>' + 
 		'<div class="product-container">'+
 		'</div>' +
 		'<div class="reply-like-summary">'+
@@ -71,13 +72,14 @@ var template = function(style) {
 	
 	// 상품 정보 가져오기
 	const productContainer = template.querySelector('.product-container');
-	style.productTagList.flat()
+	setProductTags(style.productTagList, productContainer, slider);
+	
+	const productTagCount = style.productTagList.flat()
 	.map(x => x.p_no)
 	.filter((x, i, arr) => arr.indexOf(x) === i)
-	.reduce(async (_, x) => {
-		productContainer.append(await productTagTemplate(x));
-	});
+	.length;
 	
+	template.querySelector('.product-count').innerHTML = '상품 태그 ' + productTagCount + ' 개';
 	
 	/***********************************
 	 * addEventListener
@@ -105,30 +107,45 @@ var template = function(style) {
 		m.append(replyList);
 	});
 	
-	template.querySelector('.update-btn')
-	.addEventListener('click', (e) => {
+	template.querySelectorAll('.update-btn').forEach(
+		x=> x.addEventListener('click', (e) => {
 		e.preventDefault();
 		
 		location.href = '/style/update?style_no=' + style.style_no;
-	});
+	}));
 	
-	template.querySelector('.remove-btn')
-	.addEventListener('click', (e) => {
+	template.querySelectorAll('.remove-btn').forEach(
+		x=> x.addEventListener('click', (e) => {
 		e.preventDefault();
 		
 		location.href = '/style/remove?style_no=' + style.style_no;
-	});
+	}));
 	
 	return template;
 }
 
-var productTagTemplate = async function(p_no) {
+async function getProduct(x) {
+	x.product = await productSearchService.getProduct(x.p_no);
+	return x;
+}
+
+async function setProductTags(list, productContainer, slider) {
+	const productList = await Promise.all(list.flat().map(getProduct));
+	productList.forEach(x => {
+		slider.addProductTag(x.product, x.offsetX, x.offsetY, x.idx);
+	});
+	console.log(productList);
+	productList.forEach(x => {
+		productContainer.append(productTagTemplate(x));
+	});
+}
+
+function productTagTemplate(productTag) {
 	const container = document.createElement('a');
 	container.className = 'product-info';
-	container.href = '../shop_introduce/'+p_no;
+	container.href = '../shop_introduce/'+productTag.p_no;
 	
-	const product = await productSearchService.getProduct(p_no);
-	console.log(product);
+	const product = productTag.product;
 	const str = (
 		'<div class="product-img">' +
 				'<img src="'+imgService.originPath(product.attachList[0])+'" />' +
@@ -142,11 +159,12 @@ var productTagTemplate = async function(p_no) {
 	
 	container.style.display = 'inline-block';
 	container.style.width = '100px';
-	container.style.marginLeft = '5px';
+	container.style.margin = '5px 0px 10px 5px';
 	
 	const productImg = container.querySelector('.product-img img');
 	productImg.style.width = '100px';
 	productImg.style.height = '100px';
+	productImg.style.borderRadius = '10px';
 	
 	const name = container.querySelector('.name');
 	name.style.fontSize = '15px';
@@ -158,7 +176,6 @@ var productTagTemplate = async function(p_no) {
 	price.style.fontSize = '15px';
 	price.style.fontWeight = 'bold';
 	price.style.width = '100px';
-	
 	
 	return container;
 }

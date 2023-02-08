@@ -28,8 +28,6 @@ public class MemberServiceImpl implements MemberService{
 	@Setter (onMethod_= @Autowired)
 	private PasswordEncoder pwencoder;
 	
-	
-	
 	@Override
 	public int check(Map<String,Object> map) {
 		return mapper.check(map);
@@ -58,12 +56,17 @@ public class MemberServiceImpl implements MemberService{
 	public int deleteMember(int m_no) {
 		return mapper.deleteMember(m_no);
 	}
+	
+	@Override
+	public MemberVO getMemberInfoByMno(int m_no) {
+		return mapper.getMemberInfoByMno(m_no);
+	}
 
 	@Override
 	public MemberVO findInfo(MemberVO vo) {
 		return mapper.findInfo(vo);
 	}
-
+	
 	@Override
 	public int matchPw(MemberVO vo) {
 		return mapper.matchPw(vo);

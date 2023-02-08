@@ -121,8 +121,6 @@ async function regist(e) {
 	div.innerHTML += hashTagList;
 	
 	form.append(div);
-	console.log(div);
-	console.log(form);
 	form.submit();
 }
 

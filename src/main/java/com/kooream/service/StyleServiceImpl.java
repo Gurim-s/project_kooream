@@ -57,6 +57,8 @@ public class StyleServiceImpl implements StyleService{
 		case "product":
 			list = mapper.getProductList(query);
 			break;
+		case "member":
+			list = mapper.getMemberList(query);
 		}
 		
 		for (StyleVO styleVO : list) {
@@ -80,11 +82,10 @@ public class StyleServiceImpl implements StyleService{
 		StyleVO style = mapper.get(style_no);
 		List<StyleImageVO> images = imageMapper.getImagesByStyle_no(style_no);
 		List<List<StyleProductTagVO>> productTagList = new ArrayList<List<StyleProductTagVO>>();
-		for (StyleImageVO image : images) {
+		for (int i=0; i<images.size(); i++) {
 			StyleProductTagVO vo = new StyleProductTagVO();
 			vo.setStyle_no(style_no);
-			vo.setFileName(image.getFileName());
-			vo.setUuid(image.getUuid());
+			vo.setIdx(i);
 			
 			List<StyleProductTagVO> tagList = productTagMapper.getTagList(vo);
 			productTagList.add(tagList);
@@ -125,8 +126,7 @@ public class StyleServiceImpl implements StyleService{
 					List<StyleProductTagVO> productTagList = vo.getProductTagList().get(i);
 					for (StyleProductTagVO productTag : productTagList) {
 						productTag.setStyle_no(style_no);
-						productTag.setFileName(image.getFileName());
-						productTag.setUuid(image.getUuid());
+						productTag.setIdx(i);
 						productTagMapper.insert(productTag);
 					}
 				}

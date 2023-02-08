@@ -10,10 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StyleProductTagVO {
-	int p_no;
+	int p_no, idx;
 	long style_no;
 	String uuid, fileName;
 	String offsetX, offsetY;
-	
+
 	ProductVO product;
 }
