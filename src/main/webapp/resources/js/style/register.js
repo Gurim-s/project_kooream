@@ -1,9 +1,8 @@
-import {productSearchService} from '../service/product-search-service.js';
+import {productTagSelector} from '../common/product-tag-selector.js';
 import {imgFileUploader} from '../common/img-file-uploader.js';
-import {imgSlider} from '../common/img-slider.js';
 
 const uploader = imgFileUploader;
-const slider = imgSlider();
+const tagSelector = productTagSelector();
 (function() {
 	uploader.setOption({
 		uploadURL: '/uploadImageAWS/style',
@@ -20,12 +19,13 @@ const slider = imgSlider();
 	document.querySelector('.uploader-container')
 	.append(uploader.container);
 	
-	slider.setOption({
-		ratio: 1,
+	tagSelector.slider.setOption({
+		ratio:1,
 		ratioFix: true,
+		tagMode: true,
 	});
-	document.querySelector('.img-slider-container')
-	.append(slider.container);
+	document.querySelector('.product-tag-selector-container')
+	.append(tagSelector.container);
 	
 	//************************** */
 	//addEventListener
@@ -46,16 +46,6 @@ const slider = imgSlider();
 //	.addEventListener('input', function(e) {
 //		console.log(e.target.innerText);
 //	});
-	const productSearchInput = document.querySelector('input[name="productSearch"]');
-	productSearchInput.addEventListener('keyup', async function(e) {
-		const keyword = e.target.value;
-		const result = await productSearchService.searchProduct({
-			keyword: keyword,
-			pageNum: 1,
-			amount: 10,
-		});
-		console.log(result);
-	});
 })();
 
 function countImgFile(count) {
@@ -87,9 +77,9 @@ function changeStep(e) {
 	if (register.className == 'first') {
 		const imgTagList = uploader.slider.getImgTagList();
 		const ratio = document.querySelector('input[name="ratio"]').value;
-		slider.empty();
-		slider.setRatio(ratio);
-		slider.addImgTagList(imgTagList);
+		tagSelector.slider.empty();
+		tagSelector.slider.setRatio(ratio);
+		tagSelector.slider.addImgTagList(imgTagList);
 	}
 	
 	const newStep = e.target.classList[0] == 'next-btn'
@@ -123,9 +113,11 @@ async function regist(e) {
 	
 	const form = e.target.closest('form');
 	const imgUploadResult = await imgFileUploader.uploadImageAjax();
+	const productTagList = tagSelector.getProductTagsInput();
 	const hashTagList = extractHashTag(text);
 	const div = document.createElement('div');
 	div.innerHTML += imgUploadResult;
+	div.innerHTML += productTagList;
 	div.innerHTML += hashTagList;
 	
 	form.append(div);
@@ -136,12 +128,13 @@ function extractHashTag(text) {
 	const type = /#[^\s^#]+/g;
 	const strToInput = (str, i) =>
 		'<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
+	const list = text.match(type);
+	if (list == null) return text;
 	
-	const list = text.match(type)
-	.map(x => x.substring(1))
+	const result = list.map(x => x.substring(1))
 	.map(strToInput)
 	.reduce((str, x) => str + x, '');
-	return list; 
+	return result; 
 }
 
 //	$('.editable').each(function(_, textDiv){

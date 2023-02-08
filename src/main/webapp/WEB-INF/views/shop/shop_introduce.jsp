@@ -74,12 +74,12 @@
 					<div class="model_intro">${vo.p_release_date }</div>
 				</div>
 				<div class="model_box">
-					<div class="product_title">컬러</div>
-					<div class="model_intro">TAXI/BLACK-SAIL</div>
-				</div>
-				<div class="model_box">
 					<div class="product_title">발매가</div>
 					<div class="model_intro">${vo.p_release_price }원</div>
+				</div>
+				<div class="model_box">
+<%-- 					<div class="product_title">발매가</div>
+					<div class="model_intro">${vo.p_release_price }원</div> --%>
 				</div>
 			</div>
 			<h3 class="bsinfo">배송정보</h3>

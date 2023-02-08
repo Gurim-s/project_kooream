@@ -17,12 +17,22 @@
 </head>
 <body>
 	<header>
+		<sec:authentication property="principal" var="pri"/>
+		<c:if test="${pri eq 'anonymousUser' }">
+			<c:set var="mno" value="${pri}"/>
+		</c:if>
+		<c:if test="${pri ne 'anonymousUser' }">
+			<c:set var="mno" value="${pri.member.m_no }"/>
+		</c:if>
+		<input type="hidden" name="pri_m_no" value="${mno }"/>		
 		<div class="header-top">
 			<div class="member-nav clearfix">
 				<ul>
 					<li><a href="#">고객센터</a></li>
 					<li><a href="/rental/interestList">관심상품</a></li>
-          			<li><a href="#">장바구니</a></li>
+						<sec:authorize access="hasRole('ROLE_USER')">
+							<li><a href="/brandCart/brandCart">장바구니</a></li>
+						</sec:authorize>
 						<sec:authorize access="hasRole('ROLE_USER')">
 							<li><a href="/member/myPage">마이페이지</a></li>
 						</sec:authorize>
@@ -74,7 +84,6 @@
 	<main>
 		<div class="wrapper clearfix">
 		
-<script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
 <script  type="text/javascript">
 
 // 로그아웃시 토큰 보내주기 위한 함수

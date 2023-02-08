@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentVO {
-	private int buy_no, p_no, sum_price, b_no ;
-	private String pp_size;
+	private int buy_no, p_no, sum_price, m_no, b_no;
+	private String pp_size, p_model_no, p_name_ko, p_name_en;
 	private Date buy_date;
 
 	private List<AttachFileVO> attachList;

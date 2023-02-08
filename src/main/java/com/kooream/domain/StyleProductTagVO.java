@@ -9,7 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidShopVO {
-	private int m_no, p_no, bid_sell, bid_buy;
-	String pp_size;
+public class StyleProductTagVO {
+	int p_no, idx;
+	long style_no;
+	String uuid, fileName;
+	String offsetX, offsetY;
+
+	ProductVO product;
 }

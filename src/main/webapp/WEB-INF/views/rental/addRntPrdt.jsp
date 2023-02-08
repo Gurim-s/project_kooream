@@ -4,16 +4,48 @@
 <style>
 	#title{
 		text-align: center;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		margin-top: 85px;
 	}
 	#addBox{
 		width: 600px;
 		margin: auto;
+		margin-top: 58px;
 	}
 	input[type="text"],input[type="number"],select{
 		 width: 450px;
 	}
 	#btn{
 		text-align: center;
+	}
+	input[type="text"],input[type="number"]{
+		border: 0px;
+	}
+	#content{
+		border-bottom: 1px solid gray;
+	}
+	td:nth-child(odd){
+		text-align: center;
+		font-weight: bold;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		height: 45px;
+		width: 100px;
+	}
+	select{
+		height: 40px;
+	}
+	#btn input{
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		border: 0;
+		width: 145px;
+		height: 53px;
+		border-radius: 7px;
+		color: white;
+		background-color: black;
+		cursor: pointer;
+	}
+	td:nth-child(even){
+		border-bottom: 1px solid gray;
 	}
 	
 </style>
@@ -22,7 +54,7 @@
 	<form action="/rental/addRntPrdt" id="MyForm" method="post">
 		<table>
 			<tr>
-				<td style="width: 100px;">브랜드</td>
+				<td>브랜드</td>
 				<td>
 					<select name="b_no">
 						<option value="9999">GUCCI</option>
@@ -35,19 +67,19 @@
 			</tr>
 			<tr>
 				<td>상품명</td>
-				<td><input name="p_name_ko" type="text" maxlength="150"/> </td>
+				<td class="content"><input name="p_name_ko" type="text" maxlength="150"/> </td>
 			</tr>
 			<tr>
 				<td>상품명_EN</td>
-				<td><input name="p_name_en" type="text" maxlength="150"/> </td>
+				<td class="content"><input name="p_name_en" type="text" maxlength="150"/> </td>
 			</tr>
 			<tr>
 				<td>모델번호</td>
-				<td><input name="p_model_no" type="text" maxlength="30"/> </td>
+				<td class="content"><input name="p_model_no" type="text" maxlength="30"/> </td>
 			</tr>
 			<tr>
 				<td>발매가</td>
-				<td><input name="p_release_price" type="text" maxlength="10"/> </td>
+				<td class="content"><input name="p_release_price" type="number" maxlength="10"/> </td>
 			</tr>
 			<tr>
 				<td>카테고리</td>
@@ -61,11 +93,11 @@
 			</tr>
 			<tr>
 				<td>재고</td>
-				<td><input name="p_stock" type="number"/> </td>
+				<td class="content"><input name="p_stock" type="number"/> </td>
 			</tr>
 			<tr>
 				<td>대여금액</td>
-				<td><input name="r_price" type="number" maxlength="10"/> </td>
+				<td class="content"><input name="r_price" type="number" maxlength="10"/> </td>
 			</tr>
 			<tr>
 				<td>상품이미지</td>
@@ -181,14 +213,24 @@ $(function() {
 	$("#registBtn").on("click", function(){
 		
 		var check = 0;
+		var price = $("input[name='p_release_price']").val();
 		$("input[type='text'], input[type='number']").each(function(index, item){ // foreach문과 동일. 같은 태그가 여러개일때 j쿼리로 가져오는 경우 사용가능
 			if(!$(item).val()){ // val이 없으면
 				var str = $(item).parent().prev().text() // item 부모의 형제가 가지고 있는 text
 				alert(str + "을(를) 입력해주세요.");
 				check=1;
 				return false; // .each() 사용시 return은 이렇게 적어줘야함!
+			}else if($(item).attr("type")=='number' && $(item).val()<=0){
+				alert($(this).parent().prev().text()+"에 0보다 큰 수를 입력해주세요.");
+				check=1;
+				return false;	
+			}else if($(item).attr("name")=='p_release_price' && !$.isNumeric(price)){
+				alert("발매가를 숫자로 입력해주세요.");
+				check=1;
+				return false;	
 			}
 		});
+		/*
 		$("input[type='number']").each(function(index, item){
 			if($(item).val()<=0){
 				alert($(this).parent().prev().text()+"에 0보다 큰 수를 입력해주세요.");
@@ -202,7 +244,7 @@ $(function() {
 			check=1;
 			return;
 		}
-		
+		*/
 		if(!$(".fileCheck").length){
 			alert("파일을 등록해주세요.");
 			check=1;

@@ -5,10 +5,12 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +21,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BidShopVO;
 import com.kooream.domain.ProductVO;
+import com.kooream.domain.SizeVO;
+import com.kooream.mapper.BidShopMapper;
+import com.kooream.mapper.BrandProductMapper;
+import com.kooream.mapper.SizeMapper;
 import com.kooream.service.BidShopService;
 
 import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -30,7 +37,14 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class BidShopController {
 	
+	@Setter(onMethod_ = @Autowired )
 	private BidShopService service;
+	
+	@Setter(onMethod_ = @Autowired)
+	private BidShopMapper mapper;
+	
+	@Setter(onMethod_ = @Autowired)
+	private SizeMapper sizemapper;
 	
 	@GetMapping("/shop_allList")
 	public String shop_List(Model model) {
@@ -63,20 +77,6 @@ public class BidShopController {
 		return "shop/shop_allList";
 	}
 	
-//	@GetMapping("/shop_introduce")
-//	public String shop_introduce() { 
-//		log.info("introduce...");
-//		
-//		return "shop/shop_introduce";
-//	}
-//	
-//	@GetMapping("/shop_bidpage")
-//	public String shop_bidpage() {
-//		log.info("bidpage...");
-//		
-//		return "shop/shop_bidpage";
-//	}
-	
 	@GetMapping("/shop_buypage")
 	public String shop_buypage() {
 		log.info("shop_buypage...");
@@ -105,11 +105,24 @@ public class BidShopController {
 		return "shop/shop_register";
 	}
 
+	@Transactional
 	@PostMapping("/shop_register")
     public String shop_register(ProductVO vo) {
         log.info("shop_register...");
-
         service.insertProduct(vo);
+        int p_no = mapper.getPno();
+        
+        System.out.println(p_no);
+        
+		if (vo.getSizeList() != null && vo.getSizeList().size() >0 ) {	// size의길이가 null이 아니고, 0보다 크면
+			for (String size : vo.getSizeList()) {	// 
+				SizeVO sizevo = new SizeVO();	// 
+				sizevo.setPp_size(size);
+				sizevo.setP_no(p_no);
+				
+				sizemapper.addSize(sizevo);
+			}
+		}
 
         return "redirect:/shop/shop_allList";
     }
@@ -218,6 +231,12 @@ public class BidShopController {
 
 		ProductVO vo = service.read(p_no);
         model.addAttribute("vo", vo);
+        
+        BidShopVO vo2 = new BidShopVO();
+		model.addAttribute("vo2", vo2);
+		System.out.println(vo2.getPp_size());
+		System.out.println(vo.getP_no());
+        
         List<AttachFileVO> attachFileVOs = service.getAttachList(vo.getP_no());
         List<String> imageUrls = new ArrayList<String>();
         
@@ -245,11 +264,13 @@ public class BidShopController {
 		
 		
 		ProductVO vo = service.read(p_no);
-		/* BidShopVO vo = service.sizeRead(p_no); */
+		/* BidShopVO vo2 = service.sizeRead(p_no); */
 		model.addAttribute("vo", vo);
 		
 		List<BidShopVO> vo2 = service.sizeRead(vo.getP_no());
 		model.addAttribute("vo2", vo2);
+		
+		System.out.println("ddddddddddddd" + vo2);
 		
 		List<AttachFileVO> attachFileVOs = service.getAttachList(vo.getP_no());
 		List<String> imageUrls = new ArrayList<String>();

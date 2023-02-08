@@ -151,39 +151,77 @@
 	.buy_badge{
 		font-size: 13px;
 	}
+	.select {
+    padding: 15px 10px;
+}
+
+.select input[type=radio]{
+    display: none;
+}
+.select input[type=radio]+label{
+    display: inline-block;
+    cursor: pointer;
+    height: 24px;
+    width: 90px;
+    border: 1px solid #333;
+    line-height: 24px;
+    text-align: center;
+    font-weight:bold;
+    font-size:13px;
+}
+.select input[type=radio]+label{
+    background-color: #fff;
+    color: #333;
+}
+.select input[type=radio]:checked+label{
+    background-color: #333;
+    color: #fff;
+}
 	
 </style>
 
 
 <div class="content_area">
-	<div class="buy_before">
-		<div class="product_info">
-			<div class="infobox">
+	<form name="size_select" method="get" id="size_select">
+		<div class="buy_before">
+			<div class="product_info">
+				<div class="infobox">
 					<c:forEach items="${imageUrls}" var="imageUrl" begin="0" end="0">
 						<img class="product_image" src="${imageUrl }">
 					</c:forEach>
-				<div class="product_infobox">
-					<div class="code">${vo.p_model_no }</div>
-					<div class="name">${vo.p_name_en }</div>
-					<div class="kor_name">${vo.p_name_ko }</div>
-					<div class="badge_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">빠른배송
+					<div class="product_infobox">
+						<div class="code">${vo.p_model_no }</div>
+						<div class="name">${vo.p_name_en }</div>
+						<div class="kor_name">${vo.p_name_ko }</div>
+						<div class="badge_product">
+							<img class="badge_logo" src="../resources/img/badge_logo.png">빠른배송
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="all_box">
-				<c:forEach items="${vo2}" var="imageUrl" begin="0" end="5">
+				<div class="all_box">
+	 			<c:forEach items="${vo2}" var="vo2">
 					<div class="select_box">
 						<div class="size_product">
-							<img class="badge_logo" src="../resources/img/badge_logo.png">${imageUrl.p_size }
+							<input type="radio" id="select" name="pp_size" value="${vo2.pp_size }">
+							${vo2.pp_size }
 						</div>
 						<div class="size_price">
-							${imageUrl.bid_sell }
+							${vo2.bid_sell }
 						</div>
+						<input type="hidden" id="p_no" value="${vo.p_no }">
 					</div>
 				</c:forEach>
-			</div>
-		</div> <!-- box_all -->
+	<!-- 				<div class="select_box">
+						<div class="size_product">
+							255
+						</div>
+						<div class="size_price">
+							30000
+						</div> -->
+					</div>
+				</div>
+				
+			</div> <!-- box_all -->
 			<div class="bid_or_buy">
 				<div class="buy_box">
 					<div class="btn_box">
@@ -192,12 +230,11 @@
 					</div>
 				</div>
 			</div>
+		</form>
 	</div>
-</div>
 
 <script type="text/javascript">
-
-	$(".select_box").click(function(){
+/* 	$(".select_box").click(function(){
 		if($(".select_box").css("font-weight") != "nomal")
 	    {
 	        $(".select_box").css({"font-weight": "bold"})
@@ -213,7 +250,14 @@
 	    } else { 
 	        $(".select_box").css({"border": "bold"})
 	    }
+	}); */
+	var pno = ${vo.p_no };
+	
+	$(".btn_box").on("click",function(){
+		var form = $('form');
+		form.attr("action", "/shop/shop_sellpage/" + pno);
+		console.log(form);
+		$(form).submit();
 	});
-
 </script>
 <jsp:include page="../include/footer.jsp"/>

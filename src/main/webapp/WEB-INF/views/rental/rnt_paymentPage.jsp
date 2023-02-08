@@ -354,7 +354,18 @@
 	<form name="shop_bidsell" method="post" id="bidSellForm">
 		<div class="buy_before">
 			<div class="product_info">
-
+				<div class="product_info">
+					<div class="infobox">
+						<img class="product_image" src="${imageUrl }">
+						<!-- <img class="product_image" src="/resources/img/ps5.png"> -->
+						<div class="product_infobox">
+							<div class="code">P0000CQH</div>
+							<div class="name">[KREAM Exclusive] STU Duck Down Short Jacket Multi Check</div>
+							<div class="kor_name">에스티유 덕 다운 쇼트 자켓 멀티 체크</div>
+							<div class="p_size">L</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="section_total">
 				<div class="section_unit">
@@ -407,18 +418,18 @@
 						<dl class="price_box">
 							<dt class="price_title">총 결제금액</dt>
 							<dd class="price empty_price">
-								<span class="amount">${vo.sum_price}</span>
+								<span class="amount">-</span>
 							</dd>
 						</dl>
 					</div>
 					<div class="price_bind">
 						<dl class="price_addition">
 							<dt class="price_title"><span>구매가</span></dt>
-							<dd class="price_text"></dd>
+							<dd class="price_text">가격</dd>
 						</dl>
 						<dl class="price_addition">
 							<dt class="price_title2"><span>배송비</span></dt>
-							<dd class="price_text2">배송비 무료</dd>
+							<dd class="price_text2">가격</dd>
 						</dl>
 					</div>
 				</div>
@@ -481,94 +492,5 @@
 	</form>
 </div>
 <script type="text/javascript">
-//-------------------------------------------------상품이미지 + 리스트 가지고오기
-$(function(){	// list()함수 실행하기위한
-	list();
-});
-
-	function list() {	// 상품이미지 보여주기
-		$.ajax({
-			url:'/Payment/paymentList',
-			type: 'get',
- 			dataType:"json",
- 			contentType:"application/json",
-
- 		})
- 		.done(function (json) {	// success 대신 사용
- 			
-			var str='<div class="infobox">';
-			
-			console.log(json);	// f12누르면 나오는,, 정보가 json에 저장이 잘 되어있는지 확인
-
-			for(var i=0; i<json.length; i++) {
-				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
-							// brandshop(컨트롤러) 에서 /get을 탐  
-					
-					if(json[i].attachList.length > 0) {
-						var uploadPath = json[i].attachList[0].uploadPath;
-						var uuid = json[i].attachList[0].uuid;
-						var fileName = json[i].attachList[0].fileName;
-						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-						
-						str += '<img class = "product_image" src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
-					}//-------- if문 끝
-					
-					/*브랜드명, 영문명, 사이즈, 가격  mapper.xml에서 조인해서 가지고오고, Vo에 이름 만들면 가지고 올수있음 */
-					
-					str += '<div class="product_infobox">';
-						str += '<div class="code">'+json[i].p_model_no+'</div>';
-						str += '<div class="name">'+json[i].p_name_en+'</div>';
-						str += '<div class="kor_name">'+json[i].p_name_ko+'</div>';
-						str += '<div class="p_size">'+json[i].pp_size+'</div>';
-						
-					/* str += '<div class="p_info" style="font-weight: bold; font-size: 15px;" data-price = "'+json[i].p_release_price+'">'+json[i].p_release_price+'원</div><br/>'; */
-				str += '</a>'
-					str += '</div>'
-					/* str += '<button class = "remove_button" data-cartno="'+json[i].cart_no+'" >삭제</button>' */
-
-			}//------------- for 문 끝
-			
-			str += '</div>'	// <div class = infobox"> 끝
-			$('.product_info').html(str);	// 여기서 append를 사용하면 내용이 계속 쌓이는거고 새로가지고오지 못한다.. 그래서 html사용해야함,,,,,
-			
-			for(var i= 0; i<json.length; i++){
-				var price = json[i].sum_price;
-				//console.log(price);
-				if(price != null){
-					var sum = 0;
-					sum += Number(price);
-					console.log(sum);
-					
-				}
-			}
-			
-			$('.price_text').html(sum);
-
-			
-		});// ---------done 끝
-		
- 	};// ------- list 함수 끝
- 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 <jsp:include page="../include/footer.jsp"/>

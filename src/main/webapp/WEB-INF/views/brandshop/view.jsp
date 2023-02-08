@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../include/header.jsp"/>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> <!-- 관리자 권한 -->
 <!DOCTYPE html>
 <html>
 
@@ -83,7 +84,11 @@
 <body>
 <!-- ------------------------장바구니, 등록 버튼-------------------- -->
 	
-	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a><a class="register">등록</a></div>
+	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div>
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+			<div><a class="register">등록</a></div>
+		</sec:authorize>
+
 	<br/><br/><br/>
 <!-- ------------------------메인이미지, 로고이미지 -------------------- -->	
 <div class = "img box">
@@ -110,7 +115,7 @@
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "50000">  5만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "100000">  10만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "150000">  15만원 이하</li>
-					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "200000">  20만원 이하</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "300000">  30만원 이하</li>
 				</ul>
 		</li>
 

@@ -15,10 +15,14 @@ public interface MemberMapper {
 	public int addAuth(Map<String, Object> map);
 	// 로그인
 	public MemberVO read(String m_id);
+	// 비밀번호 맞는지 확인
+	public int matchPw(MemberVO vo);
 	// 개인정보수정
 	public int successModify(MemberVO vo);
 	// 회원삭제
 	public int deleteMember(int m_no);
+	// 회원 정보 조회
+	public MemberVO getMemberInfoByMno(int m_no);
 	// 계정찾기
 	public MemberVO findInfo(MemberVO vo);
 	// 비밀번호 업데이트

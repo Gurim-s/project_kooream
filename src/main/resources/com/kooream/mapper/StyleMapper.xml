@@ -52,6 +52,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			where rn > (#{pageNum} - 1) * #{amount}
 		]]>
 	</select>
+	<select id="getMemberList" resultType="com.kooream.domain.StyleVO">
+		<![CDATA[
+			select style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+			from (select /*+index_desc(style style_pk) */
+            	  rownum rn, style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+			      from style
+        		  where mno=#{query} 
+        		  and rownum <= #{pageNum} * #{amount})
+			where rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
 	
 	<select id="get" resultType="com.kooream.domain.StyleVO">
 		select *
