@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!-- <link rel="stylesheet" href="/resources/css/codi/codi.css" /> -->
 <jsp:include page="../include/header.jsp"/>
 
@@ -33,7 +34,7 @@
 		</div>
 		<br/>
 		
-		
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 		<div class="codi_insert">
 			<div class="insert_btn">
 				<a href="/codishop/register" class="btn_search">코디 등록</a>
@@ -42,7 +43,7 @@
 			<hr/>
 			<br/>
 		</div>
-		
+		</sec:authorize>
 		
 		<div id="codi-list" class="clearfix">
 			<div class="list-column" id="first">
