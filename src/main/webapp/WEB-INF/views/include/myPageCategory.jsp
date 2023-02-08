@@ -5,13 +5,14 @@
 
 <style>
 	#myPage{
-		font-size: 20px;
-		font-weight: bold;
+		font-size: 23px;
+		font-weight: 900;
 		color:black;
+		margin-bottom: 20px;
 	}
 	#mcategroyBox{
-		width: 300px;
-		margin-top: 160px;
+		width: 200px;
+		margin: 40px 50px 10px 10px;
 		float:left;
 		display:inline-block;
 	}
@@ -23,8 +24,12 @@
     	font-size: 17px;
     	color: black;
 	}
+	.mul {
+		margin-bottom: 20px;
+	}
 	.mul li{
 		padding: 6px;
+		font-size: 15px;
 	}
 	.mul li a{
 		color: #22222280;

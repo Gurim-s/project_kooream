@@ -15,7 +15,8 @@ var imgService = (function() {
 		const img = document.createElement('img');
 		img.src = originPath(imageVO);
 		img.dataset.offsetX = imageVO.offsetX? imageVO.offsetX : 0;
-		img.dataset.offsetY = imageVO.offsetY? imageVO.offsetY : 0; 
+		img.dataset.offsetY = imageVO.offsetY? imageVO.offsetY : 0;
+		 
 		return img;
 	}
 	

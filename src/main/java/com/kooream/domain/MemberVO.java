@@ -17,4 +17,6 @@ public class MemberVO implements Serializable{
 	private String m_id, m_pw, m_nickname, m_name, m_bday, m_addr, m_email, m_phone;
 	private String m_Detail_addr;
 	private List<MemberAuthVO> authList;
+	
+	private ImageFileVO profileImage;
 }

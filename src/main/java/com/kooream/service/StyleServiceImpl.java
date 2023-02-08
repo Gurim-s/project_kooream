@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.Criteria;
 import com.kooream.domain.HashtagVO;
+import com.kooream.domain.ImageFileVO;
+import com.kooream.domain.MemberVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.domain.StyleProductTagVO;
 import com.kooream.domain.StyleImageVO;
@@ -22,6 +24,8 @@ import com.kooream.mapper.StyleReplyMapper;
 import com.kooream.mapper.StyleTagMapper;
 import com.kooream.mapper.BidShopMapper;
 import com.kooream.mapper.HashtagMapper;
+import com.kooream.mapper.MemberImageMapper;
+import com.kooream.mapper.MemberMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -34,6 +38,8 @@ public class StyleServiceImpl implements StyleService{
 	private StyleImageMapper imageMapper;
 	private StyleReplyMapper replyMapper;
 	private StyleTagMapper styleTagMapper;
+	private MemberMapper memberMapper;
+	private MemberImageMapper memberImageMapper;
 	private HashtagMapper hashtagMapper;
 	private StyleProductTagMapper productTagMapper;
 	private BidShopMapper productMapper;
@@ -61,20 +67,18 @@ public class StyleServiceImpl implements StyleService{
 			list = mapper.getMemberList(query);
 		}
 		
-		for (StyleVO styleVO : list) {
-			long style_no = styleVO.getStyle_no();
+		for (StyleVO style : list) {
+			long style_no = style.getStyle_no();
+			int m_no = style.getM_no();
 			List<StyleImageVO> images = imageMapper.getImagesByStyle_no(style_no);
-			styleVO.setStyle_image(images);
+			MemberVO writer = memberMapper.getMemberInfoByMno(m_no);
+			ImageFileVO profileImage = memberImageMapper.getProfile(m_no);
+			
+			style.setStyle_image(images);
+			style.setWriter(writer);
+			style.setProfile_image(profileImage);
 		}
 		return list;
-	}
-	
-	@Override
-	public List<StyleVO> getListByHashTag(Criteria cri, String hashtag) {
-//		long tag_no = styleTagMapper.getTagNoByHashtag(hashtag);
-//		List<StyleVO> list = mapper.getListByHashTag(cri);
-		
-		return null;
 	}
 	
 	@Override
@@ -91,6 +95,10 @@ public class StyleServiceImpl implements StyleService{
 			productTagList.add(tagList);
 		}
 		
+		MemberVO writer = memberMapper.getMemberInfoByMno(style.getM_no());
+		ImageFileVO profile = memberImageMapper.getProfile(style.getM_no());
+		writer.setProfileImage(profile);
+		style.setWriter(writer);
 //		List<Integer> pnoList = productTagMapper.getPNoListByStyleNo(style_no);
 //		List<ProductVO> productList = new ArrayList<>(); 
 //		if (pnoList != null && pnoList.size() != 0) {

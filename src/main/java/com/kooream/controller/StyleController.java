@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.Criteria;
+import com.kooream.domain.MemberVO;
 import com.kooream.domain.StyleImageVO;
 import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleVO;
@@ -67,11 +69,13 @@ public class StyleController {
 		return "/style/detail";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping("/register")
 	public String register() {
 		return "/style/register";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping("/register")
 	public String register(StyleVO vo, RedirectAttributes rttr) {
 		log.info("register....." + vo);
@@ -80,12 +84,14 @@ public class StyleController {
 		return "redirect:/style/list";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping("/update")
 	public String update(long style_no, Model model) {
 		model.addAttribute("vo", service.get(style_no));
 		return "/style/update";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping("/update")
 	public String update(StyleVO vo, RedirectAttributes rttr) {
 		log.info("register....." + vo);

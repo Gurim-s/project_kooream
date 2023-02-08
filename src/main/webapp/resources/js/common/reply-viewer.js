@@ -79,7 +79,7 @@ const replyViewer = (x) => (function(x) {
 			'</div>' + 
 			'<div class="reply-detail">' +
 				'<div class="reply-content">' +
-					'<span class="user-name">김겨울</span>' +
+					'<span class="user-name">'+reply.writer.m_nickname+'</span>' +
 					reply.content +
 				'</div>' +
 				'<div class="reply-etc">' +

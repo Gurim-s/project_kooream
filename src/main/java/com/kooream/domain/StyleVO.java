@@ -14,16 +14,17 @@ import lombok.Setter;
 @AllArgsConstructor
 public class StyleVO {
 	private long style_no;
-	private long mno;
+	private int m_no;
 	private Date style_regdate;
 	private String style_content;
 	private long count_like;
 	private long count_reply;
 	private double ratio; 
 	
+	private MemberVO writer;
+	private ImageFileVO profile_image;
 	private List<StyleImageVO> style_image;
 	private List<List<StyleProductTagVO>> productTagList;
 	private List<String> hashtags;
-	
 	private List<ProductVO> productList;
 }

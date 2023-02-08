@@ -281,8 +281,8 @@ var imgSlider = (customOption) => (function(customOption) {
 		template.innerHTML = str;
 		
 		container.style.position = 'absolute';
-		container.style.top = x == '0'? '520px': x;
-		container.style.left = y == '0'? '10px': y;
+		container.style.top = y == '0'? '10px': y;
+		container.style.left = x == '0'? '520px': x;
 		container.style.zIndex = '1';
 		
 		pointer.style.height = '12px';

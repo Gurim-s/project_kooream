@@ -6,7 +6,7 @@ import {modal} from '../common/modal.js';
 import {replyViewer} from '../common/reply-viewer.js';
 import {showTime} from '../common/common.js';
 
-const pri_mno = document.querySelector('header input[name="pri_m_no"]').value;
+const pri_m_no = document.querySelector('header input[name="pri_m_no"]').value;
 (async () => {
 	const searchParams = new URLSearchParams(location.search);
 	const [category, style_no] = Array.from(searchParams).map(x  => x[1]);
@@ -22,11 +22,12 @@ var template = function(style) {
 	var template = document.createElement('div'); 
 	template.className = 'item';
 	template.dataset.styleNo = style.style_no;
+	
 	template.innerHTML = (
 		'<div class="item-header clearfix">' +
 			'<div class="item-header-left">' +
 				'<div class="profile-image">'+
-					'<img class="profile" src="/resources/img/codi_test.png" />' +
+					'<img class="profile" src="'+imgService.originPath(style.writer.profileImage)+'" />' +
 				'</div>' +
 				'<div class="user-regdate">' +
 				 	'<div class="user-name">김씨</div>' +
@@ -34,8 +35,8 @@ var template = function(style) {
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
-				(style.mno !== pri_mno
-					? '<a href="#" class="follow-btn" data-user-no="'+style.mno+'">팔로우</a>'
+				(style.m_no != pri_m_no
+					? '<a href="#" class="follow-btn" data-user-no="'+style.m_no+'">팔로우</a>'
 					: '<a href="#" class="update-btn">수정</a><a href="#" class="remove-btn">삭제</a>') +
 			'</div>' +
 		'</div>' +

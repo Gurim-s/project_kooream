@@ -10,8 +10,11 @@ import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kooream.domain.ImageFileVO;
 import com.kooream.domain.MemberVO;
+import com.kooream.mapper.MemberImageMapper;
 import com.kooream.mapper.MemberMapper;
 
 import lombok.Setter;
@@ -23,6 +26,9 @@ import oracle.jdbc.proxy.annotation.SetDelegate;
 public class MemberServiceImpl implements MemberService{
 	@Setter (onMethod_= @Autowired)
 	private MemberMapper mapper;
+	
+	@Setter (onMethod_= @Autowired)
+	private MemberImageMapper imageMapper;
 	
 	// 패스워드 인코딩을 위해서 선언
 	@Setter (onMethod_= @Autowired)
@@ -48,7 +54,14 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
+	@Transactional
 	public int successModify(MemberVO vo) {
+		ImageFileVO image = vo.getProfileImage();
+		int m_no = vo.getM_no();
+		
+		image.setM_no(m_no);
+		imageMapper.delete(m_no);
+		imageMapper.insert(image);
 		return mapper.successModify(vo);
 	}
 
@@ -59,7 +72,11 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public MemberVO getMemberInfoByMno(int m_no) {
-		return mapper.getMemberInfoByMno(m_no);
+		MemberVO member = mapper.getMemberInfoByMno(m_no);
+		ImageFileVO profile = imageMapper.getProfile(m_no);
+		
+		member.setProfileImage(profile);
+		return member;
 	}
 
 	@Override

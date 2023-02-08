@@ -29,6 +29,10 @@ public class SearchProductServiceImpl implements SearchProductService{
 		keyword.setKeywordList(keywordList);
 
 		result = productMapper.searchProductTag(keyword);
+		for (ProductVO product : result) {
+			List<AttachFileVO> image = imageMapper.findByPno(product.getP_no());
+			product.setAttachList(image);;
+		}
 		return result;
 	}
 	

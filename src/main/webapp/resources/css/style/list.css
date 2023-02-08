@@ -57,7 +57,9 @@
 }
 #categories a#register {
 	float: right;
+	transform: translate3d(0, -20%, 0);
 	color: white;
+	font-weight: bold;
 	background-color: black;
 }
 #listKeyword {
@@ -105,11 +107,30 @@
 	margin-top: 50px;
 }
 .card .img-container {
-	margin-bottom: 3px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	border-radius: 10px;
+	margin-bottom: 10px;
 }
 .card .img-container img{
 	width: 100%;
 	border-radius: 10px;
+	position: absolute;
+}
+.card .count-img {
+	position: absolute;
+	width: 28px;
+	height: 16px;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: bold;
+	color: white;
+	top: 6px;
+	right: 6px;
+	text-align: center;
+	line-height: 16px;
 }
 .card .info .user_info {
 	height: 26px;
