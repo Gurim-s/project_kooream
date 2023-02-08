@@ -97,6 +97,13 @@
 		<form id="modifyForm" method="post">
 		<table>
 			<tr>
+				<td colspan="2">
+					<div class="profile-img">
+						<img alt="profile-img" src="<c:url value='/resources/img/codi_test.png'/>">
+					</div>
+				</td>
+			</tr>
+			<tr>
 				<td>
 					<span>아이디</span>
 				</td>
@@ -237,6 +244,19 @@
 		$("#modifyBtn").on("click", function(e){
 			e.preventDefault();
 			var str='';
+			// 프로필 이미지 파일 input 추가
+			$(".profile-img").append('<input type=file id="profileImgInput"/>');
+			$(".profile-img input[type='file']").on('change', function(e) {
+				e.preventDefault();
+				var file = Array.from(e.target.files)[0];
+				
+				var fileType = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
+				if (!file.name.match(fileType)) {
+					alert('이미지 파일만 업로드 가능합니다.');
+					e.target.value = '';
+				};
+			});
+			
 			$(".info").each(function(idx,item){
 				str = $(this).text();
 				if($(item).attr("name")=="m_bday"){
@@ -304,30 +324,45 @@
 				$("input[name='m_phone']").val("");
 			});
 			
-			
 			// 모달창에서 개인정보 수정 버튼 클릭시 이벤트
 			$("#matchPwBtn").on("click", function(e){
 				e.preventDefault();
-				console.log("찍히나")
 				
-				
+				//프로필 이미지 업로드 후 file 경로 정보 반환
+				var uploadResult = '';
+				var formData = new FormData();
+			    var inputFile = $(".profile-img input[type='file']")[0];
+			    var file = Array.from(inputFile.files)[0];
+			    formData.append("uploadFile", file);
+			    var imgStr = '';
 				$.ajax({
-		            type : 'POST',            
-		            url : "/member/ajax/matchPw",      
-		            data : {m_pw : $("#content").val()},
-		            dataType : 'json',
-		            success : function(result){
-						if(result){ // 컨트롤러에서 리턴받은 값이 true면.
-							$("#modifyForm").attr("action", "/member/successModify");
-							$("#modifyForm").submit();
-						}else{
-							alert("비밀번호가 일치하지 않습니다.");
-							return;
-						}
-		            }
-		        });
+					url: "/uploadImageAWS/member",
+		            processData: false,
+		            contentType: false,
+		            data: formData,
+					type: 'POST',
+					dataType: 'json',
+				}).done(function (result) {
+					inputFile.remove();
+					console.log(result);
+					imgStr += '';
+				});
+// 				ajax({
+// 		            type : 'POST',            
+// 		            url : "/member/ajax/matchPw",      
+// 		            data : {m_pw : $("#content").val()},
+// 		            dataType : 'json',
+// 		            success : function(result){
+// 						if(result){ // 컨트롤러에서 리턴받은 값이 true면.
+// 							$("#modifyForm").attr("action", "/member/successModify");
+// 							$("#modifyForm").submit();
+// 						}else{
+// 							alert("비밀번호가 일치하지 않습니다.");
+// 							return;
+// 						}
+// 		            }
+// 		        });
 			});
-			
 			
 	}); // onload end----------------------------------------------------------------------------------
 	
@@ -350,7 +385,6 @@
       		}
     	}).open();
 	}
-
 	
 	// 모달창 관련-----------------------------------------------
 	function wrapWindowByMask() {

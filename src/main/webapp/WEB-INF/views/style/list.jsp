@@ -15,14 +15,16 @@
 				<div></div>
 			</div>
 		</div>
-		<div id="categories" class="show">
-			<button id="hot" class="on">인기</button>
-			<button id="recent" class="">최신</button>
-			<button id="following" class="">팔로잉</button>
-			<button id="search" class="">검색</button>
-			<button id="register">+</button>
+		<div id="categories" class="hide">
+			<a href="/style/list?category=hot" id="hot" class="">인기</a>
+			<a href="/style/list?category=recent" id="recent" class="">최신</a>
+			<a href="/style/list?category=following" id="following" class="">팔로잉</a>
+<!-- 			<button id="search" class="">검색</button> -->
+			<a href="/style/register" id="register">등록</a>
+			<div id="listKeyword">
+				<h1></h1>
+			</div>
 		</div>
-		<div id="listKeyword"></div>
 		<div id="styleList" class="clearfix">
 			<div class="list-column">
 			</div>
@@ -38,9 +40,6 @@
 			<strong>게시물 없음.</strong>
 			<p>게시물이 없습니다. 회원님의 STYLE을 공유해주세요.</p>
 		</div>
-<!-- 		<div id="btnContainer"> -->
-<!-- 			<button id="more">더 보기 +</button> -->
-<!-- 		</div> -->
 	</div>
 	<script type="module" src="<c:url value='/resources/js/style/list.js'/>"></script>
 <jsp:include page="../include/footer.jsp"/>

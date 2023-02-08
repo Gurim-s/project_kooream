@@ -43,27 +43,26 @@
 	margin: 30px auto 50px auto;
 	text-align: center;
 }
-#categories button {
+#categories a {
 	background: white;
 	font-size: 16px;
-	padding: 5px 12px;
+	padding: 7px 14px;
 	border-radius: 30% 30% / 50% 50%;
 	border: none;
 }
-#categories button.on {
+#categories a.on {
 	background: black;
 	color: white;
 	font-weight: bold;
 }
-#categories button#register {
+#categories a#register {
 	float: right;
 	color: white;
-	font-size:30px;
-	width: 31px;
-	height: 31px;
-	padding: 0;
 	background-color: black;
-	border-radius: 50%;
+}
+#listKeyword {
+	text-align: center;
+	margin: 20px auto 0 auto;
 }
 #styleList {
 	width: 100%;

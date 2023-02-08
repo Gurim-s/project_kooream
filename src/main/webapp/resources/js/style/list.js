@@ -2,9 +2,11 @@ import {imgService} from '../service/image-service.js';
 import {styleService} from '../service/style-service.js';
 import {memberService} from '../service/member-service.js';
 
+const member_no = document.querySelector('input[name="pri_m_no"]').value;
 const view = {
 	memberDetailInfo: document.querySelector('#memberDetailInfo'),
 	categories: document.querySelector('#categories'),
+	listKeyword: document.querySelector('#listKeyword'),
 	column: document.querySelectorAll('.list-column'),
 	altEmpty: document.querySelector('#empty-list'),
 }
@@ -12,9 +14,6 @@ const btn = {
 	register: document.querySelector('#register'),
 }
 const events = {
-	moveRegister: () => {
-		location.href = 'register';
-	},
 	onScrollLoadData: () => {
 		if (query.isEnd) return;
 		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
@@ -51,10 +50,10 @@ function setContentHeader() {
 	switch (query.category) {
 		case '':
 		case 'hot':
-		case 'tag':
-		case 'following':
 		case 'recent':
-			
+		case 'following':
+		case 'tag':
+			loadCategoriesHeader();
 			break;
 		case 'member':
 			loadMemberDetailInfo();
@@ -67,11 +66,30 @@ function setEvent() {
 	document.addEventListener('scroll', events.onScrollLoadData, {passive: true});
 }
 
+function loadCategoriesHeader() {
+	view.categories.className = 'show';
+	view.categories.querySelector('#register')
+	.className = isNaN(member_no)? 'hide': 'show';
+	
+	if (['hot', 'recent', 'following'].includes(query.category)) {
+		view.categories.querySelector('#' + query.category)
+		.className = 'on';
+	}
+	
+	if (query.query === '') return;
+	loadListTitle();
+}
+
+function loadListTitle() {
+	const listTitle = view.categories.querySelector('#listKeyword h1'),
+		  queryType = query.category == 'tag'? '#': '';
+	
+	listTitle.innerHTML = '<strong>'+ queryType +query.query+'</strong>';
+}
+
 async function loadMemberDetailInfo() {
-	const mno = document.querySelector('input[name="pri_m_no"]').value;
-	view.categories.className = 'hide';
-	view.memberDetailInfo.className = 'show';	
-	if (query.query == mno) {
+	view.memberDetailInfo.className = 'show';
+	if (query.query == member_no) {
 		view.memberDetailInfo.querySelector('.follow-btn').classList.add('hide');
 	} else {
 		view.memberDetailInfo.querySelector('.info-update-btn').classList.add('hide');
@@ -79,8 +97,6 @@ async function loadMemberDetailInfo() {
 	
 	const member = await memberService.getMemberInfo(query.query);
 	view.memberDetailInfo.querySelector('.nickname').innerHTML = member.m_nickname;
-	
-	console.log(member);
 }
 
 async function getList(query) {
@@ -154,6 +170,6 @@ function item(style) {
 		countImg.style.textAlign = 'center';
 		countImg.style.lineHeight = '16px';
 	}
-	 
+	
 	return template;
 }
