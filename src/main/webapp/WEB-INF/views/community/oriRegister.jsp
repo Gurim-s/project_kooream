@@ -21,8 +21,22 @@
 	#btn{
 	text-align: center;
 	}
+	button{
+		border: 0;
+		width: 100px;
+		height: 50px;
+	}
 	form{
 		margin-left: 180px;
+	}
+	input[type=text] {
+		width: 500px;
+		height: 40px;
+		font-size: 15px;
+		border: 1;
+		border-radius: 5px;
+		outline: none;
+		padding-left: 10px;
 	}
 </style>
 </head>

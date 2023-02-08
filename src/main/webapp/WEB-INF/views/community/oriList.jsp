@@ -179,7 +179,7 @@
 	            type: "GET",
 	            dataType: "json",
 	            success: function(result){
-	                // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
+	                // 컨트롤러에서 가져온 리스트는 result.data에 담겨오도록 했다.
 	                // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
 	                let length = result.data.length;
 	                if( length < 5 ){

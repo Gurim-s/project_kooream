@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 <style type="text/css">
 	#menu_list{
 		float: left;
@@ -16,55 +18,98 @@
 	span{
 		font-size: 30px;
 	}
+	#main{
+		margin-left: 130px;
+	}
+	input[type=text] {
+		width: 500px;
+		height: 40px;
+		font-size: 15px;
+		border: 1;
+		border-radius: 5px;
+		outline: none;
+		padding-left: 10px;
+	}
+	#btn{
+		text-align: center;
+	}
+	button{
+		border: 0;
+		width: 100px;
+		height: 50px;
+	}
 </style>
+
 </head>
 <body>
 	<ul id="menu_list">
-		<li>정품판별</li>
+		<li><a href="/community/oriList">정품판별</a></li>
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
 		<span>구림톡</span>
 	</div>
 	<br/>
+	<div id="main">
 	<hr/>
 	<br/>
 	<form action="/community/talkRegister" method="post" role="form">
-		<table>
-			<!-- <tr>
-				<td>회원번호</td>
-				<td><input type="number" name="m_no"></td>
-			</tr> -->
-			<tr>
-				<td colspan="2"><input type="text" name="talktitle" placeholder="제목을 입력해주세요."></td>
-			</tr>
-			<tr>
+			<div>
 				<sec:authorize access="isAuthenticated()">
 				<sec:authentication property="principal.member" var="mvo"/>
 				<td><strong>${ mvo.m_nickname}</strong></td>
 				<td><input type="hidden" name="talkname" value="${ mvo.m_nickname}"></td>
 				<td><input type="hidden" name="m_no" value="${ mvo.m_no}"></td>
 				</sec:authorize>
-			</tr>
-			<tr>
-				<td>내용</td>
-			</tr>
-			<tr>	
-				<td><textarea rows="15" cols="30" name="talkcon"></textarea></td>
-			</tr>
-			<tr>
-				<td><button class="btn-insert" data-oper="talkregister">등록</button></td>
-				<td><button class="btn-list" data-oper="talklist">목록</button></td>
-			</tr>
-		</table>
+			</div>
+			<div style="height: 30px;"></div>
+			<div>
+				<input type="text" name="talktitle" placeholder="제목을 입력해주세요.">
+			</div>
+			<div style="height: 30px;"></div>
+			<div>	
+				<textarea name="talkcon" id="mytextarea"></textarea>
+			</div>
+			<div style="height: 30px;"></div>
+			<div id="btn">
+				<button class="btn-insert" data-oper="talkregister">등록</button>
+				<button class="btn-list" data-oper="talklist">목록</button>
+			</div>
 		<div>
 			<input type="hidden" name="pageNum" value="${cri.pageNum }">
 			<input type="hidden" name="amount" value="${cri.amount }">
 		</div>
 	</form>
+	</div>
 </body>
 <script type="text/javascript">
 	$(function() {
+		
+		 var plugins = [
+		        "advlist", "autolink", "lists", "link", "charmap", "print", "preview", "anchor",
+		        "searchreplace", "visualblocks", "code", "fullscreen", "insertdatetime", "table",
+		        "paste", "code", "help", "wordcount", "save"
+		 ];
+		 var edit_toolbar = 'formatselect fontselect fontsizeselect |'
+		               + ' forecolor backcolor |'
+		               + ' bold italic underline strikethrough |'
+		               + ' alignjustify alignleft aligncenter alignright |'
+		               + ' bullist numlist |'
+		               + ' table tabledelete';
+
+	     tinymce.init({
+	    	language: "ko_KR",
+	        selector: '#mytextarea',
+	        height: 500,
+	        menubar: false,
+	        plugins: plugins,
+	        toolbar: edit_toolbar,
+	        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+	     });
+
+		
+		
+		
 		var form = $("form");
 		
 		// 아래 talklist를 위해 표현식을 담은 것
@@ -75,19 +120,20 @@
 			e.preventDefault();	// 버튼에 걸린 기본 이벤트 삭제
 		
 			var oper = $(this).data("oper");	//해당 버튼의 data가 oper인 것
+			var talkcon = tinymce.activeEditor.getContent();
 			
 			if(oper == 'talkregister'){	//게시글 등록
 				if( $("input[name=talktitle]").val() == ""){
 					alert('제목을 적어 주세요.');
-					return false;
+					return;
 				}
 				if( $("input[name=talkname]").val() == ""){
 					alert('닉네임을 적어 주세요.');
-					return false;
+					return;
 				}
-				if( $("textarea[name=talkcon]").val() == ""){
+				if( talkcon == ''){
 					alert('내용을 적어 주세요.');
-					return false;
+					return;
 				}
 				
 				form.submit();	// 해당 form 데이터 보내기
@@ -96,6 +142,8 @@
 				location.href = '/community/talkList?pageNum='+pageNum+'&amount='+amount;
 				// submit 하면 form의 action 따라가므로 400 에러 발생 주의할 것
 			}
+			
+			
 		})
 		
 		

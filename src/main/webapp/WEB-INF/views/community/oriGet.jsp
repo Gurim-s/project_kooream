@@ -58,7 +58,7 @@
     table{
     	margin: auto;
     }
-    td, #oriOk{
+    td{
     	text-align: center;
     }
     div.main_content {
