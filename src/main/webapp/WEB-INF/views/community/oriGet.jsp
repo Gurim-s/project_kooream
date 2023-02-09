@@ -338,7 +338,9 @@
 			my_modal.hide();
 			console.log(my_modal.length);
 		});
+		
 		var oridec = 'oriOk';
+		
 		$(".ori_icon").click(function(e){
 			e.preventDefault();
 			
