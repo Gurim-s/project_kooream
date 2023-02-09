@@ -13,7 +13,14 @@ var imgFileUploader = (function() {
 	const previewList = createImgPreview();
 	let slider = imgSlider();
 	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
-	let option = {};
+	let editedDataTransfer; 
+	let option = {
+		uploadURL: '',
+		saveName: '',
+		max: 1000,
+		slider: {},
+		editMode: false,
+	};
 	
 	function init() {
 		container.prepend(previewList);
@@ -22,6 +29,8 @@ var imgFileUploader = (function() {
 		container.append(slider.container);
 		setEvent();
 		defaultCss();
+		
+		if (option.editMode) editedDataTransfer = new DataTransfer();
 	}
 	
 	function createTempInput() {
@@ -155,6 +164,19 @@ var imgFileUploader = (function() {
 		.forEach(x => x.remove());
 	}
 	
+	async function getEditedFiles() {
+		const editedBlobs = await slider.getCropedImgList();
+		const editedFiles = editedBlobs.map(_blobToFile);
+		editedFiles.forEach(x => editedDataTransfer.items.add(x));
+		
+		return editedFiles;
+	}
+	
+	function _blobToFile(blob) {
+		return new File([blob], 'image.jpeg', {type: blob.type});
+	}
+	
+	
 	function selectPreview() {
 //		slider.slideImg;
 	}
@@ -201,6 +223,10 @@ var imgFileUploader = (function() {
 				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetY" value="'+slider.offsetY(i) +'">';
 		});
 		return str;
+	}
+	
+	async function uploadCropedImageAjax() {
+		
 	}
 	
 	function update() {
@@ -283,7 +309,9 @@ var imgFileUploader = (function() {
 		publish: publish,
 		slider: slider,
 		container: container,
+		getEditedFiles: getEditedFiles,
 		uploadImageAjax: uploadImageAjax,
+		uploadCropedImageAjax: uploadCropedImageAjax,
 		countFiles: countFiles,
 		setURL: setURL,
 		setRatio: setRatio,
