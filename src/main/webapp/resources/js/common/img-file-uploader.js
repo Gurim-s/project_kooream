@@ -206,6 +206,7 @@ var imgFileUploader = (function() {
 	}
 	
 	async function uploadImageAjax() {
+		if (option.editMode) dataTransfer = editedDataTransfer;
 		let formData = new FormData();
 		Array.from(dataTransfer.files)
 		.forEach((file) => {
@@ -218,15 +219,9 @@ var imgFileUploader = (function() {
 		.forEach((image, i) => {
 			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
 				   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetX" value="'+slider.offsetX(i) +'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetY" value="'+slider.offsetY(i) +'">';
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
 		});
 		return str;
-	}
-	
-	async function uploadCropedImageAjax() {
-		
 	}
 	
 	function update() {
