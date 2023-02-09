@@ -124,7 +124,7 @@
 				</c:if> --%>
 			</div>
 			<div style="height: 70px;"></div>
-			<div>
+			<div style="white-space: pre-line;">
 				${vo.oricon }
 			</div>
 			<div style="height: 150px;"></div>
@@ -139,8 +139,8 @@
 						<td>가품 같아요.</td>
 					</tr>
 					<tr>
-						<td id="oriOk">진품 갯수</td>
-						<td id="oriNo">가품 갯수</td>
+						<th id="oriOk">진품 갯수</th>
+						<th id="oriNo">가품 갯수</th>
 					</tr>
 				</table>
 			</div>
@@ -237,11 +237,8 @@
 			replyService.countOriOk({no:orinoValue},
 				function(result) {
 					console.log(result);
-					var str = '';
 					
-					str += '<td id="oriOk">'+ result +'</td>'
-					
-					oriOk.html(str);
+					oriOk.html(result);
 				}
 			)
 		}
@@ -252,11 +249,8 @@
 			replyService.countOriNo({no:orinoValue},
 				function(result) {
 					console.log(result);
-					var str = '';
 					
-					str += '<td id="oriNo">'+ result +'</td>'
-					
-					oriNo.html(str);
+					oriNo.html(result);
 				}
 			)
 		}
@@ -338,80 +332,53 @@
 		principal = '<sec:authorize access="isAuthenticated()"><sec:authentication property="principal.member" var="mvo"/>${mvo.m_nickname}</sec:authorize>';
 		principalM_no = '<sec:authorize access="isAuthenticated()"><sec:authentication property="principal.member" var="mvo"/>${mvo.m_no}</sec:authorize>';
 		
-		// 정품 같아요 클릭
-		$("#dec_ok").click(function(e) {
-			e.preventDefault();
-			var oridec = "oriOk";
-			
-			// 모달창 열기
-			modalInputReply.val('');	// 댓글 내용 창 비우기
-			modalupdatebtn.hide();
-			$("#myModalLabel").html("나의 의견 : 진품 같아요!");
-			modalInputReplyer.html(principal);
-			modalInputReplyer2.val(principal);
-			modalInputM_no.val(principalM_no);
-			my_modal.show();
-			
-			// 모달창 등록
-			$("#replyRegister").click(function() {
-				
-				if( $("textarea[name=oricon]").val() == ""){
-					alert('내용을 적어 주세요.');
-					return;
-				}
-		
-				// 정품 댓글 달기
-				replyService.add(
-						{orino:orinoValue, m_no:modalInputM_no.val(), orireplyname:modalInputReplyer2.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
-						
-						function(result) {
-							countOk();
-							showList();
-							my_modal.hide();
-						}
-					);
-			});
-		
-		});
-		
-		// 가품 같아요 클릭
-		$("#dec_no").click(function(e) {
-			e.preventDefault();
-			var oridec = "oriNo";
-			
-			// 모달창 열기
-			modalInputReply.val('');	// 댓글 내용 창 비우기
-			modalupdatebtn.hide();
-			$("#myModalLabel").html("나의 의견 : 가품 같아요!");
-			modalInputReplyer.html(principal);
-			modalInputReplyer2.val(principal);
-			modalInputM_no.val(principalM_no);
-			my_modal.show();
-			
-			// 모달창 등록
-			$("#replyRegister").click(function() {
-			
-				if( $("textarea[name=oricon]").val() == ""){
-					alert('내용을 적어 주세요.');
-					return;
-				}
-				// 가품 댓글 달기
-				replyService.add(
-						{orino:orinoValue, m_no:modalInputM_no.val(), orireplyname:modalInputReplyer2.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
-						
-						function(result) {
-							countNo();
-							showList();
-							my_modal.hide();
-						}
-					);
-			});
-			
-		});
 		
 		// 모달창 닫기(취소 버튼)
 		$("#replyReset").click(function() {
 			my_modal.hide();
+			console.log(my_modal.length);
+		});
+		var oridec = 'oriOk';
+		$(".ori_icon").click(function(e){
+			e.preventDefault();
+			
+			var oriCk = $(this).attr("id");
+			
+			if(oriCk=='dec_ok'){
+				// 정품 같아요 클릭
+				$("#myModalLabel").html("나의 의견 : 진품 같아요!");
+				oridec = 'oriOk';
+			}else{
+				// 가품 같아요 클릭
+				$("#myModalLabel").html("나의 의견 : 가품 같아요!");
+				oridec = 'oriNo';
+			}
+			
+			modalInputReply.val('');	// 댓글 내용 창 비우기
+			modalupdatebtn.hide();
+			modalInputReplyer.html(principal);
+			modalInputReplyer2.val(principal);
+			modalInputM_no.val(principalM_no);
+			my_modal.show();
+		});
+		
+		
+		$("#replyRegister").click(function() {
+			if( $("textarea[name=oricon]").val() == ""){
+				alert('내용을 적어 주세요.');
+				return;
+			}
+			// 정품 댓글 달기
+			replyService.add(
+				{orino:orinoValue, m_no:modalInputM_no.val(), orireplyname:modalInputReplyer2.val(), orireplycon:modalInputReply.val(), oridecision:oridec},
+				
+				function(result) {
+					countOk();
+					countNo();
+					showList();
+					my_modal.hide();
+				}
+			);
 		});
 		
 		var replyList = $(".replyList");
@@ -422,6 +389,7 @@
 		function showList() {
 			replyService.getList({orino:orinoValue},
 					function(result) {
+					console.log(result);
 						var str = '';
 						
 						if(result == null || result.length==0){
@@ -441,7 +409,7 @@
 								
 								
 								str += '<sec:authorize access="isAuthenticated()">'
-								str += '<sec:authentication property="principal.member" var="mvo"/>'
+								str += '<sec:authentication property="principal.member" var="mvo"/> <input type="hidden" name="mvo_no" value="${mvo.m_no} id="mvo_no">'
 								
 								if(result[i].m_no == ${mvo.m_no}){
 									str += '<button id="replyupdatebtn" data-replyno ="'+result[i].orireplyno+'">수정</button><button id="replyremovebtn" data-replyno ="'+result[i].orireplyno	+'">삭제</button></div>' 
