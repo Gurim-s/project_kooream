@@ -129,7 +129,7 @@ public class PaymentController {
 				m_no = userSession.getM_no(); // 회원번호 불러오기
 			}*/	
 			log.info(m_no + "엥 리스트 나와라");
-	  return new ResponseEntity<List<PaymentVO>>(payservice.paymentList(m_no),HttpStatus.OK);
+		return new ResponseEntity<List<PaymentVO>>(payservice.paymentList(m_no),HttpStatus.OK);
 	  }
 	 	
 	

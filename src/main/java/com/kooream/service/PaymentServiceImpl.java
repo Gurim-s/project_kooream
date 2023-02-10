@@ -66,11 +66,11 @@ public class PaymentServiceImpl implements PaymentService{
 		List<PaymentVO> list = paymapper.paymentList(m_no);
 		System.out.println(m_no+"가지고와라!!!");
 		//int result = 0;
-		for (PaymentVO vo : list) {
-				List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
-				//int productList = mapper.getPno();
-				vo.setAttachList(attach);
-		}
+		/*
+		 * for (PaymentVO vo : list) { List<AttachFileVO> attach =
+		 * uploadmapper.findByPno(vo.getP_no()); //int productList = mapper.getPno();
+		 * vo.setAttachList(attach); }
+		 */
 		return list;
 		
 		

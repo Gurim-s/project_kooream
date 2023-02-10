@@ -13,7 +13,9 @@ public interface BrandProductService {
 	
 	public void register(ProductVO vo);
 	
-	public ProductVO get(ProductVO vo);		// 상세보기
+	public ProductVO get(ProductVO vo);		// 결제페이지에서 섬네일 조회
+	
+	public ProductVO getDetail(ProductVO vo); // 상세 상품 페이지
 
 	public List<AttachFileVO> getAttachList(int p_no);
 	

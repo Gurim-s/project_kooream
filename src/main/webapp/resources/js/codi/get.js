@@ -2,6 +2,7 @@ import {imgSlider} from '../common/img-slider.js'; // 이미지 슬라이더 모
 import {imgService} from '../service/image-service.js';
 
 var codi_no = $('.codi_box').data('codi-no');
+var replyer = $('input[name=pri_m_nickname]').val();
 $(function() {
 	
 	// 이미지 비동기 가져오기
@@ -99,19 +100,26 @@ var codi_noValue = codi_no;
 // 댓글 달기 버튼 이벤트
 $("#btnReply").hide();
 $("#replytext").hide();
+$("#replyer").hide();
+
+
 $("#goodsBtn").on("click", function(){
 	var thisText = $(this).text();
 	if(thisText=='댓글 입력'){
 		$("#replytext").val("");
 		$("#replytext").show();
+		$("#replyer").show();
 		$("#btnReply").show();
 		$(this).text("취소");
 	}else{
 		$("#replytext").hide();
+		$("#replyer").hide();
 		$("#btnReply").hide();
 		$(this).text("댓글 입력");
 	}
 });
+	
+
 	
 // 댓글 리스트 화면에 출력 함수 ---- start 
 function showList() {
@@ -149,19 +157,23 @@ function showList() {
 				$(".remove_btn").hide();
 				$(".update_open").hide();
 				
+				
 				$(".List_btn").on("click", function(e){
 					var target = $(e.target).closest('button');
 					var remove_btn = $(target).closest('div').find(".remove_btn");
 					var update_open = $(target).closest('div').find(".update_open");
-//					console.log($(target).data('opened'));
-					if($(target).data('opened') == "closed"){
-						$(remove_btn).show();
-						$(update_open).show();
-						$(target).data('opened', 'opened');
-					}else{
-						$(remove_btn).hide();
-						$(update_open).hide();
-						$(target).data('opened', 'closed');
+					var targetname = $(e.target).closest('div').find(".m_replyer");
+					console.log(targetname.text());
+					if(replyer == targetname.text()){
+						if($(target).data('opened') == "closed"){
+							$(remove_btn).show();
+							$(update_open).show();
+							$(target).data('opened', 'opened');
+						}else{
+							$(remove_btn).hide();
+							$(update_open).hide();
+							$(target).data('opened', 'closed');
+						}
 					}
 				}); // List_btn ....end
 				
@@ -210,9 +222,10 @@ $(function(){
 	showList();
 	// 댓글 등록 ... start
 	$("#btnReply").click(function() {
+		console.log(replyer);
 		CodiReplyService.add({
 			reply : $("#replytext").val(),
-			replyer : "임시 작성자",
+			replyer : replyer,
 			codi_no : codi_noValue
 		}, function(result) {
 			showList();
