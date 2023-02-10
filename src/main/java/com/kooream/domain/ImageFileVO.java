@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StyleImageVO {
-	private String uuid;
-	private String uploadPath;
-	private String fileName;
+public class ImageFileVO {
+	private String uuid, fileName, uploadPath;
+	private int m_no;
+	
 	private long style_no;
 }

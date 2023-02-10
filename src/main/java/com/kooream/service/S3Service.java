@@ -6,4 +6,5 @@ public interface S3Service {
 	public void init();
 	public void uploadAWS(MultipartFile image, String s3Path);
 	public String getFileURL(String fileName);
+	public void uploadThumbFile(MultipartFile image, String s3Path, int width, int height);
 }

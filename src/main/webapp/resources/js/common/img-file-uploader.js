@@ -13,7 +13,14 @@ var imgFileUploader = (function() {
 	const previewList = createImgPreview();
 	let slider = imgSlider();
 	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
-	let option = {};
+	let editedDataTransfer; 
+	let option = {
+		uploadURL: '',
+		saveName: '',
+		max: 1000,
+		slider: {},
+		editMode: false,
+	};
 	
 	function init() {
 		container.prepend(previewList);
@@ -22,6 +29,8 @@ var imgFileUploader = (function() {
 		container.append(slider.container);
 		setEvent();
 		defaultCss();
+		
+		if (option.editMode) editedDataTransfer = new DataTransfer();
 	}
 	
 	function createTempInput() {
@@ -155,6 +164,19 @@ var imgFileUploader = (function() {
 		.forEach(x => x.remove());
 	}
 	
+	async function getEditedFiles() {
+		const editedBlobs = await slider.getCropedImgList();
+		const editedFiles = editedBlobs.map(_blobToFile);
+		editedFiles.forEach(x => editedDataTransfer.items.add(x));
+		
+		return editedFiles;
+	}
+	
+	function _blobToFile(blob) {
+		return new File([blob], 'image.jpeg', {type: blob.type});
+	}
+	
+	
 	function selectPreview() {
 //		slider.slideImg;
 	}
@@ -184,6 +206,7 @@ var imgFileUploader = (function() {
 	}
 	
 	async function uploadImageAjax() {
+		if (option.editMode) dataTransfer = editedDataTransfer;
 		let formData = new FormData();
 		Array.from(dataTransfer.files)
 		.forEach((file) => {
@@ -196,9 +219,7 @@ var imgFileUploader = (function() {
 		.forEach((image, i) => {
 			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
 				   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetX" value="'+slider.offsetX(i) +'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetY" value="'+slider.offsetY(i) +'">';
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
 		});
 		return str;
 	}
@@ -283,6 +304,7 @@ var imgFileUploader = (function() {
 		publish: publish,
 		slider: slider,
 		container: container,
+		getEditedFiles: getEditedFiles,
 		uploadImageAjax: uploadImageAjax,
 		countFiles: countFiles,
 		setURL: setURL,

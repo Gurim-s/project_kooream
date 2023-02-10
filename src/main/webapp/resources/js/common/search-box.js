@@ -41,6 +41,7 @@ const searchBox = () => (function() {
 			pageNum: 1,
 			amount: 10,
 		});
+		console.log(result);
 		setProductList(result);
 	}
 	

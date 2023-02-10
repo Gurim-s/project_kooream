@@ -1,8 +1,13 @@
 package com.kooream.service;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Date;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +29,7 @@ import com.amazonaws.util.IOUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Log4j
 @Service
@@ -80,6 +86,33 @@ public class S3ServiceImpl implements S3Service{
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}
+	}
+	
+	@Override
+	public void uploadThumbFile(MultipartFile image, String s3Path, int width, int height) {
+		try {
+			BufferedImage bufferImage = ImageIO.read(image.getInputStream());
+			BufferedImage thumbnailImage = Thumbnails.of(bufferImage).size(280, 350).asBufferedImage();
+			
+	        ByteArrayOutputStream thumbOutput = new ByteArrayOutputStream();
+	        String imageType = image.getContentType();
+	        ImageIO.write(thumbnailImage, imageType.substring(imageType.indexOf("/")+1), thumbOutput);
+
+	        ObjectMetadata thumbObjectMetadata = new ObjectMetadata();
+	        byte[] thumbBytes = thumbOutput.toByteArray();
+	        thumbObjectMetadata.setContentLength(thumbBytes.length);
+	        thumbObjectMetadata.setContentType(image.getContentType());
+
+	        InputStream thumbInput = new ByteArrayInputStream(thumbBytes);
+	        this.s3Client.putObject(this.bucketName, s3Path.replace(File.separatorChar, '/'), thumbInput, thumbObjectMetadata);
+		
+	        thumbInput.close();
+	        thumbOutput.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public String getFileURL(String fileName) {

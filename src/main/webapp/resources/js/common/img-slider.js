@@ -4,20 +4,22 @@
  */
 import {imgService} from '../service/image-service.js';
 
-var imgSlider = (customOption) => (function(customOption) {
-	var option = {
+const imgSlider = (customOption) => (function(customOption) {
+	let option = {
 		ratio: 1,
 		ratioFix: false,
 		editMode: false,
 		tagEditMode: false,
 		offset: false,
 	};
-	var container = document.createElement('div');
-	var imgContainer = document.createElement('div');
-	var ul = document.createElement('ul');
-	var idx = 0;
-	var idxContainer;
-	var idxIndicator;
+	const container = document.createElement('div');
+	const imgContainer = document.createElement('div');
+	const ul = document.createElement('ul');
+	let imgList = [];
+	let idx = 0;
+	let idxContainer;
+	let idxIndicator;
+	let dataTransfer;
 	
 	init();
 	function init() {
@@ -31,8 +33,8 @@ var imgSlider = (customOption) => (function(customOption) {
 		container.append(idxContainer);
 		setEvent();
 		setDefaultCss();
-		if (option.editMode) dragImageEvent();
-		if (option.tagEditMode) dragTagEvent();
+		
+		if(option.editMode) dataTransfer = new DataTransfer();
 	}
 	
 	function createBtnContainer() {
@@ -89,51 +91,14 @@ var imgSlider = (customOption) => (function(customOption) {
 	function setEvent() {
 		container.addEventListener('mouseover', () => hover('on'));
 		container.addEventListener('mouseout', () => hover('out'));
+		if (option.editMode) {
+			container.addEventListener('mousewheel', _canvasScrollEvent);
+			_dragImageEvent();
+		}
+		if (option.tagEditMode) _dragTagEvent();
 	}
 	
-	function dragImageEvent() {
-		ul.ondragstart = function() {return false;}
-		let isPressed = false;
-		let oldX = 0;
-		let oldY = 0;
-		
-		ul.onmousedown = start;
-		ul.onmouseup = end;
-		ul.onmouseout = end;
-		onmousemove = move;
-		
-		function start(e) {
-			oldX = e.clientX;
-			oldY = e.clientY;
-			isPressed = true;
-		} 
-		
-		function end() {
-			isPressed = false;
-		}
-		
-		function move(e) {
-			if (isPressed == false) return;
-			const img = e.target.closest('img');
-			const li = img.closest('li');
-			const offsetX = e.clientX - oldX;
-			const offsetY = e.clientY - oldY;
-			
-			oldX = e.clientX;
-			img.style.left = (img.offsetLeft + offsetX) + 'px';
-			oldY = e.clientY;
-			img.style.top = (img.offsetTop + offsetY) + 'px';
-			
-			if (img.offsetLeft > 0) img.style.left = '0px';
-			if (img.offsetLeft < li.clientWidth - img.width) img.style.left = (li.clientWidth - img.width) + 'px';
-			if (img.offsetTop > 0) img.style.top = '0px';
-			if (img.offsetTop < li.clientHeight - img.height) img.style.top = (li.clientHeight - img.height) + 'px';
-			img.dataset.offsetX = (100 * img.style.left.slice(0, -2) / img.width) + '%';
-			img.dataset.offsetY = (100 * img.style.top.slice(0, -2) / img.height) + '%';
-		}
-	}
-	
-	function dragTagEvent() {
+	function _dragTagEvent() {
 		ul.ondragstart = function() {return false;}
 		let isPressed = false;
 		let oldX = 0;
@@ -192,16 +157,190 @@ var imgSlider = (customOption) => (function(customOption) {
 		option = Object.assign(option, customOption);
 		setEvent();
 		setDefaultCss();
-		if (option.editMode) dragImageEvent();
-		if (option.tagEditMode) dragTagEvent();
 	}
 	
 	function add(imgSrc) {
+		if (option.editMode == true) {
+			_addCanvas(imgSrc);
+			return;
+		}
+
 		ul.innerHTML += '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>';
 		addIdx();
-		setDefaultCss();
+		setLiCss();
 		slideImg(idxContainer.childElementCount-1);
 	}
+	
+	async function getCropedImgList() {
+		const canvasList = Array.from(ul.querySelectorAll('canvas'));
+		const files = await _cropImage(canvasList);
+		
+		return files;
+	}
+	
+	//******************************************* */
+	//editMode canvas Method
+	//******************************************* */
+	function _addCanvas(imgSrc) {
+		const canvasWidth = container.clientWidth;
+		const canvasHeight = container.clientHeight;
+		ul.innerHTML += '<li><canvas></canvas></li>';
+		const newCanvas = ul.querySelector('li:last-child canvas');
+		newCanvas.width = canvasWidth;
+		newCanvas.height = canvasHeight;
+		newCanvas.dataset.scaleX = 1;
+		newCanvas.dataset.scaleY = 1;
+		newCanvas.dataset.offsetX = 0;
+		newCanvas.dataset.offsetY = 0;
+		newCanvas.addEventListener('mousewheel', _canvasScrollEvent);
+		
+		const canvasList = ul.querySelectorAll('canvas');
+		const img = new Image();
+		img.src = imgSrc;
+		imgList.push(img);
+		
+		img.onload = (_) => {
+			canvasList.forEach((canvas, i) => {
+				let imgWidth = imgList[i].width;
+				let imgHeight = imgList[i].height;
+				const context = canvas.getContext('2d');
+				const scaleX = canvas.dataset.scaleX;
+				const scaleY = canvas.dataset.scaleY;
+				const offsetX = canvas.dataset.offsetX;
+				const offsetY = canvas.dataset.offsetY;
+				
+		        context.drawImage(imgList[i], offsetX, offsetY, imgWidth, imgHeight, 0, 0, imgWidth*scaleX, imgHeight*scaleY);
+			});
+		};
+		
+		addIdx();
+		setUlCss();
+		setLiCss();
+		slideImg(idxContainer.childElementCount-1);
+	}
+	
+	//**************** */
+	//scroll시 확대 이벤트
+	//**************** */
+	function _canvasScrollEvent(e) {
+		if (e.target.tagName !== 'CANVAS') return;
+        e.preventDefault();
+		const imgWidth = imgList[idx].width;
+		const imgHeight = imgList[idx].height;
+		const canvas = e.target;
+		const context = e.target.getContext('2d');
+		const offsetX = canvas.dataset.offsetX;
+		const offsetY = canvas.dataset.offsetY;
+		let scaleX = e.target.dataset.scaleX;
+		let scaleY = e.target.dataset.scaleY;
+		
+		const isScrollDown = e.deltaY > 0;
+        scaleX *= isScrollDown? 0.98 : (1 / 0.98);
+        scaleY *= isScrollDown? 0.98 : (1 / 0.98);
+
+        let newWidth = imgWidth * scaleX;
+        let newHeight = imgHeight * scaleY;
+		const isMinWidth = canvas.width >= newWidth;
+		const isMinHeight = canvas.height >= newHeight; 
+        if (isMinWidth) {
+            scaleX = scaleX * (1 / 0.98);
+            scaleY = scaleY * (1 / 0.98);
+            newWidth = canvas.width;
+            newHeight = imgHeight * scaleY;
+        }
+        if (isMinHeight) {
+            scaleX = scaleX * (1 / 0.98);
+            scaleY = scaleY * (1 / 0.98);
+            newWidth = imgWidth * scaleX;
+            newHeight = canvas.height;
+        }
+        
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.beginPath();
+        context.drawImage(imgList[idx], -1*offsetX, -1*offsetY, imgWidth, imgHeight, 0, 0, newWidth, newHeight);
+		e.target.dataset.scaleX = scaleX;
+		e.target.dataset.scaleY = scaleY;
+    }
+
+	//이미지 드래그 이벤트
+	function _dragImageEvent() {
+		container.ondragstart = function() {return false;}
+		let isPressed = false;
+		let oldX = 0;
+		let oldY = 0;
+		
+		container.onmousedown = start;
+		container.onmouseup = end;
+		container.onmouseout = end;
+		container.onmousemove = move;
+		
+		function start(e) {
+			if (e.target.tagName !== 'CANVAS') return;
+			oldX = e.clientX;
+			oldY = e.clientY;
+			isPressed = true;
+		} 
+		
+		function end(e) {
+			if (e.target.tagName !== 'CANVAS') return;
+			isPressed = false;
+		}
+
+		function move(e) {
+			if (isPressed == false) return;
+			const diffX = e.clientX - oldX;
+			const diffY = e.clientY - oldY;
+			oldX = e.clientX;
+			oldY = e.clientY;
+
+			const canvas = e.target;
+			const context = canvas.getContext('2d');
+			const img = imgList[idx];
+			const imgWidth = img.width; 
+			const imgHeight = img.height;
+			const offsetX = canvas.dataset.offsetX;
+			const offsetY = canvas.dataset.offsetY;
+			const scaleX = canvas.dataset.scaleX;
+			const scaleY = canvas.dataset.scaleY;
+
+			const newX = diffX + parseInt(offsetX);
+			const newY = diffY + parseInt(offsetY);
+			
+			const isXRightBoundary = diffX > 0 && newX >= 0;
+			const isXLeftBoundary = diffX < 0 && ((-1 * newX * scaleX) + canvas.width) > imgWidth * scaleX;
+			const isYTopBoundary = diffY > 0 && newY >= 0;
+			const isYBottomBoundary = diffY < 0 && ((-1 * newY * scaleY) + canvas.height) > imgHeight * scaleY;
+			if (isXRightBoundary || isXLeftBoundary) return;
+			if (isYTopBoundary || isYBottomBoundary) return;
+
+	        context.clearRect(0, 0, canvas.width, canvas.height);
+	        context.beginPath();
+    	    context.drawImage(img, -1*newX, -1*newY, imgWidth, imgHeight, 0, 0, imgWidth*scaleX, imgHeight*scaleY);
+			
+			canvas.dataset.offsetX = newX;
+			canvas.dataset.offsetY = newY;
+		}
+	}
+	
+    async function _cropImage(canvasList) {
+        // 이미지를 base64 기반 data uri로 변경
+        const urlList = await new Promise((resolve) => {
+            resolve(canvasList.map(x => x.toDataURL('image/jpeg')))
+        });
+        // data uri를 blob화
+        const fileList = urlList.map(_dataURItoBlob);
+		
+        return fileList;
+    }
+    // data uri를 blob화
+    function _dataURItoBlob(dataURI) {
+        const binary = atob(dataURI.split(',')[1]);
+        const array = [];
+        for (let i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+    }
 	
 	function addList(imgSrcList) { 
 		if(imgSrcList.length == 0) return;
@@ -213,7 +352,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		}, '');
 		
 		ul.innerHTML += imgTagList;
-		setDefaultCss();
+		setLiCss();
 		slideImg(0);
 	}
 	
@@ -222,6 +361,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		li.append(imgTag);
 		ul.append(li);
 		addIdx();
+		slideImg(0);
 	}
 	
 	function addImgTagList(imgTagList) {
@@ -281,8 +421,8 @@ var imgSlider = (customOption) => (function(customOption) {
 		template.innerHTML = str;
 		
 		container.style.position = 'absolute';
-		container.style.top = x == '0'? '520px': x;
-		container.style.left = y == '0'? '10px': y;
+		container.style.top = y == '0'? '10px': y;
+		container.style.left = x == '0'? '520px': x;
 		container.style.zIndex = '1';
 		
 		pointer.style.height = '12px';
@@ -328,6 +468,7 @@ var imgSlider = (customOption) => (function(customOption) {
 	
 	function remove(idx) {
 		ul.children[idx].remove();
+		imgList = imgList.filter((_, i) => i !== idx);
 		slideImg(idx == 0 ? 0 : idx - 1);
 		removeIdx(idx);
 		refreshIndicator();
@@ -335,6 +476,7 @@ var imgSlider = (customOption) => (function(customOption) {
 	
 	function empty() {
 		ul.innerHTML = '';
+		imgList = [];
 		idxContainer.innerHTML = '';
 		idx = 0;
 	}
@@ -342,6 +484,7 @@ var imgSlider = (customOption) => (function(customOption) {
 	function addIdx() {
 		var li = document.createElement('li');
 		container.querySelector('.idx-container').append(li);
+		setIdxCss();
 	}
 	
 	function removeIdx(idx) {
@@ -364,6 +507,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		idxLiAll[idx].style.backgroundColor = 'black';
 		refreshIndicator();
 	}
+	
 	function refreshIndicator() {
 		const idxLiAll = Array.from(idxContainer.children);
 		idxIndicator.innerHTML = idxLiAll.length == 0
@@ -383,10 +527,12 @@ var imgSlider = (customOption) => (function(customOption) {
 	//--CSS--
 	//********************* */
 	function setDefaultCss() {
-		var liAll = ul.querySelectorAll('li');
-		var prev = container.querySelector('.prev');
-		var next = container.querySelector('.next');
-
+		setContainerCss();
+		setUlCss();
+		setIdxCss();
+	}
+	
+	function setContainerCss() {
 		container.style.width = '100%';
 		container.style.position = 'relative';
 		container.style.backgroundColor = '#eee';
@@ -403,44 +549,8 @@ var imgSlider = (customOption) => (function(customOption) {
 			imgContainer.style.position = 'absolute';
 		}
 		
-		ul.style.minHeight = '400px';
-		ul.style.width = liAll.length * 100 + '%';
-		ul.style.position = 'relative';
-		ul.style.display = 'flex';
-		ul.style.alignItems = 'center';
-		ul.style.left = '0%';
-		ul.style.transition = '0.5s';
-		
-		var liWidth = (100 / liAll.length) + '%';
-		var liPaddingTop = (100 / liAll.length * option.ratio) + '%';
-		liAll.forEach(li => {
-			li.style.float = 'left';
-			li.style.width = liWidth;
-
-			var liImg = li.querySelector('img');
-			liImg.style.width = '100%';
-
-			if (option.ratioFix == false) return;
-			li.style.position = 'relative';
-			li.style.top = '0';
-			li.style.paddingTop = liPaddingTop;
-			li.style.overflow = 'hidden';
-			
-			liImg.style.position = 'absolute';
-			liImg.style.top = liImg.dataset.offsetY;
-			liImg.style.left = liImg.dataset.offsetX;
-			liImg.onload = function() {
-				const imgRatio = liImg.naturalHeight / liImg.naturalWidth;
-				if (imgRatio >= option.ratio) {
-					liImg.style.width = '100%';
-					liImg.style.height = 'auto';
-				} else {
-					liImg.style.width = 'auto';
-					liImg.style.height = '100%';
-				}
-			}
-		});
-		
+		var prev = container.querySelector('.prev');
+		var next = container.querySelector('.next');
 		[prev, next].forEach(x => {
 			x.style.position = "absolute";
 			x.style.top = "50%";
@@ -457,7 +567,46 @@ var imgSlider = (customOption) => (function(customOption) {
 		prev.style.transform = 'tanslate3d(-50%, -50%, 0)';
 		next.style.right = "5%";
 		next.style.transform = 'tanslate3d(50%, -50%, 0)';
+	}
+	
+	function setUlCss() {
+		const liCount = ul.childElementCount;
+		ul.style.minHeight = '400px';
+		ul.style.width = liCount * 100 + '%';
+		ul.style.position = 'relative';
+		ul.style.display = 'flex';
+		ul.style.alignItems = 'center';
+		ul.style.left = '0%';
+		ul.style.transition = '0.5s';
+	}
+	
+	function setLiCss() {
+		var liAll = ul.querySelectorAll('li');
 		
+		var liWidth = (100 / liAll.length) + '%';
+		var liPaddingTop = (100 / liAll.length * option.ratio) + '%';
+		liAll.forEach(li => {
+			li.style.float = 'left';
+			li.style.width = liWidth;
+
+			var liImg = !(option.editMode)  ? li.querySelector('img')
+											: li.querySelector('canvas');
+			if (!option.editMode) {
+				liImg.style.width = '100%';
+			}
+			
+			if (option.ratioFix == false) return;
+			li.style.position = 'relative';
+			li.style.top = '0';
+			li.style.paddingTop = liPaddingTop;
+			li.style.overflow = 'hidden';
+			
+			liImg.style.position = 'absolute';
+			liImg.style.top = '0';
+		});
+	}
+	
+	function setIdxCss() {
 		var idxContainer = container.querySelector('.idx-container');
 		idxContainer.style.position = 'absolute';
 		idxContainer.style.bottom = '-3%';
@@ -494,6 +643,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		setOption: setOption,
 		add: add,
 		addList: addList,
+		addImgTag: addImgTag,
 		addImgTagList: addImgTagList,
 		remove: remove,
 		empty: empty,
@@ -503,6 +653,7 @@ var imgSlider = (customOption) => (function(customOption) {
 		getImgTagList: getImgTagList,
 		addProductTag: addProductTag,
 		getProductTagList: getProductTagList,
+		getCropedImgList: getCropedImgList,
 	}
 }(customOption));
 

@@ -88,19 +88,24 @@ function loadListTitle() {
 }
 
 async function loadMemberDetailInfo() {
-	view.memberDetailInfo.className = 'show';
+	const header = view.memberDetailInfo;
+	header.className = 'show';
 	if (query.query == member_no) {
-		view.memberDetailInfo.querySelector('.follow-btn').classList.add('hide');
+		header.querySelector('.follow-btn').classList.add('hide');
 	} else {
-		view.memberDetailInfo.querySelector('.info-update-btn').classList.add('hide');
+		header.querySelector('.info-update-btn').classList.add('hide');
 	}
 	
 	const member = await memberService.getMemberInfo(query.query);
-	view.memberDetailInfo.querySelector('.nickname').innerHTML = member.m_nickname;
+	header.querySelector('.nickname').innerHTML = member.m_nickname;
+	
+	const profileImg = imgService.originPath(member.profileImage);
+	header.querySelector('.profile-img').src = profileImg;
 }
 
 async function getList(query) {
 	const styleList = await styleService.getList(query);
+	console.log(styleList);
 	styleList.forEach((style, i) => {
 		view.column[i%4].append(item(style));
 	});
@@ -116,11 +121,14 @@ function item(style) {
 	template.innerHTML =(
 		'<div class="card">' +
 			'<div class="img-container">' +
+				'<img src="'+imgService.thumbnailPath(style.main_image)+'" />'+
 			'</div>' +
 			'<div class="info">' +
 				'<div class="user_info">' +
-					'<div class="profile"><img src="/resources/img/codi_test.png" /></div>' +
-					'<div class="user_id">김씨</div>'+
+					'<div class="profile">'+
+						'<img src="'+imgService.thumbnailPath(style.profile_image)+'" />'+
+					'</div>' +
+					'<div class="user_id">'+style.m_nickname+'</div>'+
 				'</div>' +
 				'<div class="social_info">' +
 					'<div class="like">' +
@@ -138,37 +146,14 @@ function item(style) {
 		'</div>'
 	);
 	
-	const imgEl = imgService.getImageEl(style.style_image[0]);
 	const imgContainer = template.querySelector('.img-container');
-	imgContainer.append(imgEl);
+//	imgContainer.style.paddingTop = (100 * style.ratio) + '%' ;
 	
-	imgContainer.style.width = '100%';
-	imgContainer.style.position = 'relative';
-	imgContainer.style.paddingTop = (100 * style.ratio) + '%' ;
-	imgContainer.style.overflow = 'hidden';
-	imgContainer.style.borderRadius = '10px';
-	imgContainer.style.marginBottom = '10px';
-	
-	imgEl.style.position = 'absolute';
-	imgEl.style.top = imgEl.dataset.offsetY;
-	imgEl.style.left = imgEl.dataset.offsetX;
-
 	const countImg = document.createElement('div');
-	if (style.style_image.length != 1) {
-		countImg.innerHTML = style.style_image.length + '+';
+	countImg.className = 'count-img';
+	if (style.count_image != 1) {
+		countImg.innerHTML = style.count_image + '+';
 		imgContainer.append(countImg);
-		countImg.style.position = 'absolute';
-		countImg.style.width = '28px';
-		countImg.style.height = '16px';
-		countImg.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-		countImg.style.borderRadius = '8px';
-		countImg.style.fontSize = '13px';
-		countImg.style.fontWeight = 'bold';
-		countImg.style.color = 'white';
-		countImg.style.top = '6px';
-		countImg.style.right = '6px';
-		countImg.style.textAlign = 'center';
-		countImg.style.lineHeight = '16px';
 	}
 	
 	return template;

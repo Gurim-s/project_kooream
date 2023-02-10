@@ -5,17 +5,22 @@
 
 var imgService = (function() {
 	function originPath(imageVO) {
-		if (!imageVO) return "/resources/img/codi_test.png";
+		if (!imageVO) return '/resources/img/codi_test.png';
 		
 		var {uploadPath, uuid, fileName} = imageVO;
 		return "/displayImage?fileName=" + encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
 	}
-	
+	function thumbnailPath(imageVO) {
+		if (!imageVO) return '/resources/img/codi_test.png';
+		var originalUuid = imageVO.uuid;
+		imageVO.uuid = 's_' + originalUuid;
+		
+		return originPath(imageVO);
+	}
 	function getImageEl(imageVO) {
 		const img = document.createElement('img');
 		img.src = originPath(imageVO);
-		img.dataset.offsetX = imageVO.offsetX? imageVO.offsetX : 0;
-		img.dataset.offsetY = imageVO.offsetY? imageVO.offsetY : 0; 
+		 
 		return img;
 	}
 	
@@ -30,7 +35,7 @@ var imgService = (function() {
 	
 	return {
 		originPath: originPath,
-//		getImageFile: getImageFile,
+		thumbnailPath: thumbnailPath,
 		uploadImageAjax: uploadImageAjax,
 		getImageEl: getImageEl,
 	}
