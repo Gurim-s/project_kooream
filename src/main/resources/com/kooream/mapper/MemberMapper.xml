@@ -34,7 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{m_bday}, 
 			#{m_addr} || '/' || #{m_Detail_addr},
 			#{m_email},
-			#{m_phone})
+			#{m_phone},
+			0,
+			0,
+			0,
+			'51423ab8-68e3-4b64-b01c-a87d88b69882',
+			'member\2023\02\10',
+			'account_circle_FILL0_wght400_GRAD0_opsz48.png')
 	</insert>
 	
 	<!-- 회원가입시 권한테이블에 m_no, auth 넣어주기 -->
@@ -55,6 +61,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="m_email" column="m_email"/>
 		<result property="m_phone" column="m_phone"/>
 		<result property="m_Detail_addr" column="m_Detail_addr"/>
+		<result property="uploadPath" column="uploadPath"/>
+		<result property="uuid" column="uuid"/>
+		<result property="fileName" column="fileName"/>
 		<collection property="authList" resultMap="authMap"/>
 	</resultMap>
 	
@@ -70,7 +79,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON A.M_NO = B.M_NO
 		WHERE A.M_ID=#{m_id}
 	</select>
-	
+	<!-- 회원 정보 수정전 비밀번호 확인 -->
+	<select id="matchPw" parameterType="com.kooream.domain.MemberVO" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE m_pw=#{m_pw} AND m_no=#{m_no}
+	</select>
 	<!-- 회원 정보 업데이트 -->
 	<update id="successModify" parameterType="com.kooream.domain.MemberVO">
 		UPDATE MEMBER 
@@ -79,7 +93,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			m_bday=#{m_bday},
 			m_addr=(#{m_addr} || '/' || #{m_Detail_addr}),
 			m_email=#{m_email},
-			m_phone=#{m_phone}
+			m_phone=#{m_phone},
+			uuid=#{uuid},
+			uploadpath=#{uploadPath},
+			filename=#{fileName}
 		WHERE m_no=#{m_no}
 	</update>
 	
@@ -87,6 +104,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteMember" parameterType="int">
 		DELETE FROM MEMBER WHERE m_no=#{param1}
 	</delete>
+	<!-- 회원 정보 조회 -->
+	<select id="getMemberInfoByMno" resultType="com.kooream.domain.MemberVO">
+		select *
+		from member
+		where m_no=#{m_no}
+	</select>
 	
 	<!-- 계정 찾기 -->
 	<select id="findInfo" parameterType="com.kooream.domain.MemberVO" resultType="com.kooream.domain.MemberVO">
@@ -106,4 +129,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updatePw" >
 		update member set m_pw = #{m_pw} where m_id = #{m_id}
 	</update>
+	
+	<update id="increaseFollowCount">
+		update member set m_follow_count 
+	</update>
+	
 </mapper>

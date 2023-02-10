@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,6 +34,7 @@ public class RntReservationController {
 	private RntRsvtService service;
 	
 	// 상품예약 페이지 이동
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping("/rsvtPage")
 	public String rsvtPage(RntRsvtVO vo, Model model) {
 		// 대여금액 불러오기
@@ -64,21 +66,34 @@ public class RntReservationController {
 		
 		MemberVO userSession = new UserSession().getSession();
 		if(userSession != null) {
-			// 예약 내역 불러오기
+			// 예약 내역 불러오기 - 마이페이지
 			list = service.checkRnt(userSession.getM_no());
 		}
 		model.addAttribute("list", list);
 		return "/rental/RntConfirm";
 	}
 	
-	// 캘린더로 상품 예약 내역 가져오는 ajax
+	// 상품 예약내역(기간) 불러오기 - 예약페이지
 	@PostMapping(value="/ajax/getRsvt", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public List<RntRsvtVO> rentalList(RntRsvtVO vo) {
+		
 		List<RntRsvtVO> rvo = service.getRsvt(vo);
 		return rvo;
 	}
 	
+	// 예약 내역 삭제
+	@PostMapping("/removeRsvt")
+	public String removeRsvt(ProductVO vo) {
+		
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no());
+			service.removeRsvt(vo);
+		}
+		
+		return "redirect:/rsvt/RntConfirm";
+	}
 	
 	
 	

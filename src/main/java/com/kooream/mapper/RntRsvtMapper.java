@@ -13,4 +13,5 @@ public interface RntRsvtMapper {
 	public int rgstRsvt(RntRsvtVO vo);
 	public List<RntRsvtVO> getRsvt(RntRsvtVO vo);
 	public List<ProductVO> checkRnt(int m_no);
+	public int removeRsvt(ProductVO vo);
 }

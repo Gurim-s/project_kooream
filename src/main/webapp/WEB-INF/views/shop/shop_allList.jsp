@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <jsp:include page="../include/header.jsp"/>
 
 <style>
@@ -157,11 +158,13 @@
 	}
 	
 </style>
+	<sec:authentication property="principal.member" var="pri"/>
 	<div class="shop_title" style="height: 110px; width: 100%;">
 		<h2 class="shop_text">SHOP</h2>
-		<button id="p_i_btn">상품 등록</button>
+			<c:if test="${pri.authList.get(0).auth eq 'ROLE_ADMIN' }">
+				<button id="p_i_btn">상품 등록</button>
+			</c:if>
 	</div>
-	
 	<div class="main-content-box clearfix">
 		<div class="filter_box" style="border : 1px solid black; width : 210px;">
 			<div class="filter_status" style="padding : 23px 0 15px;">
@@ -176,9 +179,10 @@
 				<div class="minus_btn">-</div>
 			</div>
 			<div class="category_menu" id="category_menu">
-				<label><input type="checkbox" value="신발">신발</label><br/>
-				<label><input type="checkbox" value="의류">의류</label><br/>
-				<label><input type="checkbox" value="패션잡화">패션잡화</label>
+				<label><input type="checkbox" class = "p_category" name = "p_category" onclick='checkOnlyOne(this)' value="shoes">신발</label><br/>
+				<label><input type="checkbox" class = "p_category" name = "p_category" onclick='checkOnlyOne(this)' value="shirt">상의</label><br/>
+				<label><input type="checkbox" class = "p_category" name = "p_category" onclick='checkOnlyOne(this)' value="pants">하의</label><br/>
+				<label><input type="checkbox" class = "p_category" name = "p_category" onclick='checkOnlyOne(this)' value="other">패션잡화</label>
 			</div>
 			<div class="filter_title">
 				<div class="title_box">
@@ -248,6 +252,50 @@
 <jsp:include page="../include/footer.jsp"/>
 
 <script type="text/javascript">
+	$(".p_category").click(function (e) {
+		var cateproduct = $(e.target).val();
+		var productVO = !(e.target.checked) ? {p_category: 'all'}
+											: {p_category:cateproduct};
+		
+		$.ajax({
+			url:'/shop/select_cate',
+			type: 'post',
+			data: JSON.stringify(productVO),
+			dataType:'json',
+			contentType:"application/json",
+		}).done(function(cate) {
+			$('.product_all').empty();
+			console.log(cate);
+			var str='<div class="container">';
+			for(var i=0; i<cate.length; i++) {
+				/* str += '<a href="/shop/shop_introduce?p_no=' + cate[i].p_no + '">'; */	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+					// brandshop(컨트롤러) 에서 /get을 탐  
+				
+				// 이미지 하나만 보여주기
+				if(cate[i].attachList.length > 0) {
+					var uploadPath = cate[i].attachList[0].uploadPath;
+					var uuid = cate[i].attachList[0].uuid;
+					var fileName = cate[i].attachList[0].fileName;
+					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+					str += '<div class="product_box" onclick="getPage(' + cate[i].p_no + ')">'
+					str += '<img class="product_image" src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
+				}
+
+				str += '<div class="brand_name">' +cate[i].p_brand+ '</div>';
+				str += '<div class="product_name_eng">' +cate[i].p_name_en+ '</div>';
+				str += '<div class="product_name_eng">' +cate[i].p_name_ko+ '</div>';
+				str += '<div class="badge_product">빠른 배송</div>';
+				str += '<div class="view_price">'+cate[i].min_bid_buy+'원</div>';
+				str += '<div class="buy_price">즉시 구매가</div>';
+				str += '<div class="buy_price">'+cate[i].p_no+'</div>';
+				str += '</div>'
+			}
+				str += '</div>'
+				$('.product_all').html(str);
+		});
+	});
+
+
 	var filters = $('.filter_title');
 	
 	filters.on('click', function(e) {
@@ -268,7 +316,7 @@
 		}
 	});
 	
-	const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+/* 	const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
 	checkboxes.forEach(checkbox => {
 		checkbox.addEventListener('change', event => {
@@ -279,7 +327,19 @@
 					}
 				});
 		});
-	});
+	}); */
+	
+	
+	function checkOnlyOne(element) {
+		  const isChecked = element.checked;
+		  const checkboxes = document.getElementsByName("p_category");
+		  
+		  checkboxes.forEach((cb) => {
+		    cb.checked = false;
+		  });
+		  
+		  element.checked = isChecked? true: false;
+	}
 	
 	$("#p_i_btn").on("click",function(){
 		location.href="/shop/shop_register";
@@ -311,5 +371,10 @@
 		
 		actionForm.html(str);
 		actionForm.submit();
+	}); */
+	
+/* 	$(".product_sort").click(function () {
+	 	var val1 = $("input[name='product_sort']:checked").val()
+	 	console.log(val1);
 	}); */
 </script>

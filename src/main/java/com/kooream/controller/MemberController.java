@@ -22,12 +22,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +54,10 @@ public class MemberController {
 	@Setter(onMethod_= @Autowired)
 	private MemberService service;
 	
-	
+	// 패스워드 인코딩을 위해서 선언
+	@Setter (onMethod_= @Autowired)
+	private PasswordEncoder pwencoder;
+		
 	// 메인페이지이동
 	@GetMapping("/mainPage")
 	public String mainPage() {
@@ -93,6 +100,13 @@ public class MemberController {
 		return null;
 	}
 	
+	// 회원 정보 조회
+	@GetMapping(value = "/{m_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<MemberVO> getMemberInfo(@PathVariable("m_no") int m_no) {
+		MemberVO member = service.getMemberInfoByMno(m_no);
+		
+		return new ResponseEntity<MemberVO>(member, HttpStatus.OK);
+	}
 	
 	// 마이페이지 이동
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
@@ -112,6 +126,22 @@ public class MemberController {
 	@GetMapping("/profile")
 	public String profile() {
 		return "/member/profile";
+	}
+	// 개인정보 수정시 비밀번호 일치하는지 확인
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	@ResponseBody 
+	@PostMapping(value="/ajax/matchPw", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public boolean matchPw(MemberVO vo) {
+		boolean result = false;
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no());
+			result = pwencoder.matches(vo.getM_pw(), userSession.getM_pw());
+		}
+		// 현재 로그인된 정보와 맞춰보면 되기때문에 db정보와 비교할필요 x
+		// int result = service.matchPw(vo);
+		
+		return result;
 	}
 	
 	// 마이페이지 - 개인정보 수정 기능

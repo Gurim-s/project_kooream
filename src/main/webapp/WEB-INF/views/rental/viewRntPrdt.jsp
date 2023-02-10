@@ -72,9 +72,35 @@
 .slick-dots {
 	margin-bottom: 95px
 }
-
-#reviewRemoveBtn {
-	
+#reviewContent input[type='text']{
+	width: 710px;
+    height: 50px;
+}
+#reviewContent{
+	text-align: center;
+}
+#rAll{
+	    margin-left: 153px;
+    	margin-bottom: 10px;
+}
+#reviewDeleteBtn, #rpBtn{
+	background-color: black;
+		color: white;
+		font-weight: 700;
+    	min-width: 80px;
+    	padding: 0 18px;
+	    height: 37px;
+	    border-radius: 5px;
+	    font-size: 14px;
+	    letter-spacing: -.14px;
+}
+#reviews{
+	margin-left: 151px;
+	border-collapse: collapse;
+	margin-top: 39px;
+}
+#reviews tr{
+	border-bottom: 1px solid gray;
 }
 </style>
 <jsp:include page="../include/header.jsp" />
@@ -121,7 +147,7 @@
 			<tr>
 				<td
 					style="text-align: center; border-bottom: 1px solid #ebebeb; padding: 14px;">
-					<sec:authorize access="isAuthenticated()">
+					<sec:authorize access="hasRole('ROLE_USER')">
 						<input class="buy" type="button" id="intrstRemoveBtn"
 							value="관심상품삭제" />
 						<input class="buy" type="button" id="intrstBtn" value="관심상품추가" />
@@ -129,7 +155,7 @@
 				</td>
 				<td
 					style="text-align: center; border-bottom: 1px solid #ebebeb; padding: 14px;">
-					<sec:authorize access="isAuthenticated()">
+					<sec:authorize access="hasRole('ROLE_USER')">
 						<div>
 							<input class="buy" id="rsvtBtn" type="button" value="상품예약" />
 						</div>
@@ -168,16 +194,18 @@
 		<form id="reviewForm" action="/rental/rgstReview" method="post">
 			<!--별점  -->
 			<div id="rAll">
-				<span id="1" data-rval="n">☆</span> <span id="2" data-rval="n">☆</span>
-				<span id="3" data-rval="n">☆</span> <span id="4" data-rval="n">☆</span>
+				<span id="1" data-rval="n">☆</span> 
+				<span id="2" data-rval="n">☆</span>
+				<span id="3" data-rval="n">☆</span> 
+				<span id="4" data-rval="n">☆</span>
 				<span id="5" data-rval="n">☆</span>
 			</div>
 
-			<div>
-				<input type="text" placeholder="한줄평을 남겨주세요.(최대 100자)"
-					name="rp_content" maxlength="100" /> <input type="button"
-					id="rpBtn" value="한줄평 등록" /> <input type="hidden" name="p_no"
-					value="${pvo.p_no }" /> <input id="rst" type="hidden" name="rating" />
+			<div id="reviewContent">
+				<input type="text" placeholder="한줄평을 남겨주세요.(최대 30자)" name="rp_content" maxlength="30" /> 
+				<input type="button" id="rpBtn" value="한줄평 등록" /> 
+				<input type="hidden" name="p_no" value="${pvo.p_no }" /> 
+				<input id="rst" type="hidden" name="rating" />
 			</div>
 		</form>
 	</sec:authorize>
@@ -191,40 +219,54 @@
 	<table class="table table-stripped" id="reviews">
 		<thead>
 			<tr>
-				<th>Rating</th>
+				<th style=" height: 37px;">Rating</th>
 				<!-- 평점 -->
-				<th>User</th>
-				<th>Text</th>
+				<th style="width: 125px; text-align: center;">User</th>
+				<th style="width: 469px;">Text</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="review" items="${reviewVO}">
-				<!-- 평점 기준 별표시 출력 -->
-				<tr>
-					<td><c:forEach varStatus="status" begin="1" end="5">
-							<c:if test="${status.count <= review.rating }">
-								<span>★&nbsp;</span>
-							</c:if>
-							<c:if test="${status.count > review.rating }">
-								<span>☆&nbsp;</span>
-							</c:if>
-						</c:forEach></td>
-					<td>${review.m_nickname}</td>
-					<td><span>${review.rp_content}</span> <sec:authorize
-							access="isAuthenticated()">
+		<c:choose>
+			<c:when test="${empty reviewVO}">
+				<tr><td colspan="4" style=" height: 37px;">댓글이 없습니다.</td></tr>
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="review" items="${reviewVO}">
+					<!-- 평점 기준 별표시 출력 -->
+					<tr>
+						<td style=" height: 37px;">
+							<c:forEach varStatus="status" begin="1" end="5">
+								<c:if test="${status.count <= review.rating }">
+									<span>★&nbsp;</span>
+								</c:if>
+								<c:if test="${status.count > review.rating }">
+									<span>☆&nbsp;</span>
+								</c:if>
+							</c:forEach>
+						</td>
+						<td >${review.m_nickname}</td>
+						<td>
+							<span>${review.rp_content}</span> 
+						</td>
+						<td>
+							<sec:authorize access="isAuthenticated()">
 							<sec:authentication property="principal" var="pr" />
-							<!-- 시큐리티에 저장된 정보 가져오기 -->
-							<c:if
-								test="${pr.member.m_no eq review.m_no || pr.member.authList[0].auth eq 'ROLE_ADMIN'}">
-								<!-- 시큐리티에 저장된 회원번호와 작성자 회원번호가 동일하거나
-                				 시큐리티에 저장된 권한 중에 ROLE_ADMIN 있으면 삭제버튼 출력 -->
-								<input type="button" id="reviewDeleteBtn"
-									onclick="goRemoveReview(${review.rp_idx},${review.p_no })"
-									value="삭제">
-							</c:if>
-						</sec:authorize></td>
-				</tr>
-			</c:forEach>
+								<!-- 시큐리티에 저장된 정보 가져오기 -->
+								<c:if
+									test="${pr.member.m_no eq review.m_no || pr.member.authList[0].auth eq 'ROLE_ADMIN'}">
+									<!-- 시큐리티에 저장된 회원번호와 작성자 회원번호가 동일하거나
+	                				 시큐리티에 저장된 권한 중에 ROLE_ADMIN 있으면 삭제버튼 출력 -->
+									<input type="button" id="reviewDeleteBtn"
+										onclick="goRemoveReview(${review.rp_idx},${review.p_no })"
+										value="삭제">
+								</c:if>
+							</sec:authorize>
+						</td>
+					</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
 		</tbody>
 	</table>
 

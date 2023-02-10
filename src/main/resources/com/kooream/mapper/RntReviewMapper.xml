@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					WHERE A.M_NO=B.M_NO) AS m_nickname,A.*
 		FROM REVIEW_TBL A
 		WHERE A.P_NO = #{p_no}
+		ORDER BY rp_idx
 	</select>
 	
 	<!-- 리뷰 삭제 -->

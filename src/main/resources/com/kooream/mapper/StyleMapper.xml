@@ -6,20 +6,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.StyleMapper">
 	<select id="getList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
+				style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
 			from (select /*+index_desc(style style_pk) */
-            	  rownum rn, style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
-			      from style
-        		  where rownum <= #{pageNum} * #{amount})
-			where rn > (#{pageNum} - 1) * #{amount}
+					  rownum rn, m.m_no m_no, m_nickname m_nickname, m.uuid m_uuid, m.uploadpath m_uploadpath, m.filename m_filename,
+					  style_no, style_regdate, style_content, count_like, count_reply, s.uuid s_uuid, s.uploadpath s_uploadpath, s.filename s_filename, count_image
+				  from member m inner join style s on m.m_no = s.m_no
+      			  where rownum <= #{pageNum} * #{amount})
+			where rn > (1 - #{pageNum}) * #{amount};
 		]]>
 	</select>
 	
 	<select id="getRecentList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+			select style_no, m_no, style_regdate, style_content, count_like, count_reply
 			from (select /*+index_desc(style style_pk) */
-            	  rownum rn, style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+            	  rownum rn, style_no, m_no, style_regdate, style_content, count_like, count_reply
 			      from style
         		  where rownum <= #{pageNum} * #{amount})
 			where rn > (#{pageNum} - 1) * #{amount}
@@ -28,20 +30,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getHotList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
+				style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
 			from (select /*+index_desc(style style_pk) */
-            	  rownum rn, style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
-			      from style
-        		  where rownum <= #{pageNum} * #{amount})
-			where rn > (#{pageNum} - 1) * #{amount}
+					  rownum rn, m.m_no m_no, m_nickname m_nickname, m.uuid m_uuid, m.uploadpath m_uploadpath, m.filename m_filename,
+					  style_no, style_regdate, style_content, count_like, count_reply, s.uuid s_uuid, s.uploadpath s_uploadpath, s.filename s_filename, count_image
+				  from member m inner join style s on m.m_no = s.m_no
+      			  where rownum <= #{pageNum} * #{amount})
+			where rn > (1 - #{pageNum}) * #{amount}
 		]]>
 	</select>
 	
 	<select id="getTagList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+			select style_no, m_no, style_regdate, style_content, count_like, count_reply
 			from (select /*+index_desc(style style_pk) */
-      			  rownum rn, style_no, mno, style_regdate, style_content, count_like, count_reply, ratio
+      			  rownum rn, style_no, m_no, style_regdate, style_content, count_like, count_reply
       			  from style
       			  where style_no in (select style_no 
 									 from style_tag
@@ -49,6 +53,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                         			 from hashtag
                                         			 where hashtag like #{query}))
       			  and rownum <= #{pageNum} * #{amount})
+			where rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	<select id="getMemberList" resultType="com.kooream.domain.StyleVO">
+		<![CDATA[
+			select style_no, m_no, style_regdate, style_content, count_like, count_reply
+			from (select /*+index_desc(style style_pk) */
+            	  rownum rn, style_no, m_no, style_regdate, style_content, count_like, count_reply
+			      from style
+        		  where m_no=#{query} 
+        		  and rownum <= #{pageNum} * #{amount})
 			where rn > (#{pageNum} - 1) * #{amount}
 		]]>
 	</select>
@@ -75,14 +90,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원번호는 임시 데이터 -->
 	<insert id="insert">
-		insert into style(style_no, mno, style_regdate, style_content, count_like, count_reply, ratio)
+		insert into style(style_no, m_no, style_regdate, style_content, count_like, count_reply, uuid, uploadpath, filename, count_image)
 		values( style_seq.nextval,
-				0,
+				#{m_no},
 				sysdate,
 				#{style_content},
 				0,
 				0,
-				#{ratio})
+				#{uuid},
+				#{uploadpath},
+				#{filename},
+				#{count_image}
+				)
 	</insert>
 	
 	<update id="update">

@@ -36,8 +36,11 @@
 		width: 195px;
 	}
 	#serachBox{
-		width: 423px;
+		width: 500px;
 		margin: auto;
+		position: absolute;
+	    top: 163px;
+	    left: 597px;
 	}
 	#serachValue{
 		width: 387px;
@@ -45,14 +48,41 @@
 	#rPrdtBtn{
 		margin-left: 815px;
 	}
+	#searchInput{
+		border-bottom: 1px solid black;
+   		display: inline-block;
+   		width: 400px;
+	    
+	}
+	#serchBtn,#rPrdtBtn{
+		background-color: black;
+		color: white;
+		font-weight: 700;
+    	min-width: 80px;
+    	padding: 0 18px;
+	    height: 37px;
+	    border-radius: 5px;
+	    font-size: 14px;
+	    letter-spacing: -.14px;
+	}
+	#serachValue{
+		height: 37px;
+    	font-size: 16px;
+    	border: 0px
+	}
+	#selectOrderID{
+		position: absolute;
+    	left: 474px;
+    	top: 232px;
+	}
 </style>
 	<!-- 검색버튼 -->
 	<div id="serachBox">
-		<input type="text" id="serachValue" placeholder="상품명(한글,영문),브랜드명으로 검색하세요.">
+		<div id="searchInput"><input type="text" id="serachValue" placeholder="상품명(한글,영문),브랜드명으로 검색하세요."></div>
 		<button id="serchBtn">검색</button>
 	</div>
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-			<button id="rPrdtBtn">상품 등록</button>
+			<button id="rPrdtBtn" style="float: right; position: relative; top: 128px;">상품 등록</button>
 		</sec:authorize>
 	<!-- 좌측 카테고리 박스------------------------------------------------------- -->
 	<div id="categroyBox">

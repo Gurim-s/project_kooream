@@ -21,23 +21,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				TO_DATE(#{strt_r_date}, 'YYYY/MM/DD'), 
 				TO_DATE(#{rtrn_r_date}, 'YYYY/MM/DD'))
 	</insert>
-	
+	<!-- 캘린더에 이미 예약된 기간 보여주기 위해 사용 -->
 	<select id="getRsvt" parameterType="com.kooream.domain.RntRsvtVO" resultType="com.kooream.domain.ProductVO">
 		SELECT TO_CHAR(STRT_R_DATE,'YYYY-MM-DD') AS strt_r_date, TO_CHAR(RTRN_R_DATE, 'YYYY-MM-DD') AS rtrn_r_date
 		FROM RSVT_TBL
-		WHERE P_NO=#{p_no} and m_no=#{m_no}
+		WHERE P_NO=#{p_no}
 	</select>
 	
+	<!-- 예약내역 -->
 	<select id="checkRnt" parameterType="int" resultType="com.kooream.domain.ProductVO">
-		SELECT A.* ,(SELECT B.UPLOADPATH || '\' || B.UUID || '_' || B.FILENAME
+		SELECT (SELECT B.UPLOADPATH || '\' || B.UUID || '_' || B.FILENAME
 						FROM PRODUCT_IMAGE B
 						WHERE A.P_NO = B.P_NO AND ROWNUM =1) AS img_url
 					,TO_CHAR(STRT_R_DATE, 'YYYY/MM/DD') AS strt_r_date
 					,TO_CHAR(RTRN_R_DATE, 'YYYY/MM/DD') AS rtrn_r_date
+					,C.r_no
+					,A.*
 		FROM PRODUCT A JOIN RSVT_TBL C
 		ON A.P_NO = C.P_NO
 		WHERE M_NO = #{m_no}
-		
-		
 	</select>
+	
+	<!-- 예약내역삭제 -->
+	<delete id="removeRsvt" parameterType="com.kooream.domain.RntRsvtVO">
+		DELETE FROM rsvt_tbl
+		WHERE m_no=#{m_no} AND r_no=#{r_no}
+	</delete>
 </mapper>

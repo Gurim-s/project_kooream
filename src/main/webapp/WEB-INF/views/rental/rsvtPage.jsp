@@ -9,7 +9,7 @@
 	/* section calendar */
 	
 	.sec_cal {
-	    width: 360px;
+	    width: 575px;
 	    margin: 0 auto;
 	    font-family: "NotoSansR";
 	}
@@ -93,7 +93,7 @@
 	    justify-content: center;
 	    width: calc(100% / 7);
 	    text-align: left;
-	    color: #999;
+	    color: black;
 	    font-size: 12px;
 	    text-align: center;
 	    border-radius:5px
@@ -107,11 +107,11 @@
 	    height: 290px;
 	}
 	
-	.sec_cal .cal_wrap .day:nth-child(7n -1) {
+	.sec_cal .cal_wrap .day:nth-child(7n ) {
 	    color: #3c6ffa;
 	}
 	
-	.sec_cal .cal_wrap .day:nth-child(7n) {
+	.sec_cal .cal_wrap .day:nth-child(7n+1) {
 	    color: #ed2a61;
 	}
 	
@@ -127,7 +127,8 @@
 	}
 	
 	.rnt{
-		background-color: pink;
+		background-color: #030001ba;
+		color: white !important;
 	}
 	input[type=button],.choose{
 		cursor: pointer;
@@ -137,6 +138,38 @@
 	} */
 	a[class='go-prev']:hover{
 		background-color: white;
+	}
+	#payBtn{
+	background-color: black;
+		color: white;
+		font-weight: 700;
+    	min-width: 80px;
+    	padding: 0 18px;
+	    height: 37px;
+	    border-radius: 5px;
+	    font-size: 14px;
+	    letter-spacing: -.14px;
+	}
+	#rntInfo div{
+		font-size: 19px;
+		font-family: -apple-system, BlinkMacSystemFont, Roboto,
+		AppleSDGothicNeo-Regular, NanumBarunGothic, NanumGothic, 나눔고딕,
+		Segoe UI, Helveica, Arial, Malgun Gothic, Dotum, sans-serif;
+		font-weight: bold;
+    	padding: 7px;
+    	
+	}
+	#rntInfo{
+		width: 550px;
+  	    float: right;
+  	    margin-top: 26px;
+	}
+	
+  	  
+	#stDayView,#edDayView{
+		display: inline-block;
+		width: 250px;
+		border-bottom: 1px solid gray;
 	}
 </style>
 
@@ -150,31 +183,34 @@
   </div>
   <div class="cal_wrap">
     <div class="days">
-      <div class="day">MON</div>
-      <div class="day">TUE</div>
-      <div class="day">WED</div>
-      <div class="day">THU</div>
-      <div class="day">FRI</div>
-      <div class="day">SAT</div>
-      <div class="day">SUN</div>
+    	<div class="day" style="display: none;"></div>
+        <div class="day">MON</div>
+        <div class="day">TUE</div>
+        <div class="day">WED</div>
+        <div class="day">THU</div>
+        <div class="day">FRI</div>
+        <div class="day">SAT</div>
+        <div class="day">SUN</div>
     </div>
     <div class="dates">  <!-- 날짜 표기 (1~31) -->
     	
     </div>
   </div>
 </div>
-<div id="stDayView">대여시작일 : <span id="stDayValue"></span></div>
-<div id="edDayView">대여종료일 : <span id="edDayValue"></span></div>
-<div>
-	대여금액 : <span id="rntPrice"><fmt:formatNumber value="${pVO.r_price}" pattern="###,###,###"/></span>원
+<div id="rntInfo">
+	<div id="stDayView">대여시작일 : <span id="stDayValue"></span></div>
+	<div id="edDayView">대여종료일 : <span id="edDayValue"></span></div>
+	<div style="text-align: right;">
+		대여금액 : <span id="rntPrice"><fmt:formatNumber value="${pVO.r_price}" pattern="###,###,###"/></span>원
+	</div>
+	<form id="myForm" action="/rsvt/rgstRsvt" method="post" style="text-align: right;">
+		<input type="hidden" name="strt_r_date">
+		<input type="hidden" name="rtrn_r_date">
+		<input type="hidden" name="p_no" value="${p_no }">
+		<input type="hidden" name="pay"><!-- 총 결제금액 -->
+		<input type="button" id="payBtn" value="결제하기">
+	</form>
 </div>
-<form id="myForm" action="/rsvt/rgstRsvt" method="post">
-	<input type="hidden" name="strt_r_date">
-	<input type="hidden" name="rtrn_r_date">
-	<input type="hidden" name="p_no" value="${p_no }">
-	<input type="hidden" name="pay"><!-- 총 결제금액 -->
-	<input type="button" id="payBtn" value="결제하기">
-</form>
 
 </body>
 <script type="text/javascript">
@@ -308,7 +344,7 @@ function calendarInit() {
         $.ajax({
         	   type : "POST",            
                url : "/rsvt/ajax/getRsvt",      
-               data : {p_no:"${p_no}", m_no:9999}, 
+               data : {p_no:"${p_no}"}, 
                dataType : 'json',
                success : function(result){
                		 list = result; // list 전역변수에 result 대입

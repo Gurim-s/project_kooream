@@ -22,6 +22,7 @@ public class ProductVO {
 	private String interest_cnt;
 	private String uuid, fileName, uploadPath;
 	private int m_no;
+	private String r_no;
 	
 	private int max_bid_sell, min_bid_buy;
 	

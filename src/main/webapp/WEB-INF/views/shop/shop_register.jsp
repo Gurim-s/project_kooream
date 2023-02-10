@@ -26,6 +26,10 @@
 	.register td input{
 		width: 90%;
 	}
+	
+	.B_Category {
+		display: none;
+	}
 
 </style>
 </head>
@@ -51,6 +55,7 @@
 							<option value="3">Adidas</option>
 							<option value="4">Converse</option>
 							<option value="5">Apple</option>
+							<option value="6">Nintendo</option>
 						</select>
 					</td>
 				</tr>
@@ -63,7 +68,7 @@
 					<td><input type="text" name="p_name_en" id="p_name_en"></td>
 				</tr>
 				<tr>		
-					<td>상품분류</td>
+<!-- 					<td>상품분류</td>
 					<td class="form-inline">
 							<select id="Category1">
 								<option value="1">선택</option>
@@ -91,7 +96,7 @@
 								<select class="A_Category" name="">
 									<option value="FREE">FREE</option>
 								</select> 
-					</td>
+					</td> -->
 					</tr>
 				<tr>
 					<td>모델번호</td>
@@ -108,11 +113,12 @@
 			<tr>
 				<td>카테고리 설정</td>
 				<td>
-					<select class="Category2" name="p_category" id="p_category">
+					<select class="Category2" name="p_category" id="p_category" onchange="ChangeValue2()">
 						<option value="1">카테고리 선택</option>
-						<option value="brand_clothes">의류</option>
-						<option value="brand_shoes">신발</option>
-						<option value="brand_acc">패션잡화</option>
+						<option value="shirt">상의</option>
+						<option value="pants">하의</option>
+						<option value="shoes">신발</option>
+						<option value="other">기타제품</option>
 					</select>
 				</td>
 			</tr>
@@ -122,6 +128,7 @@
 			</tr>
 			<tr>
 				<td class="Brand_name"></td>
+				<td class="Brand_name2"></td>
 			</tr>
 			<tr>
 				<td class="register_button">
@@ -371,15 +378,51 @@
 	function ChangeValue() {
 		var target = document.getElementById("brand_select");
 		var brand = target.options[target.selectedIndex].text;
-		var a = '<input type="hidden" name ="p_brand" value="'+ brand +'">';
+		var brando = '<input type="hidden" name ="p_brand" value="'+ brand +'">';
 		
 // 		var test = $('<input/>'); // 인풋 태그 생성;
 // 		$(test).val(brand);
 		
 		console.log(brand);
-		$('.Brand_name').html(a);
+		console.log($('.Brand_name2').html(brando));
+		$('.Brand_name2').html(brando);
+	}
+ 	
+	function ChangeValue2() {
+		var cate = $('#p_category').val();
+		var a = '<input type="checkbox" class = "B_Category"  value="46" name ="sizeList" checked>'
+		+ '<input type="checkbox" class = "B_Category"  value="48" name ="sizeList" checked>'
+		+ '<input type="checkbox" class = "B_Category"  value="50" name ="sizeList" checked>';
+		
+		var b = '<input type="checkbox" class = "B_Category"  value="S" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="M" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="L" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="XL" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="2XL" name ="sizeList" checked>';
+
+		var c = '<input type="checkbox" class = "B_Category"  value="240" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="245" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="250" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="255" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="260" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="265" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="270" name ="sizeList" checked>';
+		
+		var d = '<input type="checkbox" class = "B_Category"  value="One Size" name ="sizeList" checked>'
+		
+		if (cate == 'pants') {
+			$('.Brand_name').html(a);
+		} else if (cate == 'shirt') {
+			$('.Brand_name').html(b);
+		} else if (cate == 'shoes') {
+			$('.Brand_name').html(c);
+		} else {
+			$('.Brand_name').html(d);
+		}
 	}
  
+
+
 /*  	$('#regist_submit').on('click', function(){
 		   if($('#p_name_ko').value == null || $('#p_name_ko').value ==''){
 		      alert("ㅇㅇ")
