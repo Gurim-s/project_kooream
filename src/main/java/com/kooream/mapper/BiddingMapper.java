@@ -20,4 +20,5 @@ public interface BiddingMapper {
 	public List<ProductVO> get_Bidinfo(int p_no);
 	public void bidremove(int m_no);
 	public List<PaymentVO> buyTrade_Read(int m_no);
+	public List<PaymentVO> sellTrade_Read(int m_no);
 }

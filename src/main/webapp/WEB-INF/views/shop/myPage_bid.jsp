@@ -65,13 +65,25 @@
 	</c:forEach>
 	
 	<h2>- 즉시 구매 내역 -</h2>
-	<c:forEach items="${buyvo }" var="payvo">
-	<c:forEach items="${buyvo.productvo }" var="paypvo">
-		<img class="product_image" src="${payvo.imageUrls.get(0) }">
-		<div class="brand_name" >상품명 : ${paypvo.p_name_ko }</div>
-		<div class="brand_name" >거래 번호 : ${payvo.buy_no }</div>
-		<div class="brand_name" >거래 날짜 : ${payvo.buy_date }</div>
-		<div class="brand_name" >거래 금액 : ${payvo.pay_price }</div>
+	<c:forEach items="${buyvo }" var="buyvo">
+	<c:forEach items="${buyvo.productvo }" var="pvo">
+		<img class="product_image" src="${buyvo.imageUrls.get(0) }">
+		<div class="brand_name" >상품명 : ${pvo.p_name_ko }</div>
+		<div class="brand_name" >거래 번호 : ${buyvo.buy_no }</div>
+		<div class="brand_name" >거래 날짜 : ${buyvo.buy_date }</div>
+		<div class="brand_name" >거래 금액 : ${buyvo.pay_price }</div>
+		<p>------------------------</p>
+	</c:forEach>
+	</c:forEach>
+	
+	<h2>- 즉시 판매 내역 -</h2>
+	<c:forEach items="${sellvo }" var="sellvo">
+	<c:forEach items="${sellvo.productvo }" var="pvo">
+		<img class="product_image" src="${sellvo.imageUrls.get(0) }">
+		<div class="brand_name" >상품명 : ${pvo.p_name_ko }</div>
+		<div class="brand_name" >거래 번호 : ${sellvo.buy_no }</div>
+		<div class="brand_name" >거래 날짜 : ${sellvo.buy_date }</div>
+		<div class="brand_name" >거래 금액 : ${sellvo.pay_price }</div>
 		<p>------------------------</p>
 	</c:forEach>
 	</c:forEach>

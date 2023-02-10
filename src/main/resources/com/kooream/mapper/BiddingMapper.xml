@@ -77,6 +77,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	select * from payment where m_no = #{m_no} order by p_no
     </select>
     
+    <select id="sellTrade_Read" resultType="com.kooream.domain.PaymentVO">
+    	select * from payment where sell_m_no = #{m_no} order by p_no
+    </select>
+    
     <select id="get_Bidinfo" resultType="com.kooream.domain.ProductVO">
     	select A.* from product A where p_no = #{p_no}
     </select>

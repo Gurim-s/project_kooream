@@ -67,4 +67,10 @@ import lombok.extern.log4j.Log4j;
 		List<PaymentVO> list = mapper.buyTrade_Read(m_no);
 		return list;
 	}
+
+	@Override
+	public List<PaymentVO> sellTrade_Read(int m_no) {
+		List<PaymentVO> list = mapper.sellTrade_Read(m_no);
+		return list;
+	}
   }
