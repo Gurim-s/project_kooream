@@ -85,8 +85,21 @@ public class BrandProductServiceImpl implements BrandProductService{
 		return uploadmapper.findByPno(p_no);
 	}
 	
+	//결제 페이지에서 섬네일정보를 가진 productvo를 가져옴
 	@Override
 	public ProductVO get(ProductVO vo) {
+		//상품 번호를 통해 상품 정보 가져오기
+		ProductVO product = mapper.read(vo);
+		//상품 번호를 통해 상품의 이미지 가져오기
+		/* product.setAttachList(uploadmapper.findByPno(vo.getP_no())); */
+		// 상품 번호를 통해서 사이즈 가져오기(?)
+		product.setSizeVoList(sizemapper.findPno(vo.getP_no()));
+		
+		return product;
+	}
+	
+	//상품 상세정보 조회시
+	public ProductVO getDetail(ProductVO vo) {
 		//상품 번호를 통해 상품 정보 가져오기
 		ProductVO product = mapper.read(vo);
 		//상품 번호를 통해 상품의 이미지 가져오기
@@ -94,8 +107,9 @@ public class BrandProductServiceImpl implements BrandProductService{
 		// 상품 번호를 통해서 사이즈 가져오기(?)
 		product.setSizeVoList(sizemapper.findPno(vo.getP_no()));
 		
-		return product;
+		return product;		
 	}
+	
 	
 	@Override
 	public int modify(ProductVO vo) {

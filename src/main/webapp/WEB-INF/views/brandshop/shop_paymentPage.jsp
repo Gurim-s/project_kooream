@@ -368,7 +368,7 @@
 				<div class = "infobox">
 					<c:forEach var="product" items="${productList }" varStatus="i">
 						<c:url value="/displayImage" var="imgSrc">
-							<c:param name="fileName" value="${product.attachList.get(0).uploadPath }/${product.attachList.get(0).uuid }_${product.attachList.get(0).fileName }"></c:param>
+							<c:param name="fileName" value="${product.uploadPath }/s_${product.uuid }_${product.fileName }"></c:param>
 						</c:url>
 							<img class="product_image" alt="상품이미지" src="${imgSrc }">
 								<div class="code">${product.p_model_no}</div>
