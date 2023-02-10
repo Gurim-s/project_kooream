@@ -5,7 +5,6 @@ margin: 0;
 padding: 0;
 box-sizing: border-box;	
 }
-
 li {
 	list-style-type: none;
 }
@@ -21,7 +20,6 @@ li {
 	height: 500px;
 	/* 리스트 형식 밖으로 나온 이미지 히든 처리 */
 }
-
 .slides{
 	position: absolute;
 	left: 0;
@@ -29,7 +27,6 @@ li {
 	transition : left 0.5s ease-out;
 	/* ease-out : 처음에 느렸다가 점점 빨라짐 */
 }
-
 .slides li:first-child{
 }
 /* 슬라이드들 옆으로 정렬 */
@@ -47,7 +44,6 @@ li {
 	display: inline-block;
 	margin: 0px auto;
 }
-
 .controller span{
   position:absolute;
   background-color: gray;
@@ -58,7 +54,6 @@ li {
   top: 50%;
   font-size: 1.3em;
   cursor: pointer;
-  
 }
 /* 이전, 다음 화살표에 마우스 커서가 올라가 있을때 */
 .controller span:hover{
@@ -73,24 +68,25 @@ li {
 .next{
   right: 10px;
 }
-
 /* 이전 화살표에 마우스 커서가 올라가 있을때 
 이전 화살표가 살짝 왼쪽으로 이동하는 효과*/
 .prev:hover{
   transform: translateX(-10px);
 }
-
-
-
 /* 다음 화살표에 마우스 커서가 올라가 있을때 
 이전 화살표가 살짝 오른쪽으로 이동하는 효과*/
 .next:hover{
   transform: translateX(10px);
 }
-
 #mainContents {
 	margin-top: 550px;
 }
+#style-list {
+	width: 100%;
+	margin: 10px auto;
+	display: flex;
+	text-align : center;
+	}
 
 #codi-list {
 	width: 100%;
@@ -98,6 +94,13 @@ li {
 	display: flex;
 	text-align : center;
 	}
+#brand-list	{
+	width: 100%;
+	margin: 10px auto;
+	display: flex;
+	text-align : center;
+}
+	
 .codi_img{
 	
 	width: 160px;
@@ -111,7 +114,6 @@ li {
 	    width:22%;
 	    box-sizing: border-box;
 }
-
 #second{
     /* border: 1px solid green; */
     flex:1;
@@ -119,7 +121,6 @@ li {
     width:22%;
     box-sizing: border-box;
 }
-
 #third{
     /* border: 1px solid blue; */
     flex:1;
@@ -127,8 +128,7 @@ li {
     width:22%;
     box-sizing: border-box;
 }
-
-#force{
+#fourth{
     /* border: 1px solid blue; */
     flex:1;
 	margin-left: 1%;

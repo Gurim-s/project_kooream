@@ -43,10 +43,10 @@
 						<input type="text" name="codimodel_name" id="textForm2">
 						
 					<span class="model_info">키 :  </span>
-						<input type="number" name="codi_cm" id="textForm2">
+						<input type="number" min="1" name="codi_cm" id="textForm2">
 						
 					<span class="model_info">무게 : </span>
-						<input type="number" name="codi_kg" id="textForm2">
+						<input type="number"  min="1" name="codi_kg" id="textForm2">
 				</div>
 				<div class="row">
 					<div><span class="title_content">사진 등록</span></div>
