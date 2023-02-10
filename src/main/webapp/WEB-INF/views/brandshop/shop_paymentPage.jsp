@@ -2,376 +2,411 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <style>
-	.content_area{
-		overflow: hidden;
-		max-width: 780px;
-		min-height: 900px;
-		margin: 0 auto;
-		padding: 20px 40px 160px;
-		background-color: #fafafa;
-	}
-	
-	.buy_before{
-		-webkit-box-align: center;
-		align-items: center;
-		width: 100%;
-		margin-bottom: 20px;
-	}
-	
-	.product_info{
-		padding: 12px 32px;
-		background-color: #fff;
-	}
-	
-	.product_image{
-		border-radius: 7px;
-		height: 80px;
-		width: 80px;
-		float: left;
-		margin-right: 16px;
-		position: relative;
-	}
-	
-	.code{
-		line-height: 17px;
-		font-size: 14px;
-		font-weight: 700;
-	}
-	
-	.name{
-		line-height: 17px;
-		font-size: 14px;
-	}
-	
-	.kor_name{
-		line-height: 16px;
-		font-size: 13px;
-		letter-spacing: -.05px;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.p_size{
-		font-size: 14px;
-		font-weight: 700;
-		margin-top: 7px;
-		margin-bottom: 7px;
-	}
-	
-	.section_total{
-		padding: 32px;
-		background-color: #fff;
-		border-top: 8px solid #fafafa;
-	}
-	
-	.title_txt{
-		line-height: 22px;
-		font-size: 18px;
-		font-weight: 700;
-		letter-spacing: -.15px;
-	}
-	
-	.add_more_btn{
-		margin-left: auto;
-		padding-left: 2px;
-		font-size: 13px;
-		letter-spacing: -.07px;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.section_title{
-		display: flex;
-		-webkit-box-align: center;
-		align-items: center;
-		padding-bottom: 12px;
-	}
-	
-	.delivery_info{
-		display: flex;
-		width: 100%;
-		height: 44px;
-		border-radius: 10px;
-		border: 1px solid #ebebeb;
-		background-color: #fafafa;
-		-webkit-box-align: center;
-		align-items: center;
-	}
-	
-	.guide_txt{
-		margin-left: 12px;
-		font-size: 14px;
-		letter-spacing: -.21px;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.shipping_memo{
-		position: relative;
-		margin-top: 12px;
-	}
-	
-	.button_shipping{
-		font-size: 14px;
-		height: 48px;
-		padding: 14px 12px;
-		-webkit-box-flex: 0;
-		border: 1px solid #ebebeb;
-		border-radius: 10px;
-		width: 100%;
-		text-align: left;
-		cursor: pointer;
-	}
-	
-	button{
-		outline: none;
-		background: none;
-		background-color: transparent;
-		appearance: none;
-	}
-	
-	.button_shipping_memo{
-		color: rgba(34,34,34,.3);
-	}
-	
-	.section_unit2{
-		margin-top: 22px;
-		padding-top: 15px;
-		border-top: 1px solid #ebebeb;
-	}
-	
-	.delivery_option{
-		background: #fafafa;
-		border: 1px solid #ebebeb;
-		cursor: not-allowed;
-		padding: 12px 15px;
-		border-radius: 10px;
-	}
-	
-	.way_info{
-		display: flex;
-		-webkit-box-align: center;
-		align-items: center;
-		width: 100%;
-	}
-	
-	.way_status{
-		-webkit-box-flex: 0;
-		flex: none;
-		margin-right: 14px;
-	}
-	
-	.way_img{
-		width: 40px;
-		height: 40px;
-	}
-	
-	img{
-		border: 0;
-		vertical-align: top;
-	}
-	
-	.company{
-		font-size: 14px;
-		letter-spacing: -.21px;
-		line-height: 17px;
-	}
-	
-	.badge_title{
-		font-weight: 600;
-	}
-	
-	.sub_txt{
-		line-height: 16px;
-		margin-top: 3px;
-		font-size: 14px;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.instant_group{
-		padding-top: 22px;
-	}
-	
-	.order_info{
-		padding-top: 0;
-		border-top: 0;
-		padding-bottom: 19px;
-		border-bottom: 2px solid #ebebeb;
-	}
-	
-	.price_box{
-		display: block;
-		line-height: 26px;
-	    font-size: 20px;
-	    font-weight: 600;
-	    letter-spacing: normal;
-	}
-	
-	.price_title{
-		width: 100%;
-		font-size: 14px;
-		font-weight: 700;
-		letter-spacing: -.01px;
-	}
-	
-	.amount{
-		width: 100%;
-		text-align: right;
-		display: block;
-	}
-	
-	.price_addition{
-		display: flex;
-		-webkit-box-pack: justify;
-		justify-content: space-between;
-		-webkit-box-align: center;
-		align-items: center;
-		min-height: 26px;
-		font-size: 13px;
-		letter-spacing: -.07px;
-		font-weight: 700;
-	}
-	
-	.price_bind{
-		padding-top: 11px;
-		font-size: 13px;
-		letter-spacing: -.07px;
-	}
-	
-	.price_tilte{
-		color: #222;
-	}
-	
-	.price_text{
-		text-align: right;
-		white-space: nowrap;
-		color: #222;
-		font-size: 14px;
-		letter-spacing: -.21px;
-	}
-	
-	.price_title2, .price_text2{
-		font-weight: normal;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.check_list {
-		padding-bottom: 16px;
-	}
-	
-	ul{
-		list-style: none;
-	}
-	
-	.notice_maintext{
-		line-height: 18px;
-		font-size: 15px;
-		letter-spacing: -.01px;
-	}
-	
-	.notice_subtext{
-		margin-top: 4px;
-		line-height: 16px;
-		font-size: 13px;
-		letter-spacing: -.05px;
-		color: rgba(34,34,34,.5);
-	}
-	
-	.chbox{
-		margin-left: auto;
-	}
-	
-	.notice_group{
-		display: flex;
-		-webkit-box-align: center;
-		align-items: center;
-		padding: 19px 0 20px;
-		width: 100%;
-	}
-	
-	.text_group{
-		margin-right: 20px;
-		word-break: keep-all;
-		word-wrap: break-word;
-	}
-	
-	.notice2{
-		border-top: 1px solid #ebebeb;
-	}
-	
-	.check_d{
-		display: inline-block;
-		float: right;
-	}
-	
-	.price_box2{
-		display: flex;
-		-webkit-box-pack: justify;
-		justify-content: space-between;
-		-webkit-box-align: center;
-		align-items: center;
-	}
-	
-	.price_title3{
-		line-height: 18px;
-		font-size: 15px;
-		letter-spacing: -.01px;
-		font-weight: 700;
-	}
-	
-	.now_buy_btn{
-		margin-top: 10px;
-		font-weight: 600;
-	}
-	
-		.btn_box{
-		width: 100%;
-		font-size: 16px;
-		letter-spacing: -.16px;
-		height: 52px;
-		border-radius: 12px;
-		color: #fff;
-		background-color: #222;
-		vertical-align: middle;
-		text-align: center;
-		align-items: center;
+   .content_area{
+      overflow: hidden;
+      max-width: 780px;
+      min-height: 900px;
+      margin: 0 auto;
+      padding: 20px 40px 160px;
+      background-color: #fafafa;
+   }
+   
+   .buy_before{
+      -webkit-box-align: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 20px;
+   }
+   
+   .product_info{
+      padding: 12px 32px;
+      background-color: #fff;
+   }
+   
+   .product_image{
+      border-radius: 7px;
+      height: 80px;
+      width: 80px;
+      float: left;
+      margin-right: 16px;
+      position: relative;
+   }
+   
+   .code{
+      line-height: 17px;
+      font-size: 14px;
+      font-weight: 700;
+   }
+   
+   .name{
+      line-height: 17px;
+      font-size: 14px;
+   }
+   
+   .kor_name{
+      line-height: 16px;
+      font-size: 13px;
+      letter-spacing: -.05px;
+      color: rgba(34,34,34,.5);
+   }
+   
+   .p_size{
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 7px;
+      margin-bottom: 7px;
+   }
+   
+   .section_total{
+      padding: 32px;
+      background-color: #fff;
+      border-top: 8px solid #fafafa;
+   }
+   
+   .title_txt{
+      line-height: 22px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -.15px;
+   }
+   
+   .add_more_btn{
+      margin-left: auto;
+      padding-left: 2px;
+      font-size: 13px;
+      letter-spacing: -.07px;
+      color: rgba(34,34,34,.5);
+   }
+   
+   .section_title{
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      padding-bottom: 12px;
+   }
+   
+   .delivery_info{
+      display: flex;
+      width: 100%;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid #ebebeb;
+      background-color: #fafafa;
+      -webkit-box-align: center;
+      align-items: center;
+   }
+   
+   .guide_txt{
+      margin-top: 7px;
+      width: 100%;
+      font-size: 14px;
+      letter-spacing: -.21px;
+      color: rgba(34,34,34,.5);
+      height: 44px;
+       border-radius: 10px;
+       border: 1px solid #ebebeb;   
+       background-color: #fafafa;
+       -webkit-box-align: center;
+       align-items: center;
+       padding: 14px 12px;
+   }
+   
+   .shipping_memo{
+      position: relative;
+      margin-top: 12px;
+   }
+   
+   .button_shipping{
+      font-size: 14px;
+      height: 48px;
+      padding: 14px 12px;
+      -webkit-box-flex: 0;
+      border: 1px solid #ebebeb;
+      border-radius: 10px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+   }
+   
+   button{
+      outline: none;
+      background: none;
+      background-color: transparent;
+      appearance: none;
+   }
+   
+   .button_shipping_memo{
+      color: rgba(34,34,34,.3);
+   }
+   
+   .section_unit2{
+      margin-top: 22px;
+      padding-top: 15px;
+      border-top: 1px solid #ebebeb;
+   }
+   
+   .delivery_option{
+      background: #fafafa;
+      border: 1px solid #ebebeb;
+      cursor: not-allowed;
+      padding: 12px 15px;
+      border-radius: 10px;
+   }
+   
+   .way_info{
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      width: 100%;
+   }
+   
+   .way_status{
+      -webkit-box-flex: 0;
+      flex: none;
+      margin-right: 14px;
+   }
+   
+   .way_img{
+      width: 40px;
+      height: 40px;
+   }
+   
+   img{
+      border: 0;
+      vertical-align: top;
+   }
+   
+   .company{
+      font-size: 14px;
+      letter-spacing: -.21px;
+      line-height: 17px;
+   }
+   
+   .badge_title{
+      font-weight: 600;
+   }
+   
+   .sub_txt{
+      line-height: 16px;
+      margin-top: 3px;
+      font-size: 14px;
+      color: rgba(34,34,34,.5);
+   }
+   
+   .instant_group{
+      padding-top: 22px;
+   }
+   
+   .order_info{
+      padding-top: 0;
+      border-top: 0;
+      padding-bottom: 19px;
+      border-bottom: 2px solid #ebebeb;
+   }
+   
+   .price_box{
+      display: block;
+      line-height: 26px;
+       font-size: 20px;
+       font-weight: 600;
+       letter-spacing: normal;
+   }
+   
+   .price_title{
+      width: 100%;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -.01px;
+   }
+   
+   .amount{
+      width: 100%;
+      text-align: right;
+      display: block;
+   }
+   
+   .price_addition{
+      display: flex;
+      -webkit-box-pack: justify;
+      justify-content: space-between;
+      -webkit-box-align: center;
+      align-items: center;
+      min-height: 26px;
+      font-size: 13px;
+      letter-spacing: -.07px;
+      font-weight: 700;
+   }
+   
+   .price_bind{
+      padding-top: 11px;
+      font-size: 13px;
+      letter-spacing: -.07px;
+   }
+   
+   .price_tilte{
+      color: #222;
+   }
+   
+   .price_text{
+      text-align: right;
+      white-space: nowrap;
+      color: #222;
+      font-size: 14px;
+      letter-spacing: -.21px;
+   }
+   
+   .price_title2, .price_text2{
+      font-weight: normal;
+      color: rgba(34,34,34,.5);
+   }
+   
+   .check_list {
+      padding-bottom: 16px;
+   }
+   
+   ul{
+      list-style: none;
+   }
+   
+   .notice_maintext{
+      line-height: 18px;
+      font-size: 15px;
+      letter-spacing: -.01px;
+   }
+   
+   .notice_subtext{
+      margin-top: 4px;
+      line-height: 16px;
+      font-size: 13px;
+      letter-spacing: -.05px;
+      color: rgba(34,34,34,.5);
+   }
+   
+   .chbox{
+      margin-left: auto;
+   }
+   
+   .notice_group{
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      padding: 19px 0 20px;
+      width: 100%;
+   }
+   
+   .text_group{
+      margin-right: 20px;
+      word-break: keep-all;
+      word-wrap: break-word;
+   }
+   
+   .notice2{
+      border-top: 1px solid #ebebeb;
+   }
+   
+   .check_d{
+      display: inline-block;
+      float: right;
+   }
+   
+   .price_box2{
+      display: flex;
+      -webkit-box-pack: justify;
+      justify-content: space-between;
+      -webkit-box-align: center;
+      align-items: center;
+   }
+   
+   .price_title3{
+      line-height: 18px;
+      font-size: 15px;
+      letter-spacing: -.01px;
+      font-weight: 700;
+   }
+   
+   .now_buy_btn{
+      margin-top: 10px;
+      font-weight: 600;
+   }
+   
+      .btn_box{
+      width: 100%;
+      font-size: 16px;
+      letter-spacing: -.16px;
+      height: 52px;
+      border-radius: 12px;
+      color: #fff;
+      background-color: #222;
+      vertical-align: middle;
+      text-align: center;
+      align-items: center;
     }
     
     .full{
-		display: inline-flex;
-		cursor: pointer;
-		-webkit-box-align: center;
-		align-items: center;
-		-webkit-box-pack: center;
-		justify-content: center;
-		vertical-align: middle;
-		text-align: center;
+      display: inline-flex;
+      cursor: pointer;
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      justify-content: center;
+      vertical-align: middle;
+      text-align: center;
     }
-
 
 </style>
 
 <div class="content_area">
-	<form name="shop_bidsell" method="post" id="bidSellForm">
+  <sec:authentication property="principal.member" var="pri"/>	<!-- 시큐리티에서 member정보 가지고오기  -->
+	<form action="/Payment/addpayment" id="myForm" method="post">
 		<div class="buy_before">
+<!-- -------------------------------------상품 리스트 보여주기----------------------------------------------------------------  -->
 			<div class="product_info">
-
+				<div class = "infobox">
+					<c:forEach var="product" items="${productList }" varStatus="i">
+						<c:url value="/displayImage" var="imgSrc">
+							<c:param name="fileName" value="${product.attachList.get(0).uploadPath }/${product.attachList.get(0).uuid }_${product.attachList.get(0).fileName }"></c:param>
+						</c:url>
+							<img class="product_image" alt="상품이미지" src="${imgSrc }">
+								<div class="code">${product.p_model_no}</div>
+								<div class="name">${product.p_name_en }</div>
+								<div class="kor_name">${product.p_name_ko }</div>
+								<div class="p_size">${product.sizeVoList.get(0).pp_size }</div>
+								<%-- <div class="p_size">${product.p_release_price}</div> --%>
+								<input type="hidden" class = "price" name ="paymentList[${i.index }].pay_price"  value="${product.p_release_price}"/>
+								<input type="hidden" class = "pno" name ="paymentList[${i.index }].p_no" value="${product.p_no}"/>
+					</c:forEach>
+								
+				</div>
 			</div>
+<!-- -------------------------------------주소 추가----------------------------------------------------------------  -->
 			<div class="section_total">
 				<div class="section_unit">
 					<div class="section_title">
-						<h3 class="title_txt">배송 주소</h3>
-						<a href="#" class="add_more_btn">+ 새 주소 추가</a>
-					</div>
-					
-					<a href="#" class="delivery_info">
-						<span class="guide_txt">
-							주소를 추가해주세요. >
-						</span>
-					</a>
+                  <h3 class="title_txt">배송 주소</h3>
+                  <!-- <a href="#" class="add_more_btn">+ 새 주소 추가</a> -->
+               		</div> 
+               			<input type="checkbox" id="copyAddr">기본 배송지선택
+               		 <div><input type="text" class="guide_txt" 
+                                 id="sample6_address" 
+                                 name="m_addr" onclick="sample6_execDaumPostcode()" 
+                                 placeholder="주소를 입력해주세요."></div>
+               <div><input type="text" class="guide_txt" id="sample6_detailAddress" name="m_Detail_addr" placeholder="상세주소를 입력하세요."></div>
+              		<input type="hidden" name = "m_adress" value="">
+               <!-- <a href="#" class="delivery_info">
+                  <span class="guide_txt">
+                     주소를 입력해주세요.
+                  </span>
+               </a> -->
+
+<!-- -------------------------------------배송 관련----------------------------------------------------------------  -->
 					<div class="shipping_memo">
-						<button class="button_shipping">
+						<input type="text" class="button_shipping">
 							<span class="button_shipping_memo">배송 시 요청사항을 선택하세요.</span>						
-						</button>
+						
 					</div>
 				</div>
 				<div class="section_unit2">
@@ -398,6 +433,7 @@
 					</div>
 				</div>
 			</div>
+<!-- -------------------------------------상품 합계----------------------------------------------------------------  -->
 			<div class="section_total">
 				<div class="section_title">
 					<h3 class="title_txt">최종 주문 정보</h3>
@@ -407,7 +443,7 @@
 						<dl class="price_box">
 							<dt class="price_title">총 결제금액</dt>
 							<dd class="price empty_price">
-								<span class="amount">${vo.sum_price}</span>
+								<span class="amount"></span>
 							</dd>
 						</dl>
 					</div>
@@ -423,9 +459,11 @@
 					</div>
 				</div>
 			</div>
+<!-- -------------------------------------결제----------------------------------------------------------------  -->
 			<div class="section_total">
 				대충 결제 공간
 			</div>
+<!-- -------------------------------------체크박스----------------------------------------------------------------  -->
 			<div class="section_total">
 				<div>
 					<ul class="check_list">
@@ -436,7 +474,7 @@
 									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
 								</div>
 								<div>
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" >
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -466,89 +504,120 @@
 							</div>
 						</li>
 					</ul>
+<!-- -------------------------------------상품 총 금액----------------------------------------------------------------  -->
 					<div class="price_total">
 						<dl class="price_box2">
 							<dt class="price_title3">총 결제금액</dt>
-							<dd class="empty_price2">-</dd>
+							<dd class="empty_price2"></dd>
 						</dl>
 					</div>
+<!-- -------------------------------------결제버튼----------------------------------------------------------------  -->
 					<div class="now_buy_btn">
-						<div class="btn_box full" >결제 하기</div>
+						<button type="button" class="btn_box full" id="gopayment" >결제 하기</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
 </div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api 사용하기 위해 명시 -->
 <script type="text/javascript">
-//-------------------------------------------------상품이미지 + 리스트 가지고오기
-$(function(){	// list()함수 실행하기위한
-	list();
-});
 
-	function list() {	// 상품이미지 보여주기
-		$.ajax({
-			url:'/Payment/paymentList',
-			type: 'get',
- 			dataType:"json",
- 			contentType:"application/json",
 
- 		})
- 		.done(function (json) {	// success 대신 사용
- 			
-			var str='<div class="infobox">';
-			
-			console.log(json);	// f12누르면 나오는,, 정보가 json에 저장이 잘 되어있는지 확인
+$(function(){
+	
+//-------------------------------------------------------기본배송지 체크박스 클릭 이벤트
+	$("#copyAddr").on("click", function(){
+		if($(this).is(':checked')){
+			var addrList = "${pri.m_addr}".split("/");
+		    $("#sample6_address").val(addrList[0]);
+		    $("#sample6_detailAddress").val(addrList[1]);
+		}else{
+			$("#sample6_address").val("");
+			$("#sample6_detailAddress").val("");
+		}
+	});	
 
-			for(var i=0; i<json.length; i++) {
-				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
-							// brandshop(컨트롤러) 에서 /get을 탐  
-					
-					if(json[i].attachList.length > 0) {
-						var uploadPath = json[i].attachList[0].uploadPath;
-						var uuid = json[i].attachList[0].uuid;
-						var fileName = json[i].attachList[0].fileName;
-						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-						
-						str += '<img class = "product_image" src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
-					}//-------- if문 끝
-					
-					/*브랜드명, 영문명, 사이즈, 가격  mapper.xml에서 조인해서 가지고오고, Vo에 이름 만들면 가지고 올수있음 */
-					
-					str += '<div class="product_infobox">';
-						str += '<div class="code">'+json[i].p_model_no+'</div>';
-						str += '<div class="name">'+json[i].p_name_en+'</div>';
-						str += '<div class="kor_name">'+json[i].p_name_ko+'</div>';
-						str += '<div class="p_size">'+json[i].pp_size+'</div>';
-						
-					/* str += '<div class="p_info" style="font-weight: bold; font-size: 15px;" data-price = "'+json[i].p_release_price+'">'+json[i].p_release_price+'원</div><br/>'; */
-				str += '</a>'
-					str += '</div>'
-					/* str += '<button class = "remove_button" data-cartno="'+json[i].cart_no+'" >삭제</button>' */
+//-------------------------------------------------------체크박스 + 구매하기 클릭시	
+	$(document).on("click","#gopayment",function(){
+	    var check=0;
+		$(".chbox").each(function(idx,item){ // idx 순서 , item 들어가는 값
+		    if(!$(item).is(':checked')){	//	check가 되어있지 않으면 
+		       alert("전체 동의 후 결제 가능합니다.");
+		       check=1;
+		       return false;	// 반복문 밖으로 나감
+		    }
+		});
+		
+		
+		
+		
+	 
+		if(check==0){
 
-			}//------------- for 문 끝
-			
-			str += '</div>'	// <div class = infobox"> 끝
-			$('.product_info').html(str);	// 여기서 append를 사용하면 내용이 계속 쌓이는거고 새로가지고오지 못한다.. 그래서 html사용해야함,,,,,
-			
-			for(var i= 0; i<json.length; i++){
-				var price = json[i].sum_price;
-				//console.log(price);
-				if(price != null){
-					var sum = 0;
-					sum += Number(price);
-					console.log(sum);
-					
-				}
+			var form = $('#myForm');
+			var str = '';
+			var ad = $("#sample6_address").val() +  $("#sample6_detailAddress").val();
+			$(".pno").each(function(index, item){
+				str += '<input type="hidden" class = "paddr" name ="paymentList['+index+'].m_adress" value="'+ad+'"/>';
+			});
+			form.append(str);
+			//console.log(form.serialize());
+			form.submit();
+		}
+			 
+
+
+	});
+		
+//-------------------------------------------------------상품합계	
+
+ 	var priceList = Array.from($('input.price'));	// jquery 문법으로 변경(?)
+ 	//var priceList = $('input.price');	// jquery 문법으로 변경 // 이게뭐야,,, 너무 어려운걸,, 찾아보자,,
+ 		
+		console.log(priceList);
+
+ 		var price = 0;
+		var sum = 0;
+
+			for(var i=0; i<priceList.length; i++) {
+				sum += Number(priceList[i].value);	// 배열에서 price값 꺼내오기
+				console.log(sum);
 			}
 			
-			$('.price_text').html(sum);
+			$('.price_text').html(sum.toLocaleString('ko-KR'));
+			$('.empty_price2').html(sum.toLocaleString('ko-KR'));
+			$('.amount').html(sum.toLocaleString('ko-KR'));
 
 			
-		});// ---------done 끝
+//-------------------------------------------------------기본배송지 체크박스 클릭 이벤트
+	$("#copyAddr").on("click", function(){
+		if($(this).is(':checked')){
+			var addrList = "${pri.m_addr}".split("/");
+		    $("#sample6_address").val(addrList[0]);
+		    $("#sample6_detailAddress").val(addrList[1]);
+		}else{
+			$("#sample6_address").val("");
+			$("#sample6_detailAddress").val("");
+		}
+	});	
+
+
+
+
+});	// $(function ()) 함수 끝			
+	
+//-------------------------------------------------------주소 api
+	function sample6_execDaumPostcode() {
+	   new daum.Postcode({
+	        oncomplete: function(data) {
+	           document.getElementById("sample6_address").value = data.address; // 주소 넣기
+	            document.querySelector("#sample6_detailAddress").focus(); //상세입력 포커싱
+	        }
+	   }).open();
+	}
 		
- 	};// ------- list 함수 끝
- 	
+		
 
 
 

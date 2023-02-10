@@ -4,23 +4,24 @@ import java.util.List;
 
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandCartVO;
+import com.kooream.domain.PaymentListVO;
 import com.kooream.domain.PaymentVO;
 
 public interface PaymentService {
 
 	// 주문내역 추가
-	public int addPayment(PaymentVO vo);	// 장바구니 추가
+	public int addPayment(PaymentListVO list);
 	
 	// 주문내역 리스트 가지고오기
-	public List<PaymentVO> paymentList(int m_no);	// 장바구니 리스트 가져오기
+	public List<PaymentVO> paymentList(int m_no);
 	
-	// 장바구니 사진 리스트 가지고오기
+	// 주문내역 사진 리스트 가지고오기
 	public List<AttachFileVO> paymentgetAttachList(int p_no);
 	
-	// 장바구니 삭제
-	//public int Cartdelete(BrandCartVO vo);
+	// 주문내역 삭제
+	public int paymentdelete(PaymentVO vo);
 	
-	//public List<BrandCartVO> brandCartList(int m_no);
+
 		
 }
 

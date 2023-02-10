@@ -35,7 +35,7 @@
 	<div id="myPage" >마이 페이지</div>
 	<div class="mcategory">&nbsp;쇼핑 정보</div>	
 	<ul class="mul">
-		<li><a href="#">구매 내역</a></li>	
+		<li><a href="/Payment/checkpayment">구매 내역</a></li>	
 		<li><a href="/rsvt/RntConfirm">예약 내역</a></li>	
 		<li><a href="#">판매 내역</a></li>	
 		<li><a href="#">보관 판매</a></li>	

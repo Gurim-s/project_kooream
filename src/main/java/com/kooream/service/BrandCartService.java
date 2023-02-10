@@ -19,6 +19,9 @@ public interface BrandCartService {
 	// 장바구니 삭제
 	public int Cartdelete(BrandCartVO vo);
 	
+	// 장바구니 전체 삭제
+	public void CartdeleteAll(int mno);
+
 	//public List<BrandCartVO> brandCartList(int m_no);
 		
 }

@@ -89,7 +89,6 @@ public class BrandCartController {
 	// 장바구니 리스트 보기
 	
 	  @GetMapping("/brandCartList")
-	  
 	  @ResponseBody public ResponseEntity<List<BrandCartVO>> brandCartList(Model model){ 
 		  int m_no=0;
 		  MemberVO userSession = new UserSession().getSession();

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> <!-- 관리자 권한 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
@@ -27,6 +28,9 @@
 	.btn button{
 		width: 100%; 
 		height: 50px;
+		border-radius : 8px;
+		border: none;
+		cursor:pointer;
 	}
 	.admin_btn button{
 		width: 100%;
@@ -58,7 +62,7 @@
 		display: inline-block;	/* top-menu 리스트 가로정렬  */
 	}
 	#product_buy{
-		background: red; 
+		background-color: rgb(239, 98, 83); 
 		color: white;
 	}
 	#popup01{
@@ -88,9 +92,13 @@
 	    z-index: 1;
 	}
 	.sizebtn{
-
-		width : 50%;
-
+		background : white;
+		width : 60%;
+		height : 40px;
+		border-radius : 5px;
+		border-color: gray;
+		outline: 0;
+		cursor:pointer;
 	}
 	.close{				/*  닫기버튼 */
 		position:absolute;
@@ -104,17 +112,27 @@
 		position:absolute;	/* 적어야 밑으로 내려감,,  */
 		width: 70%;
 		cursor:pointer;
+		height: 40px;
+		
 	}
 	.openPopup{
 		cursor:pointer;	/* 버튼클릭시 마우스커서 손가락모양으로 변경 */
+		border: none;
+		background: none;
 	}
+	.v-line {
+		border-left: 1px solid gray ;
+		height:52%;
+	 	left: 47.5%;
+	 	position: absolute;
+	 	color: gray;
+	}
+  
 
 </style>
 </head>
 <body>
-	<div>
-		<h1 class="page-header"> 상세보기 페이지</h1>
-	</div>
+
 		
 <!-- ------------------------------------------이미지 보여주기---------------------------------------------------- -->
 <div class= "brand">
@@ -132,11 +150,12 @@
 		</li>
 	</ul>
 </div>
+<div class="v-line"></div>
 <!-- ------------------------------------------ 상품 정보---------------------------------------------------- -->
 <div class = "p_right"><!-- 상품정보 오른쪽 정렬시작 -->
-	<div>${vo2.b_name }</div>
+	<div style="font-size: 20px; font-weight: bold; text-decoration: underline">${vo2.b_name }<img style= "width : 25px;  " src =../resources/img/check.png/></div>
 	<div>${vo.p_name_en }</div>
-	<div>${vo.p_name_ko }</div>
+	<div style="font-size: 13px; font-style: gary">${vo.p_name_ko }</div>
 <br/>
 <!-- ------------------------------------------ 옵션선택(모달창) ---------------------------------------------------- -->
 <div id="popup01">
@@ -150,15 +169,17 @@
 		</div>
 </div>
 <div class = "sizesee" style="float: right;"></div>
-<button class="openPopup">옵션선택</button>   
+<button class="openPopup">옵션선택</button><br/>
 <!-- ------------------------------------------ 구매가격 ---------------------------------------------------- -->
-<div>구매가</div>
-	<div><span style="font-size: 25px; float: right;">${vo.p_release_price }원</span></div>
-	<br/>
+<br/>
+<hr/>
+<div style="margin: 8px;">구매가
+	<span style="font-size: 23px; float: right; font-weight: bold;"><fmt:formatNumber value="${vo.p_release_price }" pattern="#,###,###원"/></span></div>
 	<br/>
 <!-- ------------------------------------------ 버튼 ---------------------------------------------------- -->
 <div class = "btn">
 	<button type="button" id="product_buy">구매하기</button><br/><br/>
+	<%-- <input type="hidden" name="p_noList" value = "${vo.p_no }" />  form으로 보내기--%>
 	<button type="button" id="product_cart">장바구니</button><br/><br/>
 		<input type="hidden" name = "pp_size" value = "">
 </div>
@@ -167,30 +188,38 @@
 			<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
 		</sec:authorize>
 		
+		
 		<!-- <button type="button" id = "product_remove"> 삭제하기</button> -->
 	</div>
 		<form action="/brandshop/modify" method="get" id="operForm">
 	
 		</form>
-		<br/>
+
 
 <!-- ------------------------------------------ 배송 관련 ---------------------------------------------------- -->
 <div>
-	<p>배송정보</p>
-	<p>브랜드배송 무료</p>
-	<p>입점한 브랜드에서 직접 택배 배송</p>
+	<p style="margin: 8px;">배송정보</p>
+	<img style="width:40px; float:left; margin: 8px;" src="../resources/img/box.png"/>
+	<div style="float:left; font-size: 13px; font-weight: bold;"><p>브랜드배송 무료</p></div><br/>
+	<p style=" font-size: 13px;">입점한 브랜드에서 직접 택배 배송</p>
 </div>
-
+<!-- ------------------------------------------ 광고 배너---------------------------------------------------- -->
+<br/>
+<div>
+	<img style="width: 100%; height: 70px;" class = "add_img" src="../resources/img/add.jpg"/>
+</div>
 </div><!-- 상품정보 오른쪽 정렬 끝 -->
 <!-- ------------------------------------------ 중간 메뉴 ---------------------------------------------------- -->	
 <div class = "full" >
 	<br/>
 	<br/>
+	<hr/>
 		<ul class = "top-menu">
 			<li><a href = "#tag1">상품상세보기</a></li>
 			<li><a href = "#tag2">교환 및 반품</a></li>
 			<li><a href = "#">스타일</a></li>
 		</ul>
+	<hr/>
 	<br/>
 	<br/>
 	<br/>
@@ -326,6 +355,7 @@ $(function () {	// 수정페이지로 이동
 	
 	$(document).on("click",".sizebtn", function () {
 		var sizeval =  $(this).text();
+		$(".sizesee").html('<div class = "sizee" >'+ sizeval +'</div>');
 			$(document).on("click",".sizeok", function () {
 				console.log(sizeval);
 				
@@ -335,9 +365,9 @@ $(function () {	// 수정페이지로 이동
             		$(".backon").hide();
            			$("input[name='pp_size']").attr('value', sizeval);
 			
-				}/* else(sizeval == null){		// { 오류남ㅠ 왜이래 }
+				} else if(sizeval == null){	// else 는 ()안돼!!!
 					alert("사이즈 선택 후 선택완료 눌러주세요~");
-				}; */
+				}; 
 				
 			});
 
@@ -377,6 +407,36 @@ $(function () {	// 수정페이지로 이동
 	
 <!-- ------------------------------------------ 구매하기  ---------------------------------------------------- -->	
 	$("#product_buy").click(function (e) {
+		e.preventDefault();	
+		var sizeval = $("input[name='pp_size']").val()
+			if (sizeval.length == 0){
+				alert("사이즈를 선택해 주세요");
+				return;	
+			}else{
+				var confirm_val = confirm("구매하시겠습니까? 확인누르시면 구매창으로 이동합니다");
+					if(confirm_val){	
+					location.href= '/Payment/payment?p_noList=${vo.p_no}';	// p_noList 보내기,,!!!
+					
+					}
+			}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/* 	$("#product_buy").click(function (e) {
 		e.preventDefault();
 		var sizeval = $("input[name='pp_size']").val()
 		var price ='${vo.p_release_price}';
@@ -398,7 +458,7 @@ $(function () {	// 수정페이지로 이동
 			}); 
 			
 	});
-
+ */
 }); // $(function () { 끝
 
 
