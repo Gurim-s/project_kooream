@@ -106,6 +106,7 @@ public class BiddingController {
 		if(userSession != null) {
 			List<BidShopVO> bvo = service.bid_Read(userSession.getM_no()); // 회원번호 불러오기
 			List<PaymentVO> buyvo = service.buyTrade_Read(userSession.getM_no()); // 회원번호 불러오기
+			List<PaymentVO> sellvo = service.sellTrade_Read(userSession.getM_no()); // 회원번호 불러오기
 			
 			for (BidShopVO BidShopVO : bvo) {
 				int p_no = BidShopVO.getP_no();
@@ -133,6 +134,30 @@ public class BiddingController {
 			for (PaymentVO PaymentVO : buyvo) {
 				int p_no = PaymentVO.getP_no();
 				List<ProductVO> pvo = service.get_Bidinfo(p_no);
+				
+				PaymentVO.setProductvo(pvo);
+				List<AttachFileVO> attachFileList = service2.getAttachList(p_no);
+				List<String> imageUrls = new ArrayList<String>();
+				for(AttachFileVO attachFileVO: attachFileList) {
+					String uploadPath = attachFileVO.getUploadPath();
+					String uuid = attachFileVO.getUuid();
+					String fileName = attachFileVO.getFileName();
+					String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+					String fileCallPathEncoded = null;
+					try {
+						fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
+				}
+				PaymentVO.setImageUrls(imageUrls);
+			}
+			
+			for (PaymentVO PaymentVO : sellvo) {
+				int p_no = PaymentVO.getP_no();
+				List<ProductVO> pvo = service.get_Bidinfo(p_no);
+				
 				PaymentVO.setProductvo(pvo);
 				List<AttachFileVO> attachFileList = service2.getAttachList(p_no);
 				List<String> imageUrls = new ArrayList<String>();
@@ -153,6 +178,7 @@ public class BiddingController {
 			}
 			model.addAttribute("bvo", bvo);
 			model.addAttribute("buyvo", buyvo);
+			model.addAttribute("sellvo", sellvo);
 		}
 		return "/shop/myPage_bid";
 	}
@@ -164,6 +190,4 @@ public class BiddingController {
 		service.bidremove(bid_no);
 		return "redirect:/shop/myPage_bid";
 	}
-	
-	
 }

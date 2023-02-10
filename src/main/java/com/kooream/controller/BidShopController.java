@@ -142,8 +142,8 @@ public class BidShopController {
         log.info("shop_register...");
         AttachFileVO main_image = vo.getAttachList().get(0);
         vo.setUuid(main_image.getUuid());
-        vo.setFilename(main_image.getFileName());
-        vo.setUploadpath(main_image.getUploadPath());
+        vo.setFileName(main_image.getFileName());
+        vo.setUploadPath(main_image.getUploadPath());
         
         service.insertProduct(vo);
         int p_no = mapper.getPno();

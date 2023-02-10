@@ -548,7 +548,7 @@
 			console.log(form);
 			console.log(m_no_input);
 			$('.price_box2').html(m_no_input);
- 			$(form).submit();
+ 			/* $(form).submit(); */
 		}
 	});
 	

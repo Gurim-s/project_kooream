@@ -18,5 +18,6 @@ public interface BiddingService {
 	List<ProductVO> get_Bidinfo(int p_no);
 	void bidremove(int bid_no);
 	List<PaymentVO> buyTrade_Read(int m_no);
+	List<PaymentVO> sellTrade_Read(int m_no);
 	
 }
