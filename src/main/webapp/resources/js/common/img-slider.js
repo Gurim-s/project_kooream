@@ -168,6 +168,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		ul.innerHTML += '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>';
 		addIdx();
 		setLiCss();
+		setUlCss();
 		slideImg(idxContainer.childElementCount-1);
 	}
 	

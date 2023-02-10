@@ -1,7 +1,9 @@
 import {imgFileUploader} from '../common/img-file-uploader.js';
+import {productTagSelector} from '../common/product-tag-selector.js';
+
 
 $(function() {
-	var uploaderContainer = $('.uploadDiv');
+	var uploaderContainer = document.querySelector('.uploadDiv');
 	var uploader = imgFileUploader;
 	uploader.setOption({
 		uploadURL: '/uploadImageAWS/codi',
@@ -10,6 +12,21 @@ $(function() {
 	});
 	uploader.init();
 	$(uploaderContainer).append(uploader.container);
+	
+	var tagSelectorContainer = document.querySelector('.product-tag-selector');
+	var tagSelector = productTagSelector();
+	tagSelectorContainer.append(tagSelector.container);
+	
+	$('#addProductTag').on('click', function(e) {
+		e.preventDefault();
+		tagSelectorContainer.closest('.row').classList.toggle('hide-product');
+		uploaderContainer.closest('.row').classList.toggle('hide-image');
+		
+		tagSelector.slider.empty();
+		var imgList =  uploader.slider.getImgTagList();
+		tagSelector.slider.addImgTagList(imgList);
+	});
+	
 	
 	var operForm = $('#operForm');
 	var formObj = $("form[role='form']");
@@ -35,8 +52,9 @@ $(function() {
 //				str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
 //				str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
 //			});
-			
-			
+			var tagList = tagSelector.getProductTagsInput();
+			formObj.append(tagList);
+			console.log(formObj);
 			
 			 if(codi_register.codi_title.value == "" ) {
 				codi_register.codi_title.focus();
@@ -53,11 +71,11 @@ $(function() {
 		      	alert("해시태그을 입력해 주십시오.");
 		      	return false;
 			  };
-			 if(codi_register.m_no.value == "" ) {
-				codi_register.m_no.focus();
-		      	alert("상품 번호을 입력해 주십시오.");
-		      	return false;
-			  };
+//			 if(codi_register.m_no.value == "" ) {
+//				codi_register.m_no.focus();
+//		      	alert("상품 번호을 입력해 주십시오.");
+//		      	return false;
+//			  };
 			 if(codi_register.codimodel_name.value == "" ) {
 				codi_register.codimodel_name.focus();
 		      	alert("모델 명을 입력해 주십시오.");

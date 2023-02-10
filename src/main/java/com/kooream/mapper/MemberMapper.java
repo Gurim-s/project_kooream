@@ -28,9 +28,9 @@ public interface MemberMapper {
 	// 비밀번호 업데이트
 	public int updatePw(MemberVO vo);
 	// 팔로우 수 증가
-	public int updateFollowCount(int m_no, int amount);
+//	public int updateFollowCount(int m_no, int amount);
 	// 팔로잉 수 증가
-	public int updateFollowingCount(int m_no, int amount);
+//	public int updateFollowingCount(int m_no, int amount);
 	// 게시글 수 증가
-	public int updateStyleCount(int m_no, int amount);
+//	public int updateStyleCount(int m_no, int amount);
 }

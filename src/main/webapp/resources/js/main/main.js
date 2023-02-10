@@ -99,7 +99,6 @@ async function getStyleList(pageNum, amount){
 	var styleList = await styleService.getList(query);
 	console.log(styleList);
 	console.log(styleList[0].style_no);
-	console.log(styleList[1].style_content);
 	$.each(styleList, function(idx, style){
 		var card_box = $('<a href="../style/detail?category=hot&style_no='+style.style_no+'"><div></div></a>')	
 		$(card_box).attr('class','style_card'); // class 부여
@@ -111,10 +110,10 @@ async function getStyleList(pageNum, amount){
 		$(img_box).attr('class', 'style_img_box');
 		var img_tag = $('<img></img>');
 		$(img_tag).attr('class','codi_img');
-		console.log(style.style_image[0]);
-		var fileCallPath = encodeURIComponent(style.style_image[0].uploadPath+"/"
-												+ style.style_image[0].uuid + "_"
-												+ style.style_image[0].fileName);
+		console.log(style);
+		var fileCallPath = encodeURIComponent(style.uploadPath+"/s_"
+												+ style.uuid + "_"
+												+ style.fileName);
 		$(img_tag).attr('src', '/displayImage?fileName='+fileCallPath);
 		$(img_box).append(img_tag);
 		$(card_box).append(img_box);

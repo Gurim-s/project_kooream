@@ -9,9 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StyleProductTagVO {
+public class ProductTagVO {
 	int p_no, idx;
 	long style_no;
+	int codi_no;
 	String uuid, fileName;
 	String offsetX, offsetY;
 

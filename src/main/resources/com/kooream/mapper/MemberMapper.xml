@@ -130,8 +130,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set m_pw = #{m_pw} where m_id = #{m_id}
 	</update>
 	
-	<update id="increaseFollowCount">
-		update member set m_follow_count 
-	</update>
+<!-- 	<update id="increaseFollowCount"> -->
+<!-- 		update member set m_follow_count  -->
+<!-- 	</update> -->
 	
 </mapper>

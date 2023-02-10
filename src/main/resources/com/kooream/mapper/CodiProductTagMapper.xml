@@ -3,21 +3,21 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.kooream.mapper.StyleProductTagMapper">
+<mapper namespace="com.kooream.mapper.CodiProductTagMapper">
 	<select id="getTagList" resultType="com.kooream.domain.ProductTagVO">
 		select *
-		from style_product_tag
-		where style_no=#{style_no} and idx=#{idx}
+		from codi_product_tag
+		where codi_no=#{codi_no} and idx=#{idx}
 	</select>
 	
 	<select id="getPNoListByStyleNo" resultType="int">
 		select distinct p_no
-		from style_product_tag
-		where style_no=#{style}
+		from codi_product_tag
+		where codi_no=#{codi_no}
 	</select>
 	
 	<insert id="insert">
-		insert into style_product_tag
-		values (#{style_no}, #{p_no}, #{offsetX}, #{offsetY}, #{idx})
+		insert into codi_product_tag
+		values (#{codi_no}, #{p_no}, #{offsetX}, #{offsetY}, #{idx})
 	</insert>
 </mapper>

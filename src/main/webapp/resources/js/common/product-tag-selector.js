@@ -15,7 +15,7 @@ const productTagSelector = () => (function() {
 		container.append(slider.container);
 		slider.setOption({
 			ratio: 1,
-			ratioFix: true,
+			ratioFix: false,
 			tagEditMode: true,
 		});
 		container.append(openSearchBtn);
