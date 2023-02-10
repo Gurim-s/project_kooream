@@ -88,14 +88,12 @@ function list() {	// 상품이미지 보여주기
 				str += '<div class = "imgbox">'
 				// 이미지 하나만 보여주기 
 				
-				if(json[i].attachList.length > 0) {
-					var uploadPath = json[i].attachList[0].uploadPath;
-					var uuid = json[i].attachList[0].uuid;
-					var fileName = json[i].attachList[0].fileName;
-					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-					
-					str += '<img class = "p_image" style = "width : 70px; margin:10px; float: left;" src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
-				}//-------- if문 끝
+				var uploadPath = json[i].uploadPath;
+				var uuid = json[i].uuid;
+				var fileName = json[i].fileName;
+				var fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
+				
+				str += '<img class = "p_image" style = "width : 70px; margin:10px; float: left;" src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 				
 				/*브랜드명, 영문명, 사이즈, 가격  mapper.xml에서 조인해서 가지고오고, Vo에 이름 만들면 가지고 올수있음 */
 				str += '<div class="p_info" style="font-weight: bold; font-size: 15px; float:right;">'+json[i].p_name_ko+'</div><br/><br/>';

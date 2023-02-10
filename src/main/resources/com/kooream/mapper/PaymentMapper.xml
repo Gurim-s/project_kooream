@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </insert>
 <select id="paymentList" resultType="com.kooream.domain.PaymentVO">
 	select 
-    pro.p_name_ko,
+    pro.p_name_ko, pro.uuid, pro.filename, pro.uploadpath,
     p.*
     from product pro, payment p
     where pro.p_no = p.p_no and p.m_no = #{m_no}

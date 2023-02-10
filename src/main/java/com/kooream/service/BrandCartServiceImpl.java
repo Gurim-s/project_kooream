@@ -46,13 +46,13 @@ public class BrandCartServiceImpl implements BrandCartService{
 		List<BrandCartVO> list = cartmapper.brandCartList(m_no);
 		
 		
-		for (BrandCartVO vo : list) {
-			List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
-		//	int productList = mapper.getPno();
-			vo.setAttachList(attach);
-			//vo.setProductList(productList);;
-			
-		}
+		/*
+		 * for (BrandCartVO vo : list) { List<AttachFileVO> attach =
+		 * uploadmapper.findByPno(vo.getP_no()); // int productList = mapper.getPno();
+		 * vo.setAttachList(attach); //vo.setProductList(productList);;
+		 * 
+		 * }
+		 */
 
 		return list;
 	}
