@@ -71,7 +71,7 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span id="head">정품판별</span>
+		<span id="head"><strong>정품판별</strong></span>
 		
 		<sec:authorize access="isAuthenticated()">
 		<button>글쓰기</button>

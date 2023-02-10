@@ -15,8 +15,11 @@
 		height: 500px;
 		width: 130px;
 	}
+	#main{
+		margin-left: 150px;
+	}
 	span{
-		font-size: 30px;
+		font-size: 25px;
 	}
 	#btn{
 	text-align: center;
@@ -46,7 +49,7 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>정품판별</span>
+		<span><strong>정품판별</strong></span>
 	</div>
 	<br/>
 	<hr/>

@@ -32,10 +32,15 @@
 	<form action="/community/oriUpdate" method="post" id="form">
 		<div>
 			<div>${vo.oriname }</div>
+			<div style="height: 20px;"></div>
 			<div><input type="text" name="orititle" value="${vo.orititle }"></div>
+			<div style="height: 20px;"></div>
 			<div><small>*이미지 파일은 제품에 대한 정품 판별 의견 때문에 수정 불가합니다.</small></div>
+			<div style="height: 20px;"></div>
 			<div>${vo.brandname }</div>
+			<div style="height: 20px;"></div>
 			<div><small>*브랜드 수정은 제품에 대한 정품 판별 의견 때문에 수정 불가합니다.</small></div>
+			<div style="height: 20px;"></div>
 			<div></div>
 			<div><textarea rows="15" cols="150%" style="resize: none" name="oricon">${vo.oricon }</textarea></div>
 			<div>

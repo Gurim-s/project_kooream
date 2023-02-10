@@ -15,8 +15,8 @@
 		height: 500px;
 		width: 130px;
 	}
-	span{
-		font-size: 30px;
+	#head{
+		font-size: 25px;
 	}
 	#main{
 		margin-left: 130px;
@@ -47,7 +47,7 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>구림톡</span>
+		<span id="head"><strong>구림톡</strong></span>
 	</div>
 	<br/>
 	<div id="main">

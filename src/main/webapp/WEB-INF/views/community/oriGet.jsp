@@ -88,7 +88,7 @@
 	</div>
 	<div class="main_content clearfix">
 		<div>
-			<span id="head">정품판별</span>
+			<span id="head"><strong>정품판별</strong></span>
 			<button data-oper="oriList">목록</button>
 			<sec:authorize access="isAuthenticated()">
 			<sec:authentication property="principal.member" var="mvo"/>
