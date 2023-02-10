@@ -24,7 +24,7 @@ public class StyleVO {
 	private MemberVO writer;
 	private ImageFileVO profile_image, main_image;
 	private List<ImageFileVO> style_image;
-	private List<List<StyleProductTagVO>> productTagList;
+	private List<List<ProductTagVO>> productTagList;
 	private List<String> hashtags;
 	private List<ProductVO> productList;
 } 

@@ -12,7 +12,7 @@ import com.kooream.domain.HashtagVO;
 import com.kooream.domain.ImageFileVO;
 import com.kooream.domain.MemberVO;
 import com.kooream.domain.ProductVO;
-import com.kooream.domain.StyleProductTagVO;
+import com.kooream.domain.ProductTagVO;
 import com.kooream.domain.StyleImageVO;
 import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleTagVO;
@@ -123,13 +123,13 @@ public class StyleServiceImpl implements StyleService{
 	public StyleVO get(long style_no) {
 		StyleVO style = mapper.get(style_no);
 		List<ImageFileVO> images = imageMapper.getImagesByStyle_no(style_no);
-		List<List<StyleProductTagVO>> productTagList = new ArrayList<List<StyleProductTagVO>>();
+		List<List<ProductTagVO>> productTagList = new ArrayList<List<ProductTagVO>>();
 		for (int i=0; i<images.size(); i++) {
-			StyleProductTagVO vo = new StyleProductTagVO();
+			ProductTagVO vo = new ProductTagVO();
 			vo.setStyle_no(style_no);
 			vo.setIdx(i);
 			
-			List<StyleProductTagVO> tagList = productTagMapper.getTagList(vo);
+			List<ProductTagVO> tagList = productTagMapper.getTagList(vo);
 			productTagList.add(tagList);
 		}
 		
@@ -177,8 +177,8 @@ public class StyleServiceImpl implements StyleService{
 				imageMapper.insert(image);
 				
 				if (vo.getProductTagList() != null && vo.getProductTagList().size() > i) {
-					List<StyleProductTagVO> productTagList = vo.getProductTagList().get(i);
-					for (StyleProductTagVO productTag : productTagList) {
+					List<ProductTagVO> productTagList = vo.getProductTagList().get(i);
+					for (ProductTagVO productTag : productTagList) {
 						productTag.setStyle_no(style_no);
 						productTag.setIdx(i);
 						productTagMapper.insert(productTag);
@@ -202,7 +202,7 @@ public class StyleServiceImpl implements StyleService{
 			}
 		}
 		
-		memberMapper.updateStyleCount(vo.getM_no(), 1);
+//		memberMapper.updateStyleCount(vo.getM_no(), 1);
 	}
 	
 	@Override
@@ -215,7 +215,7 @@ public class StyleServiceImpl implements StyleService{
 		if (styleTagMapper.getCountTags(style_no) > 0) {
 			styleTagMapper.deleteByStyleNo(style_no);
 		}
-		memberMapper.updateStyleCount(m_no, -1);
+//		memberMapper.updateStyleCount(m_no, -1);
 		return mapper.delete(style_no) == 1;
 	}
 	

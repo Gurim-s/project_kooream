@@ -11,9 +11,11 @@ import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Codi_itemVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.ProductTagVO;
 import com.kooream.domain.SearchCriteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
+import com.kooream.mapper.CodiProductTagMapper;
 import com.kooream.mapper.Codi_TagMapper;
 import com.kooream.mapper.Codi_itemMapper;
 
@@ -36,6 +38,10 @@ public class CodiServiceImpl implements CodiService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private Codi_itemMapper itemmapper;
+
+	@Setter(onMethod_ = @Autowired)
+	private CodiProductTagMapper productTagMapper;
+	
 	
 	
 	@Override
@@ -83,9 +89,19 @@ public class CodiServiceImpl implements CodiService{
 		System.out.println("codi_noooooooooooooooooooooooooooooooooo" + codi_no);
 		
 		if(vo.getAttachList() != null && vo.getAttachList().size() >0) {
-			for(CodiImageVO vo2 : vo.getAttachList()) {
-				vo2.setCodi_no(codi_no);
-				attachmapper.insert(vo2);
+			List<CodiImageVO> imageList = vo.getAttachList();
+			for(int i=0; i < imageList.size() ; i++) {
+				imageList.get(i).setCodi_no(codi_no);
+				attachmapper.insert(imageList.get(i));
+				
+				if (vo.getProductTagList() != null && vo.getProductTagList().size() > i) {
+					List<ProductTagVO> productTagList = vo.getProductTagList().get(i);
+					for (ProductTagVO productTag : productTagList) {
+						productTag.setCodi_no(codi_no);
+						productTag.setIdx(i);
+						productTagMapper.insert(productTag);
+					}
+				}
 			}
 		}
 		if(vo.getCodiTagList() != null && vo.getCodiTagList().size() >0) {
@@ -93,7 +109,6 @@ public class CodiServiceImpl implements CodiService{
 				vo3.setCodi_no(codi_no);
 				tagmapper.insert(vo3);
 			}
-			
 		}
 		
 		

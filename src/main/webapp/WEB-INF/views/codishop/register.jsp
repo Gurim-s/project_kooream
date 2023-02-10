@@ -27,15 +27,7 @@
 					
 					<input type="text" class="tag" id="tag" placeholder="엔터로 해시태그를 등록해주세요.">
 				</div>
-				<div class="row tagResult">
-            		<ul id="tag-list">
-            		</ul>
-				</div>
 				
-				<div class="row">
-					<span class="title_content">상품태그</span>
-					<input type="text" name="m_no" id="textForm"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="상품 번호 입력">
-				</div>
 				
 				<div class="row">
 					<span class="title_content">모델정보</span>
@@ -50,15 +42,27 @@
 				</div>
 				<div class="row">
 					<div><span class="title_content">사진 등록</span></div>
-				 <div class="panel-body">
-		            <div class="form-group uploadDiv">
-<!-- 		               <input type="file" id="uploadFile" name="uploadFile" multiple="multiple"> -->
-		            </div>
-		            <div class="uploadResult">
-		               <ul></ul>
-		            </div>
-			         </div>
+					 <div class="panel-body">
+			            <div class="form-group uploadDiv">
+	<!-- 		               <input type="file" id="uploadFile" name="uploadFile" multiple="multiple"> -->
+			            </div>
+			            <div class="uploadResult">
+			               <ul></ul>
+						</div>
+					</div>
 				</div>	<!-- row.... end -->
+				<div><button id="addProductTag">상품태그 추가하기</button></div>
+				<div class="row hide-product">
+					<div><span class="title_content">상품태그</span></div>
+					<div style="width: 420px;">
+						<div class="product-tag-selector"></div>
+					</div>
+				</div>
+				<div class="row tagResult">
+            		<ul id="tag-list">
+            		</ul>
+				</div>
+				
 			</div> <!--  insert_codi.... end -->
 			<hr/>
 			<br/><br/><br/>
@@ -80,6 +84,12 @@
 </script>
 
 <style>
+div.row.hide-product {
+	display: none;
+}
+div.row.hide-image {
+	display: none;
+}
 /* 이미지 업로드 테스트 */
 #att_zone{
 	width: 505px;

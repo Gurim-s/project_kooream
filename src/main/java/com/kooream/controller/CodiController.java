@@ -30,6 +30,7 @@ import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Codi_itemVO;
 import com.kooream.domain.Criteria;
 import com.kooream.domain.PageDTO;
+import com.kooream.domain.ProductTagVO;
 import com.kooream.domain.SearchCriteria;
 import com.kooream.service.CodiService;
 
@@ -81,13 +82,11 @@ public class CodiController {
 
 		List<CodiImageVO> list = vo.getAttachList();
 		List<Codi_TagVO> tagList = vo.getCodiTagList();
-
+		List<List<ProductTagVO>> productTagList = vo.getProductTagList();
 		System.out.println("Hello");
 		System.out.println(list.size());
 		System.out.println("World");
 		System.out.println(tagList.size()); 
-		
-		
 		
 		for(int i=0; i<vo.getCodiTagList().size(); i++ ) {
 		  
@@ -105,12 +104,11 @@ public class CodiController {
 		}
 		
 		if(list != null && list.size()>0) {
-			for(CodiImageVO vo2 : list) {
-				log.info("::::::::::::::::::filename"+ vo2.getFileName());
-				log.info("::::::::::::::::::getUploadPath"+ vo2.getUploadPath());
-				log.info("::::::::::::::::::getUuid"+ vo2.getUuid());
+			for(int i = 0; i<list.size(); i++) {
+				log.info("::::::::::::::::::filename"+ list.get(i).getFileName());
+				log.info("::::::::::::::::::getUploadPath"+ list.get(i).getUploadPath());
+				log.info("::::::::::::::::::getUuid"+ list.get(i).getUuid());
 			}
-			
 		}
 		rttr.addFlashAttribute("result", "ok");
 
