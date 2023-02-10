@@ -306,7 +306,6 @@ var imgFileUploader = (function() {
 		container: container,
 		getEditedFiles: getEditedFiles,
 		uploadImageAjax: uploadImageAjax,
-		uploadCropedImageAjax: uploadCropedImageAjax,
 		countFiles: countFiles,
 		setURL: setURL,
 		setRatio: setRatio,

@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kooream.domain.Criteria;
+import com.kooream.domain.ImageFileVO;
 import com.kooream.domain.MemberVO;
-import com.kooream.domain.StyleImageVO;
 import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleVO;
+import com.kooream.security.UserSession;
 import com.kooream.service.StyleService;
 
 import lombok.AllArgsConstructor;
@@ -48,6 +48,15 @@ public class StyleController {
 	@PostMapping(value = "/list",
 			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
 			consumes = "application/json")
+	public ResponseEntity<List<StyleVO>> list(@RequestBody StyleQuery query) {
+		List<StyleVO> list = service.getList(query);
+		
+		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/list/slow",
+			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
+			consumes = "application/json")
 	public ResponseEntity<List<StyleVO>> listHot(@RequestBody StyleQuery query) {
 		List<StyleVO> list = service.getList(query);
 		
@@ -67,6 +76,12 @@ public class StyleController {
 		model.addAttribute("category", category);
 		model.addAttribute("style_no", style_no);
 		return "/style/detail";
+	}
+	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	@GetMapping("/reply/login")
+	public String backToList() {
+		return "/style/list";
 	}
 	
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
@@ -102,11 +117,16 @@ public class StyleController {
 	@GetMapping("/remove")
 	@Transactional
 	public String delete(@RequestParam("style_no") long style_no, RedirectAttributes rttr) {
+		MemberVO userSession = new UserSession().getSession();
+		int m_no = 0;
+		if (userSession != null) {
+			m_no = userSession.getM_no();
+		}
+			
 		log.info("remove....." + style_no);
+		List<ImageFileVO> imageList = service.getImageList(style_no);
 		
-		List<StyleImageVO> imageList = service.getImageList(style_no);
-		
-		if (service.remove(style_no)) {
+		if (service.remove(style_no, m_no)) {
 			deleteImages(imageList);
 			
 			rttr.addFlashAttribute("result", "success");
@@ -115,7 +135,7 @@ public class StyleController {
 		return "redirect:/style/list";
 	}
 	
-	private void deleteImages(List<StyleImageVO> imageList) {
+	private void deleteImages(List<ImageFileVO> imageList) {
 		if (imageList == null || imageList.size() == 0) return ;
 		log.info("delete image files........");
 		

@@ -54,14 +54,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	@Transactional
 	public int successModify(MemberVO vo) {
-		ImageFileVO image = vo.getProfileImage();
-		int m_no = vo.getM_no();
-		
-		image.setM_no(m_no);
-		imageMapper.delete(m_no);
-		imageMapper.insert(image);
 		return mapper.successModify(vo);
 	}
 
@@ -73,9 +66,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberVO getMemberInfoByMno(int m_no) {
 		MemberVO member = mapper.getMemberInfoByMno(m_no);
-		ImageFileVO profile = imageMapper.getProfile(m_no);
 		
-		member.setProfileImage(profile);
 		return member;
 	}
 

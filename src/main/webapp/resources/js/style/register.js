@@ -136,8 +136,7 @@ async function regist(e) {
 
 function extractHashTag(text) {
 	const type = /#[^\s^#]+/g;
-	const strToInput = (str, i) =>
-		'<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
+	const strToInput = (str, i) => '<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
 	const list = text.match(type);
 	if (list == null) return text;
 	

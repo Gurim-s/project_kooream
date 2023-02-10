@@ -2,6 +2,11 @@ import {replyService} from '../service/reply-service.js';
 import {showTime} from '../common/common.js';
 
 const replyViewer = (x) => (function(x) {
+	//header.jsp에 있는 로그인 유저 정보
+	const pri_m_no = document.querySelector('header input[name="pri_m_no"]').value;
+	const profile_img_src = document.querySelector('input[name="pri_m_profile_img_src"]').value;
+	//----
+	
 	const style_no = x;
 	let option = {
 		input: false,
@@ -57,7 +62,7 @@ const replyViewer = (x) => (function(x) {
 //		/*로그인 기능 추가 후에 수정*/
 		item.innerHTML = (
 			'<div class="profile-img">'+
-				'<img src="/resources/img/codi_test.png" />' +
+				'<img src="'+profile_img_src+'" />' +
 			'</div>' +
 			'<div class="input-reply">' +
 				'<input type="text" name="content" autocomplete="off" value="">' +
@@ -110,7 +115,7 @@ const replyViewer = (x) => (function(x) {
 			const nested_from = container.querySelector('.input-reply input[name="nested_from"]');
 			const reply = {
 				style_no: style_no,
-				mno: 11,
+				mno: pri_m_no,
 				content: content.value,
 				nested_from: nested_from.value,
 			};

@@ -41,6 +41,11 @@
 		</c:if>
 		<c:if test="${pri ne 'anonymousUser' }">
 			<c:set var="mno" value="${pri.member.m_no }"/>
+			<c:set var="mno" value="${pri.member.m_nickname }"/>
+			<c:url value="/displayImage" var="profileImgSrc"><!-- c:url 자동 인코딩  -->
+				<c:param name="fileName" value="${pri.member.uploadPath }/${pri.member.uuid }_${pri.member.fileName }"></c:param>
+			</c:url>
+			<input type="hidden" name="pri_m_profile_img_src" value="${profileImgSrc }"/>
 		</c:if>
 		<input type="hidden" name="pri_m_no" value="${mno }"/>		
 		<div class="header-top">

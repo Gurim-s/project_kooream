@@ -5,9 +5,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.kooream.mapper.StyleReplyMapper">
 	<select id="getList" resultType="com.kooream.domain.StyleReplyVO">
-		select *
-		from style_reply
-		where style_no=#{style_no}
+		<![CDATA[
+			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
+				style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
+			from (select /*+index_desc(style style_pk) */
+					  rownum rn, m.m_no m_no, m_nickname m_nickname, m.uuid m_uuid, m.uploadpath m_uploadpath, m.filename m_filename,
+					  style_no, style_regdate, style_content, count_like, count_reply, s.uuid s_uuid, s.uploadpath s_uploadpath, s.filename s_filename, count_image
+				  from member m inner join style s on m.m_no = s.m_no
+      			  where rownum <= #{pageNum} * #{amount})
+			where rn > (1 - #{pageNum}) * #{amount}
+		]]>
 	</select>
 	
 	<select id="get" resultType="com.kooream.domain.StyleReplyVO">

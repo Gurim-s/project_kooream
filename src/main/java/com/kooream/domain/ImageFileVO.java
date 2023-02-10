@@ -12,4 +12,6 @@ import lombok.Setter;
 public class ImageFileVO {
 	private String uuid, fileName, uploadPath;
 	private int m_no;
+	
+	private long style_no;
 }

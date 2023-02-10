@@ -179,7 +179,10 @@
 			<tr>
 				<td class="td-img" colspan="2">
 					<div class="profile-img">
-						<img alt="profile-img" src="<c:url value='/resources/img/non_profile.svg'/>">
+						<c:url value="/displayImage" var="imgSrc"><!-- c:url 자동 인코딩  -->
+							<c:param name="fileName" value="${pri.uploadPath }/${pri.uuid }_${pri.fileName }"></c:param>
+						</c:url>
+						<img alt="profile-img" src="${imgSrc }">
 					</div>
 				</td>
 			</tr>
@@ -441,9 +444,9 @@
 							dataType: 'json',
 							success: function(result) {
 								inputFile.remove();
-								var str = '<input type="hidden" name="profileImage.fileName" value="'+result[0].fileName+'" >'
-										+ '<input type="hidden" name="profileImage.uuid" value="'+result[0].uuid+'" >'
-										+ '<input type="hidden" name="profileImage.uploadPath" value="'+result[0].uploadPath+'" >';
+								var str = '<input type="hidden" name="fileName" value="'+result[0].fileName+'" >'
+										+ '<input type="hidden" name="uuid" value="'+result[0].uuid+'" >'
+										+ '<input type="hidden" name="uploadPath" value="'+result[0].uploadPath+'" >';
 								$("#modifyForm").append(str);
 								$("#modifyForm").attr("action", "/member/successModify");
 								$("#modifyForm").submit();
@@ -474,17 +477,17 @@
 		});
 			
 	}); // onload end----------------------------------------------------------------------------------
-	// 프로필 사진 불러오기----------------------------------
-	$.ajax({
-		url:'/member/${pri.m_no}',
-		dataType: 'json',
-		success: function(result) {
-			var fileName = result.profileImage.fileName;
-			var uuid = result.profileImage.uuid;
-			var uploadPath = result.profileImage.uploadPath;
-			$('.profile-img img').attr('src', encodeURI('/displayImage?fileName='+uploadPath+"/"+uuid+"_"+fileName));
-		}
-	});
+// 	// 프로필 사진 불러오기----------------------------------
+// 	$.ajax({
+// 		url:'/member/${pri.m_no}',
+// 		dataType: 'json',
+// 		success: function(result) {
+// 			var fileName = result.profileImage.fileName;
+// 			var uuid = result.profileImage.uuid;
+// 			var uploadPath = result.profileImage.uploadPath;
+// 			$('.profile-img img').attr('src', encodeURI('/displayImage?fileName='+uploadPath+"/"+uuid+"_"+fileName));
+// 		}
+// 	});
 	
 	
 	// 전화번호 조건문--------------------------------------

@@ -116,7 +116,7 @@
 .card .img-container img{
 	width: 100%;
 	border-radius: 10px;
-	position: absolute;
+/* 	position: absolute; */
 }
 .card .count-img {
 	position: absolute;

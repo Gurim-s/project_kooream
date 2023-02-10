@@ -105,6 +105,7 @@ async function loadMemberDetailInfo() {
 
 async function getList(query) {
 	const styleList = await styleService.getList(query);
+	console.log(styleList);
 	styleList.forEach((style, i) => {
 		view.column[i%4].append(item(style));
 	});
@@ -120,11 +121,14 @@ function item(style) {
 	template.innerHTML =(
 		'<div class="card">' +
 			'<div class="img-container">' +
+				'<img src="'+imgService.thumbnailPath(style.main_image)+'" />'+
 			'</div>' +
 			'<div class="info">' +
 				'<div class="user_info">' +
-					'<div class="profile"></div>' +
-					'<div class="user_id">김씨</div>'+
+					'<div class="profile">'+
+						'<img src="'+imgService.thumbnailPath(style.profile_image)+'" />'+
+					'</div>' +
+					'<div class="user_id">'+style.m_nickname+'</div>'+
 				'</div>' +
 				'<div class="social_info">' +
 					'<div class="like">' +
@@ -142,21 +146,13 @@ function item(style) {
 		'</div>'
 	);
 	
-	const imgEl = imgService.getImageEl(style.style_image[0]);
 	const imgContainer = template.querySelector('.img-container');
-	
-	imgContainer.append(imgEl);
-	imgContainer.style.paddingTop = (100 * style.ratio) + '%' ;
-	imgEl.style.top = imgEl.dataset.offsetY;
-	imgEl.style.left = imgEl.dataset.offsetX;
-	
-	const profileImg = imgService.getImageEl(style.profile_image);
-	template.querySelector('.profile').append(profileImg);
+//	imgContainer.style.paddingTop = (100 * style.ratio) + '%' ;
 	
 	const countImg = document.createElement('div');
 	countImg.className = 'count-img';
-	if (style.style_image.length != 1) {
-		countImg.innerHTML = style.style_image.length + '+';
+	if (style.count_image != 1) {
+		countImg.innerHTML = style.count_image + '+';
 		imgContainer.append(countImg);
 	}
 	

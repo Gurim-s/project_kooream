@@ -96,6 +96,11 @@ var template = function(style) {
 	template.querySelector('.reply-summary')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
+		if(pri_m_no === 'anonymousUser') {
+			location.href = '/style/reply/login';
+			return;
+		}
+		
 		const style_no = e.target.closest('.item').dataset.styleNo;
 		const m = modal();
 		m.open({title: '댓글', type: 'right'});
@@ -135,7 +140,7 @@ async function setProductTags(list, productContainer, slider) {
 	productList.forEach(x => {
 		slider.addProductTag(x.product, x.offsetX, x.offsetY, x.idx);
 	});
-	console.log(productList);
+
 	productList.forEach(x => {
 		productContainer.append(productTagTemplate(x));
 	});

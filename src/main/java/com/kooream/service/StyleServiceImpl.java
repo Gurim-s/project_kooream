@@ -42,10 +42,48 @@ public class StyleServiceImpl implements StyleService{
 	private MemberImageMapper memberImageMapper;
 	private HashtagMapper hashtagMapper;
 	private StyleProductTagMapper productTagMapper;
-	private BidShopMapper productMapper;
 	
 	@Override
 	public List<StyleVO> getList(StyleQuery query) {
+		List<StyleVO> list = new ArrayList<StyleVO>(); 
+		
+		switch(query.getCategory()) {
+		case "hot":
+			list = mapper.getHotList(query);
+			break;
+		case "recent":
+			list = mapper.getRecentList(query);
+			break;
+		case "follow":
+			list = mapper.getFollowList(query);
+			break;
+		case "tag":
+			list = mapper.getTagList(query);
+			break;
+		case "product":
+			list = mapper.getProductList(query);
+			break;
+		case "member":
+			list = mapper.getMemberList(query);
+		}
+
+		for (StyleVO style : list) {
+			ImageFileVO profile_image = new ImageFileVO();
+			profile_image.setUploadPath(style.getM_uploadpath());
+			profile_image.setFileName(style.getM_filename());
+			profile_image.setUuid(style.getM_uuid());
+			style.setProfile_image(profile_image);
+			
+			ImageFileVO main_image = new ImageFileVO();
+			main_image.setFileName(style.getFilename());
+			main_image.setUuid(style.getUuid());
+			main_image.setUploadPath(style.getUploadpath());
+			style.setMain_image(main_image);
+		}
+		return list;
+	}
+	
+	public List<StyleVO> getListSlow(StyleQuery query) {
 		List<StyleVO> list = mapper.getList(query); 
 		switch(query.getCategory()) {
 		case "hot":
@@ -70,7 +108,7 @@ public class StyleServiceImpl implements StyleService{
 		for (StyleVO style : list) {
 			long style_no = style.getStyle_no();
 			int m_no = style.getM_no();
-			List<StyleImageVO> images = imageMapper.getImagesByStyle_no(style_no);
+			List<ImageFileVO> images = imageMapper.getImagesByStyle_no(style_no);
 			MemberVO writer = memberMapper.getMemberInfoByMno(m_no);
 			ImageFileVO profileImage = memberImageMapper.getProfile(m_no);
 			
@@ -84,7 +122,7 @@ public class StyleServiceImpl implements StyleService{
 	@Override
 	public StyleVO get(long style_no) {
 		StyleVO style = mapper.get(style_no);
-		List<StyleImageVO> images = imageMapper.getImagesByStyle_no(style_no);
+		List<ImageFileVO> images = imageMapper.getImagesByStyle_no(style_no);
 		List<List<StyleProductTagVO>> productTagList = new ArrayList<List<StyleProductTagVO>>();
 		for (int i=0; i<images.size(); i++) {
 			StyleProductTagVO vo = new StyleProductTagVO();
@@ -96,8 +134,8 @@ public class StyleServiceImpl implements StyleService{
 		}
 		
 		MemberVO writer = memberMapper.getMemberInfoByMno(style.getM_no());
-		ImageFileVO profile = memberImageMapper.getProfile(style.getM_no());
-		writer.setProfileImage(profile);
+//		ImageFileVO profile = memberImageMapper.getProfile(style.getM_no());
+//		writer.setProfileImage(profile);
 		style.setWriter(writer);
 //		List<Integer> pnoList = productTagMapper.getPNoListByStyleNo(style_no);
 //		List<ProductVO> productList = new ArrayList<>(); 
@@ -114,19 +152,27 @@ public class StyleServiceImpl implements StyleService{
 	}
 	
 	@Override
-	public List<StyleImageVO> getImageList(long style_no) {
+	public List<ImageFileVO> getImageList(long style_no) {
 		return imageMapper.getImagesByStyle_no(style_no);
 	}
 	
 	@Override
 	@Transactional
 	public void register(StyleVO vo) {
-		mapper.insert(vo);		
+		List<ImageFileVO> imageList = vo.getStyle_image();
+
+		ImageFileVO mainImage = imageList.get(0);
+		vo.setFilename(mainImage.getFileName());
+		vo.setUuid(mainImage.getUuid());
+		vo.setUploadpath(mainImage.getUploadPath());
+		vo.setCount_image(imageList.size());
+		mapper.insert(vo);
+		
 		long style_no = mapper.getStyle_no();
-		List<StyleImageVO> imageList = vo.getStyle_image(); 
 		if (imageList != null && imageList.size() != 0) {
 			for (int i=0; i<imageList.size(); i++) {
-				StyleImageVO image = imageList.get(i);
+				
+				ImageFileVO image = imageList.get(i);
 				image.setStyle_no(style_no);
 				imageMapper.insert(image);
 				
@@ -141,7 +187,6 @@ public class StyleServiceImpl implements StyleService{
 			}
 		}
 		
-//		피드백
 		if (vo.getHashtags() != null) {
 			for (String hashtag : vo.getHashtags()) {
 				long tag_no = hashtagMapper.getTagNo(hashtag);
@@ -156,11 +201,13 @@ public class StyleServiceImpl implements StyleService{
 				styleTagMapper.insert(styleTag);
 			}
 		}
+		
+		memberMapper.updateStyleCount(vo.getM_no(), 1);
 	}
 	
 	@Override
 	@Transactional
-	public boolean remove(long style_no) {
+	public boolean remove(long style_no, int m_no) {
 		if (mapper.getCountReply(style_no) > 0) {
 			replyMapper.deleteByStyleNo(style_no);
 		}
@@ -168,6 +215,7 @@ public class StyleServiceImpl implements StyleService{
 		if (styleTagMapper.getCountTags(style_no) > 0) {
 			styleTagMapper.deleteByStyleNo(style_no);
 		}
+		memberMapper.updateStyleCount(m_no, -1);
 		return mapper.delete(style_no) == 1;
 	}
 	
