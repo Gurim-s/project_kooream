@@ -24,4 +24,16 @@ public interface BidShopService {
 	public List<AttachFileVO> getAttachList(int p_no);
 
 	public List<BidShopVO> sizeRead(int p_no);
+
+	public BidShopVO sizeSelect(BidShopVO vo2);
+
+	public List<BidShopVO> buysizeRead(int p_no);
+
+	public BidShopVO buysizeSelect(BidShopVO bid);
+
+	public void bidremove(int p_no);
+
+	public List<ProductVO> select_cate(ProductVO category);
+	
+	public BidShopVO get_mno(BidShopVO bid);
 }

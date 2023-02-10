@@ -11,8 +11,9 @@ import com.kooream.mapper.BrandProductUploadMapper;
 import com.kooream.mapper.SizeMapper;
 
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
-
+@Log4j
 @Service
   public class SizeServiceImpl implements SizeService{
 	
@@ -27,8 +28,12 @@ import lombok.Setter;
 	}
 
 
-
-  
+	@Override
+	public void sizeremove(int p_no) {
+		log.info("remove..." + p_no);
+		mapper.sizeremove(p_no);
+		
+	}
   
   }
  

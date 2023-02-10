@@ -103,9 +103,9 @@
 		<li class = "menu">
 			<p>카테고리</p>
 				<ul class = "sub">
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_clothes">  의류</li>
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_shoes">  신발</li>
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_acc">  패션잡화</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_clothes">  의류</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_shoes">  신발</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_acc">  패션잡화</li>
 				</ul>
 		</li>
 		

@@ -18,4 +18,7 @@ public interface BidShopMapper {
 	public int getPno();
 	public List<BidShopVO> sizeread(int p_no);
 	public List<ProductVO> searchProductTag(SearchKeyword keyword);
+	public List<BidShopVO> buysizeread(int p_no);
+	public void bidremove(int p_no);
+	public List<ProductVO> select_cate(ProductVO category);
 }
