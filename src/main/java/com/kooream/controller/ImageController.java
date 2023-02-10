@@ -47,10 +47,12 @@ public class ImageController {
 		//make folder
 		String uploadFolderPath = getFoler(folderName);
 		
-		for (MultipartFile image : uploadFile) {
+		for (int i=0; i<uploadFile.length; i++) {
+			MultipartFile image = uploadFile[i];
 			log.info("--------------------------");
 			log.info("upload File Name : " + image.getOriginalFilename());
 			log.info("upload File Size : " + image.getSize());
+			
 			StyleImageVO imageVO = new StyleImageVO();
 			
 			String uploadFileName = image.getOriginalFilename();
@@ -65,6 +67,30 @@ public class ImageController {
 			try {
 				String s3Path = uploadFolderPath + "/"+ uploadFileName;
 				s3Service.uploadAWS(image, s3Path);
+				
+				String thumbs3Path = "";
+				if (i == 0) {
+					switch (folderName) {
+					case "style":
+						thumbs3Path = uploadFolderPath + "/s_" + uploadFileName;
+						s3Service.uploadThumbFile(image, thumbs3Path, 280, 350);
+						break;
+					case "product":
+						thumbs3Path = uploadFolderPath + "/s_" + uploadFileName;
+						s3Service.uploadThumbFile(image, thumbs3Path, 220, 220);
+						
+						thumbs3Path = uploadFolderPath + "/xs_" + uploadFileName;
+						s3Service.uploadThumbFile(image, thumbs3Path, 100, 100);
+						
+						thumbs3Path = uploadFolderPath + "/xxs_" + uploadFileName;
+						s3Service.uploadThumbFile(image, thumbs3Path, 40, 40);
+						break;
+					case "member":
+						thumbs3Path = uploadFolderPath + "/s_" + uploadFileName;
+						s3Service.uploadThumbFile(image, thumbs3Path, 40, 40);
+						break;
+					}
+				}
 				
 				imageVO.setUuid(uuid.toString());
 				imageVO.setUploadPath(uploadFolderPath);

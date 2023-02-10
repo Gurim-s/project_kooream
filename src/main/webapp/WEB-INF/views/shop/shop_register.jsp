@@ -128,6 +128,7 @@
 			</tr>
 			<tr>
 				<td class="Brand_name"></td>
+				<td class="Brand_name2"></td>
 			</tr>
 			<tr>
 				<td class="register_button">
@@ -377,13 +378,14 @@
 	function ChangeValue() {
 		var target = document.getElementById("brand_select");
 		var brand = target.options[target.selectedIndex].text;
-		var a = '<input type="hidden" name ="p_brand" value="'+ brand +'">';
+		var brando = '<input type="hidden" name ="p_brand" value="'+ brand +'">';
 		
 // 		var test = $('<input/>'); // 인풋 태그 생성;
 // 		$(test).val(brand);
 		
 		console.log(brand);
-		$('.Brand_name').html(a);
+		console.log($('.Brand_name2').html(brando));
+		$('.Brand_name2').html(brando);
 	}
  	
 	function ChangeValue2() {

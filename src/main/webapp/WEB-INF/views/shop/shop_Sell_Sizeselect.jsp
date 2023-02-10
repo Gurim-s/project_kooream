@@ -84,10 +84,11 @@
 	}
 	
 	.size_price{
-		color: #f15746;
+		color: #28ab66;
 		margin-top: 1px;
     	font-size: 12px;
     	text-align: center;
+    	font-weight: bold;
 	}
 	
 	.badge_logo{
@@ -133,6 +134,7 @@
 		position: relative;
 		width: 100%;
 		height : 64px;
+		cursor:pointer;
 	}
 	
 	.buy_price{
@@ -151,38 +153,12 @@
 	.buy_badge{
 		font-size: 13px;
 	}
-	.select {
-    padding: 15px 10px;
-}
-
-.select input[type=radio]{
-    display: none;
-}
-.select input[type=radio]+label{
-    display: inline-block;
-    cursor: pointer;
-    height: 24px;
-    width: 90px;
-    border: 1px solid #333;
-    line-height: 24px;
-    text-align: center;
-    font-weight:bold;
-    font-size:13px;
-}
-.select input[type=radio]+label{
-    background-color: #fff;
-    color: #333;
-}
-.select input[type=radio]:checked+label{
-    background-color: #333;
-    color: #fff;
-}
 	
 </style>
 
 
 <div class="content_area">
-	<form name="size_select" method="get" id="size_select">
+	<form name="size_select" method="post" id="size_select">
 		<div class="buy_before">
 			<div class="product_info">
 				<div class="infobox">
@@ -208,16 +184,9 @@
 						<div class="size_price">
 							${vo2.bid_sell }
 						</div>
-						<input type="hidden" id="p_no" value="${vo.p_no }">
+						<input type="hidden" name="p_no" value="${vo.p_no }">
 					</div>
 				</c:forEach>
-	<!-- 				<div class="select_box">
-						<div class="size_product">
-							255
-						</div>
-						<div class="size_price">
-							30000
-						</div> -->
 					</div>
 				</div>
 				
@@ -225,8 +194,8 @@
 			<div class="bid_or_buy">
 				<div class="buy_box">
 					<div class="btn_box">
-						<div class="buy_price">999,000</div>
-						<div class="buy_badge">일반 배송</div>
+						<!-- <div class="buy_price">999,000</div> -->
+						<div class="buy_badge">사이즈 선택</div>
 					</div>
 				</div>
 			</div>
@@ -253,9 +222,9 @@
 	}); */
 	var pno = ${vo.p_no };
 	
-	$(".btn_box").on("click",function(){
+	$(".buy_box").on("click",function(){
 		var form = $('form');
-		form.attr("action", "/shop/shop_sellpage/" + pno);
+		form.attr("action", "/shop/shop_sellbidPage");
 		console.log(form);
 		$(form).submit();
 	});

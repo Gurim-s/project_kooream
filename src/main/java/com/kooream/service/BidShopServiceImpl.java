@@ -115,4 +115,48 @@ public class BidShopServiceImpl implements BidShopService {
 		
 		return list;
 	}
+
+	@Override
+	public BidShopVO sizeSelect(BidShopVO vo2) {
+		return biddingMapper.sizeSelect(vo2);
+	}
+
+	@Override
+	public List<BidShopVO> buysizeRead(int p_no) {
+		log.info("read..." + p_no);
+		List<BidShopVO> list = mapper.buysizeread(p_no);
+		return list;
+	}
+
+	@Override
+	public BidShopVO buysizeSelect(BidShopVO bid) {
+		return biddingMapper.buysizeSelect(bid);
+	}
+
+	@Override
+	public void bidremove(int p_no) {
+		log.info("remove..." + p_no);
+		mapper.bidremove(p_no);
+	}
+
+	@Override
+	public List<ProductVO> select_cate(ProductVO category) {
+		List<ProductVO> list = mapper.select_cate(category);
+		for (ProductVO product : list) {
+			int max_bid_sell = biddingMapper.getMaxBidding(product.getP_no());
+			int min_bid_buy = biddingMapper.getMinBidding(product.getP_no());
+
+			product.setMax_bid_sell(max_bid_sell);
+			product.setMin_bid_buy(min_bid_buy);
+			
+			List<AttachFileVO> attach = bidproMapper.findByPno(product.getP_no());	// 
+			product.setAttachList(attach);
+		}
+		return list;
+	}
+
+	@Override
+	public BidShopVO get_mno(BidShopVO bid) {
+		return biddingMapper.get_mno(bid);
+	}
 }

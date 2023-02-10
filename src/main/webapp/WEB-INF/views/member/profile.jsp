@@ -11,20 +11,97 @@
 		display: none;
 	}
 	#mask {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 999;
-    background-color: #000000;
-    display: none; }
-
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    z-index: 999;
+	    background-color: #000000;
+	    display: none; 
+    }
+	#modifyForm table {
+		min-width: 700px;
+		margin: 50px auto 0 auto;
+	}
+	.profile-img img{
+		width: 150px;
+		height: 150px;
+		border-radius: 50%;
+		border: 3px solid #555;
+	}
+	.profile-img label {
+		display: inline-block;
+		text-align: center;
+		line-height: 30px;
+		width: 100px;
+		height: 30px;
+		border: none;
+		border-radius: 10px;
+		font-size: 15px;
+		color: white;
+		background-color: black;
+		font-weight: bold;
+	}
+	.profile-img label:hover {
+		cursor: pointer;
+		background-color: lightgray; 
+	}
+	#mainContainer {
+		float: left;
+	}
+	#mainContainer table tr:nth-child(1) h1 {
+		font-size: 25px;
+		border-bottom: 2px solid #000;
+		padding-bottom: 25px;
+	}
+	#mainContainer table .td-img {
+		height: 200px;
+		border-bottom: 1px solid #ccc;
+	}
+	#mainContainer table tr:not(:first-child):not(:nth-child(2)):not(:last-child) {
+		height: 50px;
+	}
+	#mainContainer table tr:not(:first-child):not(:nth-child(2)) td:first-child:not(#modifyTd):not(#submitTd) {
+		width: 170px;
+	}
+	#mainContainer table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td:first-child span {
+		font-weight: bold;
+	}
+	#mainContainer table tr:not(:first-child):not(:nth-child(2)):not(:last-child) td span {
+		font-size: 17px;
+	}
+	#mainContainer table #modifyButtons button,
+	#mainContainer table #submitButtons button {
+		width: 150px;
+		height: 30px;
+		border: none;
+		border-radius: 10px;
+		font-size: 15px;
+	}
+	#mainContainer table #modifyButtons button:first-child,
+	#mainContainer table #submitButtons button:first-child {
+		color: white;
+		background-color: black;
+		font-weight: bold;
+	}
+	#mainContainer table #modifyButtons button:hover:first-child,
+	#mainContainer table #submitButtons button:hover:first-child {
+		cursor: pointer;
+		background-color: lightgray;
+	}
+	#mainContainer table #modifyButtons button:not(:first-child):hover,
+	#mainContainer table #submitButtons button:not(:first-child):hover{
+		cursor: pointer;
+		color: white;
+		background-color: black;
+	}
+	#mainContainer table #submitButtons {
+		display: none;
+	}
 	.layerpop {
 	    display: none;
 	    z-index: 1000;
 	    background: #fff;
-	     
 	}
-	
 	.layerpop_area #title {
 	    padding: 10px 10px 10px 10px;
 	    border: 0px solid #aaaaaa;
@@ -37,8 +114,7 @@
 	    border-top-right-radius: 13px;
 	    border-top-left-radius: 13px;
 	    font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
-	    }
-	
+    }
 	.layerpop_area .layerpop_close {
 	    width: 25px;
 	    height: 25px;
@@ -49,12 +125,11 @@
 	    background: transparent url('btn_exit_off.png') no-repeat;
 	    color: white;
 	    font-weight: bold;
-	    }
-	
+    }
 	.layerpop_area .layerpop_close:hover {
 	    background: transparent url('btn_exit_on.png') no-repeat;
-	    cursor: pointer; }
-	
+	    cursor: pointer; 
+    }
 	.layerpop_area #content {
 	    width: 96%;    
 	    margin: 2%;
@@ -91,20 +166,28 @@
 </style>
 
 <!-- 회원정보 불러오기 -->
-<div>
+<div id="mainContainer">
 	<sec:authentication property="principal.member" var="pri"/>
 	<div>
 		<form id="modifyForm" method="post">
 		<table>
 			<tr>
 				<td colspan="2">
+					<h1>프로필 정보</h1>
+				</td>
+			</tr>
+			<tr>
+				<td class="td-img" colspan="2">
 					<div class="profile-img">
-						<img alt="profile-img" src="<c:url value='/resources/img/codi_test.png'/>">
+						<c:url value="/displayImage" var="imgSrc"><!-- c:url 자동 인코딩  -->
+							<c:param name="fileName" value="${pri.uploadPath }/${pri.uuid }_${pri.fileName }"></c:param>
+						</c:url>
+						<img alt="profile-img" src="${imgSrc }">
 					</div>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-id">
 					<span>아이디</span>
 				</td>
 				<td>
@@ -113,7 +196,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-nickname">
 					<span>닉네임</span>
 				</td>
 				<td>
@@ -122,7 +205,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-name">
 					<span>이름</span>
 				</td>
 				<td>
@@ -131,7 +214,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-birth">
 					<span>생년월일</span>
 				</td>
 				<td>
@@ -139,7 +222,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-addr">
 					<span>주소</span>
 				</td>
 				<td>
@@ -147,7 +230,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-addr2">
 					<span>상세주소</span>
 				</td>
 				<td>
@@ -155,7 +238,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-email">
 					<span>이메일</span>
 				</td>
 				<td>
@@ -164,7 +247,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="td-phone">
 					<span>핸드폰번호</span>
 				</td>
 				<td>
@@ -173,13 +256,15 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" id="modifyTd">
-					<button id="modifyBtn">개인정보수정</button>
-					<button id="deleteBtn">회원탈퇴</button>
-				</td>
-				<td colspan="2" id="submitTd">
-					<button id="successModify">수정완료</button>
-					<button id="back">돌아가기</button>
+				<td colspan="2" id="td-buttons">
+					<div id="modifyButtons">
+						<button id="modifyBtn">개인정보수정</button>
+						<button id="deleteBtn">회원탈퇴</button>
+					</div>
+					<div id="submitButtons">
+						<button id="successModify">수정완료</button>
+						<button id="back">돌아가기</button>
+					</div>
 				</td>
 			</tr>
 		</table>
@@ -245,16 +330,20 @@
 			e.preventDefault();
 			var str='';
 			// 프로필 이미지 파일 input 추가
-			$(".profile-img").append('<input type=file id="profileImgInput"/>');
+			$(".profile-img").append('<label for="profileImgInput">사진 변경</label>')
+			$(".profile-img").append('<input type="file" id="profileImgInput" style="display:none"/>');
 			$(".profile-img input[type='file']").on('change', function(e) {
 				e.preventDefault();
 				var file = Array.from(e.target.files)[0];
-				
 				var fileType = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
 				if (!file.name.match(fileType)) {
 					alert('이미지 파일만 업로드 가능합니다.');
 					e.target.value = '';
+					return;
 				};
+				
+				var src = URL.createObjectURL(file);
+				$(".profile-img img").attr('src', src);
 			});
 			
 			$(".info").each(function(idx,item){
@@ -280,91 +369,126 @@
 			$("#addr_detail_Span").contents().unwrap().wrap('<input type="text" name="m_Detail_addr" id="sample6_detailAddress" class="inputInfo" value="'+addr_detail+'"/>');
 			
 			// 수정완료, 돌아가기 버튼 보이게
-			$("#modifyTd").css("display", "none");
-			$("#submitTd").css("display", "block");
+			$("#modifyButtons").css("display", "none");
+			$("#submitButtons").css("display", "block");
 		});
-			// 돌아가기 버튼 클릭 이벤트
-			$("#back").on("click",function(e){
-				e.preventDefault();
-				location.href="/member/profile";
-			});
+		
+		// 돌아가기 버튼 클릭 이벤트
+		$("#back").on("click",function(e){
+			e.preventDefault();
+			location.href="/member/profile";
+		});
 			
-			// 수정완료 버튼 클릭 이벤트
-			$("#successModify").on("click", function(e){
-				e.preventDefault();
-				$(".inputInfo").each(function(idx, item){
-					if(!$(item).val()){
-						emptyCheckValue = 'n';
-						return false;
-					}	
-				});
-				if(nicknameCheckValue == 'y' 
-						&& emailCheckValue == 'y'
-						&& phoneCheckValue == 'y'
-						&& emptyCheckValue == 'y'){
-					
-					// 모달창 실행 스크립트
-					goDetail();
-				}else{
-					alert("조건에 맞게 입력해주세요.");
-					return;
-				}
+		// 수정완료 버튼 클릭 이벤트
+		$("#successModify").on("click", function(e){
+			e.preventDefault();
+			$(".inputInfo").each(function(idx, item){
+				if(!$(item).val()){
+					emptyCheckValue = 'n';
+					return false;
+				}	
 			});
-			// 회원탈퇴 버튼 클릭 이벤트
-			$("#deleteBtn").on("click",function(e){
-				e.preventDefault();
-				if(confirm("정말 탈퇴..하시겠습니까?")){ // 확인창 띄우기
-					$("#modifyForm").attr("action", "/member/deleteMember");
-					$("#modifyForm").submit();
-				};
-			});
-			
-			// 전화번호 input 클릭이벤트
-			$(document).on("click","input[name='m_phone']", function(){
-				$("input[name='m_phone']").val("");
-			});
-			
-			// 모달창에서 개인정보 수정 버튼 클릭시 이벤트
-			$("#matchPwBtn").on("click", function(e){
-				e.preventDefault();
+			if(nicknameCheckValue == 'y' 
+					&& emailCheckValue == 'y'
+					&& phoneCheckValue == 'y'
+					&& emptyCheckValue == 'y'){
 				
-				//프로필 이미지 업로드 후 file 경로 정보 반환
-				var uploadResult = '';
-				var formData = new FormData();
-			    var inputFile = $(".profile-img input[type='file']")[0];
-			    var file = Array.from(inputFile.files)[0];
-			    formData.append("uploadFile", file);
-			    var imgStr = '';
-				$.ajax({
-					url: "/uploadImageAWS/member",
-		            processData: false,
-		            contentType: false,
-		            data: formData,
-					type: 'POST',
-					dataType: 'json',
-				}).done(function (result) {
-					inputFile.remove();
-					console.log(result);
-					imgStr += '';
-				});
-// 				ajax({
-// 		            type : 'POST',            
-// 		            url : "/member/ajax/matchPw",      
-// 		            data : {m_pw : $("#content").val()},
-// 		            dataType : 'json',
-// 		            success : function(result){
-// 						if(result){ // 컨트롤러에서 리턴받은 값이 true면.
-// 							$("#modifyForm").attr("action", "/member/successModify");
-// 							$("#modifyForm").submit();
-// 						}else{
-// 							alert("비밀번호가 일치하지 않습니다.");
-// 							return;
-// 						}
-// 		            }
-// 		        });
-			});
+				// 모달창 실행 스크립트
+				goDetail();
+			}else{
+				alert("조건에 맞게 입력해주세요.");
+				return;
+			}
+		});
+		// 회원탈퇴 버튼 클릭 이벤트
+		$("#deleteBtn").on("click",function(e){
+			e.preventDefault();
+			if(confirm("정말 탈퇴..하시겠습니까?")){ // 확인창 띄우기
+				$("#modifyForm").attr("action", "/member/deleteMember");
+				$("#modifyForm").submit();
+			};
+		});
+		
+		
+		
+		// 전화번호 input 클릭이벤트
+		$(document).on("click","input[name='m_phone']", function(){
+			$("input[name='m_phone']").val("");
+		});
+			
+		// 모달창에서 개인정보 수정 버튼 클릭시 이벤트
+		$("#matchPwBtn").on("click", function(e){
+			e.preventDefault();
+			console.log('hello');
+			
+			//프로필 이미지 업로드 후 file 경로 정보 반환
+			var uploadResult = '';
+			var formData = new FormData();
+		    var inputFile = $(".profile-img input[type='file']")[0];
+		    var file = Array.from(inputFile.files)[0];
+		    formData.append("uploadFile", file);
+		    
+		    $.ajax({
+	            type : 'POST',            
+	            url : "/member/ajax/matchPw",      
+	            data : {m_pw : $("#content").val()},
+	            dataType : 'json',
+	            success : function(result){
+					if(result){ // 컨트롤러에서 리턴받은 값이 true면.
+						$.ajax({
+							url: "/uploadImageAWS/member",
+				            processData: false,
+				            contentType: false,
+				            data: formData,
+							type: 'POST',
+							dataType: 'json',
+							success: function(result) {
+								inputFile.remove();
+								var str = '<input type="hidden" name="fileName" value="'+result[0].fileName+'" >'
+										+ '<input type="hidden" name="uuid" value="'+result[0].uuid+'" >'
+										+ '<input type="hidden" name="uploadPath" value="'+result[0].uploadPath+'" >';
+								$("#modifyForm").append(str);
+								$("#modifyForm").attr("action", "/member/successModify");
+								$("#modifyForm").submit();
+							}
+						});
+					}else{
+						alert("비밀번호가 일치하지 않습니다.");
+						return;
+					}
+	            }
+	        });
+			
+// 			ajax({
+// 	            type : 'POST',            
+// 	            url : "/member/ajax/matchPw",      
+// 	            data : {m_pw : $("#content").val()},
+// 	            dataType : 'json',
+// 	            success : function(result){
+// 					if(result){ // 컨트롤러에서 리턴받은 값이 true면.
+// 						$("#modifyForm").attr("action", "/member/successModify");
+// 						$("#modifyForm").submit();
+// 					}else{
+// 						alert("비밀번호가 일치하지 않습니다.");
+// 						return;
+// 					}
+// 	            }
+// 	        });
+		});
 			
 	}); // onload end----------------------------------------------------------------------------------
+// 	// 프로필 사진 불러오기----------------------------------
+// 	$.ajax({
+// 		url:'/member/${pri.m_no}',
+// 		dataType: 'json',
+// 		success: function(result) {
+// 			var fileName = result.profileImage.fileName;
+// 			var uuid = result.profileImage.uuid;
+// 			var uploadPath = result.profileImage.uploadPath;
+// 			$('.profile-img img').attr('src', encodeURI('/displayImage?fileName='+uploadPath+"/"+uuid+"_"+fileName));
+// 		}
+// 	});
+	
 	
 	// 전화번호 조건문--------------------------------------
 	const autoHyphen2 = function(target){ 
@@ -422,9 +546,7 @@
 	}
 
 	function goDetail() {
-
 	    /*팝업 오픈전 별도의 작업이 있을경우 구현*/ 
-
 	    popupOpen(); //레이어 팝업창 오픈 
 	    wrapWindowByMask(); //화면 마스크 효과 
 	}

@@ -8,6 +8,7 @@ const tagSelector = productTagSelector();
 		uploadURL: '/uploadImageAWS/style',
 		saveName: 'style_image',
 		max: 5,
+		editMode: true,
 		slider: {
 			ratio: 1,
 			ratioFix: true,
@@ -68,17 +69,26 @@ function countText(e) {
 	}
 }
 
-function changeStep(e) {
+async function changeStep(e) {
 	e.preventDefault();
 	if (e.target.classList[1] == 'not-yet') return;
 	
 	const register = e.target.closest('#register-list');
 	const steps = ['first', 'second', 'third'];
 	if (register.className == 'first') {
-		const imgTagList = uploader.slider.getImgTagList();
 		const ratio = document.querySelector('input[name="ratio"]').value;
 		tagSelector.slider.empty();
 		tagSelector.slider.setRatio(ratio);
+		
+		const cropedImgList = await uploader.getEditedFiles();
+		const imgTagList = cropedImgList.map(x => {
+			const src = URL.createObjectURL(x);
+			const imgTag = document.createElement('img');
+			imgTag.src = src;
+			
+			return imgTag;
+		});
+		
 		tagSelector.slider.addImgTagList(imgTagList);
 	}
 	
@@ -126,8 +136,7 @@ async function regist(e) {
 
 function extractHashTag(text) {
 	const type = /#[^\s^#]+/g;
-	const strToInput = (str, i) =>
-		'<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
+	const strToInput = (str, i) => '<input type="hidden" name="hashtags['+i+']" value="'+str+'">';
 	const list = text.match(type);
 	if (list == null) return text;
 	

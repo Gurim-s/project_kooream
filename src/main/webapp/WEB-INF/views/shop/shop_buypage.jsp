@@ -281,7 +281,7 @@
 </style>
 
 <div class="content_area">
-	<form name="shop_register" action="/shop/shop_buypage" method="post" id="buyBidForm">
+	<form name="shop_register" method="post" id="buyBidForm">
 		<div class="buy_before">
 			<div class="product_info">
 				<div class="infobox">
@@ -293,19 +293,19 @@
 						<div class="code">${vo.p_model_no }</div>
 						<div class="name">${vo.p_name_en }</div>
 						<div class="kor_name">${vo.p_name_ko }</div>
-						<div class="p_size">${vo.p_size }</div>
+						<div class="p_size">${vo2.pp_size }</div>
 					</div>
 				</div>
 				<div class="price_descision_box">
 					<div class="buy_price">
 						<div class="box_border">
 							<div class="now_buysell">즉시 구매가</div>
-							<span class="now_price">${vo.min_bid_buy }</span><span class="won">원</span>
+							<span class="now_price">${vo3.bid_buy }</span><span class="won">원</span>
 						</div>
 					</div>
 					<div class="sell_price">
 						<div class="now_buysell">즉시 판매가</div>
-						<span class="now_price">${vo.max_bid_sell }</span><span class="won">원</span>
+						<span class="now_price">${vo2.bid_sell }</span><span class="won">원</span>
 					</div>
 				</div>
 					<div class="instant_group">
@@ -323,7 +323,7 @@
 							<dl class="price_now_box">
 								<dt class="price_now_title">즉시 구매가</dt>
 								<dd class="price">
-									<span class="amount">${vo.min_bid_buy }</span>
+									<span class="amount">${vo3.bid_buy }</span>
 									<span class="won">원</span>
 								</dd>
 							</dl>
@@ -332,7 +332,8 @@
 								<dd class="price">
 									<input type="number" placeholder="희망가 입력" id="bid_sell" name="bid_sell" class="price_input">
 									<input type="hidden" name="p_no" value="${vo.p_no}">
-									<input type="hidden" name="bid_buy" id="bid_buy" value="${vo.min_bid_buy }">
+									<input type="hidden" name="bid_buy" id="bid_buy" value="${vo3.bid_buy }">
+									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
 									<span class="won">원</span>
 								</dd>
 							</dl>
@@ -352,7 +353,7 @@
 						<div class="btn_box full" onclick="now_buy()">즉시 구매 하기</div>
 					</div>
 					<div class="buy_bid_btn">
-						<div class="btn_box full" onclick="test()">구매 입찰 하기</div>
+						<div class="btn_box full" onclick="buy_bid()">구매 입찰 하기</div>
 					</div>
 				</div>
 			</div>
@@ -383,9 +384,10 @@
  		location.href="/shop/shop_bidbuy?pno=" + pno + "&price="+price;
 	} */
 
-	function test() {
+	function buy_bid() {
+		var form = $('form');
 		var bid_price = $('#bid_sell').val();
-		var now_buy = ${vo.min_bid_buy };
+		var now_buy = ${vo3.bid_buy };
 
 		if(bid_price == '' || bid_price < 1){
 			alert("입찰가를 확인하여해주세요");
@@ -394,19 +396,34 @@
 	
 		if (now_buy == 0) {
 			var form = $('#buyBidForm');
+			$('input[name="bid_buy"]').remove();
+			form.attr("action", "/shop/shop_bid_PaymentPage")
 			form.submit();
 		} else if (bid_price > now_buy){
 			alert("구매 입찰가는 즉시 구매가보다 높을 수 없습니다.");
 			return false;
+		} else {
+			$('input[name="bid_buy"]').remove();
+			form.attr("action", "/shop/shop_bid_PaymentPage")
+			form.submit();
 		}
-		
 	}
 	
 	function now_buy() {
 		var form = $('form');
-		$('input[name="bid_sell"]').remove();
-		form.attr("action", "/shop/now_buy");
-		$(form).submit();
+		var bid_price = $('#bid_sell').val();
+		var now_buy = ${vo3.bid_buy };
+
+		if (now_buy == 0) {
+			alert("0원은 구매할 수 없습니다.");
+			return false;
+		} else {
+			var form = $('form');
+			$('input[name="bid_sell"]').remove();
+//			form.attr("action", "/shop/now_buy");	//기존 거
+			form.attr("action", "/shop/shop_paymentPage");	//새로운 거
+			$(form).submit();
+		}
 	}
 
 </script>

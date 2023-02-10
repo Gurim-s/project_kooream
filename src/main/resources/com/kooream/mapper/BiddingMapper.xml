@@ -9,24 +9,77 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from bidding
 		where p_no=#{p_no}
 	</select>
-	<select id="getMinBidding" resultType="int">
+	
+	<select id="sizeSelect" resultType="com.kooream.domain.BidShopVO">
 	<![CDATA[
-		select nvl(min(bid_buy), 0)
-		from bidding
-		where p_no=#{p_no} and bid_buy<>0
+		select nvl(max(bid_sell), 0) as bid_sell, p.pp_size, p.p_no
+		from product_size p left outer join bidding b on p.pp_size = b.pp_size and p.p_no = b.p_no
+		where p.p_no = #{p_no} and p.pp_size = #{pp_size}
+		group by p.pp_size, p.p_no order by pp_size
 	]]>
 	</select>
+	
+	<select id="buysizeSelect" resultType="com.kooream.domain.BidShopVO">
+		<![CDATA[
+			select nvl(min(nullif(bid_buy, 0)), 0) as bid_buy, p.pp_size, p.p_no
+			from product_size p left outer join bidding b on p.pp_size = b.pp_size and p.p_no = b.p_no
+	        where  p.p_no=#{p_no} and p.pp_size = #{pp_size}
+	        group by p.pp_size, p.p_no
+		]]>
+	</select>
+	
+	<select id="get_mno" resultType="com.kooream.domain.BidShopVO">
+		<![CDATA[
+			select * from BIDDING where p_no= #{p_no} and bid_sell= #{bid_sell} and pp_size = #{pp_size} and
+			ROWNUM = (SELECT MIN(ROWNUM) FROM BIDDING where p_no = #{p_no} and bid_sell = #{bid_sell} and pp_size = #{pp_size})
+		]]>
+	</select>
+
+	<select id="getMinBidding" resultType="int">
+		<![CDATA[
+			select nvl(min(bid_buy), 0)
+			from bidding
+			where p_no=#{p_no} and bid_buy<>0
+		]]>
+	</select>
 	<insert id="insertBuyBid">
-		INSERT INTO BIDDING(m_no, p_no, bid_sell, bid_buy) VALUES(99, #{p_no}, #{bid_sell}, #{bid_buy})
+		INSERT INTO BIDDING(m_no, p_no, bid_sell, bid_buy, pp_size, bid_no) VALUES
+		(#{m_no}, #{p_no}, #{bid_sell}, #{bid_buy}, #{pp_size}, bid_no_seq.nextval)
 	</insert>
 	
-	<delete id="nowsell">
-		delete from BIDDING where p_no=#{p_no} and bid_sell=#{bid_sell} and
-		ROWNUM = (SELECT MIN(ROWNUM) FROM BIDDING where p_no =#{p_no} and bid_sell = #{bid_sell})
+	<delete id="now_sell">
+		delete from BIDDING where p_no=#{p_no} and bid_sell=#{bid_sell} and pp_size = #{pp_size} and
+		ROWNUM = (SELECT MIN(ROWNUM) FROM BIDDING where p_no =#{p_no} and bid_sell = #{bid_sell} and pp_size = #{pp_size})
 	</delete>
 	
-	<delete id="nowbuy">
-		DELETE from BIDDING where p_no=#{p_no} and bid_buy=#{bid_buy} and
-		ROWNUM = (SELECT MIN(ROWNUM) FROM BIDDING where p_no = #{p_no} and BID_BUY = #{bid_buy})
+	<delete id="now_buy">
+		DELETE from BIDDING where p_no=#{p_no} and bid_buy=#{bid_buy} and pp_size = #{pp_size} and
+		ROWNUM = (SELECT MIN(ROWNUM) FROM BIDDING where p_no = #{p_no} and BID_BUY = #{bid_buy} and pp_size = #{pp_size})
 	</delete>
+	
+	<delete id="bidremove">
+		DELETE from BIDDING where bid_no = #{bid_no}
+	</delete>
+	
+	<insert id="trade_complete" parameterType="com.kooream.domain.PaymentVO">
+		<![CDATA[
+	        insert into payment
+	        (buy_no, buy_date, m_no, p_no, m_adress, pay_price, sell_m_no)
+	        values(PAYMENT_NO_SEQ.nextval, sysdate, #{m_no}, #{p_no}, '-', #{pay_price}, #{sell_m_no})
+	    ]]>
+    </insert>
+    
+    <select id="bid_Read" resultType="com.kooream.domain.BidShopVO">
+    	select * from bidding where m_no = #{m_no} order by p_no
+    </select>
+    
+    <select id="buyTrade_Read" resultType="com.kooream.domain.PaymentVO">
+    	select * from payment where m_no = #{m_no} order by p_no
+    </select>
+    
+    <select id="get_Bidinfo" resultType="com.kooream.domain.ProductVO">
+    	select A.* from product A where p_no = #{p_no}
+    </select>
+    
+    
 </mapper>

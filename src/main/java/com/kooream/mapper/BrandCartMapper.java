@@ -17,6 +17,8 @@ public interface BrandCartMapper{
 
 	public int Cartdelete(BrandCartVO vo);
 	
+	public int CartdeleteAll(int mno);
+	
 
 	
 	

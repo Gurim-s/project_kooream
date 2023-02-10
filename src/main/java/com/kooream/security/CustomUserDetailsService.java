@@ -21,9 +21,16 @@ public class CustomUserDetailsService implements UserDetailsService {
    public UserDetails loadUserByUsername(String m_id) throws UsernameNotFoundException {
       log.warn("load user by userName : " + m_id);
       MemberVO vo = memberMapper.read(m_id);
+      System.out.println("++++++++++++++++++++++++++++");
+      System.out.println("++++++++++++++++++++++++++++");
+      System.out.println(vo.getUploadPath());
+      System.out.println(vo.getUuid());
+      System.out.println(vo.getFileName());
+      System.out.println("++++++++++++++++++++++++++++");
+      System.out.println("++++++++++++++++++++++++++++");
+      
       
       return vo == null ? null : new CustomUser(vo);
-      
    }
 
 }

@@ -35,7 +35,7 @@
 	margin-right: 10px;
 }
 .item .item-header-left .profile-image img {
-	height: 100%;
+	width: 40px;
 	height: 40px;
 	border-radius: 50%;
 	border: solid 2px black;
@@ -53,10 +53,10 @@
 .item .item-header-right .update-btn,
 .item .item-header-right .remove-btn{
 	float: left;
-	height: 30px;
-	width: 70px;
+	height: 34px;
+	width: 80px;
 	background-color: black;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 	color: white;
 	border-radius: 13px;

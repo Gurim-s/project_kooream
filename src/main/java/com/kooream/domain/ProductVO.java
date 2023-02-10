@@ -20,6 +20,7 @@ public class ProductVO {
 	private String img_url;
 	private String strt_r_date, rtrn_r_date;
 	private String interest_cnt;
+	private String uuid, fileName, uploadPath;
 	private int m_no;
 	private String r_no;
 	

@@ -5,20 +5,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <mapper namespace="com.kooream.mapper.PaymentMapper">
-<insert id="addPayment">	
-		INSERT INTO order_t(buy_no, M_no, p_no, b_no, sum_price, pp_size )
-		VALUES(oder_no_seq.nextval, #{m_no}, #{p_no}, #{b_no}, #{sum_price}, #{pp_size} )
+<insert id="addPayment" parameterType="com.kooream.domain.PaymentVO">	
+	INSERT INTO payment(buy_no, buy_date, m_no, p_no, m_adress, pay_price )
+	VALUES(payment_no_seq.nextval, sysdate, #{m_no}, #{p_no},#{m_adress}, #{pay_price})
 </insert>
 <select id="paymentList" resultType="com.kooream.domain.PaymentVO">
-select 
- o. * ,
- p.p_model_no, p.p_name_ko, p.p_name_en
- from order_t o
-    inner join product p
-    on o.p_no = p.p_no
-    where o.m_no = #{m_mo}
-    order by buy_no desc
-
+	select 
+    pro.p_name_ko,
+    p.*
+    from product pro, payment p
+    where pro.p_no = p.p_no and p.m_no = #{m_no}
 </select>
+<delete id="paymentdelete">
+	delete from payment where buy_date = #{buy_date}
+</delete>
+
 	
 </mapper> 
