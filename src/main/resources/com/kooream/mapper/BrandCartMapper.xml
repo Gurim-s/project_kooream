@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select 
      b.B_NAME,
      c.cart_no, c.m_no, c.p_no, c.pp_size,
-     p.P_NAME_EN, p.P_SIZE, p.b_no, p.P_RELEASE_PRICE
+     p.P_NAME_EN, p.P_SIZE, p.b_no, p.P_RELEASE_PRICE, uuid, uploadPath, filename
  from Cart c
      inner join PRODUCT p
          on c.p_no = p.p_no 

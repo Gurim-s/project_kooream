@@ -120,15 +120,12 @@ $(function(){	// list()함수 실행하기위한
 					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 					str += '<div class = "imgbox">'
 					// 이미지 하나만 보여주기 
-					
-					if(json[i].attachList.length > 0) {
-						var uploadPath = json[i].attachList[0].uploadPath;
-						var uuid = json[i].attachList[0].uuid;
-						var fileName = json[i].attachList[0].fileName;
-						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+					var uploadPath = json[i].uploadPath;
+					var uuid = json[i].uuid;
+					var fileName = json[i].fileName;
+					var fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
 						
-						str += '<img class = "p_image" style = "width : 130px; margin = 10px; float: left;" src="/displayImage?fileName='+ fileCallPath + '" /><br/>';	// 이미지
-					}//-------- if문 끝
+					str += '<img class = "p_image" style = "width : 130px; margin = 10px; float: left;" src="/displayImage?fileName='+ fileCallPath + '" /><br/>';	// 이미지
 					
 					/*브랜드명, 영문명, 사이즈, 가격  mapper.xml에서 조인해서 가지고오고, Vo에 이름 만들면 가지고 올수있음 */
 					
