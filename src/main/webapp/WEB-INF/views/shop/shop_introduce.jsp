@@ -246,7 +246,7 @@
 	}
 	
 	function getPage(pno) {
-		location.href="/shop/shop_buypage/" + pno;
+		location.href="/shop/shop_Buy_Sizeselect/" + pno;
 	}
 	
 	function getSell(pno) {

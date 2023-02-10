@@ -15,4 +15,5 @@ public interface SizeMapper{
 	
 	public List<SizeVO> findPno(int p_no);
 
+	public void sizeremove(int p_no);
 }

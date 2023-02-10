@@ -84,7 +84,7 @@
 	}
 	
 	.size_price{
-		color: #28ab66;
+		color: #f15746;
 		margin-top: 1px;
     	font-size: 12px;
     	text-align: center;
@@ -169,8 +169,9 @@
 						<div class="code">${vo.p_model_no }</div>
 						<div class="name">${vo.p_name_en }</div>
 						<div class="kor_name">${vo.p_name_ko }</div>
+						<%-- <div class="p_size">${vo2.pp_size }</div> --%>
 						<div class="badge_product">
-							<img class="badge_logo" src="../resources/img/badge_logo.png">빠른배송
+							빠른배송
 						</div>
 					</div>
 				</div>
@@ -178,15 +179,22 @@
 	 			<c:forEach items="${vo2}" var="vo2">
 					<div class="select_box">
 						<div class="size_product">
-							<input type="radio" id="select" name="pp_size" value="${vo2.pp_size }">
+							<input type="radio" name="pp_size" value="${vo2.pp_size }">
 							${vo2.pp_size }
 						</div>
 						<div class="size_price">
-							${vo2.bid_sell }
+							${vo2.bid_buy }
 						</div>
-						<input type="hidden" name="p_no" value="${vo.p_no }">
 					</div>
 				</c:forEach>
+				<input type="hidden" name="p_no" value="${vo.p_no }">
+	<!-- 				<div class="select_box">
+						<div class="size_product">
+							255
+						</div>
+						<div class="size_price">
+							30000
+						</div> -->
 					</div>
 				</div>
 				
@@ -195,7 +203,7 @@
 				<div class="buy_box">
 					<div class="btn_box">
 						<!-- <div class="buy_price">999,000</div> -->
-						<div class="buy_badge">사이즈 선택</div>
+						<div class="buy_badge">일반 배송</div>
 					</div>
 				</div>
 			</div>
@@ -224,7 +232,7 @@
 	
 	$(".buy_box").on("click",function(){
 		var form = $('form');
-		form.attr("action", "/shop/shop_sellbidPage");
+		form.attr("action", "/shop/shop_buypage");
 		console.log(form);
 		$(form).submit();
 	});

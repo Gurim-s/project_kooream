@@ -430,18 +430,20 @@
 						<dl class="price_box">
 							<dt class="price_title">총 결제금액</dt>
 							<dd class="price empty_price">
-								<span class="amount">${vo3.bid_buy }원</span>
+								<span class="amount">${vvo }원</span>
 							</dd>
 						</dl>
 					</div>
 					<div class="price_bind">
 						<dl class="price_addition">
-							<dt class="price_title"><span>구매가</span></dt>
-							<dd class="price_text">${vo3.bid_buy }원</dd>
+							<dt class="price_title"><span>구매가 희망가</span></dt>
+							<dd class="price_text">${vvo }원</dd>
 						</dl>
 						<dl class="price_addition">
 							<dt class="price_title2"><span>배송비</span></dt>
-							<dd class="price_text2">무료 배송</dd>
+							<dd class="price_text2">무료</dd>
+							<dt class="price_title2"><span>수수료</span></dt>
+							<dd class="price_text2">무료</dd>
 						</dl>
 					</div>
 				</div>
@@ -455,7 +457,7 @@
 						<li>
 							<div class="notice_group">
 								<div class="text_group">
-									<p class="notice_maintext">KREAM의 검수 없이 제휴 사업자가 직접 배송하며, 재고 부족 등 사업자의 상황에 따라 거래가 취소될 수 있습니다.</p>
+									<p class="notice_maintext">판매자의 판매거부, 배송지연, 미입고 등의 사유가 발생할 경우, 거래가 취소될 수 있습니다.</p>
 									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
 								</div>
 								<div>
@@ -464,8 +466,8 @@
 							</div>
 							<div class="notice_group notice2">
 								<div class="text_group">
-									<p class="notice_maintext">개인정보의 제3자 제공에 동의합니다.</p>
-									<p class="notice_subtext">자세히보기</p>
+									<p class="notice_maintext">구매 입찰의 거래가 체결되면, 단순 변심이나 실수에 의한 취소가 불가능합니다.</p>
+									<p class="notice_subtext">본 거래는 개인간 거래로 전자상거래법(제17조)에 따른 청약철회(환불, 교환) 규정이 적용되지 않습니다.</p>
 								</div>
 								<div class="check_d">
 									<input type="checkbox" class="chbox" id="cbcon">
@@ -473,35 +475,25 @@
 							</div>
 							<div class="notice_group notice2">
 								<div class="text_group">
-									<p class="notice_maintext">'결제하기'를 선택하시면 즉시 결제가 진행됩니다.</p>
-								</div>
-								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
-								</div>
-							</div>
-							<div class="notice_group notice2">
-								<div class="text_group">
-									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 거래 진행에 동의합니다.</p>
+									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 입찰 진행에 동의합니다.</p>
 								</div>
 								<div class="check_d">
 									<input type="checkbox" class="chbox" id="cbcon">
 									<input type="hidden" name="p_no" value="${vo.p_no }">
 									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
-									<input type="hidden" name="bid_buy" id="bid_buy" value="${vo3.bid_buy }">
-									<input type="hidden" name="sell_m_no" id="sell_m_no" value="${vo4.m_no }">
-									<input type="hidden" name="pay_price" id="pay_price" value="${vo3.bid_buy }">
+									<input type="hidden" name="bid_sell" id="bid_sell" value="${vvo }">
 								</div>
 							</div>
 						</li>
 					</ul>
 					<div class="price_total">
 						<dl class="price_box2">
-							<dt class="price_title3">총 결제금액</dt>
-							<dd class="empty_price2">${vo3.bid_buy }원</dd>
+							<dt class="price_title3">입찰 금액</dt>
+							<dd class="empty_price2">${vvo }원</dd>
 						</dl>
 					</div>
 					<div class="now_buy_btn">
-						<div class="btn_box full" >[${vo3.bid_buy }]원 결제 하기</div>
+						<div class="btn_box full" >구매 입찰 하기</div>
 					</div>
 				</div>
 			</div>
@@ -511,8 +503,7 @@
 <script type="text/javascript">
 	var m_no = $('input[name="pri_m_no"]').val();
 	var m_no_input = '<input type="hidden" name ="m_no" value="'+ m_no +'">';
-	console.log(${vo4.m_no });
-	
+
 	$(".btn_box").on("click",function(){
 		
 		if ($('input:checkbox[id="cbcon"]').is(":checked") != true) {
@@ -520,15 +511,12 @@
 			return false;
 		} else {
 			var form = $('form');
-			form.attr("action", "/shop/now_buy");
+			form.attr("action", "/shop/shop_buycomplete");
 			console.log(form);
 			console.log(m_no_input);
 			$('.price_box2').html(m_no_input);
  			$(form).submit();
 		}
 	});
-	
-	
-
 </script>
 <jsp:include page="../include/footer.jsp"/>

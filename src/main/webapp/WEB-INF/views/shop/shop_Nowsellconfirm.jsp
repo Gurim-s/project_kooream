@@ -382,7 +382,7 @@
 			<div class="section_total">
 				<div class="section_unit">
 					<div class="section_title">
-						<h3 class="title_txt">배송 주소</h3>
+						<h3 class="title_txt">반송 주소</h3>
 						<a href="#" class="add_more_btn">+ 새 주소 추가</a>
 					</div>
 					
@@ -409,11 +409,11 @@
 								</div>
 								<div class="way_desc">
 									<p class="company">
-										<span class="badge_title">일반 배송</span>
-										<span>무료</span>
+										<span class="badge_title">택배 발송</span>
+										<span>선불</span>
 									</p>
 									<p class="sub_txt">
-									구림에서 검수 후 직접 택배 배송
+									착불 발송 시 정산금액에서 차감
 									</p>
 								</div>
 							</div>
@@ -428,17 +428,13 @@
 				<div class="instant_group">
 					<div class="order_info">
 						<dl class="price_box">
-							<dt class="price_title">총 결제금액</dt>
+							<dt class="price_title">즉시 판매가</dt>
 							<dd class="price empty_price">
-								<span class="amount">${vo3.bid_buy }원</span>
+								<span class="amount">${vo2.bid_sell }원</span>
 							</dd>
 						</dl>
 					</div>
 					<div class="price_bind">
-						<dl class="price_addition">
-							<dt class="price_title"><span>구매가</span></dt>
-							<dd class="price_text">${vo3.bid_buy }원</dd>
-						</dl>
 						<dl class="price_addition">
 							<dt class="price_title2"><span>배송비</span></dt>
 							<dd class="price_text2">무료 배송</dd>
@@ -455,8 +451,8 @@
 						<li>
 							<div class="notice_group">
 								<div class="text_group">
-									<p class="notice_maintext">KREAM의 검수 없이 제휴 사업자가 직접 배송하며, 재고 부족 등 사업자의 상황에 따라 거래가 취소될 수 있습니다.</p>
-									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
+									<p class="notice_maintext">거래가 체결되면 일요일 · 공휴일을 제외하고 48시간 내에 KREAM으로 발송을 완료한 후, 발송 정보를 정확히 입력해야 합니다.</p>
+									<p class="notice_subtext">착불 배송 시 판매 금액에서 차감 정산하며, 미정산 시 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
 								</div>
 								<div>
 									<input type="checkbox" class="chbox" id="cbcon">
@@ -464,8 +460,8 @@
 							</div>
 							<div class="notice_group notice2">
 								<div class="text_group">
-									<p class="notice_maintext">개인정보의 제3자 제공에 동의합니다.</p>
-									<p class="notice_subtext">자세히보기</p>
+									<p class="notice_maintext">송장 번호 미기재·오입력 시 입고가 진행되지 않으며, 발송 후 5일(일요일·공휴일 제외) 내 미도착은 허위 정보 입력으로 간주하여 미입고 페널티를 부과합니다.</p>
+									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없으며 이로 인한 거래 실패는 판매자의 책임입니다.</p>
 								</div>
 								<div class="check_d">
 									<input type="checkbox" class="chbox" id="cbcon">
@@ -473,7 +469,8 @@
 							</div>
 							<div class="notice_group notice2">
 								<div class="text_group">
-									<p class="notice_maintext">'결제하기'를 선택하시면 즉시 결제가 진행됩니다.</p>
+									<p class="notice_maintext">검수 기준과 페널티 및 이용 정책을 다시 한번 확인하였습니다.</p>
+									<p class="notice_subtext">이용정책 위반 시, 판매 금액의 최대 15.0%의 페널티가 부과됩니다. 페널티 회피 시 이후 거래가 제한되며 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
 								</div>
 								<div class="check_d">
 									<input type="checkbox" class="chbox" id="cbcon">
@@ -481,27 +478,28 @@
 							</div>
 							<div class="notice_group notice2">
 								<div class="text_group">
-									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 거래 진행에 동의합니다.</p>
+									<p class="notice_maintext">검수 기준과 페널티 및 이용 정책을 다시 한번 확인하였습니다.</p>
+									<p class="notice_subtext">이용정책 위반 시, 판매 금액의 최대 15.0%의 페널티가 부과됩니다. 페널티 회피 시 이후 거래가 제한되며 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
 								</div>
 								<div class="check_d">
 									<input type="checkbox" class="chbox" id="cbcon">
 									<input type="hidden" name="p_no" value="${vo.p_no }">
 									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
-									<input type="hidden" name="bid_buy" id="bid_buy" value="${vo3.bid_buy }">
-									<input type="hidden" name="sell_m_no" id="sell_m_no" value="${vo4.m_no }">
-									<input type="hidden" name="pay_price" id="pay_price" value="${vo3.bid_buy }">
+									<input type="hidden" name="bid_sell" id="bid_sell" value="${vo2.bid_sell }">
+									<input type="hidden" name="m_no" id="m_no" value="${vo4.m_no }">
+									<input type="hidden" name="pay_price" id="pay_price" value="${vo2.bid_sell }">
 								</div>
 							</div>
 						</li>
 					</ul>
 					<div class="price_total">
 						<dl class="price_box2">
-							<dt class="price_title3">총 결제금액</dt>
-							<dd class="empty_price2">${vo3.bid_buy }원</dd>
+							<dt class="price_title3">즉시 판매가</dt>
+							<dd class="empty_price2">${vo2.bid_sell }원</dd>
 						</dl>
 					</div>
 					<div class="now_buy_btn">
-						<div class="btn_box full" >[${vo3.bid_buy }]원 결제 하기</div>
+						<div class="btn_box full" >즉시 판매 하기</div>
 					</div>
 				</div>
 			</div>
@@ -509,24 +507,47 @@
 	</form>
 </div>
 <script type="text/javascript">
+
 	var m_no = $('input[name="pri_m_no"]').val();
-	var m_no_input = '<input type="hidden" name ="m_no" value="'+ m_no +'">';
-	console.log(${vo4.m_no });
+	var m_no_input = '<input type="hidden" name ="sell_m_no" value="'+ m_no +'">';
 	
 	$(".btn_box").on("click",function(){
-		
+		if($('#bankcode').val() == 0){
+			alert("[은행]을 선택해주세요");
+			return false;
+		} 
+		if($('#backacct').val() == '') {
+			alert("[계좌번호]를 확인해주세요");
+			return false;
+		}
+		if($('#account_holder').val() == '') {
+			alert("[예금주]를 확인해주세요");
+			return false;
+		}
 		if ($('input:checkbox[id="cbcon"]').is(":checked") != true) {
 			alert("동의하기 체크박스 선택하여야합니다.")
 			return false;
 		} else {
 			var form = $('form');
-			form.attr("action", "/shop/now_buy");
+			form.attr("action", "/shop/now_sell");
 			console.log(form);
 			console.log(m_no_input);
 			$('.price_box2').html(m_no_input);
  			$(form).submit();
 		}
 	});
+	
+
+
+	
+/* 	function ChangeValue() {
+		var target2 = $("#bankcode option:selected").val();
+		var brando = '<input type="hidden" name="backcode" value="'+ target2 +'">';
+		
+		console.log(target2);
+		console.log(brando);
+		$('.price_total').html(brando);
+	} */
 	
 	
 
