@@ -72,6 +72,15 @@ public class BrandCartServiceImpl implements BrandCartService{
 		return cartmapper.Cartdelete(vo);
 	}
 
+
+
+	@Override
+	public void CartdeleteAll(int mno) {
+		cartmapper.CartdeleteAll(mno);
+		
+	}
+
+
 //	@Override
 //	public List<BrandCartVO> brandCartList(int m_no) {
 		

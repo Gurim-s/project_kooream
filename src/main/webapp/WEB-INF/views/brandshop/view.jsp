@@ -243,18 +243,20 @@
 			var str='<div class="container">';
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
+				krPrice = json[i].p_release_price.toLocaleString('ko-KR');
 				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 					// brandshop(컨트롤러) 에서 /get을 탐  
-				
+				console.log(json);
 				
 				// 이미지 하나만 보여주기 
 				
 				
-				if(json[i].attachList.length > 0) {
-					var uploadPath = json[i].attachList[0].uploadPath;
-					var uuid = json[i].attachList[0].uuid;
-					var fileName = json[i].attachList[0].fileName;
+				if(json.length > 0) {
+					var uploadPath = json[i].uploadPath;
+					var uuid = "s_"+ json[i].uuid;
+					var fileName = json[i].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+					console.log(fileCallPath);
 					str += '<div class = "product">'
 					str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 				}
@@ -270,7 +272,7 @@
 				str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
 				str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
 				str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
-				str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
+				str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
 				
 				str += '</a>'
 				str += '</div>'
@@ -328,6 +330,7 @@
 				var str='<div class="container">';
 				console.log(json);
 				for(var i=0; i<json.length; i++) {
+					krPrice = json[i].p_release_price.toLocaleString('ko-KR');
 					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 						// brandshop(컨트롤러) 에서 /get을 탐  
 					
@@ -345,7 +348,7 @@
 					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
 					str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
 					str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
-					str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
+					str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
 					str += '</a>'
 					str += '</div>'
 					str += '<br/>'
@@ -381,6 +384,7 @@
 				var str='<div class="container">';
 				console.log(json);
 				for(var i=0; i<json.length; i++) {
+					krPrice = json[i].p_release_price.toLocaleString('ko-KR');					
 					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 						// brandshop(컨트롤러) 에서 /get을 탐  
 					
@@ -398,7 +402,7 @@
 					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
 					str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
 					str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
-					str += '<div style="font-weight: bold; font-size: 15px;" >'+json[i].p_release_price+'원</div>';
+					str += '<div style="font-weight: bold; font-size: 15px;" >'+krPrice+'원</div>';
 					str += '</a>'
 					str += '</div>'
 					str += '<br/>'
@@ -416,7 +420,17 @@
  	}) 		
  
 // --------------------숫자에 , 붙이기 --------------------------------------------------------
- 		
+    function checkOnlyOne(element) {
+        
+        const checkboxes 
+            = document.getElementsByName("brand_category");
+        
+        checkboxes.forEach((cb) => {
+          cb.checked = false;
+        })
+        
+        element.checked = true;
+      }		
  		
  		
  		
