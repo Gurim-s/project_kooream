@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/style/register.css'/>">
+<%-- 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/search-box.css'/>"> --%>
 	<div class="form-wrapper">
 		<form action="/style/register" method="post">
 			<sec:authentication property="principal.member" var="pri"/>
@@ -42,7 +43,6 @@
 						<a href="#" id="submit" class="next-btn not-yet">완료</a>
 					</div>
 					<textarea name="style_content" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
-					<div class="editable" contenteditable="true"></div>
 					<span contenteditable="true"></span>
 					<div class="recommend-tags"></div>
 				</li>

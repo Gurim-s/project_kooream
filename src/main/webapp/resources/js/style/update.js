@@ -1,17 +1,23 @@
-import {imgSlider} from '../common/img-slider.js';
+import {productTagSelector} from '../common/product-tag-selector.js';
 import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 
-const slider = imgSlider();
 const style = await getStyle();
+const tagSelector = productTagSelector();
+
 (function() {
-	slider.setOption({
-		ratio: style.ratio != 0? style.ratio: 1,
-		ratioFix: true,
+	const css = document.createElement('link');
+	css.type = 'text/css';
+	css.rel = 'stylesheet';
+	css.href = '/resources/css/common/search-box.css';
+	document.head.append(css);
+	
+	tagSelector.slider.setOption({
+		tagMode: true,
 	});
-	document.querySelector('.img-slider-container')
-	.append(slider.container);
-	slider.addImgTagList(getUploadedImgElList());
+	document.querySelector('.product-tag-selector-container')
+	.append(tagSelector.container);
+	tagSelector.slider.addImgTagList(getUploadedImgElList());
 	
 	document.querySelector('[name="style_content"]')
 	.value = style.style_content;

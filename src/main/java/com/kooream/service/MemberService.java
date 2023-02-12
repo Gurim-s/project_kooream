@@ -15,6 +15,7 @@ public interface MemberService {
 	public MemberVO findInfo(MemberVO vo);
 	public int matchPw(MemberVO vo);
 	public int updatePw(MemberVO vo);
+	public int follow(int m_no);
 	
 	/*
 	//이메일발송

@@ -35,7 +35,7 @@ public class StyleReplyController {
 					new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value = "list/{style_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@GetMapping(value = "/list/{style_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<List<StyleReplyVO>> getList(@PathVariable("style_no") long style_no) {
 		List<StyleReplyVO> list = service.getList(style_no);
 		

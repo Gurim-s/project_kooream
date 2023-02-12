@@ -92,7 +92,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		container.addEventListener('mouseover', () => hover('on'));
 		container.addEventListener('mouseout', () => hover('out'));
 		if (option.editMode) {
-			container.addEventListener('mousewheel', _canvasScrollEvent);
+			container.addEventListener('mousewheel', _canvasScrollEvent, {passive: false});
 			_dragImageEvent();
 		}
 		if (option.tagEditMode) _dragTagEvent();
@@ -111,7 +111,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		
 		function start(e) {
 			e.preventDefault();
-			if (e.target.className !== 'tag-pointer') return;
+			if (!e.target.closest('.product-tag')) return;
 			oldX = e.clientX;
 			oldY = e.clientY;
 			isPressed = true;
@@ -119,13 +119,13 @@ const imgSlider = (customOption) => (function(customOption) {
 		
 		function end(e) {
 			e.preventDefault();
-			if (e.target.className !== 'tag-pointer') return;
+			if (!e.target.closest('.product-tag')) return;
 			isPressed = false;
 		}
 		
 		function move(e) {
 			e.preventDefault();
-			if (e.target.className !== 'tag-pointer') return;
+			if (!e.target.closest('.product-tag')) return;
 			if (isPressed === false) return;
 			const tag = e.target.closest('.product-tag');
 			const productInfo = tag.querySelector('.product-info');
@@ -165,7 +165,7 @@ const imgSlider = (customOption) => (function(customOption) {
 			return;
 		}
 
-		ul.innerHTML += '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>';
+		ul.innerHTML += '<li><img src="' + imgSrc + '"/></li>';
 		addIdx();
 		setLiCss();
 		setUlCss();
@@ -193,7 +193,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		newCanvas.dataset.scaleY = 1;
 		newCanvas.dataset.offsetX = 0;
 		newCanvas.dataset.offsetY = 0;
-		newCanvas.addEventListener('mousewheel', _canvasScrollEvent);
+		newCanvas.addEventListener('mousewheel', _canvasScrollEvent, {passive: false});
 		
 		const canvasList = ul.querySelectorAll('canvas');
 		const img = new Image();
@@ -349,11 +349,12 @@ const imgSlider = (customOption) => (function(customOption) {
 		const imgTagList = Array.from(imgSrcList)
 		.reduce((str, imgSrc) => {
 			addIdx();
-			return str + '<li><img src="' + imgSrc + '" data-offset-x="0" data-offset-y="0"/></li>'
+			return str + '<li><img src="' + imgSrc + '"/></li>'
 		}, '');
 		
 		ul.innerHTML += imgTagList;
 		setLiCss();
+		setUlCss();
 		slideImg(0);
 	}
 	
@@ -377,16 +378,17 @@ const imgSlider = (customOption) => (function(customOption) {
 		const imgTagList = Array.from(ul.querySelectorAll('li img'))
 		.map(x => x.cloneNode());
 		
+		setDefaultCss();
 		return imgTagList;
 	}
 	
-	function addProductTag(product, x, y, i) {
-		if (i === undefined) i = idx;
-		if (x === undefined) x = 0;
-		if (y === undefined) y = 0;
+	function addProductTag(product) {
+		if (product.idx === undefined) product.idx = idx;
+		if (product.offsetX === undefined) product.offsetX = 0;
+		if (product.offsetY === undefined) product.offsetY = 0;
 		
-		const currentImg = Array.from(ul.children)[i];
-		currentImg.append(productTemplate(product, x, y));
+		const currentImg = Array.from(ul.children)[product.idx];
+		currentImg.append(productTemplate(product));
 	}
 	
 	function getProductTagList() {
@@ -396,13 +398,13 @@ const imgSlider = (customOption) => (function(customOption) {
 		return list;
 	}
 	
-	function productTemplate(product, x, y) {
+	function productTemplate(product) {
 		const container = document.createElement('div');
 		container.className = 'product-tag';
 		container.dataset.p_no = product.p_no;
 		
 		const pointer = document.createElement('div');
-		pointer.className = 'tag-pointer';
+		pointer.className = 'tag-pointer'; 
 		
 		const template = document.createElement('div');
 		template.className = 'product-info';
@@ -412,26 +414,27 @@ const imgSlider = (customOption) => (function(customOption) {
 		
 		const str = (
 			'<div class="product-img">' +
-				'<img src="' + imgService.originPath(product.attachList[0]) +'" />' +
+				'<img src="' + imgService.thumbnailPath(product, 'xs') +'" />' +
 			'</div>' +
 			'<div class="name-price">' +
-				'<p class="name">'+product.p_name_en+'</p>'+
+				'<p class="name">'+product.p_name_ko+'</p>'+
 				'<p class="price">'+product.p_release_price+'원</p>'+
 			'</div>'
 		);
 		template.innerHTML = str;
 		
 		container.style.position = 'absolute';
-		container.style.top = y == '0'? '10px': y;
-		container.style.left = x == '0'? '520px': x;
-		container.style.zIndex = '1';
+		container.style.top = product.offsetY == '0'? '80%': product.offsetY;
+		container.style.left = product.offsetX == '0'? '10px': product.offsetX;
+//		container.style.zIndex = '1';
+		
 		
 		pointer.style.height = '12px';
 		pointer.style.width = '12px';
+		pointer.style.display = 'inline-block';
 		pointer.style.backgroundColor = 'black';
 		pointer.style.border = '2px solid white';
 		pointer.style.borderRadius = '50%';
-		pointer.style.display = 'inline-block';
 		pointer.style.margin = '10px';
 		
 		template.style.width = '200px';
@@ -516,13 +519,13 @@ const imgSlider = (customOption) => (function(customOption) {
 			: (idx+1) + '/' + idxLiAll.length;
 	}
 	
-	function offsetX(idx) {
-		return ul.querySelectorAll('li img')[idx].dataset.offsetX;
-	}
-	
-	function offsetY(idx) {
-		return ul.querySelectorAll('li img')[idx].dataset.offsetY;
-	}
+//	function offsetX(idx) {
+//		return ul.querySelectorAll('li img')[idx].dataset.offsetX;
+//	}
+//	
+//	function offsetY(idx) {
+//		return ul.querySelectorAll('li img')[idx].dataset.offsetY;
+//	}
 	
 	//********************* */
 	//--CSS--
@@ -578,7 +581,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		ul.style.display = 'flex';
 		ul.style.alignItems = 'center';
 		ul.style.left = '0%';
-		ul.style.transition = '0.5s';
+		ul.style.transition = 'left 0.5s';
 	}
 	
 	function setLiCss() {
@@ -596,14 +599,15 @@ const imgSlider = (customOption) => (function(customOption) {
 				liImg.style.width = '100%';
 			}
 			
-			if (option.ratioFix == false) return;
-			li.style.position = 'relative';
-			li.style.top = '0';
-			li.style.paddingTop = liPaddingTop;
-			li.style.overflow = 'hidden';
-			
-			liImg.style.position = 'absolute';
-			liImg.style.top = '0';
+			if (option.ratioFix) {
+				li.style.position = 'relative';
+				li.style.top = '0';
+				li.style.paddingTop = liPaddingTop;
+				li.style.overflow = 'hidden';
+				
+				liImg.style.position = 'absolute';
+				liImg.style.top = '0';
+			}
 		});
 	}
 	
@@ -649,8 +653,6 @@ const imgSlider = (customOption) => (function(customOption) {
 		remove: remove,
 		empty: empty,
 		slideImg: slideImg,
-		offsetX: offsetX,
-		offsetY: offsetY,
 		getImgTagList: getImgTagList,
 		addProductTag: addProductTag,
 		getProductTagList: getProductTagList,

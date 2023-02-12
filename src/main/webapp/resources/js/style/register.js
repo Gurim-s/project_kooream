@@ -1,9 +1,16 @@
 import {productTagSelector} from '../common/product-tag-selector.js';
 import {imgFileUploader} from '../common/img-file-uploader.js';
 
+
 const uploader = imgFileUploader;
 const tagSelector = productTagSelector();
 (function() {
+	const css = document.createElement('link');
+	css.type = 'text/css';
+	css.rel = 'stylesheet';
+	css.href = '/resources/css/common/search-box.css';
+	document.head.append(css);
+	
 	uploader.setOption({
 		uploadURL: '/uploadImageAWS/style',
 		saveName: 'style_image',

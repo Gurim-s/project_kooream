@@ -55,4 +55,5 @@ header .header-bottom div:nth-child(2) ul li {
 }
 header .header-bottom div:nth-child(2) ul li a.header-on{
 	font-weight: bold;
+	border-bottom: 2px solid black;
 }

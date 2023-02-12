@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.ImageFileVO;
 import com.kooream.domain.MemberVO;
+import com.kooream.mapper.FollowMapper;
 import com.kooream.mapper.MemberImageMapper;
 import com.kooream.mapper.MemberMapper;
+import com.kooream.security.UserSession;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -33,6 +35,9 @@ public class MemberServiceImpl implements MemberService{
 	// 패스워드 인코딩을 위해서 선언
 	@Setter (onMethod_= @Autowired)
 	private PasswordEncoder pwencoder;
+	
+	@Setter (onMethod_= @Autowired)
+	private FollowMapper followMapper;
 	
 	@Override
 	public int check(Map<String,Object> map) {
@@ -86,6 +91,22 @@ public class MemberServiceImpl implements MemberService{
 		return mapper.updatePw(vo);
 	}
 
+	@Override
+	@Transactional
+	public int follow(int m_no) {
+		MemberVO userSession = new UserSession().getSession();
+		int follower = userSession.getM_no();
+		
+		boolean isFollowed = followMapper.checkFollowed(m_no, follower);
+		if (isFollowed) {
+			followMapper.unfollow(m_no);
+			return -1;
+		} else {
+			followMapper.follow(m_no, follower);
+			return 1;
+		}
+	}
+	
 	
 	
 	/*

@@ -1,13 +1,16 @@
 import {imgService} from '../service/image-service.js';
 import {styleService} from '../service/style-service.js';
 import {memberService} from '../service/member-service.js';
+import {template as detailTemplate} from '../style/detail.js';
 
 const member_no = document.querySelector('input[name="pri_m_no"]').value;
+let styleList = [];
 const view = {
 	memberDetailInfo: document.querySelector('#memberDetailInfo'),
 	categories: document.querySelector('#categories'),
 	listKeyword: document.querySelector('#listKeyword'),
-	column: document.querySelectorAll('.list-column'),
+	column: document.querySelectorAll('#styleList .list-column'),
+	detailColumn: document.querySelector('#styleDetailList .list-column'),
 	altEmpty: document.querySelector('#empty-list'),
 }
 const btn = {
@@ -43,7 +46,7 @@ function setQuery() {
 		query: param,
 		isEnd: false,
 	}
-	return query; 
+	return query;
 }
 
 function setContentHeader() {
@@ -104,19 +107,47 @@ async function loadMemberDetailInfo() {
 }
 
 async function getList(query) {
-	const styleList = await styleService.getList(query);
-	console.log(styleList);
-	styleList.forEach((style, i) => {
+	const newList = await styleService.getList(query);
+	newList.forEach((style, i) => {
 		view.column[i%4].append(item(style));
 	});
+
+	styleList = styleList.concat(newList);
+	console.log(styleList);
+	setTimeout(() => {loadDetail(newList)}, 0);
 	
 	if (styleList.length < query.amount) query.isEnd = true;
 	if (view.column[0].children.length == 0) {view.altEmpty.className = '';} 
 }
 
+async function loadDetail(newList) {
+	const styleNoList = newList.map(x => x.style_no);
+	const imageList = await styleService.getImageList(styleNoList);
+	const productTagList = await styleService.getProductTagList(styleNoList);
+	
+	newList.forEach(x => {
+		x.style_image = [...imageList[x.style_no]];
+		if (productTagList[x.style_no] == undefined) return;
+		x.productTagList = [...productTagList[x.style_no]];
+	});
+	
+	newList.forEach(x => {
+		view.detailColumn.append(detailTemplate(x));
+	});
+}
+
+function viewDetail(target) {
+	view.column.forEach(x=>x.classList.add('hide'));
+	view.detailColumn.classList.remove('hide');
+	
+	location.href = '#detail_'+target;
+	console.log(location.href);
+}
+
 function item(style) {
 	const template = document.createElement('a');
 	template.className = 'card-link';
+	template.dataset.style_no = style.style_no;
 	template.href = '/style/detail?category=hot&style_no='+style.style_no;  
 	template.innerHTML =(
 		'<div class="card">' +
@@ -155,6 +186,10 @@ function item(style) {
 		countImg.innerHTML = style.count_image + '+';
 		imgContainer.append(countImg);
 	}
-	
+	template.addEventListener('click', function(e) {
+		e.preventDefault();
+		
+		viewDetail(e.target.closest('.card-link').dataset.style_no);
+	});
 	return template;
 }

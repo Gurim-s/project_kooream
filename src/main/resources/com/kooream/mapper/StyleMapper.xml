@@ -121,4 +121,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where style_no = #{style_no}
 	</delete>
 	
+	<update id="updateCountLike">
+		update style
+		set count_like = count_like + #{amount}
+		where style_no = #{style_no}
+	</update>
+	
+	<select id="getCountLike" resultType="int">
+		select count_like
+		from style
+		where style_no = #{style_no}
+	</select>
+	
 </mapper>
