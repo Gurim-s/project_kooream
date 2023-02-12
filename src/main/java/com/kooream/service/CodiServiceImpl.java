@@ -79,15 +79,10 @@ public class CodiServiceImpl implements CodiService{
 	@Transactional
 	@Override
 	public void register(CodiVO vo) {
-		
-		log.info("register.............. " + vo);
-		
 		// 1. 게시글 등록
 		mapper.insert(vo);
-		
 		int codi_no = mapper.getcodi_no();
 		System.out.println("codi_noooooooooooooooooooooooooooooooooo" + codi_no);
-		
 		if(vo.getAttachList() != null && vo.getAttachList().size() >0) {
 			List<CodiImageVO> imageList = vo.getAttachList();
 			for(int i=0; i < imageList.size() ; i++) {
@@ -110,11 +105,7 @@ public class CodiServiceImpl implements CodiService{
 				tagmapper.insert(vo3);
 			}
 		}
-		
-		
 	}
-	
-	
 	
 	@Override
 	public CodiVO get(int codi_no) {

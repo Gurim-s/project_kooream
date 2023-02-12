@@ -10,22 +10,25 @@ $(function() {
 		type : 'get',
 		url : '/codishop/getImages/'+codi_no ,
     	success: function(result) {
-// 	    		var image = $('#uploadReslut');
 //    		이미지 슬라이더 모듈 가져오기
-    		var imgContainer = document.querySelector('#uploadReslut'); // 1. 이미지 슬라이더를 넣을 공간 선택
-    		var slider = imgSlider();									// 2. 모듈(함수) 불러오기 ** 슬라이더 생성
+    		var imgContainer = document.querySelector('.uploadResult'); // 1. 이미지 슬라이더를 넣을 공간 선택
+    		var slider = imgSlider({
+				ratio: result.ratio? result.ratio : 1,
+				ratioFix: false,
+				offset: true,
+			});									// 2. 모듈(함수) 불러오기 ** 슬라이더 생성
     		imgContainer.append(slider.container);						// 3. 생성한 슬라이더를 1번에서 선택한 공간에 넣어주기
-
+			
     		var imgSrcList = [];
     		for(var i=0; i<result.length; i++) {
 // 	    			var fileCallPath = encodeURIComponent(result[i].uploadPath + "/"
 // 	    					+ result[i].uuid + "_"
 // 	    					+ result[i].fileName);
-    			imgSrcList.push(imgService.originPath(result[i]));
+    		imgSrcList.push(imgService.getImageEl(result[i]));
     		}
 // 	    		var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	    		//	result[i]
-    		slider.addList(imgSrcList);
+    		slider.addImgTagList(imgSrcList);
 // 	    		$(image).append(str);
     	},
 	 	error: function(xhr, status, er) {

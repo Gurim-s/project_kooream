@@ -27,10 +27,12 @@
    			
    			</div>
    			<div class="form_section_content">
-				<div id="uploadReslut">
+				<div class="uploadResult">
 				</div>
 			</div>
+			
       	</div>
+      	
       	<div class="product_list">
       		<ul></ul>
       	</div>

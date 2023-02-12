@@ -141,7 +141,7 @@ public class CodiController {
 		System.out.println("list : " + list1.size());
 		log.info("getTags..................." + codi_no); 
 		
-		return new ResponseEntity<List<Codi_TagVO>>(service.getTagList(codi_no), HttpStatus.OK);
+		return new ResponseEntity<List<Codi_TagVO>>(list1, HttpStatus.OK);
 	}
 	
 	
