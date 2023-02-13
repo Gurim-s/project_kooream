@@ -4,15 +4,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kooream.mapper.StyleImageMapper">
+	<select id="getImageListByStyleNoList" resultType="com.kooream.domain.ImageFileVO">
+    	SELECT *
+    	FROM style_image
+    	WHERE style_no IN
+    	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      		#{item}
+    	</foreach>
+	</select>
+	
 	<select id="getImagesByStyle_no" resultType="com.kooream.domain.ImageFileVO">
 		select *
 		from style_image
 		where style_no=#{style_no}
 	</select>
+	
 	<insert id="insert">
 		insert into style_image
 		values (#{uuid}, #{uploadPath}, #{fileName}, #{style_no})
 	</insert>
+	
 	<delete id="deleteAll">
 		delete from style_image
 		where style_no = #{style_no}

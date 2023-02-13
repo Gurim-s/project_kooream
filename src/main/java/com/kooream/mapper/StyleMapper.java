@@ -23,5 +23,8 @@ public interface StyleMapper {
 								@Param("amount") int amount);
 	public long getStyle_no();
 	public void update(StyleVO vo);
-	public long delete(long style_no);
+	public int delete(long style_no);
+	public int updateCountLike(@Param("style_no") long style_no, 
+							   @Param("amount") int amount);
+	public int getCountLike(long style_no);
 }

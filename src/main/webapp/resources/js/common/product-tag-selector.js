@@ -9,6 +9,8 @@ const productTagSelector = () => (function() {
 	const container = document.createElement('div');
 	let slider = imgSlider();
 	const openSearchBtn = document.createElement('a');
+	const img = document.createElement('img');
+	const text = document.createElement('span');
 	
 	init();
 	function init() {
@@ -20,7 +22,10 @@ const productTagSelector = () => (function() {
 		});
 		container.append(openSearchBtn);
 		openSearchBtn.href = '#';
-		openSearchBtn.innerText = '상품검색';
+		openSearchBtn.append(img);
+		openSearchBtn.append(text);
+		img.src = '/resources/img/boxicon.png';
+		text.innerText = '상품검색';
 		
 		setEvent();
 		setDefaultCss();
@@ -31,7 +36,17 @@ const productTagSelector = () => (function() {
 	}
 	
 	function setDefaultCss() {
-		
+		openSearchBtn.style.height = '50px';
+		openSearchBtn.style.display = 'inline-block';
+		img.style.width = '50px';
+		img.style.height = '50px';
+		img.style.float = 'left';
+		text.style.float = 'left';
+		text.style.height = '50px';
+		text.style.lineHeight = '50px';
+		text.style.display = 'inline-block';
+		text.style.fontSize = '18px';
+		text.style.fontWeight = 'bold';
 	}
 	
 	function openSearchModal(e) {

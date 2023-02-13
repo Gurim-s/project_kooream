@@ -115,6 +115,16 @@ public class MemberController {
 		return "/member/myPage";
 	}
 	
+	// 팔로우 기능
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	@ResponseBody
+	@GetMapping(value="/follow/{m_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE} )
+	public ResponseEntity<Integer> followMember(@PathVariable("m_no") int m_no) {
+		int result = service.follow(m_no);
+		
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
+	
 	// 권한 에러 페이지 이동
 	@GetMapping("/authErrorPage")
 	public String authError() {

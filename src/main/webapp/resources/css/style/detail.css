@@ -1,19 +1,19 @@
 @charset "UTF-8";
 
 #content {
+	
+}
+#styleDetailList {
 	max-width: 600px;
 	width: 70%;
 	margin: 0 auto;
 }
-#styleList {
-	width: 100%;
-}
-#styleList .list-column{
+#styleDetailList .list-column{
 	width: 100%;
 	margin-right: 20px;
 	float: left;
 }
-#styleList .list-column:last-child {
+#styleDetailList .list-column:last-child {
 	margin-right: 0px;
 }
 .item {
@@ -63,19 +63,32 @@
 	text-align: center;
     line-height: 30px;
 }
-.item .reply-like-summary .reply-summary,
-.item .reply-like-summary .like-summary {
-	float: left;
+.item .item-header-right .follow-btn.followed {
+	border: 1px solid black;
+	color: black;
+	background-color: white;
+}
+.item .product-count {
+	font-size: 15px;
+}
+.item .like-reply-summary .like-summary,
+.item .like-reply-summary .reply-summary  {
+	display: inline-block;
 	margin-right: 20px;
+	align-items: baseline;
 }
-.item .reply-like-summary .reply-summary img,
-.item .reply-like-summary .like-summary img {
-	width: 30px;
+.item .like-reply-summary .like-summary img,
+.item .like-reply-summary .reply-summary img {
+	width: 25px;
 	margin-right:5px;
+	float: left;
 }
-.item .reply-like-summary .reply-summary span,
-.item .reply-like-summary .like-summary span {
-	font-size: 24px;
+.item .like-reply-summary .like-summary span,
+.item .like-reply-summary .reply-summary span {
+	float: left;
+	display: block;
+	height: 25px;
+	font-size: 15px;
 /* 	font-weight: bold; */
 }
 .item .like-cnt,

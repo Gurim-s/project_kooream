@@ -6,48 +6,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.kooream.mapper.StyleReplyMapper">
 	<select id="getList" resultType="com.kooream.domain.StyleReplyVO">
 		<![CDATA[
-			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
-				style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
-			from (select /*+index_desc(style style_pk) */
-					  rownum rn, m.m_no m_no, m_nickname m_nickname, m.uuid m_uuid, m.uploadpath m_uploadpath, m.filename m_filename,
-					  style_no, style_regdate, style_content, count_like, count_reply, s.uuid s_uuid, s.uploadpath s_uploadpath, s.filename s_filename, count_image
-				  from member m inner join style s on m.m_no = s.m_no
-      			  where rownum <= #{pageNum} * #{amount})
-			where rn > (1 - #{pageNum}) * #{amount}
+			select m_no, m_nickname, uuid, uploadpath, filename, r_no, style_no, content, regdate, nested_from, count_nested
+			from (select /*+index_desc(style_reply style_reply_pk) */
+			          rownum rn, m.m_no, m_nickname, m.uuid, m.uploadpath, m.filename, r_no, style_no, content, regdate, nested_from, count_nested
+			      from member m inner join style_reply r on m.m_no = r.m_no
+			      where style_no = #{style_no} and rownum <= 1 * 20)
+			where rn > (1 - 1) * 20
 		]]>
 	</select>
 	
 	<select id="get" resultType="com.kooream.domain.StyleReplyVO">
 		select *
 		from style_reply
-		where rno=#{rno}
+		where r_no=#{r_no}
 	</select>
 	
 	<select id="getStyleNo" resultType="long">
 		select style_no
 		from style_reply
-		where rno=#{rno}
+		where r_no=#{r_no}
 	</select>
 	
 	<select id="getRnoNestedFrom" resultType="long">
-		select NVL(max(rno), 0)
+		select NVL(max(r_no), 0)
 		from style_reply
-		where rno = (select nested_from
+		where r_no = (select nested_from
 					 from style_reply
-					 where rno = #{rno})
+					 where r_no = #{r_no})
 	</select>
 	
 	<select id="getCountNested" resultType="int">
 		select NVL(count_nested, 0)
 		from style_reply
-		where rno=#{rno}
+		where r_no=#{r_no}
 	</select>
 	
 	<insert id="insert">
 		insert into style_reply
 		values (style_reply_seq.nextval,
 				#{style_no},
-				#{mno},
+				#{m_no},
 				#{content},
 				sysdate,
 				#{nested_from},
@@ -59,18 +57,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set
 			content=#{content}
 		where 
-			rno=#{rno}
+			r_no=#{r_no}
 	</update>
 	
 	<update id="updateCountNested">
 		update style_reply
 		set count_nested = count_nested + #{amount}
-		where rno = #{rnoNestedFrom}
+		where r_no = #{rnoNestedFrom}
 	</update>
 	
 	<delete id="delete">
 		delete from style_reply
-		where rno=#{rno}
+		where r_no=#{r_no}
 	</delete>
 	
 	<delete id="deleteByStyleNo">
@@ -80,6 +78,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<delete id="deleteNested">
 		delete from style_reply
-		where nested_from=#{rno}
+		where nested_from=#{r_no}
 	</delete>
 </mapper>
