@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -60,8 +61,13 @@
 		<div>
 			<span id="head"><strong>구림톡</strong></span>
 			<div>
-				<button class="btn" data-oper="talkupdate">수정</button>
-				<button class="btn" data-oper="talkremove">삭제</button>
+			<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal.member" var="mvo"/>
+				<c:if test="${mvo.m_no eq vo.m_no }">
+					<button class="btn" data-oper="talkupdate">수정</button>
+					<button class="btn" data-oper="talkremove">삭제</button>
+				</c:if>
+			</sec:authorize>
 				<button class="btn" data-oper="talklist">목록</button>
 			</div>
 		</div>
@@ -73,7 +79,6 @@
 				<strong id="title">${vo.talktitle }</strong>
 				<span id="date"><small>${vo.talkdate }</small></span>
 			</div>
-			<div><input type="hidden" name="m_no" value=${vo.m_no }></div>
 			<div>${vo.talkname }</div>
 			<div id="talk-con-box">
 				<div id="talk-con">${vo.talkcon }</div>
@@ -99,15 +104,24 @@
 		</div>
 		<div style="height: 75px;"></div>
 		<!-- 댓글 입력 폼 -->
-		<div>
-			<div>
-			<strong>구리머</strong>
-			<input type="hidden" name="replyname" value="구리머">
-			</div>
-			<br/>
-			<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none";></textarea></div>
-			<div><button id="addReplyBtn">등록</button></div>
-		</div>
+			<c:choose>
+				<c:when test="${not empty mvo }">
+					<sec:authorize access="isAuthenticated()">
+					<sec:authentication property="principal.member" var="mvo"/>
+					<div>
+						<div>
+						<strong>${mvo.m_nickname }</strong>
+						<input type="hidden" name="replyname" value="${mvo.m_nickname }">
+						<input type="hidden" name="m_no" value="${mvo.m_no}">
+						</div>
+						<br/>
+						<div><textarea rows="5" cols="150%" name="replycon" id="replycon" style="resize: none;"></textarea></div>
+						<div><button id="addReplyBtn">등록</button></div>
+					</div>
+					</sec:authorize>
+				</c:when>
+				<c:otherwise>로그인 후 댓글 작성이 가능합니다.</c:otherwise>
+			</c:choose>
 	</div>
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
@@ -165,7 +179,8 @@
 		var talkno = '${vo.talkno }';
 		var replycon = $("#replycon");
 		var replyname = $("input[name=replyname]").val()
-		var m_no = $("#m_no");
+		var m_no = $("input[name=m_no]").val()
+		console.log("멤버 번호" + m_no);
 		
 	 	// 댓글 등록
 	 	// 댓글 등록하려는 게시글 번호 확인
@@ -174,14 +189,14 @@
 	 	$("#addReplyBtn").click(function() {
 	 		
 	 		
-	 		// 리플 내용 검사
+	 		// 댓글 내용 검사
 	 		if($("textarea[name=replycon]").val() == ""){
 				alert('댓글 내용을 적어주세요.');
 				return;
 			}
 	 		
 			replyService.add(
-				{talkreplycon:replycon.val(), talkreplyname:replyname, talkno:talkno, m_no:m_no.val()},
+				{talkreplycon:replycon.val(), talkreplyname:replyname, talkno:talkno, m_no:m_no},
 					function(result) {
 						showList();
 						$("textarea[name=replycon]").val('');
@@ -217,8 +232,15 @@
 						
 						for(var i=0; i<result.length; i++){
 							str += '<div data-replyno ="1"><span><strong>'+ result[i].talkreplyname +'</strong></span>'
-							str += '<button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
-							str += '<button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno+'">삭제</button>'
+							str += '<sec:authorize access="isAuthenticated()">'
+							str += '<sec:authentication property="principal.member" var="mvo"/>'
+							
+							if(result[i].m_no == ${mvo.m_no}){
+								str += '<button class="replyupdatebtn" data-replyno ="'+result[i].talkreplyno+'">수정</button>'
+								str += '<button class="replyremovebtn" data-replyno ="'+result[i].talkreplyno+'">삭제</button>'
+							}
+							
+							str += '</sec:authorize>'
 							str += '<div>'
 							str += '<small class="date-view">'+displayTime(result[i].talkreplydate)+'</small>'
 							str += '</div>'

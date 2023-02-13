@@ -10,6 +10,9 @@
 		color: white;
 		background-color: black; 
 	}
+	button:active {
+ 		background-color: rgba(34,34,34,.8);
+	}
 	#loginBox{
 		width: 300px;
 		margin: auto;

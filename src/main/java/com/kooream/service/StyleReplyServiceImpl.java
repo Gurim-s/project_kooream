@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kooream.domain.ImageFileVO;
 import com.kooream.domain.StyleReplyVO;
 import com.kooream.mapper.StyleMapper;
 import com.kooream.mapper.StyleReplyMapper;
@@ -20,6 +21,13 @@ public class StyleReplyServiceImpl implements StyleReplyService{
 	@Override
 	public List<StyleReplyVO> getList(long style_no) {
 		List<StyleReplyVO> list = mapper.getList(style_no);
+		for (StyleReplyVO reply : list) {
+			ImageFileVO image = new ImageFileVO();
+			image.setFileName(reply.getFileName());
+			image.setUuid(reply.getUuid());
+			image.setUploadPath(reply.getUploadPath());
+			reply.setProfile(image);
+		}
 		
 		return list;
 	}

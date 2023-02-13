@@ -38,12 +38,14 @@ import com.kooream.domain.MemberVO;
 import com.kooream.domain.PaymentListVO;
 import com.kooream.domain.PaymentVO;
 import com.kooream.domain.ProductVO;
+import com.kooream.domain.RntRsvtVO;
 import com.kooream.mapper.BrandCartMapper;
 import com.kooream.security.UserSession;
 import com.kooream.service.BrandCartService;
 import com.kooream.service.BrandProductService;
 import com.kooream.service.BrandProductUploadService;
 import com.kooream.service.PaymentService;
+import com.kooream.service.RentalService;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -59,6 +61,35 @@ public class PaymentController {
 	@Setter(onMethod_ = @Autowired )
 	private PaymentService payservice;
 	
+	@Setter(onMethod_= @Autowired)
+	private RentalService Rntservice;
+	
+
+	// 주문페이지이동 페이지로 이동
+	@GetMapping("/payment") public String view(Model model) { 
+		  return "brandshop/shop_paymentPage";
+	}
+	 
+	// 예약페이지에서 결제페이지로 이동
+	@GetMapping
+	public String goRnt_paymentPage(RntRsvtVO vo, Model model) {
+		ProductVO pvo = new ProductVO();
+		pvo.setP_no(vo.getP_no());
+		// 상품정보 가져오기
+		pvo = Rntservice.viewPrdt(pvo);
+		// 이미지 리스트가져오기
+		List<AttachFileVO> image_list = Rntservice.getViewImg(pvo);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("pvo", pvo);
+		model.addAttribute("image_list", image_list);
+		return "/rental/rnt_paymentPage";
+	}
+	
+	  
+	 
+}
+
 	@Setter(onMethod_ = @Autowired)
 	private BrandCartService cartservice;
 	
@@ -152,19 +183,5 @@ public class PaymentController {
 
 
 }
-	 
-	
 
-		
-		
-		
-		
-	
-
-
-
-
-
-		
-		
 	

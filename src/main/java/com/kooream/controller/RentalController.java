@@ -1,6 +1,6 @@
 package com.kooream.controller;
 
-import java.util.List;
+ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,7 +28,6 @@ import com.kooream.domain.RntReviewVO;
 import com.kooream.security.UserSession;
 import com.kooream.service.RentalService;
 import com.kooream.service.RntInterestService;
-import com.kooream.service.RntReviewService;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -40,10 +39,6 @@ public class RentalController {
 	
 	@Setter(onMethod_= @Autowired)
 	private RentalService service;
-	
-	// 댓글 서비스
-	@Setter(onMethod_= @Autowired)
-	private RntReviewService rp_service;
 	
 	// 관심상품 서비스
 	@Setter(onMethod_= @Autowired)
@@ -95,8 +90,6 @@ public class RentalController {
 		List<AttachFileVO> imageList = service.getViewImg(vo);
 		// 상품 정보 불러오는 쿼리
 		ProductVO pvo = service.viewPrdt(vo);
-		// 리뷰 불러오는 쿼리
-		List<RntReviewVO> reviewVO = rp_service.getReview(vo);
 		
 		// 시큐리티에서 회원번호 가져오기
 		MemberVO userSession = new UserSession().getSession();
@@ -107,7 +100,6 @@ public class RentalController {
 		RntInterestVO interestVO = interestService.countInterest(vo);
 		
 		model.addAttribute("interestVO", interestVO);
-		model.addAttribute("reviewVO", reviewVO);
 		model.addAttribute("imageList", imageList);
 		model.addAttribute("pvo", pvo);
 		return "/rental/viewRntPrdt";

@@ -2,6 +2,7 @@ import {imgSlider} from '../common/img-slider.js'; // 이미지 슬라이더 모
 import {imgService} from '../service/image-service.js';
 
 var codi_no = $('.codi_box').data('codi-no');
+var replyer = $('input[name=pri_m_nickname]').val();
 $(function() {
 	
 	// 이미지 비동기 가져오기
@@ -9,22 +10,25 @@ $(function() {
 		type : 'get',
 		url : '/codishop/getImages/'+codi_no ,
     	success: function(result) {
-// 	    		var image = $('#uploadReslut');
 //    		이미지 슬라이더 모듈 가져오기
-    		var imgContainer = document.querySelector('#uploadReslut'); // 1. 이미지 슬라이더를 넣을 공간 선택
-    		var slider = imgSlider();									// 2. 모듈(함수) 불러오기 ** 슬라이더 생성
+    		var imgContainer = document.querySelector('.uploadResult'); // 1. 이미지 슬라이더를 넣을 공간 선택
+    		var slider = imgSlider({
+				ratio: result.ratio? result.ratio : 1,
+				ratioFix: false,
+				offset: true,
+			});									// 2. 모듈(함수) 불러오기 ** 슬라이더 생성
     		imgContainer.append(slider.container);						// 3. 생성한 슬라이더를 1번에서 선택한 공간에 넣어주기
-
+			
     		var imgSrcList = [];
     		for(var i=0; i<result.length; i++) {
 // 	    			var fileCallPath = encodeURIComponent(result[i].uploadPath + "/"
 // 	    					+ result[i].uuid + "_"
 // 	    					+ result[i].fileName);
-    			imgSrcList.push(imgService.originPath(result[i]));
+    			imgSrcList.push(imgService.getImageEl(result[i]));
     		}
 // 	    		var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	    		//	result[i]
-    		slider.addList(imgSrcList);
+    		slider.addImgTagList(imgSrcList);
 // 	    		$(image).append(str);
     	},
 	 	error: function(xhr, status, er) {
@@ -32,24 +36,58 @@ $(function() {
 		}
 	});
 	
-//	$.ajax({
-//		type : 'get',
-//		url : '/codishop/getproduct/'+codi_no,
-//		success : function(result){
-//			var item = $('.product_list');
-//			
-//			var str = '';
-//		for(var i=0; i<result.length; i++){
-//			var iteam = result[i];
-//			
-//			str += '<a href="/brandshop/view?b_no ='+item.b_no+'" class="item_tag"></a>'
-//			
-//		}
-//		
-//		
-//		item.html(str);
-//		}
-//	})
+	$.ajax({
+		type : 'get',
+		url : '/codishop/getProductTag/'+codi_no,
+		success : function(result){
+			console.log(result);
+			var iteam = $('.product_list');
+			
+			var str = '';
+		for(var i=0; i<result.length; i++){
+			var fileCallPath = encodeURIComponent(result[i].uploadPath + "/"
+ 	    					+ result[i].uuid + "_"
+ 	    					+ result[i].fileName);
+			
+			var link = '';
+			 if(result[i].p_class == 'brand'){
+					link = '/brandshop/get?p_no='+result[i].p_no;
+			}else if(result[i].p_class == 'rental'){
+					link = '/rental/viewRntPrdt?p_no='+result[i].p_no;
+			}else if(result[i].p_class == 'shop'){
+					link = '/shop/shop_introduce/'+result[i].p_no;
+			}
+			
+			
+			str += '<a class="productA" href="'+link+'" title="'+result[i].p_name_ko+'" >';
+				str += '<div class= "product">';
+					str += '<div class= "productimg">';
+						str += '<img class="productTag" alt="'+result[i].p_name_ko+'" src="/displayImage?fileName='+fileCallPath+'">';
+					str += '</div>';
+					str += '<div class= "producttext">';
+						str += '<span>이름 : '+result[i].p_name_ko+'</span></br>';
+						str += '<span>가격 : '+result[i].p_release_price+'</span>';
+					str += '</div>';
+				str += '</div>';
+			str += '</a>';
+		}
+//		$('.productA').on('click', function(e){
+//			e.preventDefault();
+//			console.log(e);
+//			 if(result[i].p_class == 'brand'){
+//					$(".productA").attr("href", "/brandshop/get?p_no="+result[i].p_no);
+//			}else if(result[i].p_class == 'rental'){
+//					$(".productA").attr("href", "/rental/viewRntPrdt?p_no="+result[i].p_no);
+//			}else if(result[i].p_class == 'shop'){
+//					$(".productA").attr("href", "/rental/viewRntPrdt?p_no="+result[i].p_no);
+//			}
+//		});
+		
+		
+		
+			iteam.html(str);
+		}
+	});
 	
 		
 	
@@ -99,23 +137,30 @@ var codi_noValue = codi_no;
 // 댓글 달기 버튼 이벤트
 $("#btnReply").hide();
 $("#replytext").hide();
+$("#replyer").hide();
+
+
 $("#goodsBtn").on("click", function(){
 	var thisText = $(this).text();
 	if(thisText=='댓글 입력'){
 		$("#replytext").val("");
 		$("#replytext").show();
+		$("#replyer").show();
 		$("#btnReply").show();
 		$(this).text("취소");
 	}else{
 		$("#replytext").hide();
+		$("#replyer").hide();
 		$("#btnReply").hide();
 		$(this).text("댓글 입력");
 	}
 });
 	
+
+	
 // 댓글 리스트 화면에 출력 함수 ---- start 
 function showList() {
-	CodiReplyService.getList({codi_no:codi_noValue, page:1},
+	CodiReplyService.getList({codi_no:codi_noValue, page:1 },
 		function(result) {
 			var str = '';
 				
@@ -149,19 +194,23 @@ function showList() {
 				$(".remove_btn").hide();
 				$(".update_open").hide();
 				
+				
 				$(".List_btn").on("click", function(e){
 					var target = $(e.target).closest('button');
 					var remove_btn = $(target).closest('div').find(".remove_btn");
 					var update_open = $(target).closest('div').find(".update_open");
-//					console.log($(target).data('opened'));
-					if($(target).data('opened') == "closed"){
-						$(remove_btn).show();
-						$(update_open).show();
-						$(target).data('opened', 'opened');
-					}else{
-						$(remove_btn).hide();
-						$(update_open).hide();
-						$(target).data('opened', 'closed');
+					var targetname = $(e.target).closest('div').find(".m_replyer");
+					console.log(targetname.text());
+					if(replyer == targetname.text()){
+						if($(target).data('opened') == "closed"){
+							$(remove_btn).show();
+							$(update_open).show();
+							$(target).data('opened', 'opened');
+						}else{
+							$(remove_btn).hide();
+							$(update_open).hide();
+							$(target).data('opened', 'closed');
+						}
 					}
 				}); // List_btn ....end
 				
@@ -210,9 +259,10 @@ $(function(){
 	showList();
 	// 댓글 등록 ... start
 	$("#btnReply").click(function() {
+		console.log(replyer);
 		CodiReplyService.add({
 			reply : $("#replytext").val(),
-			replyer : "임시 작성자",
+			replyer : replyer,
 			codi_no : codi_noValue
 		}, function(result) {
 			showList();

@@ -38,9 +38,9 @@
 	#serachBox{
 		width: 500px;
 		margin: auto;
-		position: absolute;
-	    top: 163px;
-	    left: 597px;
+		position: relative;
+  		top: 71px;
+		left: 40px;
 	}
 	#serachValue{
 		width: 387px;
@@ -71,9 +71,12 @@
     	border: 0px
 	}
 	#selectOrderID{
-		position: absolute;
-    	left: 474px;
-    	top: 232px;
+		position: relative;
+	    left: -36px;
+	    top: 150px;
+	}
+	#serchBtn:active {
+ 		background-color: rgba(34,34,34,.8);
 	}
 </style>
 	<!-- 검색버튼 -->
@@ -434,15 +437,17 @@
 					}else{
 						getLength = idx*getListIdx;
 					}
-					
+					var krPrice=null;
 					for(var i=0; i<getLength; i++){
+						krPrice = result[i].r_price.toLocaleString('ko-KR');
+						
 						str += '<a href="/rental/viewRntPrdt?p_no='+result[i].p_no+'">';
 						str += '<div class="product" style="display: inline-block;width:225px;height: 330px;float:left;padding:15px">';
 						str += '<img src="/displayImage?fileName='+encodeURI(result[i].img_url)+'">';
 						str += '<div>'+result[i].p_brand+'</div>';
 						str += '<div style="font-size:13px">'+result[i].p_name_en+'</div>';
 						str += '<div style="font-size:10px;color: #808080bd;">'+result[i].p_name_ko+'</div>';
-						str += '<div style="font-size: 13px;">'+result[i].r_price+'원</div>';
+						str += '<div style="font-size: 13px;">'+krPrice+'원</div>';
 						str += '</div>';
 						str += '</a>';
 					}

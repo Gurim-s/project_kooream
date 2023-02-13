@@ -8,9 +8,12 @@
 <style>
 	
 	.product_image {
-		height : 75px;
-		width : 75px;
+		height : 118px;
+		width : 118px;
 	}
+	.table_pic{
+	}
+	
 	.product_info{
 		margin-bottom: 20px;
 	}
@@ -18,10 +21,21 @@
 	.p_infobox{
 		
 	}
+	
+	table{
+		margin-top : 5px;
+		margin-bottom : 5px;
+	}
+	
+	.bottom_line{
+		margin-bottom: 20px;
+	}
 
 </style>
+	
 	<h2>- 구매 입찰 내역 -</h2>
 	<div class="buy_bid_window">
+	<table border="1">
 		<c:forEach items="${bvo}" var="bvo">
 		<c:forEach items="${bvo.productvo }" var="pvo">
 			<c:choose>
@@ -29,21 +43,29 @@
 				</c:when>
 				<c:otherwise>
 					<div class="p_infobox">
-						<div class="image_window">
-							<img class="product_image" src="${bvo.imageUrls.get(0) }">
-						</div>
-						<div class="product_info">
-							<div class="brand_namekr" >상품명 : ${pvo.p_name_ko }</div>
-							<div class="brand_nameen" >상품명 : ${pvo.p_name_en }</div>
-							<div class="p_size" >상품 사이즈 : ${bvo.pp_size }</div>
-							<div class="brand_name" >구매 입찰 금액 : ${bvo.bid_sell }</div>
-							<button id="remove_btn" onclick="remove(${bvo.bid_no })">구매입찰 철회하기</button>
-						</div>
+						<hr/>
+						<table>
+							<tr>
+								<td class="table_pic" rowspan="4">
+									<img class="product_image" src="${bvo.imageUrls.get(0) }">
+								</td>
+								<td>
+									<div class="brand_namekr" >${pvo.p_name_ko }</div>
+									<div class="brand_nameen" >${pvo.p_name_en }</div>
+									<div class="p_size" >${bvo.pp_size }</div>
+									<div class="brand_name" >${bvo.bid_sell }</div>
+									<div class="brand_name" >${bvo.bid_date }</div>
+									<button id="remove_btn" onclick="remove(${bvo.bid_no })">입찰 철회</button>
+								</td>
+							</tr>
+						</table>
+						<hr class="bottom_line">
 					</div>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
 		</c:forEach>
+		</table>
 	</div>
 	
 	<h2>- 판매 입찰 내역 -</h2>
@@ -65,13 +87,25 @@
 	</c:forEach>
 	
 	<h2>- 즉시 구매 내역 -</h2>
-	<c:forEach items="${buyvo }" var="payvo">
-	<c:forEach items="${buyvo.productvo }" var="paypvo">
-		<img class="product_image" src="${payvo.imageUrls.get(0) }">
-		<div class="brand_name" >상품명 : ${paypvo.p_name_ko }</div>
-		<div class="brand_name" >거래 번호 : ${payvo.buy_no }</div>
-		<div class="brand_name" >거래 날짜 : ${payvo.buy_date }</div>
-		<div class="brand_name" >거래 금액 : ${payvo.pay_price }</div>
+	<c:forEach items="${buyvo }" var="buyvo">
+	<c:forEach items="${buyvo.productvo }" var="pvo">
+		<img class="product_image" src="${buyvo.imageUrls.get(0) }">
+		<div class="brand_name" >상품명 : ${pvo.p_name_ko }</div>
+		<div class="brand_name" >거래 번호 : ${buyvo.buy_no }</div>
+		<div class="brand_name" >거래 날짜 : ${buyvo.buy_date }</div>
+		<div class="brand_name" >거래 금액 : ${buyvo.pay_price }</div>
+		<p>------------------------</p>
+	</c:forEach>
+	</c:forEach>
+	
+	<h2>- 즉시 판매 내역 -</h2>
+	<c:forEach items="${sellvo }" var="sellvo">
+	<c:forEach items="${sellvo.productvo }" var="pvo">
+		<img class="product_image" src="${sellvo.imageUrls.get(0) }">
+		<div class="brand_name" >상품명 : ${pvo.p_name_ko }</div>
+		<div class="brand_name" >거래 번호 : ${sellvo.buy_no }</div>
+		<div class="brand_name" >거래 날짜 : ${sellvo.buy_date }</div>
+		<div class="brand_name" >거래 금액 : ${sellvo.pay_price }</div>
 		<p>------------------------</p>
 	</c:forEach>
 	</c:forEach>

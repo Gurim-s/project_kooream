@@ -221,5 +221,24 @@ input{
 	background-color: transparent;
 	border: none;
 }
-
-
+/* 상품 태그 이미지  */
+.productTag{
+ width: 120px;
+ height: 120px;
+}
+.product{
+	width: 120px;
+	height : 200px;
+  	padding: 4px;
+	
+}
+.producttext{
+ width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
+.productA{
+	display: inline-block;
+	padding: 5px;
+}

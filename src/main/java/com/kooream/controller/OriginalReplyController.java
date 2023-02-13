@@ -59,11 +59,12 @@ public class OriginalReplyController {
 	@GetMapping(value = "/oriCountOk/{orino}", produces = {MediaType.APPLICATION_XML_VALUE,
 	MediaType.APPLICATION_JSON_VALUE}) public int
 	countOriOk(@PathVariable("orino") int orino) {
-	log.info("Original OK reply count....." + orino);
+		log.info("Original OK reply count....." + orino);
 	  
-	int result = service.countOriOk(orino);
+		int result = service.countOriOk(orino);
 	  
-	return result; };
+		return result; 
+	};
 	 
 	
 	// 가품 같아요 댓글 갯수

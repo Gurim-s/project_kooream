@@ -1,42 +1,46 @@
 import {styleService} from '../service/style-service.js';
+import {memberService} from '../service/member-service.js';
 import {imgService} from '../service/image-service.js';
 import {imgSlider} from '../common/img-slider.js';
-import {productSearchService} from '../service/product-search-service.js';
+//import {productSearchService} from '../service/product-search-service.js';
 import {modal} from '../common/modal.js';
 import {replyViewer} from '../common/reply-viewer.js';
 import {showTime} from '../common/common.js';
 
-const pri_m_no = document.querySelector('header input[name="pri_m_no"]').value;
-(async () => {
-	const searchParams = new URLSearchParams(location.search);
-	const [category, style_no] = Array.from(searchParams).map(x  => x[1]);
-	const column = document.querySelector('.list-column');
 //	let styleList = await styleService.get(category, style_no);
 //	styleList.forEach(x => column.append(template(x)));
-	const style = await styleService.getOne(style_no);
-	column.append(template(style));
-})();
+const member_no = document.querySelector('header input[name="pri_m_no"]').value;
+//(async () => {
+//	const searchParams = new URLSearchParams(location.search);
+//	const [category, style_no] = Array.from(searchParams).map(x  => x[1]);
+//	const column = document.querySelector('.list-column');
+//	const style = await styleService.getOne(style_no);
+//	column.append(template(style));
+//})();
+var data = {
+	followerList: [],
+};
 
 //style목록 template
 var template = function(style) {
 	var template = document.createElement('div'); 
 	template.className = 'item';
+	template.id = 'detail_'+style.style_no;
 	template.dataset.styleNo = style.style_no;
-	
 	template.innerHTML = (
 		'<div class="item-header clearfix">' +
 			'<div class="item-header-left">' +
 				'<div class="profile-image">'+
-					'<img class="profile" src="'+imgService.originPath(style.writer.profileImage)+'" />' +
+					'<img class="profile" src="'+imgService.thumbnailPath(style.profile_image)+'" />' +
 				'</div>' +
 				'<div class="user-regdate">' +
-				 	'<div class="user-name">김씨</div>' +
+				 	'<div class="user-name">'+style.m_nickname+'</div>' +
 					'<div class="regdate">'+ showTime(style.style_regdate) +'</div>' +
 				'</div>' +
 			'</div>' +
 			'<div class="item-header-right">' +
-				(style.m_no != pri_m_no
-					? '<a href="#" class="follow-btn" data-user-no="'+style.m_no+'">팔로우</a>'
+				(style.m_no != member_no
+					? '<a href="#" class="follow-btn '+(data.followerList.includes(style.m_no)? 'followed':'')+'"  data-m_no="'+style.m_no+'">팔로우</a>'
 					: '<a href="#" class="update-btn">수정</a><a href="#" class="remove-btn">삭제</a>') +
 			'</div>' +
 		'</div>' +
@@ -44,30 +48,27 @@ var template = function(style) {
 		'<div class="product-count"></div>' + 
 		'<div class="product-container">'+
 		'</div>' +
-		'<div class="reply-like-summary">'+
+		'<div class="like-reply-summary clearfix">'+
 			'<a href="#" class="like-summary">' +
 				'<img src="/resources/img/like.svg" alt="공감"/>' +
-				'<span>'+ style.count_like +'</span>'+ 
+				'<span>공감 '+ style.count_like +'개</span>'+ 
 			'</a>' +
 			'<a href="#" class="reply-summary">' +
 				'<img src="/resources/img/reply.svg" alt="댓글"/>' +
-				'<span>'+ style.count_reply +'</span>'+ 
+				'<span>댓글 '+ style.count_reply +'개</span>'+ 
 			'</a>' +
-			'<div class="clearfix"></div>' +
 		'</div>' + 
 		'<div class="content">'+ strToHashTag(style.style_content) +'</div>' +
 		'<div class="reply-container">'+
 		'</div>'
 	);
-	
 	//이미지 슬라이더 모듈 가져오기
 	var imgContainer = template.querySelector('.img-container');
 	var slider = imgSlider({
-		ratio: style.ratio? style.ratio : 1,
-		ratioFix: true,
 		offset: true,
 	});
 	imgContainer.append(slider.container);
+//	slider.add(imgService.originPath(style.mainImage));
 	var imgSrcList = style.style_image.map(x => imgService.getImageEl(x));
 	slider.addImgTagList(imgSrcList);
 	
@@ -75,28 +76,33 @@ var template = function(style) {
 	const productContainer = template.querySelector('.product-container');
 	setProductTags(style.productTagList, productContainer, slider);
 	
-	const productTagCount = style.productTagList.flat()
+	const productTagCount = style.productTagList?.flat()
 	.map(x => x.p_no)
 	.filter((x, i, arr) => arr.indexOf(x) === i)
 	.length;
 	
-	template.querySelector('.product-count').innerHTML = '상품 태그 ' + productTagCount + ' 개';
+	template.querySelector('.product-count').innerHTML = '상품 태그 ' + (productTagCount == undefined? 0: productTagCount) + ' 개';
 	
 	/***********************************
 	 * addEventListener
 	 **********************************/
-	template.querySelector('.like-summary')
-	.addEventListener('click', (e) => {
-		e.preventDefault();
-		const m = modal();
-		m.open({title: '공감 목록'});
-		m.append('helloWorld');
-	});
+	const followBtn = template.querySelector('.follow-btn');
+	if (followBtn != null) {
+		followBtn.addEventListener('click', async (e) => {
+			e.preventDefault();
+			const target = e.target;
+			const m_no = target.dataset.m_no;
+			const result = await memberService.followMember(m_no);
+			
+			document.querySelectorAll('a.follow-btn[data-m_no="'+m_no+'"]')
+			.forEach(x => result == 1 ? x.classList.add('followed'): x.classList.remove('followed'));
+		});
+	}
 	
 	template.querySelector('.reply-summary')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
-		if(pri_m_no === 'anonymousUser') {
+		if(member_no === 'anonymousUser') {
 			location.href = '/style/reply/login';
 			return;
 		}
@@ -109,8 +115,22 @@ var template = function(style) {
 		replyTemplate.setOption({input: true, nestedReply: true});
 		const replyList = await replyTemplate.get();
 //		const updateTarget = e.target.querySelector('span');
+		replyTemplate.publish({update: function(count) {
+			const replyCount = template.querySelector('.reply-summary span');
+			replyCount.innerHTML = '댓글 ' + count + '개';
+		}});
 		
 		m.append(replyList);
+	});
+	
+	template.querySelector('.like-summary')
+	.addEventListener('click', async (e) => {
+		e.preventDefault();
+		const style_no = e.target.closest('.item').dataset.styleNo;
+		const count = await styleService.like(style_no);
+		
+		const replyCount = template.querySelector('.like-summary span');
+		replyCount.innerHTML = '공감 ' + count + '개';
 	});
 	
 	template.querySelectorAll('.update-btn').forEach(
@@ -130,18 +150,19 @@ var template = function(style) {
 	return template;
 }
 
-async function getProduct(x) {
-	x.product = await productSearchService.getProduct(x.p_no);
-	return x;
-}
+//async function getProduct(x) {
+//	x.product = await productSearchService.getProduct(x.p_no);
+//	return x;
+//}
 
-async function setProductTags(list, productContainer, slider) {
-	const productList = await Promise.all(list.flat().map(getProduct));
-	productList.forEach(x => {
-		slider.addProductTag(x.product, x.offsetX, x.offsetY, x.idx);
+function setProductTags(list, productContainer, slider) {
+//	const productList = await Promise.all(list.flat().map(getProduct));
+	if (list == null || list.length == 0) return;
+	list.forEach(x => {
+		slider.addProductTag(x);
 	});
 
-	productList.forEach(x => {
+	list.forEach(x => {
 		productContainer.append(productTagTemplate(x));
 	});
 }
@@ -149,16 +170,15 @@ async function setProductTags(list, productContainer, slider) {
 function productTagTemplate(productTag) {
 	const container = document.createElement('a');
 	container.className = 'product-info';
+	console.log(productTag);
 	container.href = '../shop_introduce/'+productTag.p_no;
-	
-	const product = productTag.product;
 	const str = (
 		'<div class="product-img">' +
-				'<img src="'+imgService.originPath(product.attachList[0])+'" />' +
+				'<img src="'+imgService.originPath(productTag)+'" />' +
 		'</div>' +
 		'<div class="name-price">' +
-			'<p class="name">'+product.p_name_en+'</p>'+
-			'<p class="price">'+product.p_release_price+'원</p>'+
+			'<p class="name">'+productTag.p_name_ko+'</p>'+
+			'<p class="price">'+productTag.p_release_price+'원</p>'+
 		'</div>'
 	);
 	container.innerHTML += str;
@@ -192,3 +212,5 @@ function strToHashTag(text) {
 	
 	return text.replace(type, strToA);
 }
+
+export {template, data}

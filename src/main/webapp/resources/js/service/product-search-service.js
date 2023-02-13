@@ -11,7 +11,6 @@ const productSearchService = (function() {
             },
             body: JSON.stringify(searchKeyword),
 		});
-		
 		return result.json();
 	}
 	

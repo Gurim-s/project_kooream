@@ -38,6 +38,7 @@
 
 	
 </style>
+
 		<div id="mcategroyBox">
 			<sec:authentication property="principal.member" var="pri"/>
 			<div id="myPage" >마이 페이지</div>

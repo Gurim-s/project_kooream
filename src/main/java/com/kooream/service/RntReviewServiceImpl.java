@@ -24,8 +24,8 @@ public class RntReviewServiceImpl implements RntReviewService{
 	}
 
 	@Override
-	public List<RntReviewVO> getReview(ProductVO vo) {
-		return mapper.getReview(vo);
+	public List<RntReviewVO> getReview(int p_no) {
+		return mapper.getReview(p_no);
 	}
 
 	@Override

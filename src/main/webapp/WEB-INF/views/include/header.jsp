@@ -37,17 +37,18 @@
 	<header>
 		<sec:authentication property="principal" var="pri"/>
 		<c:if test="${pri eq 'anonymousUser' }">
-			<c:set var="mno" value="${pri}"/>
+			<c:set var="m_no" value="${pri}"/>
 		</c:if>
 		<c:if test="${pri ne 'anonymousUser' }">
-			<c:set var="mno" value="${pri.member.m_no }"/>
-			<c:set var="mno" value="${pri.member.m_nickname }"/>
+			<c:set var="m_no" value="${pri.member.m_no }"/>
+			<c:set var="m_nickname" value="${pri.member.m_nickname }"/>
 			<c:url value="/displayImage" var="profileImgSrc"><!-- c:url 자동 인코딩  -->
 				<c:param name="fileName" value="${pri.member.uploadPath }/${pri.member.uuid }_${pri.member.fileName }"></c:param>
 			</c:url>
 			<input type="hidden" name="pri_m_profile_img_src" value="${profileImgSrc }"/>
+			<input type="hidden" name="pri_m_nickname" value="${m_nickname }"/>		
 		</c:if>
-		<input type="hidden" name="pri_m_no" value="${mno }"/>		
+		<input type="hidden" name="pri_m_no" value="${m_no }"/>		
 		<div class="header-top">
 			<div class="member-nav clearfix">
 				<ul>
@@ -57,7 +58,7 @@
 							<li><a href="/brandCart/brandCart">장바구니</a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('ROLE_USER')">
-							<li><a href="/member/myPage">마이페이지</a></li>
+							<li><a href="/member/profile">마이페이지</a></li>
 						</sec:authorize>
 					<li>
 						<sec:authorize access="isAnonymous()">

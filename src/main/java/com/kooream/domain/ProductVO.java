@@ -25,6 +25,10 @@ public class ProductVO {
 	private int m_no;
 	private String r_no;
 
+
+
+	private String total_price;
+
 	
 	private int max_bid_sell, min_bid_buy;
 	

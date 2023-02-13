@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <style>
 	.content_area{
 		overflow: hidden;
@@ -399,15 +401,16 @@
 			<div class="section_total">
 				<div class="section_unit">
 					<div class="section_title">
-						<h3 class="title_txt">반송 주소</h3>
-						<a href="#" class="add_more_btn">+ 새 주소 추가</a>
-					</div>
-					
-					<a href="#" class="delivery_info">
-						<span class="guide_txt">
-							주소를 추가해주세요. >
-						</span>
-					</a>
+ 					<h3 class="title_txt">배송 주소</h3>
+                  <!-- <a href="#" class="add_more_btn">+ 새 주소 추가</a> -->
+               		</div> 
+               		<input type="checkbox" id="copyAddr">기본 배송지선택
+               		<div><input type="text" class="guide_txt" 
+                                 id="sample6_address" 
+                                 name="m_addr" onclick="sample6_execDaumPostcode()" 
+                                 placeholder="주소를 입력해주세요."></div>
+               <div><input type="text" class="guide_txt" id="sample6_detailAddress" name="m_Detail_addr" placeholder="상세주소를 입력하세요."></div>
+              		<input type="hidden" name = "m_adress" value="">
 					<div class="shipping_memo">
 						<button class="button_shipping">
 							<span class="button_shipping_memo">배송 시 요청사항을 선택하세요.</span>						

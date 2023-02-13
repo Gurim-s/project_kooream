@@ -6,10 +6,13 @@
 <style>
 	#title{
 		text-align: center;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		margin-top: 85px;
 	}
 	#addBox{
 		width: 600px;
 		margin: auto;
+		margin-top: 58px;
 	}
 	input[type="text"],input[type="number"],select{
 		 width: 450px;
@@ -17,7 +20,36 @@
 	#btn{
 		text-align: center;
 	}
-	
+	#content{
+		border-bottom: 1px solid gray;
+	}
+	td:nth-child(odd){
+		text-align: center;
+		font-weight: bold;
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		height: 45px;
+		width: 100px;
+	}
+	select{
+		height: 40px;
+	}
+	#btn input{
+		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+		border: 0;
+		width: 145px;
+		height: 53px;
+		border-radius: 7px;
+		color: white;
+		background-color: black;
+		cursor: pointer;
+	}
+	td:nth-child(even){
+		border-bottom: 1px solid gray;
+	}
+	input{
+  		outline: none;
+  		height: 40px;
+	}
 </style>
 <div id="title"><h1>렌탈 상품 수정</h1></div>
 <div id="addBox">
@@ -92,7 +124,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" id="btn">
+				<td colspan="2" id="btn" style="padding-top: 15px;     padding-left: 103px;">
 					<input type="reset"  value="다시 작성"/>
 					<input type="button" id="modifyBtn" value="상품 수정"/>	<!-- 이 버튼을 기준으로 submit 재작성 필요 -->
 					<input type="button" onclick="history.go(-1)" value="상세페이지로 이동"/>

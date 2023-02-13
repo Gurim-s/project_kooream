@@ -130,8 +130,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member set m_pw = #{m_pw} where m_id = #{m_id}
 	</update>
 	
-	<update id="increaseFollowCount">
-		update member set m_follow_count 
+	<update id="updateFollowerCount">
+		update member 
+		set m_follower_count = m_follower_count + #{amount} 
+		where m_no = #{m_no} 
 	</update>
-	
+	<update id="updateFollowingCount">
+		update member 
+		set m_following_count = m_following_count + #{amount} 
+		where m_no = #{m_no} 
+	</update>
+	<update id="updateStyleCount">
+		update member 
+		set m_style_count = m_style_count + #{amount} 
+		where m_no = #{m_no} 
+	</update>
 </mapper>

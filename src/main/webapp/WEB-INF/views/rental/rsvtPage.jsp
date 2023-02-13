@@ -171,6 +171,9 @@
 		width: 250px;
 		border-bottom: 1px solid gray;
 	}
+	#payBtn:active{
+		background-color: rgba(34,34,34,.8);
+	}
 </style>
 
 </head>
@@ -203,11 +206,11 @@
 	<div style="text-align: right;">
 		대여금액 : <span id="rntPrice"><fmt:formatNumber value="${pVO.r_price}" pattern="###,###,###"/></span>원
 	</div>
-	<form id="myForm" action="/rsvt/rgstRsvt" method="post" style="text-align: right;">
+	<form id="myForm" action="/Payment/goRnt_paymentPage" style="text-align: right;">
 		<input type="hidden" name="strt_r_date">
 		<input type="hidden" name="rtrn_r_date">
 		<input type="hidden" name="p_no" value="${p_no }">
-		<input type="hidden" name="pay"><!-- 총 결제금액 -->
+		<input type="hidden" name="total_price"><!-- 총 결제금액 -->
 		<input type="button" id="payBtn" value="결제하기">
 	</form>
 </div>
@@ -593,7 +596,7 @@ function calendarInit() {
 	            var periodPrice = "${pVO.r_price}";
 	            // 대여기간 반영한 대여금액
 	        	var rntPrice = periodPrice*period+(periodPrice*1);
-	        	$("input[name='pay']").val(rntPrice);
+	        	$("input[name='total_price']").val(rntPrice);
 	            $("#rntPrice").html(rntPrice.toLocaleString('ko-KR')); // toLocaleString('ko-KR') : ###,###,###으로 변경
 	            
         		

@@ -43,8 +43,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	<insert id="insertBuyBid">
-		INSERT INTO BIDDING(m_no, p_no, bid_sell, bid_buy, pp_size, bid_no) VALUES
-		(#{m_no}, #{p_no}, #{bid_sell}, #{bid_buy}, #{pp_size}, bid_no_seq.nextval)
+		INSERT INTO BIDDING(m_no, p_no, bid_sell, bid_buy, pp_size, bid_no, bid_date) VALUES
+		(#{m_no}, #{p_no}, #{bid_sell}, #{bid_buy}, #{pp_size}, bid_no_seq.nextval, SYSDATE)
 	</insert>
 	
 	<delete id="now_sell">
@@ -75,6 +75,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="buyTrade_Read" resultType="com.kooream.domain.PaymentVO">
     	select * from payment where m_no = #{m_no} order by p_no
+    </select>
+    
+    <select id="sellTrade_Read" resultType="com.kooream.domain.PaymentVO">
+    	select * from payment where sell_m_no = #{m_no} order by p_no
     </select>
     
     <select id="get_Bidinfo" resultType="com.kooream.domain.ProductVO">
