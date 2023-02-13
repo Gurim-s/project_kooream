@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -70,20 +71,28 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span id="head">정품판별</span>
+		<span id="head"><strong>정품판별</strong></span>
+		
+		<sec:authorize access="isAuthenticated()">
 		<button>글쓰기</button>
+		</sec:authorize>
 	</div>
 	<br/>
 	<div id="main">
 	<hr/>
 	<br/>
 	<div>
-		<!-- <select name = "brandname">
-			<option value="노스페이스">노스페이스</option>
+		<c:if test="${!empty brandList}">
+		<select name = "brandname" id="brandSearch">
+			<c:forEach var="bvo" items="${brandList}">
+				<option value="${bvo.oribarandname}">${bvo.oribarandname}</option>
+			</c:forEach>
+			<!-- <option value="노스페이스">노스페이스</option>
 			<option value="나이키">나이키</option>
 			<option value="슈프림">슈프림</option>
-			<option value="컨버스">컨버스</option>
-		</select> -->
+			<option value="컨버스">컨버스</option> -->
+		</select>
+		</c:if>
 	</div>
 	<div>
 		<br/>
@@ -175,7 +184,7 @@
 	            type: "GET",
 	            dataType: "json",
 	            success: function(result){
-	                // 컨트롤러에서 가져온 방명록 리스트는 result.data에 담겨오도록 했다.
+	                // 컨트롤러에서 가져온 리스트는 result.data에 담겨오도록 했다.
 	                // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
 	                let length = result.data.length;
 	                if( length < 5 ){
@@ -227,6 +236,45 @@
 	    };
 		
 		
+	    
+	    // 게시글 검색 (비동기)
+	    $("#brandSearch").on("change", function() {
+	    	var brandSearch = $("#brandSearch");
+			var brandValue = brandSearch.val();
+			console.log(brandValue);
+			
+			$.ajax({
+				type:'get',
+				url: '/community/search/' + brandValue + '.json',
+				data : {brandname : brandValue},
+				dataType : 'json',
+				success:function(result, status, xhr){
+					if(callback){
+						callback(result);
+						console.log(result);
+					}
+				},
+				error : function(xhr, status, er){
+					if(er){
+						error(er);
+					}
+				}
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		})
+	    
+	    
+	    
+	    
+	    
 		
 		
 		

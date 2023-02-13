@@ -3,11 +3,13 @@ package com.kooream.service;
 import java.util.List;
 
 import com.kooream.domain.OriginalAttachVO;
+import com.kooream.domain.OriginalBrandVO;
 import com.kooream.domain.OriginalVO;
 
 public interface OriginalService {
+	
 	// 브랜드 셀렉트 리스트
-	//public List<OriginalBrandVO> getOriBrandList();
+	public List<OriginalBrandVO> getOriBrandList();
 	
 	
 	// 정품판별 게시판 리스트
@@ -27,4 +29,7 @@ public interface OriginalService {
 	
 	// 정품판별 게시글 수정
 	public boolean oriUpdate(OriginalVO vo);
+	
+	// 정품판별 게시글 검색
+	public List<OriginalVO> brandSearch(String brandname);
 }

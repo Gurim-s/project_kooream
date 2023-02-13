@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 <html>
@@ -14,14 +15,31 @@
 		height: 500px;
 		width: 130px;
 	}
+	#main{
+		margin-left: 150px;
+	}
 	span{
-		font-size: 30px;
+		font-size: 25px;
 	}
 	#btn{
 	text-align: center;
 	}
+	button{
+		border: 0;
+		width: 100px;
+		height: 50px;
+	}
 	form{
 		margin-left: 180px;
+	}
+	input[type=text] {
+		width: 500px;
+		height: 40px;
+		font-size: 15px;
+		border: 1;
+		border-radius: 5px;
+		outline: none;
+		padding-left: 10px;
 	}
 </style>
 </head>
@@ -31,21 +49,22 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>정품판별</span>
+		<span><strong>정품판별</strong></span>
 	</div>
 	<br/>
 	<hr/>
 	<br/>
 	<div>
 		<form action="/community/oriRegister" method="post">
-			<div>작성자</div>
+			<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal.member" var="mvo"/>
 			<div>
-				<input type="text" name="oriname">
-				<!-- <input type="text" name="m_no"> -->
+				<strong>${mvo.m_nickname }</strong>
+				<input type="hidden" name="oriname" value="${mvo.m_nickname }">
+				<input type="hidden" name="m_no" value="${mvo.m_no }">
 			</div>
 			<br/>
-			<div>제목</div>
-			<div><input type="text" name="orititle"></div>
+			<div><input type="text" name="orititle" placeholder="제목을 입력해주세요."></div>
 			<br/>
 			<div>이미지 첨부</div>
 			<div>
@@ -57,17 +76,20 @@
 			<br/>
 			<div>브랜드</div>
 			<div>
+				<c:if test="${!empty brandList}" >
 				<select name="brandname">
-					<option value="노스페이스">노스페이스</option>
-					<option value="나이키">나이키</option>
-					<option value="슈프림">슈프림</option>
+					<c:forEach var="bvo" items="${brandList}">
+						<option value="${bvo.oribarandname}">${bvo.oribarandname}</option>
+					</c:forEach>
 				</select>
+				</c:if>
 			</div>
 			<br/>
 			<div>내용</div>
 			<div>
 				<textarea rows="20" cols="130" name ="oricon" style="resize: none"></textarea>
 			</div>
+			</sec:authorize>
 		</form>
 		<div id="btn">
 			<br/>

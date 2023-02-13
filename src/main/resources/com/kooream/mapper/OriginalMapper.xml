@@ -44,4 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select> -->
 	
+	<select id="brandSearch" resultType="com.kooream.domain.OriginalVO">
+		SELECT * FROM original_pro WHERE brandname = #{brandname}
+	</select>
+	
 </mapper>
