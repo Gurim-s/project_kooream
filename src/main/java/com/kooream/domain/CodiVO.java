@@ -24,8 +24,8 @@ public class CodiVO {
 	
 	private List<CodiImageVO> attachList;
 	private List<Codi_TagVO> codiTagList;
-	private List<ProductTagVO> productTagList;
-	
+//	private List<ProductTagVO> productTagList2;
+	private List<List<ProductTagVO>> productTagList;
 	
 	
 	
