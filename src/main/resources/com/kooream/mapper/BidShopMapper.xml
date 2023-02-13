@@ -78,17 +78,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
     <select id="searchProductTag" resultType="com.kooream.domain.ProductVO">
-    	select p_no, p_name_ko, p_name_en, p_release_price, p_class
+    <![CDATA[
+    	select p_no, p_name_ko, p_name_en, p_release_price, p_class, uuid, uploadPath, fileName
 		from (select /*+index_desc(product product_pk) */
-			  	rownum rn, p_no, p_name_ko, p_name_en, p_release_price, p_class
+			  	rownum rn, p_no, p_name_ko, p_name_en, p_release_price, p_class, uuid, uploadPath, fileName
 			  from product
 			  where
-			  	<foreach collection="keywordList" item="arr" separator="or">
+	]]>
+			  	(<foreach collection="keywordList" item="arr" separator="or">
 			  		p_name_ko like '%'||#{arr}||'%' or
 			  		p_name_en like '%'||#{arr}||'%'
-			  	</foreach>
+			  	</foreach>)
+	<![CDATA[
+			  	 and rownum <= #{pageNum} *#{amount}
+			  	
 			  )
 		where rn > (#{pageNum} -1) * #{amount}
+	]]>
     </select>
 	
 </mapper>

@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kooream.domain.ImageFileVO;
 import com.kooream.domain.MemberVO;
+import com.kooream.domain.ProductTagVO;
 import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleVO;
 import com.kooream.security.UserSession;
@@ -39,7 +42,6 @@ import lombok.extern.log4j.Log4j;
 public class StyleController {
 	private StyleService service;
 	
-	
 	@GetMapping("/list")
 	public String list() {
 		return "/style/list";
@@ -53,7 +55,25 @@ public class StyleController {
 		
 		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 	}
-
+	
+	@PostMapping(value = "/list/imageList",
+			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
+			consumes = "application/json")
+	public ResponseEntity<Map<Long, List<ImageFileVO>>> styleImageList(@RequestBody List<Long> styleNoList) {
+		Map<Long, List<ImageFileVO>> list = service.getImageListByStyleNoList(styleNoList);
+		
+		return new ResponseEntity<Map<Long, List<ImageFileVO>>>(list, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/list/productTagList",
+			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
+			consumes = "application/json")
+	public ResponseEntity<Map<Long, List<ProductTagVO>>> styleProductTagList(@RequestBody List<Long> styleNoList) {
+		Map<Long, List<ProductTagVO>> list = service.getProductTagListByStyleNoList(styleNoList);
+		
+		return new ResponseEntity<Map<Long, List<ProductTagVO>>>(list, HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/list/slow",
 			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
 			consumes = "application/json")
@@ -149,5 +169,15 @@ public class StyleController {
 				log.error("delete file error" + e.getMessage());
 			}
 		});
+	}
+	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	@GetMapping(value="/like/{style_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	@ResponseBody
+	public ResponseEntity<Integer> likeStyle(@PathVariable("style_no") long style_no) {
+		int result = service.likeStyle(style_no);
+		System.out.println("+++++++++++result = " + result);
+		
+		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 }

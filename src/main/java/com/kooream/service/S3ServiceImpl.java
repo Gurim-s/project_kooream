@@ -92,7 +92,7 @@ public class S3ServiceImpl implements S3Service{
 	public void uploadThumbFile(MultipartFile image, String s3Path, int width, int height) {
 		try {
 			BufferedImage bufferImage = ImageIO.read(image.getInputStream());
-			BufferedImage thumbnailImage = Thumbnails.of(bufferImage).size(280, 350).asBufferedImage();
+			BufferedImage thumbnailImage = Thumbnails.of(bufferImage).size(width, height).asBufferedImage();
 			
 	        ByteArrayOutputStream thumbOutput = new ByteArrayOutputStream();
 	        String imageType = image.getContentType();

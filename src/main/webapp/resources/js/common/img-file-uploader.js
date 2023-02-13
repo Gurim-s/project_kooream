@@ -148,7 +148,7 @@ var imgFileUploader = (function() {
 		const src = URL.createObjectURL(file);
 		const li = document.createElement('li');
 		li.innerHTML = '<img src="'+src+'"/>' +
-					   '<button class="remove-img-btn"></button>';
+					   '<button class="remove-img-btn">X</button>';
 		
 		liCss(li);
 		imgCss(li.querySelector('img'));
@@ -256,7 +256,6 @@ var imgFileUploader = (function() {
 		inputImgBtn.style.position = 'relative';
 		inputImgBtn.style.top = '50%';
 		inputImgBtn.style.left = '50%';
-		inputImgBtn.style.left = '50%';
 		inputImgBtn.style.width = '50px';
 		inputImgBtn.style.height = '50px';
 		inputImgBtn.style.display = 'block';
@@ -293,6 +292,10 @@ var imgFileUploader = (function() {
 	
 	function removeBtnCss(btn) {
 		btn.style.position = 'absolute';
+		btn.style.border = '2px solid black';
+		btn.style.backgroundColor = 'white';
+		btn.style.color = 'black';
+		btn.style.fontWeight = 'bold'; 
 		btn.style.top = '5%';
 		btn.style.right = '5%';
 		btn.style.width = '15px';

@@ -2,6 +2,7 @@ package com.kooream.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -18,10 +19,12 @@ import com.kooream.domain.StyleQuery;
 import com.kooream.domain.StyleTagVO;
 import com.kooream.domain.StyleVO;
 import com.kooream.mapper.StyleImageMapper;
+import com.kooream.mapper.StyleLikeMapper;
 import com.kooream.mapper.StyleMapper;
 import com.kooream.mapper.StyleProductTagMapper;
 import com.kooream.mapper.StyleReplyMapper;
 import com.kooream.mapper.StyleTagMapper;
+import com.kooream.security.UserSession;
 import com.kooream.mapper.BidShopMapper;
 import com.kooream.mapper.HashtagMapper;
 import com.kooream.mapper.MemberImageMapper;
@@ -38,6 +41,7 @@ public class StyleServiceImpl implements StyleService{
 	private StyleImageMapper imageMapper;
 	private StyleReplyMapper replyMapper;
 	private StyleTagMapper styleTagMapper;
+	private StyleLikeMapper styleLikeMapper;
 	private MemberMapper memberMapper;
 	private MemberImageMapper memberImageMapper;
 	private HashtagMapper hashtagMapper;
@@ -152,6 +156,20 @@ public class StyleServiceImpl implements StyleService{
 	}
 	
 	@Override
+	public Map<Long, List<ImageFileVO>> getImageListByStyleNoList(List<Long> styleNoList) {
+		return imageMapper.getImageListByStyleNoList(styleNoList)
+			.stream()
+			.collect(Collectors.groupingBy(ImageFileVO::getStyle_no));
+	}
+	
+	@Override
+	public Map<Long, List<ProductTagVO>> getProductTagListByStyleNoList(List<Long> styleNoList) { 
+		return productTagMapper.getProductTagListByStyleNoList(styleNoList)
+				.stream()
+				.collect(Collectors.groupingBy(ProductTagVO::getStyle_no));
+	}
+	
+	@Override
 	public List<ImageFileVO> getImageList(long style_no) {
 		return imageMapper.getImagesByStyle_no(style_no);
 	}
@@ -244,5 +262,23 @@ public class StyleServiceImpl implements StyleService{
 				styleTagMapper.delete(styleTag);
 			});
 		mapper.update(vo);
+	}
+	
+	@Override
+	@Transactional
+	public int likeStyle(long style_no) {
+		MemberVO userSession = new UserSession().getSession();
+		int m_no = userSession.getM_no();
+		
+		boolean isLiked = styleLikeMapper.checkLiked(m_no, style_no);
+		if (isLiked) {
+			styleLikeMapper.delete(m_no, style_no);
+			mapper.updateCountLike(style_no, -1);
+		} else {
+			styleLikeMapper.insert(m_no, style_no);
+			mapper.updateCountLike(style_no, 1);
+		}
+		
+		return mapper.getCountLike(style_no);
 	}
 }

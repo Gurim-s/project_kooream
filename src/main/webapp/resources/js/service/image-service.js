@@ -10,13 +10,16 @@ var imgService = (function() {
 		var {uploadPath, uuid, fileName} = imageVO;
 		return "/displayImage?fileName=" + encodeURI(uploadPath + "\\" + uuid + "_" + fileName);
 	}
-	function thumbnailPath(imageVO) {
+	
+	function thumbnailPath(imageVO, size) {
+		if (size == null) size = 's';
 		if (!imageVO) return '/resources/img/codi_test.png';
 		var originalUuid = imageVO.uuid;
-		imageVO.uuid = 's_' + originalUuid;
+		imageVO.uuid = size + '_' + originalUuid;
 		
 		return originPath(imageVO);
 	}
+	
 	function getImageEl(imageVO) {
 		const img = document.createElement('img');
 		img.src = originPath(imageVO);

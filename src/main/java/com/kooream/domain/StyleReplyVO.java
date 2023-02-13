@@ -12,11 +12,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StyleReplyVO {
-	private long rno;
-	private long mno;
-	private long style_no;
-	private String content;
+	private long r_no, style_no;
+	private int m_no, nested_from, count_nested;
+	private String m_nickname, content, uuid, uploadPath, fileName;
 	private Date regdate;
-	private long nested_from;
-	private long count_nested;
+	
+	//-----------
+	private ImageFileVO profile;
 }

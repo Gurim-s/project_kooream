@@ -2,10 +2,12 @@
  * 
  */
 import {productSearchService} from '../service/product-search-service.js';
-
+import {imgService} from '../service/image-service.js';
 const searchBox = () => (function() {
 	const container = document.createElement('div');
+	container.id = 'searchBox';
 	const searchInput = document.createElement('input');
+	searchInput.placeholder = '상품명으로 검색';
 	const resultList = document.createElement('ul');
 	const publisher = [];
 	
@@ -39,9 +41,9 @@ const searchBox = () => (function() {
 		const result = await productSearchService.searchProduct({
 			keyword: keyword,
 			pageNum: 1,
-			amount: 10,
+			amount: 20,
 		});
-		console.log(result);
+		
 		setProductList(result);
 	}
 	
@@ -55,7 +57,18 @@ const searchBox = () => (function() {
 	function productListTemplate(product) {
 		const li = document.createElement('li');
 		li.dataset.p_no = product.p_no;
-		const str = '<a href="#" class="choose-product">'+product.p_name_ko+'</a>';
+		const str = ''+
+			'<a href="#" class="choose-product">'+
+				'<div class="searched-product-container">' +
+					'<div class="product-image">'+
+						'<img src="'+imgService.thumbnailPath(product, 'xs')+'"/>'+
+					'</div>'+
+					'<div class="product-name">'+
+						'<span class="p-name-ko">'+product.p_name_ko +'</span>'+
+						'<span class="p-name-en">'+product.p_name_en +'</span>'+
+					'</div>' +
+				'</div>'+
+			'</a>';
 		
 		li.innerHTML = str;
 		li.querySelector('li a').addEventListener('click', (e) => chooseProduct(e, product));

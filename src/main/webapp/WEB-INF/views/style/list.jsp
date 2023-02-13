@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <jsp:include page="../include/header.jsp"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/style/list.css'/>">
+	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/style/detail.css'/>">
 	<div id="content">
 		<div id="memberDetailInfo" class="hide">
 			<img class="profile-img" alt="user-profile-img" src="<c:url value='/resources/img/codi_test.png'/>">
@@ -33,6 +34,10 @@
 			<div class="list-column">
 			</div>
 			<div class="list-column">
+			</div>
+		</div>
+		<div id="styleDetailList" class="clearfix">
+			<div class="list-column hide">
 			</div>
 		</div>
 		<div id="empty-list" class="hide">

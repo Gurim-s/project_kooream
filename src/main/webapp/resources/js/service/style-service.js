@@ -27,10 +27,42 @@ var styleService = (function() {
         return res.json();
 	}
 	
+	async function getImageList(styleNoList) {
+		const res = await fetch('/style/list/imageList', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            body: JSON.stringify(styleNoList),
+        });
+
+		return res.json();
+	}
+	
+	async function getProductTagList(styleNoList) {
+		const res = await fetch('/style/list/productTagList', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            body: JSON.stringify(styleNoList),
+        });
+
+		return res.json();		
+	}
+	async function like(style_no) {
+		const res = await fetch('/style/like/'+style_no);
+		
+		return res.json();
+	}
+	
 	return {
 		getOne: getOne,
 		get: get,
 		getList: getList,
+		getImageList: getImageList,
+		getProductTagList: getProductTagList,
+		like: like,
 	}
 })();
 
