@@ -23,4 +23,7 @@ public interface OriginalMapper {
 	
 	// 정품판별 게시글 수정
 	public int oriUpdate (OriginalVO vo);
+	
+	// 정품판별 게시글 검색
+	public List<OriginalVO> brandSearch (String brandname);
 }

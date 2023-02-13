@@ -13,14 +13,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BrandCartVO {
 	private int cart_no, m_no, p_no, p_release_price, b_no ;
-	private String P_NAME_EN, b_name, pp_size;
+	private String P_NAME_EN, b_name, pp_size, fileName, uuid, uploadPath;
 	
 	private List<AttachFileVO> attachList;
 	//private ProductVO product;
-	
 		
-		
-	}
+}
 	
 	
 		

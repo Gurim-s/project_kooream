@@ -7,22 +7,56 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-<!-- 	<link rel="stylesheet" type="text/css" href="WEB-INF/views/include/common.css"> -->
+	<title>KOOREAM</title>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/common.css'/>">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/header.css'/>">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/main.css'/>">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/footer.css'/>">
 	<script type="text/javascript" src="<c:url value='/resources/js/jquery/jquery-3.4.1.js'/>"></script>
+	<script  type="text/javascript">
+		// 로그아웃시 토큰 보내주기 위한 함수
+		function listView(){
+		    var f = document.createElement('form');
+		    var csrf = "${_csrf.parameterName }";
+		    var csrf_value = "${_csrf.token } ";
+		    var obj;
+		    obj = document.createElement('input');
+		    obj.setAttribute('type', 'hidden');
+		    obj.setAttribute('name', csrf);
+		    obj.setAttribute('value', csrf_value);
+		    
+		    f.appendChild(obj);
+		    f.setAttribute('method', 'post');
+		    f.setAttribute('action', '/logout');
+		    document.body.appendChild(f);
+		    f.submit();
+		}
+	</script>
 </head>
 <body>
 	<header>
+		<sec:authentication property="principal" var="pri"/>
+		<c:if test="${pri eq 'anonymousUser' }">
+			<c:set var="m_no" value="${pri}"/>
+		</c:if>
+		<c:if test="${pri ne 'anonymousUser' }">
+			<c:set var="m_no" value="${pri.member.m_no }"/>
+			<c:set var="m_nickname" value="${pri.member.m_nickname }"/>
+			<c:url value="/displayImage" var="profileImgSrc"><!-- c:url 자동 인코딩  -->
+				<c:param name="fileName" value="${pri.member.uploadPath }/${pri.member.uuid }_${pri.member.fileName }"></c:param>
+			</c:url>
+			<input type="hidden" name="pri_m_profile_img_src" value="${profileImgSrc }"/>
+			<input type="hidden" name="pri_m_nickname" value="${m_nickname }"/>		
+		</c:if>
+		<input type="hidden" name="pri_m_no" value="${m_no }"/>		
 		<div class="header-top">
 			<div class="member-nav clearfix">
 				<ul>
 					<li><a href="#">고객센터</a></li>
 					<li><a href="/rental/interestList">관심상품</a></li>
-          			<li><a href="#">장바구니</a></li>
+						<sec:authorize access="hasRole('ROLE_USER')">
+							<li><a href="/brandCart/brandCart">장바구니</a></li>
+						</sec:authorize>
 						<sec:authorize access="hasRole('ROLE_USER')">
 							<li><a href="/member/profile">마이페이지</a></li>
 						</sec:authorize>
@@ -43,57 +77,42 @@
 					<img alt="로고이미지" src="<c:url value='/resources/img/kooream.png'/>">
 				</a>
 			</div>
-			<div>
+			<div id="mainMenuNav">
 				<ul>
 					<li>
-						<a href="/style/list?category=hot">STYLE</a>
+						<a id="nav-style" href="/style/list?category=hot">STYLE</a>
 					</li>
 					<li>
-						<a href="/shop/shop_allList">SHOP</a>
+						<a id="nav-shop" href="/shop/shop_allList">SHOP</a>
 					</li>
 					<li>
-						<a href="/brandshop/index">BRAND</a>	
+						<a id="nav-brandshop" href="/brandshop/index">BRAND</a>	
 						<!-- href가 기본적으로 GetMapping -> Controller를 탄다 -->
 					</li>
 					<li>
-						<a href="/rental/index">RENTAL</a>
+						<a id="nav-rental" href="/rental/index">RENTAL</a>
 					</li>
 					<li>
-						<a href="/codishop/list">CODI</a>
+						<a id="nav-codishop" href="/codishop/list">CODI</a>
 					</li>
 					<li>
-						<a href="/community/oriList">COMMUNITY</a>
-					</li>
-					<li>
-						<a href="#">검색</a>
+						<a id="nav-community" href="/community/oriList">COMMUNITY</a>
 					</li>
 				</ul>
 			</div>
 		</div>
+		<script type="text/javascript" defer>
+			const now = location.pathname;
+			const nowMenu = 'nav-'+ now.split('/')[1];
+			const target = document.getElementById(nowMenu); 
+			if (target != undefined && target != null) {
+				target.className="header-on";
+			}
+		</script>
 	</header>
 	<main>
 		<div class="wrapper clearfix">
 		
-<script  type="text/javascript">
 
-// 로그아웃시 토큰 보내주기 위한 함수
-function listView(){
-    var f = document.createElement('form');
-    var csrf = "${_csrf.parameterName }";
-    var csrf_value = "${_csrf.token } ";
-    var obj;
-    obj = document.createElement('input');
-    obj.setAttribute('type', 'hidden');
-    obj.setAttribute('name', csrf);
-    obj.setAttribute('value', csrf_value);
-    
-    f.appendChild(obj);
-    f.setAttribute('method', 'post');
-    f.setAttribute('action', '/logout');
-    document.body.appendChild(f);
-    f.submit();
-}
-
-</script>
 	
 	

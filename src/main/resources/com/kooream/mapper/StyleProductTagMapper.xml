@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.kooream.mapper.StyleProductTagMapper">
+	<select id="getProductTagListByStyleNoList" resultType="com.kooream.domain.ProductTagVO">
+    	SELECT style_no, t.p_no, offsetx, offsety, idx, p_name_ko, p_name_en, p.p_release_price, uuid, filename, uploadpath
+    	FROM style_product_tag t left join product p on p.p_no =t.p_no
+    	WHERE style_no IN
+    	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      		#{item}
+    	</foreach>
+	</select>
+
+	<select id="getTagList" resultType="com.kooream.domain.ProductTagVO">
+		select t.p_no, idx, p_name_ko, p_name_en, uuid, filename, uploadpath, offsetX, offsetY
+		from style_product_tag t left join product p on t.p_no = p.p_no
+		where style_no=#{style_no} and idx=#{idx}
+	</select>
+	
+	<select id="getPNoListByStyleNo" resultType="int">
+		select distinct p_no
+		from style_product_tag
+		where style_no=#{style}
+	</select>
+	
+	<insert id="insert">
+		insert into style_product_tag
+		values (#{style_no}, #{p_no}, #{offsetX}, #{offsetY}, #{idx})
+	</insert>
+	
+	<delete id="delete">
+		delete from style_product_tag
+		where style_no=#{style_no}
+	</delete>
+</mapper>

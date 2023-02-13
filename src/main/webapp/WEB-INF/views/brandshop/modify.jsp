@@ -164,14 +164,14 @@
 	});//사이즈 선택 끝-----------------------------------------------------------	
  */
 
-	$(function(){
-		var operForm = $("#operForm");
-		var p_noValue = '${vo.p_no}';
-		var bno = '${vo.b_no}';
-		$("button").on("click", function(e){
-			e.preventDefault();
+$(function(){
+	var operForm = $("#operForm");
+	var p_noValue = '${vo.p_no}';
+	var bno = '${vo.b_no}';
+	$("button").on("click", function(e){
+		e.preventDefault();
 			
-			var operation = $(this).data("oper");
+		var operation = $(this).data("oper");
 			
 			if(operation == 'remove'){
 				operForm.attr("action", "/brandshop/remove");

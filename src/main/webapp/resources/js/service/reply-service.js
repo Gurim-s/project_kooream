@@ -9,14 +9,6 @@ const replyService = (function() {
 		return result.json();
 	}
 	
-	function get(rno) {
-		return {};
-	}
-	
-	function update(reply) {
-		return ;
-	}
-	
 	async function register(reply) {
 		const result = await fetch('/stylereplies/new', {
 			method: 'post',
@@ -37,8 +29,6 @@ const replyService = (function() {
 	
 	return {
 		getList: getList,
-		get: get,
-		update: update,
 		register: register,
 		remove: remove,
 	}

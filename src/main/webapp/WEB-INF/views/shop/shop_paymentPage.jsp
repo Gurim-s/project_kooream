@@ -249,6 +249,16 @@
 		letter-spacing: -.21px;
 	}
 	
+	.empty_price2{
+		text-align: right;
+		white-space: nowrap;
+		color: #222;
+		font-size: 18px;
+		letter-spacing: -.21px;
+		font-weight: bold;
+	
+	}
+	
 	.price_title2, .price_text2{
 		font-weight: normal;
 		color: rgba(34,34,34,.5);
@@ -351,18 +361,20 @@
 </style>
 
 <div class="content_area">
-	<form name="shop_bidsell" method="post" id="bidSellForm">
+	<form name="now_buy" method="post" id="now_buy">
 		<div class="buy_before">
 			<div class="product_info">
 				<div class="product_info">
 					<div class="infobox">
-						<img class="product_image" src="${imageUrl }">
+						<c:forEach items="${imageUrls}" var="imageUrl" begin="0" end="0">
+							<img class="product_image" src="${imageUrl }">
+						</c:forEach>
 						<!-- <img class="product_image" src="/resources/img/ps5.png"> -->
 						<div class="product_infobox">
-							<div class="code">P0000CQH</div>
-							<div class="name">[KREAM Exclusive] STU Duck Down Short Jacket Multi Check</div>
-							<div class="kor_name">에스티유 덕 다운 쇼트 자켓 멀티 체크</div>
-							<div class="p_size">L</div>
+						<div class="code">${vo.p_model_no }</div>
+						<div class="name">${vo.p_name_en }</div>
+						<div class="kor_name">${vo.p_name_ko }</div>
+						<div class="p_size">${vo2.pp_size }</div>
 						</div>
 					</div>
 				</div>
@@ -397,11 +409,11 @@
 								</div>
 								<div class="way_desc">
 									<p class="company">
-										<span class="badge_title">브랜드 배송</span>
+										<span class="badge_title">일반 배송</span>
 										<span>무료</span>
 									</p>
 									<p class="sub_txt">
-									입점한 브랜드에서 직접 택배 배송
+									구림에서 검수 후 직접 택배 배송
 									</p>
 								</div>
 							</div>
@@ -418,18 +430,18 @@
 						<dl class="price_box">
 							<dt class="price_title">총 결제금액</dt>
 							<dd class="price empty_price">
-								<span class="amount">-</span>
+								<span class="amount">${vo3.bid_buy }원</span>
 							</dd>
 						</dl>
 					</div>
 					<div class="price_bind">
 						<dl class="price_addition">
 							<dt class="price_title"><span>구매가</span></dt>
-							<dd class="price_text">가격</dd>
+							<dd class="price_text">${vo3.bid_buy }원</dd>
 						</dl>
 						<dl class="price_addition">
 							<dt class="price_title2"><span>배송비</span></dt>
-							<dd class="price_text2">가격</dd>
+							<dd class="price_text2">무료 배송</dd>
 						</dl>
 					</div>
 				</div>
@@ -447,7 +459,7 @@
 									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
 								</div>
 								<div>
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" id="cbcon">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -456,7 +468,7 @@
 									<p class="notice_subtext">자세히보기</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" id="cbcon">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -464,7 +476,7 @@
 									<p class="notice_maintext">'결제하기'를 선택하시면 즉시 결제가 진행됩니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" id="cbcon">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -472,7 +484,12 @@
 									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 거래 진행에 동의합니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="hidden" name="p_no" value="${vo.p_no }">
+									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
+									<input type="hidden" name="bid_buy" id="bid_buy" value="${vo3.bid_buy }">
+									<input type="hidden" name="sell_m_no" id="sell_m_no" value="${vo4.m_no }">
+									<input type="hidden" name="pay_price" id="pay_price" value="${vo3.bid_buy }">
 								</div>
 							</div>
 						</li>
@@ -480,11 +497,11 @@
 					<div class="price_total">
 						<dl class="price_box2">
 							<dt class="price_title3">총 결제금액</dt>
-							<dd class="empty_price2">-</dd>
+							<dd class="empty_price2">${vo3.bid_buy }원</dd>
 						</dl>
 					</div>
 					<div class="now_buy_btn">
-						<div class="btn_box full" >결제 하기</div>
+						<div class="btn_box full" >[${vo3.bid_buy }]원 결제 하기</div>
 					</div>
 				</div>
 			</div>
@@ -492,5 +509,26 @@
 	</form>
 </div>
 <script type="text/javascript">
+	var m_no = $('input[name="pri_m_no"]').val();
+	var m_no_input = '<input type="hidden" name ="m_no" value="'+ m_no +'">';
+	console.log(${vo4.m_no });
+	
+	$(".btn_box").on("click",function(){
+		
+		if ($('input:checkbox[id="cbcon"]').is(":checked") != true) {
+			alert("동의하기 체크박스 선택하여야합니다.")
+			return false;
+		} else {
+			var form = $('form');
+			form.attr("action", "/shop/now_buy");
+			console.log(form);
+			console.log(m_no_input);
+			$('.price_box2').html(m_no_input);
+ 			$(form).submit();
+		}
+	});
+	
+	
+
 </script>
 <jsp:include page="../include/footer.jsp"/>

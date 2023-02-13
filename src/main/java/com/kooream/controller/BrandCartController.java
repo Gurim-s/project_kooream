@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -33,8 +34,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandCartVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.MemberVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.mapper.BrandCartMapper;
+import com.kooream.security.UserSession;
 import com.kooream.service.BrandCartService;
 import com.kooream.service.BrandProductService;
 import com.kooream.service.BrandProductUploadService;
@@ -55,7 +58,14 @@ public class BrandCartController {
 	// 장바구니 추가 컨트롤러
 	@PostMapping(value="/addCart", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public int addCart(BrandCartVO vo){	// 장바구니 담기
+	public int addCart(BrandCartVO vo){// 장바구니 담기
+		MemberVO userSession = new UserSession().getSession();
+		if(userSession != null) {
+			vo.setM_no(userSession.getM_no()); // 회원번호 불러오기
+			
+			// 상품 예약하는함수
+		
+		}
 		
 		//log.info("-----------------0000----------"+vo.getP_no());
 		//log.info("카트번호" + vo.getCart_no());
@@ -70,6 +80,7 @@ public class BrandCartController {
 	
 	
 	 // 장바구니 페이지로 이동
+	@Secured({"ROLE_USER"})
 	@GetMapping("/brandCart")	
 	public String view(Model model) {
 		return "brandshop/brandCart";
@@ -78,9 +89,14 @@ public class BrandCartController {
 	// 장바구니 리스트 보기
 	
 	  @GetMapping("/brandCartList")
-	  
 	  @ResponseBody public ResponseEntity<List<BrandCartVO>> brandCartList(Model model){ 
-		  int m_no = 1;
+		  int m_no=0;
+		  MemberVO userSession = new UserSession().getSession();
+			if(userSession != null) {
+				 m_no = userSession.getM_no(); // 회원번호 불러오기
+				
+			}
+		  //int m_no = 1;
 	  //model.addAttribute("brandCartList",brandCartList(model));
 		  
 	  return new

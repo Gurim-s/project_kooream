@@ -26,6 +26,9 @@ public class OriginalServiceImpl implements OriginalService {
 	@Setter(onMethod_ = @Autowired)
 	private OriginalAttachMapper attachMapper;
 	
+	@Setter(onMethod_ = @Autowired)
+	private OriginalBrandMapper brandMapper;
+	
 	
 	// 정품판별 게시판 리스트
 	@Override
@@ -97,6 +100,21 @@ public class OriginalServiceImpl implements OriginalService {
 		int result = mapper.oriUpdate(vo);
 		
 		return result == 1? true : false;
+	}
+	
+	// 정품판별 게시글 작성 시 브랜드 셀렉트 리스트
+	@Override
+	public List<OriginalBrandVO> getOriBrandList() {
+		
+		return brandMapper.oriBrandList();
+	}
+	
+	// 정품판별 게시글 검색
+	@Override
+	public List<OriginalVO> brandSearch(String brandname) {
+		log.info("브랜드 검색 서비스 임플--------" + brandname);
+		
+		return mapper.brandSearch(brandname);
 	}
 	
 }

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/resources/css/codi/codi.css" />
+<link rel="stylesheet" href="/resources/css/common/search-box.css" />
 <jsp:include page="../include/header.jsp"/>
 
 
@@ -33,32 +34,36 @@
 				</div>
 				
 				<div class="row">
-					<span class="title_content">상품태그</span>
-					<input type="text" name="m_no" id="textForm"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="상품 번호 입력">
-				</div>
-				
-				<div class="row">
 					<span class="title_content">모델정보</span>
 					<span class="model_info">이름: </span>
 						<input type="text" name="codimodel_name" id="textForm2">
 						
 					<span class="model_info">키 :  </span>
-						<input type="number" name="codi_cm" id="textForm2">
+						<input type="number" min="1" name="codi_cm" id="textForm2">
 						
 					<span class="model_info">무게 : </span>
-						<input type="number" name="codi_kg" id="textForm2">
+						<input type="number"  min="1" name="codi_kg" id="textForm2">
 				</div>
 				<div class="row">
 					<div><span class="title_content">사진 등록</span></div>
-				 <div class="panel-body">
-		            <div class="form-group uploadDiv">
-<!-- 		               <input type="file" id="uploadFile" name="uploadFile" multiple="multiple"> -->
-		            </div>
-		            <div class="uploadResult">
-		               <ul></ul>
-		            </div>
-			         </div>
+					 <div class="panel-body">
+			            <div class="form-group uploadDiv">
+	<!-- 		               <input type="file" id="uploadFile" name="uploadFile" multiple="multiple"> -->
+			            </div>
+			            <div class="uploadResult">
+			               <ul></ul>
+						</div>
+					</div>
 				</div>	<!-- row.... end -->
+				<div><button id="addProductTag">상품태그 추가하기</button></div>
+				<div class="row hide-product">
+					<div><span class="title_content">상품태그</span></div>
+					<div style="width: 420px;">
+						<div class="product-tag-selector"></div>
+					</div>
+				</div>
+				
+				
 			</div> <!--  insert_codi.... end -->
 			<hr/>
 			<br/><br/><br/>
@@ -80,6 +85,12 @@
 </script>
 
 <style>
+div.row.hide-product {
+	display: none;
+}
+div.row.hide-image {
+	display: none;
+}
 /* 이미지 업로드 테스트 */
 #att_zone{
 	width: 505px;
@@ -92,8 +103,16 @@
 	color : #999;
 	font-size:.9em;
 }
-
-
+.tag_name{
+	display: inline-block;
+	margin : 5px;
+	padding : 5px;
+    border-radius: 20px;
+    background-color: #ebebeb;
+}
+.tag_text{
+	font-weight: bold;
+}
 
 /* 테스트 */
 #textForm{

@@ -13,20 +13,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentVO {
-	private int buy_no, p_no, sum_price, b_no ;
-	private String pp_size;
+	private int buy_no, p_no, pay_price, m_no, b_no, sell_m_no;
+	private String m_adress, p_name_ko, pp_size, p_model_no, p_name_en;
+	private String uuid, fileName, uploadPath;
 	private Date buy_date;
 
-	private List<AttachFileVO> attachList;
 	//private ProductVO product;
-	
 		
-		
-	}
-	
-	
-		
-	
-	
-
-
+	private List<ProductVO> productvo;
+	private List<AttachFileVO> attachList;
+	private List<String> imageUrls;
+}

@@ -4,19 +4,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.kooream.mapper.BidShopMapper">
-	<insert id="insert">
-		INSERT INTO BIDDING VALUES(#{M_NO}, #{P_NO}, #{BID_SELL}, #{BID_BUY})
-	</insert>
-	
 	<select id="getList" resultType="com.kooream.domain.ProductVO">
-		select A.* from product A order by p_no desc
+		select A.* from product A where p_class='shop' order by p_no desc
+	</select>
+	
+	<select id="select_cate" resultType="com.kooream.domain.ProductVO">
+		select A.* from product A where p_class='shop' and p_category = #{p_category} order by p_no desc
 	</select>
 	
 	<insert id="insertProduct" parameterType="com.kooream.domain.ProductVO">
 	<![CDATA[
         insert into PRODUCT
-        (p_no, b_no, p_name_ko, p_name_en, p_size, p_model_no, p_release_date, p_release_price, p_category, p_class, p_brand)
-        values(product_no_seq.nextval, #{b_no}, #{p_name_ko, jdbcType=VARCHAR}, #{p_name_en, jdbcType=VARCHAR}, #{p_size, jdbcType=VARCHAR}, #{p_model_no, jdbcType=VARCHAR}, #{p_release_date},  #{p_release_price}, #{p_category, jdbcType=VARCHAR}, 'shop', #{p_brand, jdbcType=VARCHAR})
+        (p_no, b_no, p_name_ko, p_name_en, p_size, p_model_no, p_release_date, p_release_price, p_category, p_class, p_brand, uuid, filename, uploadpath)
+        values(product_no_seq.nextval, #{b_no}, #{p_name_ko, jdbcType=VARCHAR}, #{p_name_en, jdbcType=VARCHAR}, #{p_size, jdbcType=VARCHAR}, #{p_model_no, jdbcType=VARCHAR}, #{p_release_date},  #{p_release_price}, #{p_category, jdbcType=VARCHAR}, 'shop', #{p_brand, jdbcType=VARCHAR}, #{uuid}, #{fileName}, #{uploadPath})
     ]]>
     </insert>
     
@@ -47,12 +47,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="remove">
 		delete from PRODUCT where p_no=#{p_no}
 	</delete>
+	
+	<delete id="bidremove">
+		delete from bidding where p_no=#{p_no}
+	</delete>
+	
 	<select id="sizeread" resultType="com.kooream.domain.BidShopVO">
 		<![CDATA[
-			select max(bid_sell) as bid_sell, p_size, p_no 
-			from bidding
-			group by p_size, p_no
-			having p_no=#{p_no}
+			select nvl(max(bid_sell), 0) as bid_sell, p.pp_size, p.p_no
+			from product_size p left outer join bidding b on p.pp_size = b.pp_size and p.p_no = b.p_no
+			where p.p_no = #{p_no}
+			group by p.pp_size, p.p_no order by pp_size
+		]]>
+	</select>
+	
+	<select id="buysizeread" resultType="com.kooream.domain.BidShopVO">
+		<![CDATA[
+			select nvl(min(nullif(bid_buy, 0)), 0) as bid_buy , p.pp_size, p.p_no
+			from product_size p left outer join bidding b on p.pp_size = b.pp_size and p.p_no = b.p_no
+	        where  p.p_no= #{p_no}
+	        group by p.pp_size, p.p_no order by pp_size
 		]]>
 	</select>
 	
@@ -64,17 +78,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
     <select id="searchProductTag" resultType="com.kooream.domain.ProductVO">
-    	select p_no, p_name_ko, p_name_en, p_release_price, p_class
+    <![CDATA[
+    	select p_no, p_name_ko, p_name_en, p_release_price, p_class, uuid, uploadPath, fileName
 		from (select /*+index_desc(product product_pk) */
-			  	rownum rn, p_no, p_name_ko, p_name_en, p_release_price, p_class
+			  	rownum rn, p_no, p_name_ko, p_name_en, p_release_price, p_class, uuid, uploadPath, fileName
 			  from product
 			  where
-			  	<foreach collection="keywordList" item="arr" separator="or">
+	]]>
+			  	(<foreach collection="keywordList" item="arr" separator="or">
 			  		p_name_ko like '%'||#{arr}||'%' or
 			  		p_name_en like '%'||#{arr}||'%'
-			  	</foreach>
+			  	</foreach>)
+	<![CDATA[
+			  	 and rownum <= #{pageNum} *#{amount}
+			  	
 			  )
 		where rn > (#{pageNum} -1) * #{amount}
+	]]>
     </select>
 	
 </mapper>

@@ -84,10 +84,11 @@
 	}
 	
 	.size_price{
-		color: #f15746;
+		color: #28ab66;
 		margin-top: 1px;
     	font-size: 12px;
     	text-align: center;
+    	font-weight: bold;
 	}
 	
 	.badge_logo{
@@ -133,6 +134,7 @@
 		position: relative;
 		width: 100%;
 		height : 64px;
+		cursor:pointer;
 	}
 	
 	.buy_price{
@@ -156,48 +158,52 @@
 
 
 <div class="content_area">
-	<div class="buy_before">
-		<div class="product_info">
-			<div class="infobox">
+	<form name="size_select" method="post" id="size_select">
+		<div class="buy_before">
+			<div class="product_info">
+				<div class="infobox">
 					<c:forEach items="${imageUrls}" var="imageUrl" begin="0" end="0">
 						<img class="product_image" src="${imageUrl }">
 					</c:forEach>
-				<div class="product_infobox">
-					<div class="code">${vo.p_model_no }</div>
-					<div class="name">${vo.p_name_en }</div>
-					<div class="kor_name">${vo.p_name_ko }</div>
-					<div class="badge_product">
-						<img class="badge_logo" src="../resources/img/badge_logo.png">빠른배송
+					<div class="product_infobox">
+						<div class="code">${vo.p_model_no }</div>
+						<div class="name">${vo.p_name_en }</div>
+						<div class="kor_name">${vo.p_name_ko }</div>
+						<div class="badge_product">
+							<img class="badge_logo" src="../resources/img/badge_logo.png">빠른배송
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="all_box">
-				<c:forEach items="${vo2}" var="imageUrl" begin="0" end="5">
+				<div class="all_box">
+	 			<c:forEach items="${vo2}" var="vo2">
 					<div class="select_box">
 						<div class="size_product">
-							<img class="badge_logo" src="../resources/img/badge_logo.png">${imageUrl.p_size }
+							<input type="radio" id="select" name="pp_size" value="${vo2.pp_size }">
+							${vo2.pp_size }
 						</div>
 						<div class="size_price">
-							${imageUrl.bid_sell }
+							${vo2.bid_sell }
 						</div>
+						<input type="hidden" name="p_no" value="${vo.p_no }">
 					</div>
 				</c:forEach>
-			</div>
-		</div> <!-- box_all -->
+					</div>
+				</div>
+				
+			</div> <!-- box_all -->
 			<div class="bid_or_buy">
 				<div class="buy_box">
 					<div class="btn_box">
-						<div class="buy_price">999,000</div>
-						<div class="buy_badge">일반 배송</div>
+						<!-- <div class="buy_price">999,000</div> -->
+						<div class="buy_badge">사이즈 선택</div>
 					</div>
 				</div>
 			</div>
+		</form>
 	</div>
-</div>
 
 <script type="text/javascript">
-
-	$(".select_box").click(function(){
+/* 	$(".select_box").click(function(){
 		if($(".select_box").css("font-weight") != "nomal")
 	    {
 	        $(".select_box").css({"font-weight": "bold"})
@@ -213,7 +219,14 @@
 	    } else { 
 	        $(".select_box").css({"border": "bold"})
 	    }
+	}); */
+	var pno = ${vo.p_no };
+	
+	$(".buy_box").on("click",function(){
+		var form = $('form');
+		form.attr("action", "/shop/shop_sellbidPage");
+		console.log(form);
+		$(form).submit();
 	});
-
 </script>
 <jsp:include page="../include/footer.jsp"/>

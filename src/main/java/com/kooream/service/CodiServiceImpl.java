@@ -11,9 +11,11 @@ import com.kooream.domain.CodiVO;
 import com.kooream.domain.Codi_TagVO;
 import com.kooream.domain.Codi_itemVO;
 import com.kooream.domain.Criteria;
+import com.kooream.domain.ProductTagVO;
 import com.kooream.domain.SearchCriteria;
 import com.kooream.mapper.CodiImageMapper;
 import com.kooream.mapper.CodiMapper;
+import com.kooream.mapper.CodiProductTagMapper;
 import com.kooream.mapper.Codi_TagMapper;
 import com.kooream.mapper.Codi_itemMapper;
 
@@ -36,6 +38,10 @@ public class CodiServiceImpl implements CodiService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private Codi_itemMapper itemmapper;
+
+	@Setter(onMethod_ = @Autowired)
+	private CodiProductTagMapper productTagMapper;
+	
 	
 	
 	@Override
@@ -73,19 +79,23 @@ public class CodiServiceImpl implements CodiService{
 	@Transactional
 	@Override
 	public void register(CodiVO vo) {
-		
-		log.info("register.............. " + vo);
-		
 		// 1. 게시글 등록
 		mapper.insert(vo);
-		
 		int codi_no = mapper.getcodi_no();
-		System.out.println("codi_noooooooooooooooooooooooooooooooooo" + codi_no);
-		
 		if(vo.getAttachList() != null && vo.getAttachList().size() >0) {
-			for(CodiImageVO vo2 : vo.getAttachList()) {
-				vo2.setCodi_no(codi_no);
-				attachmapper.insert(vo2);
+			List<CodiImageVO> imageList = vo.getAttachList();
+			for(int i=0; i < imageList.size() ; i++) {
+				imageList.get(i).setCodi_no(codi_no);
+				attachmapper.insert(imageList.get(i));
+				
+				if (vo.getProductTagList() != null && vo.getProductTagList().size() > i) {
+					ProductTagVO productTagList = vo.getProductTagList().get(i);
+//					for (ProductTagVO productTag : productTagList) {
+//					}
+					productTagList.setCodi_no(codi_no);
+					productTagList.setIdx(i);
+						productTagMapper.insert(productTagList);
+				}
 			}
 		}
 		if(vo.getCodiTagList() != null && vo.getCodiTagList().size() >0) {
@@ -93,13 +103,8 @@ public class CodiServiceImpl implements CodiService{
 				vo3.setCodi_no(codi_no);
 				tagmapper.insert(vo3);
 			}
-			
 		}
-		
-		
 	}
-	
-	
 	
 	@Override
 	public CodiVO get(int codi_no) {
@@ -121,7 +126,7 @@ public class CodiServiceImpl implements CodiService{
 		log.info("remove........."+ codi_no);
 		return mapper.delete(codi_no) == 1;
 	}
-	
+	//이미지 
 	@Override
 	public List<CodiImageVO> getCodiAttachList(int codi_no) {
 		log.info("getCodiAttachList ...................");
@@ -134,7 +139,7 @@ public class CodiServiceImpl implements CodiService{
 		return list;
 	}
 
-	
+	//해시태그
 	@Override
 	public List<Codi_TagVO> getTagList(int codi_no) {
 		log.info("getCodi_TagList ::::::::::::");
@@ -147,11 +152,11 @@ public class CodiServiceImpl implements CodiService{
 		return list;
 	}
 	
-	/*
-	 * // 상품 태그
-	 * 
-	 * @Override public List<Codi_itemVO> getCodiAndPno(int coid_no, int p_no) {
-	 * return itemmapper.getCodiAndPno(p_no, p_no); }
-	 */
+	//상품 태그
+	@Override
+	public List<ProductTagVO> getPNoListByCodiNo(int codi_no) {
+		List<ProductTagVO> pList = productTagMapper.getPNoListByCodiNo(codi_no);
+		return pList;
+	}
 	
 }

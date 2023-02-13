@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> <!-- 관리자 권한 -->
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <jsp:include page="../include/header.jsp"/>
 <!DOCTYPE html>
@@ -26,6 +28,9 @@
 	.btn button{
 		width: 100%; 
 		height: 50px;
+		border-radius : 8px;
+		border: none;
+		cursor:pointer;
 	}
 	.admin_btn button{
 		width: 100%;
@@ -39,43 +44,7 @@
 		position: center;
 		
 	}
-	.modal {
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	
-	  width: 100%;
-	  height: 100%;
-	
-	  display: none;
-	
-	  background-color: rgba(0, 0, 0, 0.4);
-	}
-	
-	.modal.show {
-	  display: block;
-	}
-	
-	.modal_body {
-	  position: absolute;
-	  top: 50%;
-	  left: 50%;
-	
-	  width: 400px;
-	  height: 600px;
-	
-	  padding: 40px;
-	
-	  text-align: center;
-	
-	  background-color: rgb(255, 255, 255);
-	  border-radius: 10px;
-	  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-	
-	  transform: translateX(-50%) translateY(-50%);
-	}
-      
-      .top-menu li a{
+    .top-menu li a{
         display: inline-block;
 		text-align: center;
 		width: 300px;
@@ -85,7 +54,6 @@
 		font-size: 15px;
 
 	}
-	
 	.top-menu{
 		text-align: center;	/* top-menu 가운데 정렬  */
 	}
@@ -94,19 +62,77 @@
 		display: inline-block;	/* top-menu 리스트 가로정렬  */
 	}
 	#product_buy{
-		background: red; 
+		background-color: rgb(239, 98, 83); 
 		color: white;
-	
 	}
-
-	
+	#popup01{
+	    display: none;
+	}
+	#popup01{
+		width: 400px;
+		height: 600px;
+		position: absolute;
+		top: 50%;	/* 모달창 가운데로 위치시키기  */
+		left: 50%;	/* 모달창 가운데로 위치시키기  */
+		margin: -250px 0 0 -250px; /* 모달창 가운데로 위치시키기  */
+		background-color: #fff;
+		border-radius: 10px;
+		z-index: 2;
+	 	padding: 40px; 
+		text-align: center;
+	}
+	.backon{			/* 모달 뒷배경 */
+	    content: "";
+	    width: 100%;
+	    height: 100%;
+	    background: #00000054;
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    z-index: 1;
+	}
+	.sizebtn{
+		background : white;
+		width : 60%;
+		height : 40px;
+		border-radius : 5px;
+		border-color: gray;
+		outline: 0;
+		cursor:pointer;
+	}
+	.close{				/*  닫기버튼 */
+		position:absolute;
+		top:25px;
+		right: 25px;
+		cursor:pointer;
+	}
+	.sizeok{
+		bottom: 40px;
+		left : 15%;
+		position:absolute;	/* 적어야 밑으로 내려감,,  */
+		width: 70%;
+		cursor:pointer;
+		height: 40px;
+		
+	}
+	.openPopup{
+		cursor:pointer;	/* 버튼클릭시 마우스커서 손가락모양으로 변경 */
+		border: none;
+		background: none;
+	}
+	.v-line {
+		border-left: 1px solid gray ;
+		height:52%;
+	 	left: 47.5%;
+	 	position: absolute;
+	 	color: gray;
+	}
+  
 
 </style>
 </head>
 <body>
-	<div>
-		<h1 class="page-header"> 상세보기 페이지</h1>
-	</div>
+
 		
 <!-- ------------------------------------------이미지 보여주기---------------------------------------------------- -->
 <div class= "brand">
@@ -124,60 +150,76 @@
 		</li>
 	</ul>
 </div>
+<div class="v-line"></div>
 <!-- ------------------------------------------ 상품 정보---------------------------------------------------- -->
-<div class = "p_right"><!-- 상품정보 오른쪽 정렬용 -->
-	<div>${vo2.b_name }</div>
+<div class = "p_right"><!-- 상품정보 오른쪽 정렬시작 -->
+	<div style="font-size: 20px; font-weight: bold; text-decoration: underline">${vo2.b_name }<img style= "width : 25px;  " src =../resources/img/check.png/></div>
 	<div>${vo.p_name_en }</div>
-	<div>${vo.p_name_ko }</div>
+	<div style="font-size: 13px; font-style: gary">${vo.p_name_ko }</div>
 <br/>
 <!-- ------------------------------------------ 옵션선택(모달창) ---------------------------------------------------- -->
-<div class="modal">
-      <div class="modal_body">옵션<br/>
+<div id="popup01">
+	<div class="close">X</div>
+		<div class="modal_body">옵션<br/><br/><br/><br/>
+
 			<c:forEach var="size" items="${sizeVOlist}">
 				<button class = "sizebtn" >${size.pp_size }</button><br/><br/>
 			</c:forEach>
-      
-      
-      </div>
+				<button class = "sizeok">선택확인</button>
+		</div>
 </div>
-    <button class="btn-open-popup">옵션선택</button>
-    <div class = "sizesee" style="float: right;"></div>
+<div class = "sizesee" style="float: right;"></div>
+<button class="openPopup">옵션선택</button><br/>
 <!-- ------------------------------------------ 구매가격 ---------------------------------------------------- -->
-	<div>구매가</div>
-	<div><span style="font-size: 25px; float: right;">${vo.p_release_price }원</span></div>
-	<br/>
+<br/>
+<hr/>
+<div style="margin: 8px;">구매가
+	<span style="font-size: 23px; float: right; font-weight: bold;"><fmt:formatNumber value="${vo.p_release_price }" pattern="#,###,###원"/></span></div>
 	<br/>
 <!-- ------------------------------------------ 버튼 ---------------------------------------------------- -->
-	<div class = "btn">
-		<button type="button" id="product_buy">구매하기</button><br/><br/>
-		<button type="button" id="product_cart">장바구니</button><br/><br/>
+<div class = "btn">
+	<button type="button" id="product_buy">구매하기</button><br/><br/>
+	<%-- <input type="hidden" name="p_noList" value = "${vo.p_no }" />  form으로 보내기--%>
+	<button type="button" id="product_cart">장바구니</button><br/><br/>
 		<input type="hidden" name = "pp_size" value = "">
-	</div>
+</div>
 	<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
-		<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+			<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+		</sec:authorize>
+		
+		
 		<!-- <button type="button" id = "product_remove"> 삭제하기</button> -->
 	</div>
 		<form action="/brandshop/modify" method="get" id="operForm">
 	
 		</form>
-		<br/>
+
 
 <!-- ------------------------------------------ 배송 관련 ---------------------------------------------------- -->
-	<div>
-		<p>배송정보</p>
-		<p>브랜드배송 무료</p>
-		<p>입점한 브랜드에서 직접 택배 배송</p>
-	</div>
-</div>	
+<div>
+	<p style="margin: 8px;">배송정보</p>
+	<img style="width:40px; float:left; margin: 8px;" src="../resources/img/box.png"/>
+	<div style="float:left; font-size: 13px; font-weight: bold;"><p>브랜드배송 무료</p></div><br/>
+	<p style=" font-size: 13px;">입점한 브랜드에서 직접 택배 배송</p>
+</div>
+<!-- ------------------------------------------ 광고 배너---------------------------------------------------- -->
+<br/>
+<div>
+	<img style="width: 100%; height: 70px;" class = "add_img" src="../resources/img/add.jpg"/>
+</div>
+</div><!-- 상품정보 오른쪽 정렬 끝 -->
 <!-- ------------------------------------------ 중간 메뉴 ---------------------------------------------------- -->	
 <div class = "full" >
 	<br/>
 	<br/>
+	<hr/>
 		<ul class = "top-menu">
 			<li><a href = "#tag1">상품상세보기</a></li>
 			<li><a href = "#tag2">교환 및 반품</a></li>
 			<li><a href = "#">스타일</a></li>
 		</ul>
+	<hr/>
 	<br/>
 	<br/>
 	<br/>
@@ -278,28 +320,7 @@
 
 <!-- ------------------------------------------ 스크립트 시작 ---------------------------------------------------- -->		
 <script type="text/javascript">
-<!-- ------------------------------------------ 모달창 ---------------------------------------------------- -->		
-const body = document.querySelector('body');
-const modal = document.querySelector('.modal');
-const btnOpenPopup = document.querySelector('.btn-open-popup');
 
-btnOpenPopup.addEventListener('click', () => {
-  modal.classList.toggle('show');
-
-  if (modal.classList.contains('show')) {
-    body.style.overflow = 'hidden';
-  }
-});
-
-modal.addEventListener('click', (event) => {
-  if (event.target === modal) {
-    modal.classList.toggle('show');
-
-    if (!modal.classList.contains('show')) {
-      body.style.overflow = 'auto';
-    }
-  }
-});
 <!-- ------------------------------------------ 수정페이지 이동 ---------------------------------------------------- -->		
 $(function () {	// 수정페이지로 이동
 
@@ -313,88 +334,132 @@ $(function () {	// 수정페이지로 이동
 		location.href="/brandshop/modify?p_no=${vo.p_no}&b_no=${vo.b_no}"
 
 	});
-	<!-- ------------------------------------------ 사이즈선택  ---------------------------------------------------- -->	
+	
+<!-- ------------------------------------------ 모달창 ---------------------------------------------------- -->		
+	$(document).ready(function( $ ){     
+		$(".openPopup").on("click", function(event) {  //팝업오픈 버튼 누르면
+		$("#popup01").show();   //팝업 오픈
+		$("body").append('<div class="backon"></div>'); //뒷배경 생성
+		});
+	    
+	    $("body").on("click", function(event) { 
+	    	if(event.target.className == 'close' || event.target.className == 'backon'){
+	            $("#popup01").hide(); //close버튼 이거나 뒷배경 클릭시 팝업 삭제
+	            $(".backon").hide();
+	        }
+	    });
+	 
+	});
+	
+<!-- ------------------------------------------ 사이즈선택  ---------------------------------------------------- -->	
+	
 	$(document).on("click",".sizebtn", function () {
-		
 		var sizeval =  $(this).text();
-		const modal = document.querySelector('.modal');
-		console.log(sizeval);
-		if(sizeval != null){
-			$(".sizesee").html('<div class = "sizee" >'+ sizeval +'</div>');
-		}
-		
-		$("input[name='pp_size']").attr('value', sizeval);
+		$(".sizesee").html('<div class = "sizee" >'+ sizeval +'</div>');
+			$(document).on("click",".sizeok", function () {
+				console.log(sizeval);
+				
+				if(sizeval != null){
+					$(".sizesee").html('<div class = "sizee" >'+ sizeval +'</div>');
+            		$("#popup01").hide(); //확인버튼 이거나 뒷배경 클릭시 팝업 삭제
+            		$(".backon").hide();
+           			$("input[name='pp_size']").attr('value', sizeval);
+			
+				} else if(sizeval == null){	// else 는 ()안돼!!!
+					alert("사이즈 선택 후 선택완료 눌러주세요~");
+				}; 
+				
+			});
 
-		
-		
-	})	;
+	});
 
 <!-- ------------------------------------------ 장바구니 담기 ---------------------------------------------------- -->	
 	$("#product_cart").click(function (e) {
  		e.preventDefault();
 		//var formData = $("#form1").serialize();
 		var sizeval = $("input[name='pp_size']").val()
-		if (sizeval.length == 0){
-			alert("사이즈를 선택해 주세요");
-			return;
-		}
-		console.log("gggggggggggggggggggggggggg");
-		$.ajax({
-			url : "/brandCart/addCart",	
-			type : "POST",	// post or get
-			//datetype :'form',	// form이 아닐 경우에만 json
-			data : {p_no:pno, b_no:bno, pp_size:sizeval}, // 가지고 갈 값 적기 // 컬럼명 값
-			dataType : 'json',
-			success : function (result) {
-				alert("카트담기 성공")
-			},
-			error : function () {
-				alert("카트 담기 실패")
+			if (sizeval.length == 0){
+				alert("사이즈를 선택해 주세요");
+				return;
 			}
-					
+			console.log("gggggggggggggggggggggggggg");
+			$.ajax({
+				url : "/brandCart/addCart",	
+				type : "POST",	// post or get
+				//datetype :'form',	// form이 아닐 경우에만 json
+				data : {p_no:pno, b_no:bno, pp_size:sizeval}, // 가지고 갈 값 적기 // 컬럼명 값
+				dataType : 'json',
+				success : function (result) {
+					var confirm_val = confirm("장바구니 추가 성공★ 장바구니 페이지로 이동하시겠습니까?");
+						if(confirm_val){
+							location.href="/brandCart/brandCart"
+						}else{
+							alert("메롱");
+						}
+				},
+				error : function () {
+					alert("카트 담기 실패")
+				}
+						
 			});
-			
-		});
-	<!-- ------------------------------------------ 구매하기  ---------------------------------------------------- -->	
-
+				
+	});
+	
+<!-- ------------------------------------------ 구매하기  ---------------------------------------------------- -->	
 	$("#product_buy").click(function (e) {
+		e.preventDefault();	
+		var sizeval = $("input[name='pp_size']").val()
+			if (sizeval.length == 0){
+				alert("사이즈를 선택해 주세요");
+				return;	
+			}else{
+				var confirm_val = confirm("구매하시겠습니까? 확인누르시면 구매창으로 이동합니다");
+					if(confirm_val){	
+					location.href= '/Payment/payment?p_noList=${vo.p_no}';	// p_noList 보내기,,!!!
+					
+					}
+			}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/* 	$("#product_buy").click(function (e) {
 		e.preventDefault();
 		var sizeval = $("input[name='pp_size']").val()
-		if (sizeval.length == 0){
-			alert("사이즈를 선택해 주세요");
-			return;
-		}
-		$.ajax({
-			url : "/Payment/addpayment",
-			type : "POST",
-			data : {p_no:pno, b_no:bno, sum_price:price, pp_size:sizeval },
-			dataType : 'json',
-			success : function (result) {
-				location.href = "/Payment/payment" //  location.href 기본적으로 getMapping
-			},
-			error : function () {
-				alert("구매하기 실패")
-				
+		var price ='${vo.p_release_price}';
+			if (sizeval.length == 0){
+				alert("사이즈를 선택해 주세요");
+				return;
 			}
-				
+			$.ajax({
+				url : "/Payment/addpayment",
+				type : "POST",
+				data : {p_no:pno, b_no:bno, sum_price:price, pp_size:sizeval },
+				dataType : 'json',
+				success : function (result) {
+					location.href = "/Payment/payment" //  location.href 기본적으로 getMapping
+				},
+				error : function () {
+					alert("구매하기 실패")
+				}
 			}); 
-		
-		});
-
-
-
-
-
-})	;
-
-		
-		
-
-
-
-
-
-
+			
+	});
+ */
+}); // $(function () { 끝
 
 
 </script>

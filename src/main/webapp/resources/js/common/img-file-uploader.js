@@ -13,7 +13,14 @@ var imgFileUploader = (function() {
 	const previewList = createImgPreview();
 	let slider = imgSlider();
 	let dataTransfer = new DataTransfer(); /*파일 파일 삭제 기능시 재할당 필요해서 let으로 설정함*/
-	let option = {};
+	let editedDataTransfer; 
+	let option = {
+		uploadURL: '',
+		saveName: '',
+		max: 1000,
+		slider: {},
+		editMode: false,
+	};
 	
 	function init() {
 		container.prepend(previewList);
@@ -22,6 +29,8 @@ var imgFileUploader = (function() {
 		container.append(slider.container);
 		setEvent();
 		defaultCss();
+		
+		if (option.editMode) editedDataTransfer = new DataTransfer();
 	}
 	
 	function createTempInput() {
@@ -139,7 +148,7 @@ var imgFileUploader = (function() {
 		const src = URL.createObjectURL(file);
 		const li = document.createElement('li');
 		li.innerHTML = '<img src="'+src+'"/>' +
-					   '<button class="remove-img-btn"></button>';
+					   '<button class="remove-img-btn">X</button>';
 		
 		liCss(li);
 		imgCss(li.querySelector('img'));
@@ -154,6 +163,19 @@ var imgFileUploader = (function() {
 		previewList.querySelectorAll('li:not(:first-child)')
 		.forEach(x => x.remove());
 	}
+	
+	async function getEditedFiles() {
+		const editedBlobs = await slider.getCropedImgList();
+		const editedFiles = editedBlobs.map(_blobToFile);
+		editedFiles.forEach(x => editedDataTransfer.items.add(x));
+		
+		return editedFiles;
+	}
+	
+	function _blobToFile(blob) {
+		return new File([blob], 'image.jpeg', {type: blob.type});
+	}
+	
 	
 	function selectPreview() {
 //		slider.slideImg;
@@ -184,6 +206,7 @@ var imgFileUploader = (function() {
 	}
 	
 	async function uploadImageAjax() {
+		if (option.editMode) dataTransfer = editedDataTransfer;
 		let formData = new FormData();
 		Array.from(dataTransfer.files)
 		.forEach((file) => {
@@ -196,9 +219,7 @@ var imgFileUploader = (function() {
 		.forEach((image, i) => {
 			str += '<input type="hidden" name="'+option.saveName+'['+i+'].fileName" value="'+image.fileName+'">' + 
 				   '<input type="hidden" name="'+option.saveName+'['+i+'].uuid" value="'+image.uuid+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetX" value="'+slider.offsetX(i) +'">' +
-				   '<input type="hidden" name="'+option.saveName+'['+i+'].offsetY" value="'+slider.offsetY(i) +'">';
+				   '<input type="hidden" name="'+option.saveName+'['+i+'].uploadPath" value="'+image.uploadPath+'">';
 		});
 		return str;
 	}
@@ -234,7 +255,6 @@ var imgFileUploader = (function() {
 		inputImgBtn.style.fontWeight = 'bold';
 		inputImgBtn.style.position = 'relative';
 		inputImgBtn.style.top = '50%';
-		inputImgBtn.style.left = '50%';
 		inputImgBtn.style.left = '50%';
 		inputImgBtn.style.width = '50px';
 		inputImgBtn.style.height = '50px';
@@ -272,6 +292,10 @@ var imgFileUploader = (function() {
 	
 	function removeBtnCss(btn) {
 		btn.style.position = 'absolute';
+		btn.style.border = '2px solid black';
+		btn.style.backgroundColor = 'white';
+		btn.style.color = 'black';
+		btn.style.fontWeight = 'bold'; 
 		btn.style.top = '5%';
 		btn.style.right = '5%';
 		btn.style.width = '15px';
@@ -283,6 +307,7 @@ var imgFileUploader = (function() {
 		publish: publish,
 		slider: slider,
 		container: container,
+		getEditedFiles: getEditedFiles,
 		uploadImageAjax: uploadImageAjax,
 		countFiles: countFiles,
 		setURL: setURL,

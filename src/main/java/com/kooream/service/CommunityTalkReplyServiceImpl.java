@@ -21,6 +21,7 @@ public class CommunityTalkReplyServiceImpl implements CommunityTalkReplyService 
 	
 	
 	// 댓글 작성
+	@Transactional
 	@Override
 	public int register(CommunityTalkReplyVO vo) {
 		log.info("reply register........" + vo);

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../include/header.jsp"/>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %> <!-- 관리자 권한 -->
 <!DOCTYPE html>
 <html>
 
@@ -83,7 +84,11 @@
 <body>
 <!-- ------------------------장바구니, 등록 버튼-------------------- -->
 	
-	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a><a class="register">등록</a></div>
+	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div>
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+			<div><a class="register">등록</a></div>
+		</sec:authorize>
+
 	<br/><br/><br/>
 <!-- ------------------------메인이미지, 로고이미지 -------------------- -->	
 <div class = "img box">
@@ -98,9 +103,9 @@
 		<li class = "menu">
 			<p>카테고리</p>
 				<ul class = "sub">
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_clothes">  의류</li>
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_shoes">  신발</li>
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" value = "brand_acc">  패션잡화</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_clothes">  의류</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_shoes">  신발</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_acc">  패션잡화</li>
 				</ul>
 		</li>
 		
@@ -110,7 +115,7 @@
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "50000">  5만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "100000">  10만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "150000">  15만원 이하</li>
-					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "200000">  20만원 이하</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "300000">  30만원 이하</li>
 				</ul>
 		</li>
 
@@ -238,18 +243,20 @@
 			var str='<div class="container">';
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
+				krPrice = json[i].p_release_price.toLocaleString('ko-KR');
 				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 					// brandshop(컨트롤러) 에서 /get을 탐  
-				
+				console.log(json);
 				
 				// 이미지 하나만 보여주기 
 				
 				
-				if(json[i].attachList.length > 0) {
-					var uploadPath = json[i].attachList[0].uploadPath;
-					var uuid = json[i].attachList[0].uuid;
-					var fileName = json[i].attachList[0].fileName;
+				if(json.length > 0) {
+					var uploadPath = json[i].uploadPath;
+					var uuid = "s_"+ json[i].uuid;
+					var fileName = json[i].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+					console.log(fileCallPath);
 					str += '<div class = "product">'
 					str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 				}
@@ -265,7 +272,7 @@
 				str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
 				str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
 				str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
-				str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
+				str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
 				
 				str += '</a>'
 				str += '</div>'
@@ -323,6 +330,7 @@
 				var str='<div class="container">';
 				console.log(json);
 				for(var i=0; i<json.length; i++) {
+					krPrice = json[i].p_release_price.toLocaleString('ko-KR');
 					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 						// brandshop(컨트롤러) 에서 /get을 탐  
 					
@@ -340,7 +348,7 @@
 					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
 					str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
 					str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
-					str += '<div style="font-weight: bold; font-size: 15px;">'+json[i].p_release_price+'원</div>';
+					str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
 					str += '</a>'
 					str += '</div>'
 					str += '<br/>'
@@ -376,6 +384,7 @@
 				var str='<div class="container">';
 				console.log(json);
 				for(var i=0; i<json.length; i++) {
+					krPrice = json[i].p_release_price.toLocaleString('ko-KR');					
 					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 						// brandshop(컨트롤러) 에서 /get을 탐  
 					
@@ -393,7 +402,7 @@
 					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
 					str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
 					str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
-					str += '<div style="font-weight: bold; font-size: 15px;" >'+json[i].p_release_price+'원</div>';
+					str += '<div style="font-weight: bold; font-size: 15px;" >'+krPrice+'원</div>';
 					str += '</a>'
 					str += '</div>'
 					str += '<br/>'
@@ -411,7 +420,17 @@
  	}) 		
  
 // --------------------숫자에 , 붙이기 --------------------------------------------------------
- 		
+    function checkOnlyOne(element) {
+        
+        const checkboxes 
+            = document.getElementsByName("brand_category");
+        
+        checkboxes.forEach((cb) => {
+          cb.checked = false;
+        })
+        
+        element.checked = true;
+      }		
  		
  		
  		

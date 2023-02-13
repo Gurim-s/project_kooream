@@ -34,10 +34,14 @@ public class BrandProductServiceImpl implements BrandProductService{
 			
 
 		
-	// 사이즈도 같이 등록해야되는거같은데,,,ㅠㅠ	  
+	
 	@Transactional
 	@Override 
-	public void register(ProductVO vo) { 
+	public void register(ProductVO vo) {
+		AttachFileVO main_image = vo.getAttachList().get(0);
+		vo.setUuid(main_image.getUuid());
+		vo.setUploadPath(main_image.getUploadPath());
+		vo.setFileName(main_image.getFileName());
 		mapper.insert(vo);
 				
 		int p_no = mapper.getPno();	// 이미 p_no를 가지고옴
@@ -69,10 +73,10 @@ public class BrandProductServiceImpl implements BrandProductService{
 		log.info(list + "서비스 임플 리스트~");
 		
 		// 상품테이블 + 상품이미지 합쳐서 불러오기
-		for (ProductVO vo : list) {
-			List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());	// 
-			vo.setAttachList(attach);
-		}
+		/*
+		 * for (ProductVO vo : list) { List<AttachFileVO> attach =
+		 * uploadmapper.findByPno(vo.getP_no()); // vo.setAttachList(attach); }
+		 */
 		return list;
 	}
 
@@ -81,8 +85,21 @@ public class BrandProductServiceImpl implements BrandProductService{
 		return uploadmapper.findByPno(p_no);
 	}
 	
+	//결제 페이지에서 섬네일정보를 가진 productvo를 가져옴
 	@Override
 	public ProductVO get(ProductVO vo) {
+		//상품 번호를 통해 상품 정보 가져오기
+		ProductVO product = mapper.read(vo);
+		//상품 번호를 통해 상품의 이미지 가져오기
+		/* product.setAttachList(uploadmapper.findByPno(vo.getP_no())); */
+		// 상품 번호를 통해서 사이즈 가져오기(?)
+		product.setSizeVoList(sizemapper.findPno(vo.getP_no()));
+		
+		return product;
+	}
+	
+	//상품 상세정보 조회시
+	public ProductVO getDetail(ProductVO vo) {
 		//상품 번호를 통해 상품 정보 가져오기
 		ProductVO product = mapper.read(vo);
 		//상품 번호를 통해 상품의 이미지 가져오기
@@ -90,8 +107,9 @@ public class BrandProductServiceImpl implements BrandProductService{
 		// 상품 번호를 통해서 사이즈 가져오기(?)
 		product.setSizeVoList(sizemapper.findPno(vo.getP_no()));
 		
-		return product;
+		return product;		
 	}
+	
 	
 	@Override
 	public int modify(ProductVO vo) {

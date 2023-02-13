@@ -2,10 +2,14 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <jsp:include page="../include/header.jsp"/>
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/shop/shop_introduce.css'/>">
-	<button id="modify_btn" onclick="modiPage(${vo.p_no})">상품 수정</button>
-	<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
+	<c:if test="${pri.authList.get(0).auth eq 'ROLE_ADMIN' }">
+		<button id="modify_btn" onclick="modiPage(${vo.p_no})">상품 수정</button>
+		<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
+	</c:if>
 	<div class="wrap clearfix">
 		<div class="product_photo">
 			<div id="slideShow" id="slideShow">
@@ -31,7 +35,7 @@
 					<span class="recent_price">즉시 구매가</span>
 				<div class="price">
 					<div class="amount">
-						<span class="product_price">${vo.min_bid_buy }</span> 
+						<span class="product_price"><fmt:formatNumber value="${vo.min_bid_buy }" pattern="#,###,###"/></span> 
 						<span class="won">원</span>
 							<!-- <p class="fluctuation">99,000원 (+24.6%)</p> -->
 					</div>
@@ -44,7 +48,7 @@
 							<strong class="buy_text">구매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">${vo.min_bid_buy }원</div>
+							<div class="buy_price"><fmt:formatNumber value="${vo.min_bid_buy }" pattern="#,###,###원"/></div>
 							<div class="buy_now">즉시 구매가</div>
 						</div>
 					</div>
@@ -53,15 +57,15 @@
 							<strong class="buy_text">판매</strong>
 						</div>
 						<div class="buy_price_box">
-							<div class="buy_price">${vo.max_bid_sell }원</div>
+							<div class="buy_price"><fmt:formatNumber value="${vo.max_bid_sell }" pattern="#,###,###원"/></div>
 							<div class="buy_now">즉시 판매가</div>
 						</div>
 					</div>
 				</div>
-				<div class="interest_p">
+<!-- 				<div class="interest_p">
 					<span class="inter_p">관심 상품</span>
 					<span class="inter_count">1.3만</span>
-				</div>
+				</div> -->
 			</div>
 			<h3 class="intro_title">상품 정보</h3>
 			<div class="detail_product_wrap">
@@ -74,28 +78,18 @@
 					<div class="model_intro">${vo.p_release_date }</div>
 				</div>
 				<div class="model_box">
-					<div class="product_title">컬러</div>
-					<div class="model_intro">TAXI/BLACK-SAIL</div>
+					<div class="product_title">발매가</div>
+					<div class="model_intro"><fmt:formatNumber value="${vo.p_release_price }" pattern="#,###,###원"/></div>
 				</div>
 				<div class="model_box">
-					<div class="product_title">발매가</div>
-					<div class="model_intro">${vo.p_release_price }원</div>
+<%-- 					<div class="product_title">발매가</div>
+					<div class="model_intro">${vo.p_release_price }원</div> --%>
 				</div>
 			</div>
 			<h3 class="bsinfo">배송정보</h3>
 			<div class="delivery_way_wrap">
 				<div class="way_info">
 					<img src="/resources/img/bsicon.png" style="width:40px; height: 40px;">
-					<div class="way_desc">
-						<span class="delivery">빠른배송</span>
-						<span class="delivery_won"> 5,000원</span>
-						<div class="sub_text">지금 결제시 <span class="delivery_est">1일 ~ 2일 후 도착 예정</span></div>
-					</div>
-				</div>
-			</div>
-			<div class="delivery_way_wrap">
-				<div class="way_info">
-					<img src="/resources/img/boxicon.png" style="width:40px; height: 40px;">
 					<div class="way_desc">
 						<span class="delivery">일반배송</span>
 						<span class="delivery_won"> 3,000원</span>
@@ -113,11 +107,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="graph">
+<!-- 			<div class="graph">
 				<div>그래프 공간</div>
 				<div>넣을지 말지는 나중에 생각</div>
 				<div>못넣을듯</div>
-			</div>
+			</div> -->
 			<div class="confirm_wrap">
 				<h3 class="confirm_title">구매 전 꼭 확인해주세요!</h3>
 				<div class="confirm_content">
@@ -246,7 +240,7 @@
 	}
 	
 	function getPage(pno) {
-		location.href="/shop/shop_buypage/" + pno;
+		location.href="/shop/shop_Buy_Sizeselect/" + pno;
 	}
 	
 	function getSell(pno) {

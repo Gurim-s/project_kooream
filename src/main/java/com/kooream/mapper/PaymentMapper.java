@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 import com.kooream.domain.BrandCartVO;
+import com.kooream.domain.PaymentListVO;
 import com.kooream.domain.PaymentVO;
 
 
@@ -13,12 +14,13 @@ import com.kooream.domain.PaymentVO;
 public interface PaymentMapper{
 
 	public int addPayment(PaymentVO vo);
-	
-	//public int addCart(BrandCartVO vo);
+	//public int addPayment(PaymentVO payment);
 
 	public List<PaymentVO> paymentList(int m_no);
+	
+	public int paymentdelete(PaymentVO vo);
 
-	//public int Cartdelete(BrandCartVO vo);
+
 	
 
 	

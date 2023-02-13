@@ -73,9 +73,9 @@ public class BidImageUploadController {
 			// uploadFileName : 실제업로드할 파일명(원본)
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1); // 내용이 올때 달라붙어있어서 떼려고 사용 
 			log.info("only file name : " + uploadFileName);
-			
+
 			attachVo.setFileName(uploadFileName);	// dto에 파일명(원본) 저장
-			
+
 			// UUID.randomUUID(); : 업로드하는 파일명을 중복방지를 위해 랜덤값으로 생성함
 			UUID uuid = UUID.randomUUID();
 
@@ -94,11 +94,11 @@ public class BidImageUploadController {
 				
 				service.uploadFile(attachVo);
 				
-				FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-
-				Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-
-				thumbnail.close();
+//				FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+//
+//				Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+//
+//				thumbnail.close();
 				
 			} catch (Exception e) {
 				log.error(e.getMessage());

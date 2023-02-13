@@ -5,9 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.domain.SearchKeyword;
+import com.kooream.mapper.BidImageMapper;
 import com.kooream.mapper.BidShopMapper;
+import com.kooream.mapper.BrandProductUploadMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -17,6 +20,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class SearchProductServiceImpl implements SearchProductService{
 	public BidShopMapper productMapper;
+	public BrandProductUploadMapper imageMapper;
 	
 	@Override
 	public List<ProductVO> searchProductTag(SearchKeyword keyword) {
@@ -26,5 +30,12 @@ public class SearchProductServiceImpl implements SearchProductService{
 
 		result = productMapper.searchProductTag(keyword);
 		return result;
+	}
+	
+	@Override
+	public ProductVO getProduct(int p_no) {
+		ProductVO product = productMapper.read(p_no);
+		
+		return product;
 	}
 }

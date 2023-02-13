@@ -1,13 +1,20 @@
 import {replyService} from '../service/reply-service.js';
+import {imgService} from '../service/image-service.js';
 import {showTime} from '../common/common.js';
 
 const replyViewer = (x) => (function(x) {
+	//header.jsp에 있는 로그인 유저 정보
+	const pri_m_no = document.querySelector('header input[name="pri_m_no"]').value;
+	const profile_img_src = document.querySelector('input[name="pri_m_profile_img_src"]').value;
+	//----
+	
 	const style_no = x;
 	let option = {
 		input: false,
 		nestedReply: false,
 	}
 	const container = document.createElement('div');
+	const publisherList = [];
 	container.className = 'reply-viewer';
 	const listContainer = document.createElement('ul');
 	listContainer.clasaName = 'reply-list-container';
@@ -27,15 +34,16 @@ const replyViewer = (x) => (function(x) {
 	async function loadReplies() {
 		listContainer.innerHTML = '';
 		const replyList = await replyService.getList(style_no);
+		
 		if (replyList.length > 0 && option.nestedReply == false) {
 			replyList.forEach(x => listContainer.append(replyTemplate(x)));
 			
 		} else if (replyList.length > 0 && option.nestedReply == true) {
 			const nestedReply = replyList.sort((x, y) => x.nested_from < y.nested_from)
-			.filter(x => x.nested_from != 0);		
-			
+			.filter(x => x.nested_from != 0);
+					
 			replyList.filter(x => x.nested_from == 0)
-			.map(x => [x, ...nestedReply.filter(y => y.nested_from == x.rno)])
+			.map(x => [x, ...nestedReply.filter(y => y.nested_from == x.r_no)])
 			.flat()
 			.forEach(x => listContainer.append(replyTemplate(x)));
 			
@@ -47,8 +55,18 @@ const replyViewer = (x) => (function(x) {
 			listContainer.append(noneReplyTemplate);
 		}
 		
+		update();
 		setReplyCss();
 		setReplyEvent();
+	}
+	
+	function publish(target) {
+		publisherList.push(target);
+	}
+	
+	function update() {
+		const count = listContainer.childElementCount;
+		publisherList.forEach(x => x.update(count));
 	}
 	
 	function inputTemplate() {
@@ -57,7 +75,7 @@ const replyViewer = (x) => (function(x) {
 //		/*로그인 기능 추가 후에 수정*/
 		item.innerHTML = (
 			'<div class="profile-img">'+
-				'<img src="/resources/img/codi_test.png" />' +
+				'<img src="'+profile_img_src+'" />' +
 			'</div>' +
 			'<div class="input-reply">' +
 				'<input type="text" name="content" autocomplete="off" value="">' +
@@ -72,14 +90,14 @@ const replyViewer = (x) => (function(x) {
 	function replyTemplate(reply) {
 		const template = document.createElement('li');
 		if (option.nestedReply) template.dataset.nestedFrom = reply.nested_from;
-		template.dataset.rno = reply.rno;
+		template.dataset.r_no = reply.r_no;
 		template.innerHTML = (
-			'<div class="profile-img" data-mno="'+reply.mno+'">' +
-				'<img src="/resources/img/codi_test.png"/>' +
+			'<div class="profile-img" data-m_no="'+reply.m_no+'">' +
+				'<img src="'+ imgService.thumbnailPath(reply.profile) +'"/>' +
 			'</div>' + 
 			'<div class="reply-detail">' +
 				'<div class="reply-content">' +
-					'<span class="user-name">김겨울</span>' +
+					'<span class="user-name">'+reply.m_nickname+'</span>' +
 					reply.content +
 				'</div>' +
 				'<div class="reply-etc">' +
@@ -110,7 +128,7 @@ const replyViewer = (x) => (function(x) {
 			const nested_from = container.querySelector('.input-reply input[name="nested_from"]');
 			const reply = {
 				style_no: style_no,
-				mno: 11,
+				m_no: pri_m_no,
 				content: content.value,
 				nested_from: nested_from.value,
 			};
@@ -127,9 +145,9 @@ const replyViewer = (x) => (function(x) {
 		listContainer.querySelectorAll('.reply-etc a.remove')
 		.forEach(x => x.addEventListener('click', async (e) => {
 			e.preventDefault();
-			const rno = e.target.closest('li').dataset.rno;
+			const r_no = e.target.closest('li').dataset.r_no;
 
-			await replyService.remove(rno);
+			await replyService.remove(r_no);
 			loadReplies();
 		}));
 		
@@ -137,15 +155,15 @@ const replyViewer = (x) => (function(x) {
 		container.querySelectorAll('.write-nested-reply')
 		.forEach(x => x.addEventListener('click', (e) => {
 			e.preventDefault();
-			const rno = e.target.closest('li').dataset.nestedFrom == 0
-						? e.target.closest('li').dataset.rno
+			const r_no = e.target.closest('li').dataset.nestedFrom == 0
+						? e.target.closest('li').dataset.r_no
 						: e.target.closest('li').dataset.nestedFrom;
 			const subjectName = e.target.closest('li').querySelector('.user-name').innerText;
 			const inputContent = container.querySelector('.input-reply input[name="content"]');
 			const inputNestedFrom = container.querySelector('.input-reply input[name="nested_from"]'); 
 			
 			inputContent.value = '@' + subjectName+ ' ';
-			inputNestedFrom.value = rno;
+			inputNestedFrom.value = r_no;
 			
 			inputContent.focus();
 		}));
@@ -256,7 +274,8 @@ const replyViewer = (x) => (function(x) {
 	
 	return {
 		get: get,
-		setOption: setOption
+		setOption: setOption,
+		publish: publish,
 	}
 })(x);
 

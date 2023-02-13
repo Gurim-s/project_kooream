@@ -35,6 +35,7 @@ public class OriginalController {
 	public String oriList(Model model) {
 		log.info("ori list........");
 
+		model.addAttribute("brandList", service.getOriBrandList());
 		model.addAttribute("list", service.oriList());
 
 		return "/community/oriList";
@@ -42,7 +43,9 @@ public class OriginalController {
 
 	// 정품판별 게시글 작성 화면 이동
 	@GetMapping("/oriRegister")
-	public String oriRegister() {
+	public String oriRegister(Model model) {
+		
+		model.addAttribute("brandList", service.getOriBrandList());
 
 		return "/community/oriRegister";
 	}
@@ -132,6 +135,14 @@ public class OriginalController {
 		}
 		
 		return "redirect:/community/oriList";
+	}
+	
+	// 정품판별 게시글 검색
+	@GetMapping(value="/search/{brnadname}")
+	public ResponseEntity<List<OriginalVO>> BrandSearch(String brandname){
+		log.info("-------------Original Brand Search name" + brandname);
+		
+		return new ResponseEntity<List<OriginalVO>>(service.brandSearch(brandname), HttpStatus.OK);
 	}
 	
 }

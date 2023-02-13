@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandCartVO;
+import com.kooream.domain.PaymentListVO;
 import com.kooream.domain.PaymentVO;
 import com.kooream.domain.ProductVO;
 import com.kooream.mapper.BrandCartMapper;
@@ -35,69 +36,63 @@ public class PaymentServiceImpl implements PaymentService{
 	private BrandProductMapper mapper;
 
 	
+	// 주문내역 추가
 	@Override
-	public int addPayment(PaymentVO vo) {
+	@Transactional
+	public int addPayment(PaymentListVO list) {
+		int result = 0;
+		//int m_no = list.getM_no();
+		for(int i=0; i<list.getPaymentList().size(); i++) {
+			//PaymentVO payment = list.getPaymentList().get(i);
+			//payment.setM_no(m_no);
+			//result += paymapper.addPayment(payment);
+			log.error("----" + list.getPaymentList().get(i).getP_no());
+			log.error("----" + list.getPaymentList().get(i).getPay_price());
+			log.error("----" + list.getPaymentList().get(i).getM_adress());
+			
+			result += paymapper.addPayment(list.getPaymentList().get(i));
+		}
 		
-		return paymapper.addPayment(vo);
+		log.error("---- result : " + result);
+		log.error("---- size : " + list.getPaymentList().size());
+		
+		return result;
+		
 	}
 
-
+	// 주문리스트 불러오기
 	@Override
 	public List<PaymentVO> paymentList(int m_no) {
 		List<PaymentVO> list = paymapper.paymentList(m_no);
-	
-		for (PaymentVO vo : list) {
-				List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
-				//int productList = mapper.getPno();
-				vo.setAttachList(attach);
-		}
+		System.out.println(m_no+"가지고와라!!!");
+		//int result = 0;
+		/*
+		 * for (PaymentVO vo : list) { List<AttachFileVO> attach =
+		 * uploadmapper.findByPno(vo.getP_no()); //int productList = mapper.getPno();
+		 * vo.setAttachList(attach); }
+		 */
 		return list;
+		
+		
 	}
-	
 
-	// 장바구니 리스트 가지고오기
-	/*
-	 * @Override public List<BrandCartVO> brandCartList(int m_no) {
-	 * List<BrandCartVO> list = cartmapper.brandCartList(m_no);
-	 */
+	@Override
+	public List<AttachFileVO> paymentgetAttachList(int p_no) {
+
+		return uploadmapper.findByPno(p_no);
+	}
+
+	@Override
+	public int paymentdelete(PaymentVO vo) {
 		
-		
-	//	for (BrandCartVO vo : list) {
-	//		List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
-		//	int productList = mapper.getPno();
-	//		vo.setAttachList(attach);
-			//vo.setProductList(productList);;
-			
-	//	}
-
-	//	return list;
-	//}
-
-
-//	@Override
-//	public List<AttachFileVO> CartgetAttachList(int p_no) {
-		
-	//	return uploadmapper.findByPno(p_no);
-	//}
-
-	
-
-//	@Override
-//	public int Cartdelete(BrandCartVO vo) {
-		
-//		return cartmapper.Cartdelete(vo);
-//	}
-
-
-
-
-//	@Override
-//	public List<BrandCartVO> brandCartList(int m_no) {
-		
-//	return cartmapper.brandCartList(m_no);
+		return paymapper.paymentdelete(vo);
+	}
 }
 
-	
+
+	 
+		
+
 	
 
   

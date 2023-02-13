@@ -1,7 +1,9 @@
 import {imgFileUploader} from '../common/img-file-uploader.js';
+import {productTagSelector} from '../common/product-tag-selector.js';
+
 
 $(function() {
-	var uploaderContainer = $('.uploadDiv');
+	var uploaderContainer = document.querySelector('.uploadDiv');
 	var uploader = imgFileUploader;
 	uploader.setOption({
 		uploadURL: '/uploadImageAWS/codi',
@@ -10,6 +12,21 @@ $(function() {
 	});
 	uploader.init();
 	$(uploaderContainer).append(uploader.container);
+	
+	var tagSelectorContainer = document.querySelector('.product-tag-selector');
+	var tagSelector = productTagSelector();
+	tagSelectorContainer.append(tagSelector.container);
+	
+	$('#addProductTag').on('click', function(e) {
+		e.preventDefault();
+		tagSelectorContainer.closest('.row').classList.toggle('hide-product');
+		uploaderContainer.closest('.row').classList.toggle('hide-image');
+		
+		tagSelector.slider.empty();
+		var imgList =  uploader.slider.getImgTagList();
+		tagSelector.slider.addImgTagList(imgList);
+	});
+	
 	
 	var operForm = $('#operForm');
 	var formObj = $("form[role='form']");
@@ -35,8 +52,9 @@ $(function() {
 //				str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
 //				str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
 //			});
-			
-			
+			var tagList = tagSelector.getProductTagsInput();
+			formObj.append(tagList);
+			console.log(formObj);
 			
 			 if(codi_register.codi_title.value == "" ) {
 				codi_register.codi_title.focus();
@@ -51,11 +69,6 @@ $(function() {
 			 if($('#tag-list').children('li').length == 0) {
 				codi_register.tag.focus();
 		      	alert("해시태그을 입력해 주십시오.");
-		      	return false;
-			  };
-			 if(codi_register.m_no.value == "" ) {
-				codi_register.m_no.focus();
-		      	alert("상품 번호을 입력해 주십시오.");
 		      	return false;
 			  };
 			 if(codi_register.codimodel_name.value == "" ) {
@@ -188,42 +201,27 @@ function checkExtension(fileName, fileSize){
         tag[counter] = value;
         counter++; // del-btn 의 고유 id 가 된다.
     }
-
-
-
 	$("#tag").on("keypress", function(e){
 		var self = $(this);
 		var formData = new FormData();
 		var inputTag = $("input[name='tag_name']");
-		
 		if(e.keyCode === 13 || e.keyCode == 32){ // 13엔터 32스페이스 눌렀을시 
 			var tagValue = self.val();
 			var tagStr= '';
-			
 			if(tagValue !== ""){ // tagValue의 내용이 있을 경우
 				tagStr += '<li class="tag_name" name="tag_name">'
 				tagStr += '<span class="tag_text">'+tagValue+'</span>';
-				tagStr += '<span class="del_tag" idx="'+counter+'">X</span>';
+				tagStr += '<span class="del_tag" idx="'+counter+'">[X]</span>';
 				tagStr += '</li>';
-				
 				addTag(tagValue);
-				
 				$("#tag-list").append(tagStr);
-				
 				self.val("");
-				
 			}else{
 				alert("값이 없습니다.");
 			}
-		
-			
 			e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
-			
-			
 		}
-		
 	});
-	
 	// 삭제 버튼 클릭시 지우기 
 	$(document).on("click",".del_tag", function(e){
 		var index = $(this).attr("idx");

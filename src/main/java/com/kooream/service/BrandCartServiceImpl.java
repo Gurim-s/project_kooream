@@ -46,13 +46,13 @@ public class BrandCartServiceImpl implements BrandCartService{
 		List<BrandCartVO> list = cartmapper.brandCartList(m_no);
 		
 		
-		for (BrandCartVO vo : list) {
-			List<AttachFileVO> attach = uploadmapper.findByPno(vo.getP_no());
-		//	int productList = mapper.getPno();
-			vo.setAttachList(attach);
-			//vo.setProductList(productList);;
-			
-		}
+		/*
+		 * for (BrandCartVO vo : list) { List<AttachFileVO> attach =
+		 * uploadmapper.findByPno(vo.getP_no()); // int productList = mapper.getPno();
+		 * vo.setAttachList(attach); //vo.setProductList(productList);;
+		 * 
+		 * }
+		 */
 
 		return list;
 	}
@@ -71,6 +71,15 @@ public class BrandCartServiceImpl implements BrandCartService{
 		
 		return cartmapper.Cartdelete(vo);
 	}
+
+
+
+	@Override
+	public void CartdeleteAll(int mno) {
+		cartmapper.CartdeleteAll(mno);
+		
+	}
+
 
 //	@Override
 //	public List<BrandCartVO> brandCartList(int m_no) {
