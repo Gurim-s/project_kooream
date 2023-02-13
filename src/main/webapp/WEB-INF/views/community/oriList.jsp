@@ -97,7 +97,7 @@
 	<div>
 		<br/>
 		<form action="/community/oriRegister" id="form">
- 		<div>
+ 		<div id="mainContent">
  			<c:forEach var="vo" items="${list }">
 				<div id="full">
 					<div id="thumbnail">
@@ -248,10 +248,41 @@
 				url: '/community/search/' + brandValue + '.json',
 				data : {brandname : brandValue},
 				dataType : 'json',
-				success:function(result, status, xhr){
-					if(callback){
-						callback(result);
-						console.log(result);
+				success:function(result){
+					console.log(result);
+					if(result == null){
+						// 해당 게시글이 없으면
+						$("#full").html("");
+						return;
+					}else{
+						// 해당 게시글이 있으면
+						for(var i=0; i<result.length; i++){
+							
+							var str = '';
+							
+							str += '<c:forEach var="'+ vo +'" items="' + ${list } + '">'
+							str += '<div id="full" data-no="'+ result[i].orino +'">'
+							str += '<div id="thumbnail">'
+							str += '<c:if test="' + ${vo.attachList.size() ne 0 } + '">'
+							str += '<c:url var="imgSrc" value="/displayImage">'
+							str += '<c:param name="fileName" value="' + ${vo.attachList.get(0).uploadPath } + '/' + ${vo.attachList.get(0).uuid }+ '_' + ${vo.attachList.get(0).fileName } + '"></c:param>'
+							str += '</c:url>'
+							str += '<img alt="제품 이미지" src="' + ${imgSrc } + '" width="150px;" height="150px;">'
+							str += '</c:if>'
+							str += '</div>'
+							str += '<div id="sub">'
+							str += '<div id="barandName"><small>' + result[i].brandname + '</small></div>'
+							str += '<div id="oriTitle"><a class="get" href="' + result[i].orino + '"><strong>' + result[i].orititle + '</strong></a></div>'
+							str += '<br/>' 
+							str += '<div id="oriContent"><a class="get" href="' + result[i].orino + '">' + result[i].oricon + '</a></div>'
+							str += '</div>'
+							str += '<div>'
+							str += '<div id="oriNickname">' + result[i].oriname + '</div>'
+							str += '</div>'
+							str += '</div>'
+							str += '</c:forEach>'
+						};
+						$("#mainContent").html(str);
 					}
 				},
 				error : function(xhr, status, er){
@@ -263,13 +294,7 @@
 			
 			
 			
-			
-			
-			
-			
-			
-			
-		})
+		}) //---------- 게시글 검색 end
 	    
 	    
 	    

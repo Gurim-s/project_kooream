@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 <style type="text/css">
 	#menu_list{
 		float: left;
@@ -31,7 +33,7 @@
 	<form action="/community/talkUpdate" method="post" id="form">
 		<div>제목<input type="text" name="talktitle" value="${vo.talktitle }"></div>
 		<div><input type="hidden" name="talkname" value="${vo.talkname }">${vo.talkname }</div>
-		<div><textarea rows="15" cols="150%" name="talkcon" style="resize: none";>${vo.talkcon }</textarea></div>
+		<div><textarea name="talkcon" id="mytextarea">${vo.talkcon }</textarea></div>
 		<div>
 			<input type="hidden" name="talkno" value="${vo.talkno }">
 			<button class="btn-insert" data-oper="talkupdate">수정 완료</button>
@@ -45,6 +47,32 @@
 </body>
 <script type="text/javascript">
 	$(function () {
+		
+		var plugins = [
+	        "advlist", "autolink", "lists", "link", "charmap", "print", "preview", "anchor",
+	        "searchreplace", "visualblocks", "code", "fullscreen", "insertdatetime", "table",
+	        "paste", "code", "help", "wordcount", "save"
+	 	];
+		var edit_toolbar = 'formatselect fontselect fontsizeselect |'
+	               + ' forecolor backcolor |'
+	               + ' bold italic underline strikethrough |'
+	               + ' alignjustify alignleft aligncenter alignright |'
+	               + ' bullist numlist |'
+	               + ' table tabledelete';
+
+    	tinymce.init({
+    		language: "ko_KR",
+        	selector: '#mytextarea',
+	        height: 500,
+	        menubar: false,
+	        plugins: plugins,
+	        toolbar: edit_toolbar,
+	        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+    	 });
+		
+		
+		
+		
 		
 		var form = $("#form");
 		var oper = $(this).data("oper");
