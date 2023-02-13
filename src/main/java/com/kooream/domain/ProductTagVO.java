@@ -13,7 +13,7 @@ public class ProductTagVO {
 	int p_no, idx, p_release_price;
 	long style_no;
 	int codi_no;
-	String p_name_ko, p_name_en;
+	String p_name_ko, p_name_en, p_class;
 	String uuid, fileName, uploadPath;
 	String offsetX, offsetY;
 

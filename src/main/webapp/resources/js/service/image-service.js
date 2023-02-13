@@ -26,7 +26,7 @@ var imgService = (function() {
 	function getImageEl(imageVO) {
 		const img = document.createElement('img');
 		img.src = originPath(imageVO);
-		 
+
 		return img;
 	}
 	

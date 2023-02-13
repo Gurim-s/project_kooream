@@ -6,6 +6,6 @@ import com.kooream.domain.ProductTagVO;
 
 public interface CodiProductTagMapper {
 	public void insert(ProductTagVO vo);
+	public List<ProductTagVO> getPNoListByCodiNo(int codi_no);
 	public List<ProductTagVO> getTagList(ProductTagVO vo);
-	public List<Integer> getPNoListByStyleNo(long style_no);
 }

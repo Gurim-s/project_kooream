@@ -82,11 +82,7 @@ public class CodiController {
 
 		List<CodiImageVO> list = vo.getAttachList();
 		List<Codi_TagVO> tagList = vo.getCodiTagList();
-		List<List<ProductTagVO>> productTagList = vo.getProductTagList();
-		System.out.println("Hello");
-		System.out.println(list.size());
-		System.out.println("World");
-		System.out.println(tagList.size()); 
+		List<ProductTagVO> productTagList = vo.getProductTagList();
 		
 		for(int i=0; i<vo.getCodiTagList().size(); i++ ) {
 		  
@@ -141,11 +137,16 @@ public class CodiController {
 		System.out.println("list : " + list1.size());
 		log.info("getTags..................." + codi_no); 
 		
-		return new ResponseEntity<List<Codi_TagVO>>(service.getTagList(codi_no), HttpStatus.OK);
+		return new ResponseEntity<List<Codi_TagVO>>(list1, HttpStatus.OK);
 	}
 	
-	
-	
+	// 상품 태그 
+	@GetMapping(value = "/getProductTag/{codi_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<ProductTagVO>> getPNoListByCodiNo(@PathVariable("codi_no") int codi_no){
+		List<ProductTagVO> pList = service.getPNoListByCodiNo(codi_no);
+		
+		return new ResponseEntity<List<ProductTagVO>>(pList, HttpStatus.OK);
+	}
 	
 	// 수정 
 	@GetMapping("/modify")
@@ -173,19 +174,6 @@ public class CodiController {
 		
 		return "redirect:/codishop/list";
 	} // remove .... end 
-	
-	
-	
-//	@GetMapping(value="/getCodiAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	@ResponseBody
-//	public ResponseEntity<List<CodiImageVO>> getCodiAttachList(int codi_no){
-//		log.info("getCodiAttachList" + codi_no);
-//		return new ResponseEntity<List<CodiImageVO>>(service.getCodiAttachList(codi_no), HttpStatus.OK);
-//		
-//		
-//	}
-
-
 
 }
 
