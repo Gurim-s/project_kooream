@@ -7,7 +7,7 @@ var pageNum =1;
 var amount = 4;
 var column = $('.list-column');
 var column1 = $('.style-column');
-
+var column2 = $('.brand-column');
 
 (function() {
 	setSlide();
@@ -95,10 +95,10 @@ async function getStyleList(pageNum, amount){
 		pageNum: 1,
 		amount: 4,
 		category: 'hot'
-	}
+	};
 	var styleList = await styleService.getList(query);
 	$.each(styleList, function(idx, style){
-		var card_box = $('<a href="../style/detail?category=hot&style_no='+style.style_no+'"><div></div></a>')	
+		var card_box = $('<a href="../style/detail?category=hot&style_no='+style.style_no+'"><div></div></a>');
 		$(card_box).attr('class','style_card'); // class 부여
 		
 		var text_box = $('<div></div>');
@@ -115,7 +115,7 @@ async function getStyleList(pageNum, amount){
 		$(img_box).append(img_tag);
 		$(card_box).append(img_box);
 		var textLine1 = $('<div></div>');
-		$(textLine1).append('<h4>'+style.style_content+'</h4>')
+		$(textLine1).append('<h4>'+style.style_content+'</h4>');
 		$(text_box).append(textLine1);
 		$(card_box).append(text_box);
 		$(column1[idx % 4]).append(card_box);
@@ -125,19 +125,19 @@ async function getStyleList(pageNum, amount){
 
 function getBrandList(pageNum, amount){
 	$.ajax({
-		url: "../brandshop/view",
+		url: "../brandshop/pList",
 		data: JSON.stringify({
 			pageNum: pageNum,
 			amount: amount
 		}),
-		type: "get",
+		type: "post",
 		dataType:"json",
 		contentType:"application/json",
 	})
 	.done(function(json){
-		$.each(json, function(idx, brand){
-			console.log(brand);
-			var card_box = $('<a href="../codishop/get?codi_no='+brand.p_no+ '"><div></div></a>');	
+		$.each(json, function(idx, pList){
+			console.log(pList);
+			var card_box = $('<a href="../codishop/get?codi_no='+pList.p_no+ '"><div></div></a>');	
 					
 		})//each
 	});//done

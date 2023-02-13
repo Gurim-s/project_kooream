@@ -4,7 +4,7 @@ var amount = 12;
 var column = $('.list-column');
 let h_tag = '';
 
-
+ 
 $(function() {
 	pageNum = 1;
 	amount = 12;
@@ -126,7 +126,4 @@ function getList(pageNum, amount) {
 
 	});	// .done ... end
 };	// function getList ... .end
-
-
-
 
