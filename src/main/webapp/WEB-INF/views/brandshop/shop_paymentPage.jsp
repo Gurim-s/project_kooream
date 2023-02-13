@@ -520,6 +520,8 @@
 		</div>
 	</form>
 </div>
+
+<!-- ------------------------------------- 스크립트 시작 ----------------------------------------------------------------  -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api 사용하기 위해 명시 -->
 <script type="text/javascript">
 
@@ -549,10 +551,7 @@ $(function(){
 		    }
 		});
 		
-		
-		
-		
-	 
+
 		if(check==0){
 
 			var form = $('#myForm');
@@ -590,17 +589,6 @@ $(function(){
 			$('.amount').html(sum.toLocaleString('ko-KR'));
 
 			
-//-------------------------------------------------------기본배송지 체크박스 클릭 이벤트
-	$("#copyAddr").on("click", function(){
-		if($(this).is(':checked')){
-			var addrList = "${pri.m_addr}".split("/");
-		    $("#sample6_address").val(addrList[0]);
-		    $("#sample6_detailAddress").val(addrList[1]);
-		}else{
-			$("#sample6_address").val("");
-			$("#sample6_detailAddress").val("");
-		}
-	});	
 
 
 

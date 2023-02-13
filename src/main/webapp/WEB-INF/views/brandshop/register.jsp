@@ -67,15 +67,15 @@
 				<td class="form-inline">
 						<select id="Category1"> <!--  form으로 이것만 보내야되는건가,,? -->
 							<option value="">선택</option>
-							<option value="top">1. 상의</option>
-							<option value="bottom">2. 하의</option>
-							<option value="shoes">3. 신발</option>
-							<option value="acc">4. 패션잡화</option>
+							<option value="top"> 상의</option>
+							<option value="bottom"> 하의</option>
+							<option value="shoes"> 신발</option>
+							<option value="acc"> 패션잡화</option>
 						</select>
 							<div class = "sizecheck">
-							<label class="T_Category"><input type="checkbox" class="T_Category" value="S" name ="sizeList" >s</label>
-							<label class="T_Category"><input type="checkbox" class = "T_Category" value="M" name ="sizeList" >m</label>
-							<label class="T_Category"><input type="checkbox" class = "T_Category" value="L" name ="sizeList" >l</label>
+							<label class="T_Category"><input type="checkbox" class="T_Category" value="S" name ="sizeList" >S</label>
+							<label class="T_Category"><input type="checkbox" class = "T_Category" value="M" name ="sizeList" >M</label>
+							<label class="T_Category"><input type="checkbox" class = "T_Category" value="L" name ="sizeList" >L</label>
 							</div>
 							<div class = "sizecheck">
 							<label class="B_Category"><input type="checkbox" class = "B_Category" value="46" name ="sizeList" >46</label>
@@ -102,10 +102,6 @@
 				<td>판매금액</td>
 				<td><input id ="p_price" type="number" name="p_release_price"></td>
 				</tr>
-<!-- 			<tr>
-				<td>상세이미지</td>
-				<td><input type="file" name="Brand_productImages"></td>
-			</tr> -->
 			<tr>
 				<td>카테고리 설정</td>
 					<td>

@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
 	.div{
 		width : 100%;		
 	}
@@ -31,6 +32,7 @@
 		border-radius : 8px;
 		border: none;
 		cursor:pointer;
+		font-size: 17px;
 	}
 	.admin_btn button{
 		width: 100%;
@@ -113,6 +115,9 @@
 		width: 70%;
 		cursor:pointer;
 		height: 40px;
+		background: black;
+		color : white;
+		border-radius : 8px;
 		
 	}
 	.openPopup{
@@ -121,18 +126,29 @@
 		background: none;
 	}
 	.v-line {
-		border-left: 1px solid gray ;
+		border-left: 1px solid  #ebebeb ;
 		height:52%;
 	 	left: 47.5%;
 	 	position: absolute;
 	 	color: gray;
+	}
+	.sizee{
+		font-size: 20px;
+		font-weight: bold;
+	}
+	#topButton {
+	position: fixed; 
+	right: 5%; bottom: 50px; 
+	display: none; 
+	z-index: 999;
+	width: 50px;
 	}
   
 
 </style>
 </head>
 <body>
-
+<div id="topButton" style="cursor: pointer"><img src="../resources/img/top.png" id="topButtonImg"></div>
 		
 <!-- ------------------------------------------이미지 보여주기---------------------------------------------------- -->
 <div class= "brand">
@@ -151,11 +167,11 @@
 	</ul>
 </div>
 <div class="v-line"></div>
-<!-- ------------------------------------------ 상품 정보---------------------------------------------------- -->
+<!-- ------------------------------------------ 상품 정보---------------------------------------------------------- -->
 <div class = "p_right"><!-- 상품정보 오른쪽 정렬시작 -->
-	<div style="font-size: 20px; font-weight: bold; text-decoration: underline">${vo2.b_name }<img style= "width : 25px;  " src =../resources/img/check.png/></div>
-	<div>${vo.p_name_en }</div>
-	<div style="font-size: 13px; font-style: gary">${vo.p_name_ko }</div>
+	<div style="font-size: 18px; font-weight: bold; text-decoration: underline; text-decoration-thickness : 2px; margin: 2px;">${vo.b_name }<img style= "width : 25px;  " src =../resources/img/check.png/></div>
+	<div style=" margin: 2px; font-size: 18px;">${vo.p_name_en }</div>
+	<div style="font-size: 14px; color: gray; margin: 2px;">${vo.p_name_ko }</div>
 <br/>
 <!-- ------------------------------------------ 옵션선택(모달창) ---------------------------------------------------- -->
 <div id="popup01">
@@ -169,23 +185,22 @@
 		</div>
 </div>
 <div class = "sizesee" style="float: right;"></div>
-<button class="openPopup">옵션선택</button><br/>
+<button style="font-size: 15px;" class="openPopup">옵션선택  ▼</button><br/>
 <!-- ------------------------------------------ 구매가격 ---------------------------------------------------- -->
-<br/>
-<hr/>
+<br/><hr/>
 <div style="margin: 8px;">구매가
 	<span style="font-size: 23px; float: right; font-weight: bold;"><fmt:formatNumber value="${vo.p_release_price }" pattern="#,###,###원"/></span></div>
 	<br/>
 <!-- ------------------------------------------ 버튼 ---------------------------------------------------- -->
 <div class = "btn">
-	<button type="button" id="product_buy">구매하기</button><br/><br/>
+	<button style="font-weight: bold;" type="button" id="product_buy">구매하기</button><br/><br/>
 	<%-- <input type="hidden" name="p_noList" value = "${vo.p_no }" />  form으로 보내기--%>
 	<button type="button" id="product_cart">장바구니</button><br/><br/>
 		<input type="hidden" name = "pp_size" value = "">
 </div>
 	<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-			<button type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+			<button style="border: none; cursor:pointer;" type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
 		</sec:authorize>
 		
 		
@@ -194,7 +209,6 @@
 		<form action="/brandshop/modify" method="get" id="operForm">
 	
 		</form>
-
 
 <!-- ------------------------------------------ 배송 관련 ---------------------------------------------------- -->
 <div>
@@ -216,14 +230,10 @@
 	<hr/>
 		<ul class = "top-menu">
 			<li><a href = "#tag1">상품상세보기</a></li>
+			<li><a href = "#tag3">판매자 정보</a></li>
 			<li><a href = "#tag2">교환 및 반품</a></li>
-			<li><a href = "#">스타일</a></li>
 		</ul>
-	<hr/>
-	<br/>
-	<br/>
-	<br/>
-	<br/>
+	<hr/><br/><br/><br/><br/>
 	
 	<div  style="margin-left:auto; margin-right:auto; text-align: center;">본 상품은 '${vo2.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
 </div>
@@ -247,35 +257,44 @@
 
 	<br/>
 <!-- ------------------------------------------ 판매자 정보 ---------------------------------------------------- -->	
-	<a name = "tag2"></a>
+<a name = "tag3"></a>	
+<hr/><br/>
 <h3>판매자 정보</h3>
 	<br/>
 	<table class="brand_member" border="1" >
 		<tr>
 			<th>상호명</th>
-			<td>&nbsp; ${vo2.b_name }</td>
+			<td>&nbsp; ${vo.b_name }</td>
 		</tr>
 		<tr>
 			<th>사업자 등록번호</th>
-			<td>&nbsp; ${vo2.b_bnum }</td>
+			<td>&nbsp; ${vo.b_bnum }</td>
 		</tr>
 		<tr>
 			<th>대표자</th>
-			<td>&nbsp; ${vo2.b_boss }</td>
+			<td>&nbsp; ${vo.b_boss }</td>
 		</tr>
 		<tr>
 			<th>사업장 소재지</th>
-			<td>&nbsp; ${vo2.b_badress }</td>
+			<td>&nbsp; ${vo.b_badress }</td>
 		</tr>
 		<tr>
 			<th>고객센터</th>
-			<td>&nbsp; ${vo2.b_managernum }</td>
+			<td>&nbsp; ${vo.b_managernum }</td>
 		</tr>
 		
 	</table>
 	<br/>
 	<br/>
+<hr/><br/>
+<h3>사업장 위치</h3>
+<br/>
+<div id="map" style="width:100%; height:400px;"></div>
+	<br/>
+	<br/>
 <!-- ------------------------------------------ 교환 및 반품 안내 ---------------------------------------------------- -->		
+<hr/><br/>
+<a name = "tag2"></a>
 <h3>교환 및 반품 안내</h3>
 	<br/>
 	<table class="brand_member" border="1" >
@@ -319,6 +338,7 @@
 	
 
 <!-- ------------------------------------------ 스크립트 시작 ---------------------------------------------------- -->		
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5b676d54f5b1a30b4b0cd24d103eede8"></script>
 <script type="text/javascript">
 
 <!-- ------------------------------------------ 수정페이지 이동 ---------------------------------------------------- -->		
@@ -394,11 +414,11 @@ $(function () {	// 수정페이지로 이동
 						if(confirm_val){
 							location.href="/brandCart/brandCart"
 						}else{
-							alert("메롱");
+							
 						}
 				},
 				error : function () {
-					alert("카트 담기 실패")
+					alert("카트 담기 실패");
 				}
 						
 			});
@@ -421,8 +441,73 @@ $(function () {	// 수정페이지로 이동
 			}
 	});
 	
+<!-- ------------------------------------------ 맨위로 가는 버튼  ---------------------------------------------------- -->		
+	 $(document).ready(function() {
+
+			$(window).scroll(function() {
+			    // top button controll
+			    if ($(this).scrollTop() > 500) {
+			        $('#topButton').fadeIn();
+			    } else {
+			        $('#topButton').fadeOut();
+			    }
+			});
+
+			$("#topButtonImg").click(function() {
+				$('html, body').animate({scrollTop:0}, '300');
+			});
+
+		});
+<!-- ------------------------------------------ 지도 api  ---------------------------------------------------- -->			 
+var bno = '${vo.b_no}';	
+		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+		var b_51 = {  //지도를 생성할 때 필요한 기본 옵션
+			center: new kakao.maps.LatLng(37.5214207, 127.0269771), //지도의 중심좌표.
+			level: 3 //지도의 레벨(확대, 축소 정도)
+		};
+		
+		var b_52 = {  //지도를 생성할 때 필요한 기본 옵션
+				center: new kakao.maps.LatLng(37.5545094,126.9182184), //지도의 중심좌표.
+				level: 3 //지도의 레벨(확대, 축소 정도)
+			};
+		var b_53 = {  //지도를 생성할 때 필요한 기본 옵션
+				center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+				level: 3 //지도의 레벨(확대, 축소 정도)
+			};
+		var b_54 = {  //지도를 생성할 때 필요한 기본 옵션
+				center: new kakao.maps.LatLng(37.5484274,126.9224548), //지도의 중심좌표.
+				level: 3 //지도의 레벨(확대, 축소 정도)
+			};
+		
+		var b_55 = {  //지도를 생성할 때 필요한 기본 옵션
+				center: new kakao.maps.LatLng(37.5473901, 127.0540434), //지도의 중심좌표.
+				level: 3 //지도의 레벨(확대, 축소 정도)
+			};
+			
+		if(bno == 51){
+		var map = new kakao.maps.Map(container, b_51); //지도 생성 및 객체 리턴
+		}else if(bno == 52){
+			var map = new kakao.maps.Map(container, b_52);
+		}else if(bno == 53){
+			var map = new kakao.maps.Map(container, b_53);
+		}else if(bno == 54){
+			var map = new kakao.maps.Map(container, b_54);
+		}else if(bno == 55){
+			var map = new kakao.maps.Map(container, b_55);
+		}
+		
+		var marker = new kakao.maps.Marker();
+
+		// 타일 로드가 완료되면 지도 중심에 마커를 표시합니다
+		kakao.maps.event.addListener(map, 'tilesloaded', displayMarker);
+
+		function displayMarker() {
+		    
+		    // 마커의 위치를 지도중심으로 설정합니다 
+		    marker.setPosition(map.getCenter()); 
+		    marker.setMap(map); 
 	
-	
+		}
 	
 	
 	

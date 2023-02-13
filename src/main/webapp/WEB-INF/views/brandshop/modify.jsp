@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="../include/header.jsp"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,15 +36,16 @@
 				<td>브랜드</td>
 					<td class="form-inline">
 						<select id="brand_select" name="b_no">
-							<option value="51">LE17SEPTEMBRE</option>
-							<option value="52">Polar Skate Co.</option>
-							<option value="53">Punch Drunk Parties</option>
-							<option value="54">THE IDENTITY PROJECT</option>
-							<option value="55">The Museum Visitor</option>
+							<option value="51" <c:if test="${vo.b_no == 51}">selected</c:if>>LE17SEPTEMBRE</option>
+					 		<option value="52" <c:if test="${vo.b_no == 52}">selected</c:if>>Polar Skate Co.</option>
+					 		<option value="53" <c:if test="${vo.b_no == 53}">selected</c:if>>Punch Drunk Parties</option>
+							<option value="54" <c:if test="${vo.b_no == 54}">selected</c:if>>THE IDENTITY PROJECT</option>
+							<option value="55" <c:if test="${vo.b_no == 55}">selected</c:if>>The Museum Visitor</option>
 						</select>
 					</td>
 				</tr>	
 				<tr>
+				
 					<td>상품명_한글</td>
 					<td><input id ="p_name" type="text" name="p_name_ko" value="${vo.p_name_ko}"></td>
 				</tr>
@@ -118,8 +120,6 @@
 					<!-- <button type="reset">취소</button> -->
 					<button type ="submit" data-oper="list">목록으로</button>
 					<button type="submit" data-oper="remove">삭제</button>
-					<%-- <input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
-					<input type="hidden" name="amount" value="${cri.amount}"/>  --%>
 					<input type="hidden" name="p_no" value="${vo.p_no }"/>
 					<input type="hidden" name="b_no" value="${vo.b_no }"/>
 				</td>
@@ -224,16 +224,6 @@ $(function(){
 	     	    }
 			}
 			
-				
-				//var pageNumTag = $("input[name=pageNum]").clone();
-				//var amountTag = $("input[name=amount]").clone();
-				
-					// 내부 비워주기	
-
-				//operForm.append(pageNumTag);
-				//operForm.append(amountTag);
-		
-			
 			operForm.submit();
 		});
 		
@@ -292,6 +282,7 @@ $(function(){
 	
 	});		
 
+	}); */
 
 </script>
 

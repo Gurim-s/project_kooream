@@ -12,6 +12,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
 	
 	.register{
 		float: right;
@@ -43,7 +44,7 @@
 		display: none;
 	}
 	.imgbox{
-		width: 200px;
+		width: 100px;
 		position: relative;
 	}
 	.title_image{
@@ -73,10 +74,15 @@
 	.p_info{
 		width: 200px;
 	}
-	.logo_name {
-		left: 550px;
+	.logoname{
+		font-weight: bold; 
+		font-size: 25px;
+		position: relative;
+		bottom : 70px;
 	}
-
+	li{
+		margin: 5px;
+	}
 
 
 </style>
@@ -95,46 +101,52 @@
 <div class="title_image"></div>
 <div class="logo_image"></div>
 <div class = "logo_name"></div>
-
 </div>
 <!-- ------------------체크박스 카테고리 시작------------------------ -->
  <div id = "box">
 	<ul>
 		<li class = "menu">
-			<p>카테고리</p>
+			<p class = "p" style="font-size: 17px; font-weight: bold;">카테고리</p><hr/>
 				<ul class = "sub">
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_clothes">  의류</li>
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_shoes">  신발</li>
-					<li><input type ="checkbox" class = "brand_category" name = "brand_category" onclick='checkOnlyOne(this)' value = "brand_acc">  패션잡화</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category"  value = "brand_clothes">  의류</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category"  value = "brand_shoes">  신발</li>
+					<li><input type ="checkbox" class = "brand_category" name = "brand_category"  value = "brand_acc">  패션잡화</li>
 				</ul>
 		</li>
 		
 		<li class = "menu">
-			<p>금액</p>
+			<p class = "p" style="font-size: 17px; font-weight: bold;">금액</p><hr/>
 				<ul class = "sub" >
-					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "50000">  5만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "100000">  10만원 이하</li>
-					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "150000">  15만원 이하</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "200000">  20만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "300000">  30만원 이하</li>
+					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "400000">  40만원 이하</li>
 				</ul>
 		</li>
 
 	</ul>
 </div> 
-<!-- ------------------체크박스 카테고리 끝------------------------ -->	
+<!-- ------------------셀렉트박스 시작--------------------------------- -->
+<select id ="productselect">
+	<option val="">
 
 
+
+
+
+
+</select>	
 
 
 <!-- -----------------------상품리스트 시작--------------------------->
-	   <div class="middle_content">
-         <div class="middle_content_inner">
-               <div>
-                        <div class ="brand">
-						</div>
-               </div>
-         </div>
-      </div>
+	<div class="middle_content">
+		<div class="middle_content_inner">
+			<div>
+				<div class ="brand">
+				</div>
+			</div>
+		</div>
+	</div>
 <!-- -----------------------상품리스트 끝--------------------------->
 <!-- -----------------------스크립트 시작--------------------------->
 <script type="text/javascript">
@@ -142,43 +154,7 @@
 	//console.log(test);
 	
 
-	
-	//상품 클릭 이벤트----------------------------------------------------------------------------------
-
-			
-			
-			
-			
-			// <a> 클릭 시 페이지 이동이 이루어지지 않게 하기 위해
- 			//e.preventDefault();	// 기본 href 경로 이동 방지
-		//	actionForm.attr("action", "/branshop/get");
-			  /* var str=''; */ 	// up& 되지 않도록 하는 방법
-			   	
-		         /* str += '<input type="hidden" name="p_no" value="'+$(this).attr("href")+'">'; */
-		       //  actionForm.html(str);
-		          
-			//actionForm.append('<input type="hidden" name="bno" value="'+$(this).attr("href")+'">'); // this 내 자신	// url에 밑에 3개 다 보이게 하기위해서는 append 사용
-			//actionForm.html('<input type="hidden" name="bno" value="'+$(this).attr("href")+'">');	// html로 하면 url에서 pageNum, amount, bno를 다 날린다 
-		/* 	actionForm.submit(); */
-	
-	
-	
-	
-	/*    $(".brand").click(function(e) {
-    	e.preventDefault();
-    	actionForm.attr("action", "/brandshop/get");
-       
-    	var str='';
-    	str += '<input type="hidden" name="p_no" value="'+$(this).attr("href")+'">';
-        actionForm.html(str);         
-       
-        actionForm.submit();
-       
-       });  */
-    
- //상품 클릭 이벤트 end------------------------------------------------------------------------------   
-
-//-------------------------------------상품 메인/로고 이미지 시작-------------------------------------------------------
+//-------------------------------------상품 메인/로고 이미지/ 브랜드 이름시작-------------------------------------------------------
 	var b_no = ${b_no};
 		for(i=51; i<=55; i++) {
 			if(b_no == i){
@@ -193,7 +169,15 @@
 		}
 		
 		if(b_no == 51){
-			$(".logo_name").append('<div class = "logoname" style="font-weight: bold; font-size: 15px; ">LE17SEPTEMBRE</div>')
+			$(".logo_name").append('<div class = "logoname" style = "left: 525px;">LE17SEPTEMBRE<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+		}else if(b_no == 52){
+			$(".logo_name").append('<div class = "logoname" style = "left: 525px;">Polar Skate Co.<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+		}else if(b_no == 53){
+			$(".logo_name").append('<div class = "logoname" style = "left: 500px;">Punch Drunk Parties<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+		}else if(b_no == 54){
+			$(".logo_name").append('<div class = "logoname" style = "left: 475px;">THE IDENTITY PROJECT<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+		}else{
+			$(".logo_name").append('<div class = "logoname" style = "left: 500px;">The Museum Visitor<img style= "width : 25px; " src =../resources/img/check.png/></div>')
 		}
 
 //--------------------------------------------수정 페이지 이동--------------------------------------------------
@@ -209,8 +193,8 @@
     // html dom 이 다 로딩된 후 실행된다.
     $(document).ready(function(){
         // menu 클래스 바로 하위에 있는 p 태그를 클릭했을때
-        $(".menu>p").click(function(){
-            var submenu = $(this).next("ul");
+        $(".p").click(function(){
+            var submenu = $(this).next().next("ul");
  
             // submenu 가 화면상에 보일때는 위로 접고 아니면 아래로 펼치기
             if( submenu.is(":visible") ){
@@ -220,7 +204,8 @@
             }
         });
     });
-
+	// 페이징처리를 위해 전역변수 선언
+	var idx = 1;
 
 // 상품 이미지 리스트에 보여주기--------------------------------------------------------
  	$(function() {
@@ -244,7 +229,7 @@
 			console.log(json);
 			for(var i=0; i<json.length; i++) {
 				krPrice = json[i].p_release_price.toLocaleString('ko-KR');
-				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 					// brandshop(컨트롤러) 에서 /get을 탐  
 				console.log(json);
 				
@@ -270,8 +255,8 @@
 // 				}
 				/* str += '<div>{vo2.b_name}</div>' */
 				str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
-				str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
-				str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
+				str += '<div class = "p_info" style="font-weight: bold; font-size: 13px; ">'+json[i].p_name_en+'</div>';
+				str += '<div class = "p_info" style="color: gray; font-size: 12px;">'+json[i].p_name_ko+'</div>';
 				str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
 				
 				str += '</a>'
@@ -336,13 +321,14 @@
 					
 					// 이미지 하나만 보여주기 
 					
-					if(json[i].attachList.length > 0) {
-						var uploadPath = json[i].attachList[0].uploadPath;
-						var uuid = json[i].attachList[0].uuid;
-						var fileName = json[i].attachList[0].fileName;
-						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-						str += '<div class = "product">'
-						str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
+					if(json.length > 0) {
+					var uploadPath = json[i].uploadPath;
+					var uuid = "s_"+ json[i].uuid;
+					var fileName = json[i].fileName;
+					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+					console.log(fileCallPath);
+					str += '<div class = "product">'
+					str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 					}
 	
 					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
@@ -419,18 +405,31 @@
  		}
  	}) 		
  
-// --------------------숫자에 , 붙이기 --------------------------------------------------------
-    function checkOnlyOne(element) {
+/* 		// 스크롤 내리면 삼품 불러오는 -----------------------------------------------
+		$(window).scroll(function(){
+			var scrT = $(window).scrollTop();
+				console.log(scrT); //스크롤 값 확인용
+			if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
+				// 페이지 전체크기 =< 스크롤크기(아래 내려갈 공간) + 화면상 보이는 크기 --> 상품 더보기되면서 페이지 전체크기 늘어남
+				idx += 1; //스크롤이 끝에 도달했을때 실행될 이벤트
+				list();
+			} else {
+				//아닐때 이벤트
+			}
+		});
+ 	
+ 	 */
+ 	
+ 	
+ // --------------------체크박스 다른거 클릭시 다른체크박스 해제 사용xxx --------------------------------------------------------
+	function checkOnlyOne(element) {
         
-        const checkboxes 
-            = document.getElementsByName("brand_category");
+		const checkboxes = document.getElementsByName("brand_category");
         
-        checkboxes.forEach((cb) => {
-          cb.checked = false;
-        })
+		checkboxes.forEach((cb) => {cb.checked = false;})
         
         element.checked = true;
-      }		
+    }		
  		
  		
  		

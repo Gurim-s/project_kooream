@@ -53,11 +53,11 @@ public class BrandSelectController {
 	private BrandSelectService brandSelectservice;
 	
 
-		// 상품 리스트 보여주기
+		// 상품(카테고리 의류) 리스트 보여주기
 		@GetMapping("/getList")	// 비동기 방식 mapping
 		@ResponseBody 
 		public ResponseEntity<List<ProductVO>> getList(ProductVO vo2) {	
-			log.info(vo2.getB_no()+ "-----00000000000000000");
+			
 			return new ResponseEntity<List<ProductVO>>(brandSelectservice.getList(vo2),HttpStatus.OK);
 		}
 		// 이미지 리스트 보여주기
@@ -68,13 +68,13 @@ public class BrandSelectController {
 			return new ResponseEntity<List<AttachFileVO>>(brandSelectservice.getAttachList(p_no),HttpStatus.OK);
 		  
 		}
-		
+		// 상품(금액) 리스트 보여주기
 		@GetMapping("/pricegetList")	// 비동기 방식 mapping
 		@ResponseBody 
 		public ResponseEntity<List<ProductVO>> getListprice(ProductVO vo3) {	
-			log.info(vo3.getB_no()+ "-----00000000000000000");
 			return new ResponseEntity<List<ProductVO>>(brandSelectservice.getListprice(vo3),HttpStatus.OK);
 		}
+
 }
 	
 
