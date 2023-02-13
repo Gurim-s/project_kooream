@@ -195,6 +195,7 @@ public class BidShopController {
         return "shop/shop_introduce";
     }
 	
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping(value = "/shop_modify/{p_no}")
 	public String modify(@PathVariable("p_no") int p_no, Model model) {
 		  		  
@@ -203,6 +204,7 @@ public class BidShopController {
 		return "shop/shop_modify";
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/shop_modify")	
 	public String modify(ProductVO vo) {
 		log.info("modify...." + vo );
@@ -211,6 +213,7 @@ public class BidShopController {
 		return "redirect:/shop/shop_allList";
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@Transactional
 	@GetMapping(value = "/remove/{p_no}")	
 	public String remove(@PathVariable("p_no") int p_no) {
@@ -221,6 +224,7 @@ public class BidShopController {
 		return "redirect:/shop/shop_allList";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping(value = "/shop_sellbidPage")
     public String get2(BidShopVO bid, Model model) {
 
@@ -259,6 +263,7 @@ public class BidShopController {
         return "shop/shop_sellpage";
     }
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping(value = "/shop_buypage")
 	public String shop_buypage(BidShopVO bid, Model model) {
 		
@@ -297,6 +302,7 @@ public class BidShopController {
 		return "shop/shop_buypage";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping(value = "/shop_paymentPage")
 	public String shop_paymentPage(BidShopVO bid, Model model) {
 		
@@ -338,6 +344,8 @@ public class BidShopController {
 		model.addAttribute("imageUrls", imageUrls);
 		return "shop/shop_paymentPage";
 	}
+	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping(value = "/shop_Nowsellconfirm")
 	public String shop_Nowsellconfirm(BidShopVO bid, Model model) {
 		
@@ -378,6 +386,7 @@ public class BidShopController {
 		return "shop/shop_Nowsellconfirm";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping(value = "/shop_bid_PaymentPage")
 	public String shop_bid_PaymentPage(BidShopVO bid, Model model) {
 		
@@ -411,6 +420,7 @@ public class BidShopController {
 		return "shop/shop_bid_PaymentPage";
 	}
 	
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@PostMapping(value = "/shop_Bidsellconfirm")
 	public String shop_Bidsellconfirm(BidShopVO bid, Model model) {
 		
@@ -479,6 +489,7 @@ public class BidShopController {
 		model.addAttribute("imageUrls", imageUrls);
 		return "shop/shop_Sell_Sizeselect";
 	}
+	
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@GetMapping(value = "/shop_Buy_Sizeselect/{p_no}")
 	public String get4(@PathVariable("p_no") int p_no, Model model) {
