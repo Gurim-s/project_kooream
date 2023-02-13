@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     p.*
     from product pro, payment p
     where pro.p_no = p.p_no and p.m_no = #{m_no}
+    order by buy_no desc
 </select>
 <delete id="paymentdelete">
 	delete from payment where buy_date = #{buy_date}

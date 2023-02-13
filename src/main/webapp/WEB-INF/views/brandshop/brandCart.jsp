@@ -10,64 +10,60 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	.delBtn{
-		float: right;
+	button{
+		background-color:  black;
+		width: 100px;
+		color: white;
+		height: 28px;
+		border-radius: 5px;
 	}
- 	.p_image{
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-       justify-content: center;
 
-        }
-		
-	} 
-	.p_infosty{
-
-		margin : 100px;
-		padding: 100px;
-	
-	
-	}
-	.remove_button{
-		float: right;
-	}
-	#total_sum{
+	.Btn{	/* 버튼  */
 		float: right;
 	}
 	.imgbox{
 		border-radius: 70%;
 		
-	}button{
-		background-color:  black;
-		width: 100px;
-		color: white;
-		height: 28px;
-		border-radius: 5px;;	
+	}
+	.p_infoa{
+		left : 60px;
+		position: relative;
+	}
+ 	.p_image{
+ 		overflow: hidden;
+        display: flex;
+        align-items: center;
+		justify-content: center;
+       	left : 30px;
+		position: relative; 
 	}
 
+	#total_sum{
+		font-weight: bold;
+		text-decoration: underline;
+		text-decoration-thickness : 2px;
+		font-size: 20px;
+		float: right;
+	}
 
 </style>
 </head>
 <body>
 	<h1>장바구니</h1><br/>
-<!---------------------------------버튼-------------------------------- -->
+<!---------------------------------버튼----------------------------------------------------------- -->
 	<ul>
 		<li>
 			<div class="allCheck">
 				<input type="checkbox" id="allCheck" /><label for="allCheck"> 모두 선택</label>
-				 
-			 <div class="delBtn">
+			 <div class="Btn">
 				<button type="button" class="selectDelete_btn">삭제</button> 
 				<button type="button" id="product_buy">구매하기</button>
 			</div> 
 			</div>
-			<br/>
-			<hr/>
-			<br/>
+			<br/><hr/><br/>
 		</li>
 	</ul>
-<!---------------------------------장바구니 리스트-------------------------------- -->
+<!---------------------------------장바구니 리스트-------------------------------------------------- -->
 <form action="">
 	<div class="middle_content">
 		<div class="middle_content_inner">
@@ -78,16 +74,13 @@
 		</div>
 	</div>
 </form>
-<!---------------------------------상품 합계-------------------------------- -->
+<!---------------------------------상품 합계----------------------------------------------------- -->
 	<div>
-		<p>합계</p><div  id="total_sum" ></div>
+		<p style="font-size: 18px;">합계</p><div  id="total_sum" ></div>
 	</div>
-    <br/>
-    <br/>
-    
+    <br/><br/>
 
-
-<!---------------------------------스크립트 시작-------------------------------- -->	
+<!---------------------------------스크립트 시작----------------------------------------------------- -->	
 <script type="text/javascript">
 
 
@@ -125,18 +118,17 @@ $(function(){	// list()함수 실행하기위한
 					var fileName = json[i].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/s_" + uuid + "_" + fileName);
 						
-					str += '<img class = "p_image" style = "width : 130px; margin = 10px; float: left;" src="/displayImage?fileName='+ fileCallPath + '" /><br/>';	// 이미지
+					str += '<img class = "p_image" style = "width : 120px; margin = 10px; float: left;" src="/displayImage?fileName='+ fileCallPath + '" /><br/>';	// 이미지
 					
 					/*브랜드명, 영문명, 사이즈, 가격  mapper.xml에서 조인해서 가지고오고, Vo에 이름 만들면 가지고 올수있음 */
 					
 					str += '</div>';
 					str += '<div class = "p_infosty">';
-					str += '<div class="p_info" style="font-weight: bold; font-size: 15px;">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
-					str += '<div class="p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_NAME_EN+'</div><br/>';
-					str += '<div class="p_info" style="color: gray; font-size: 15px;">'+json[i].pp_size+'</div><br/>';
+					str += '<div class="p_infoa" style="font-weight: bold; font-size: 16px;">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
+					str += '<div class="p_infoa" style="font-weight: bold; font-size: 14px; ">'+json[i].p_NAME_EN+'</div><br/>';
+					str += '<div class="p_infoa" style="font-weight: bold; font-size: 16px;">'+json[i].pp_size+'</div>';
 					str += '</a>'
-					str += '<div class="p_info" style="font-weight: bold; font-size: 15px; float:right;"  data-price = "'+json[i].p_release_price+'">'+krPrice+'원</div>';
-					
+					str += '<div class="p_info" style="font-weight: bold; font-size: 18px; float:right;"  data-price = "'+json[i].p_release_price+'">'+krPrice+'원</div><br/>';
 					str += '</div>'
 					str += '</div>'
 					/* str += '<button class = "remove_button" data-cartno="'+json[i].cart_no+'" >삭제</button>' */
@@ -151,7 +143,8 @@ $(function(){	// list()함수 실행하기위한
 		
 		
 	 		}else{
-				str += '<p>장바구니에 상품이 없습니다.</p>'
+				str += '<p>장바구니에 상품이 없습니다.</p><br/><hr/>'
+				str += '<br/>'
 				$('.brand').html(str);
 			
 	 		}// ------- else 문 끝
@@ -178,7 +171,6 @@ $(function(){	// list()함수 실행하기위한
 			}
 		    $("#total_sum").html(sum.toLocaleString('ko-KR') + " 원");
 		
-			 	
 		}	
 	
 //----------------------------------------------------------삭제 비동기(여러개삭제 만드니깐 안돼서 막아둠ㅠ)
@@ -191,7 +183,6 @@ $(function(){	// list()함수 실행하기위한
 			type : "POST",
 			/* datatype : "json" */
 //			data : {cart_no:cartno},  
-			/* /*data : json, */
 //			success : function(result){
 //				if(result == 1) {          
 //					alert("삭제 성공");
@@ -204,28 +195,6 @@ $(function(){	// list()함수 실행하기위한
 //		});// 삭제 ajax 끝
 //	}); // 삭제 함수 끝
 	
-//	$(document).on("click",".selectDelete_btn",function () {
-//		//e.preventDefault();
-//		var cartno = $(this).data("cartno");	// this가 버튼 눌린것(?) 이라는 뜻
-		//var pno = $(this).data("pno");	// data-set
-//	 	$.ajax({
-//			url : "/brandCart/Cartdelete",
-//			type : "POST",
-			/* datatype : "json" */
-//			data : {cart_no:cartno},  
-			/* /*data : json, */
-//			success : function(result){
-//				if(result == 1) {          
-//					alert("삭제 성공");
-//					list();		// 성공시 list() 함수를 타야 새로고침 된다
-//				} else {
-//					alert("삭제 실패");
-//				}
-				
-//			}// success 끝
-//		});// 삭제 ajax 끝
-//	}); // 삭제 함수 끝
- 	
 
 //----------------------------------------------------------여러개 선택 삭제 비동기
 	$(".selectDelete_btn").click(function(){
