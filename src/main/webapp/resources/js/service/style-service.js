@@ -6,6 +6,9 @@
 var styleService = (function() {
 	async function getOne(style_no) {
 		const res = await fetch('/style/' + style_no);
+//		const res = await fetch('/style/detail_list/' + category + '/' + style_no, {
+//            headers: { 'Content-Type': 'application/json' }
+//        });
 		return res.json();
 	}
 	

@@ -17,6 +17,9 @@ const member_no = document.querySelector('header input[name="pri_m_no"]').value;
 //	const style = await styleService.getOne(style_no);
 //	column.append(template(style));
 //})();
+var data = {
+	followerList: [],
+};
 
 //style목록 template
 var template = function(style) {
@@ -24,7 +27,6 @@ var template = function(style) {
 	template.className = 'item';
 	template.id = 'detail_'+style.style_no;
 	template.dataset.styleNo = style.style_no;
-	
 	template.innerHTML = (
 		'<div class="item-header clearfix">' +
 			'<div class="item-header-left">' +
@@ -38,7 +40,7 @@ var template = function(style) {
 			'</div>' +
 			'<div class="item-header-right">' +
 				(style.m_no != member_no
-					? '<a href="#" class="follow-btn" data-m_no="'+style.m_no+'">팔로우</a>'
+					? '<a href="#" class="follow-btn '+(data.followerList.includes(style.m_no)? 'followed':'')+'"  data-m_no="'+style.m_no+'">팔로우</a>'
 					: '<a href="#" class="update-btn">수정</a><a href="#" class="remove-btn">삭제</a>') +
 			'</div>' +
 		'</div>' +
@@ -89,10 +91,11 @@ var template = function(style) {
 		followBtn.addEventListener('click', async (e) => {
 			e.preventDefault();
 			const target = e.target;
-			const result = await memberService.followMember(target.dataset.m_no);
+			const m_no = target.dataset.m_no;
+			const result = await memberService.followMember(m_no);
 			
-			result == 1 ? target.classList.add('followed')
-						: target.classList.remove('followed');
+			document.querySelectorAll('a.follow-btn[data-m_no="'+m_no+'"]')
+			.forEach(x => result == 1 ? x.classList.add('followed'): x.classList.remove('followed'));
 		});
 	}
 	
@@ -167,6 +170,7 @@ function setProductTags(list, productContainer, slider) {
 function productTagTemplate(productTag) {
 	const container = document.createElement('a');
 	container.className = 'product-info';
+	console.log(productTag);
 	container.href = '../shop_introduce/'+productTag.p_no;
 	const str = (
 		'<div class="product-img">' +
@@ -209,4 +213,4 @@ function strToHashTag(text) {
 	return text.replace(type, strToA);
 }
 
-export {template}
+export {template, data}

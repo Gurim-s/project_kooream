@@ -14,8 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="getTagList" resultType="com.kooream.domain.ProductTagVO">
-		select *
-		from style_product_tag
+		select t.p_no, idx, p_name_ko, p_name_en, uuid, filename, uploadpath, offsetX, offsetY
+		from style_product_tag t left join product p on t.p_no = p.p_no
 		where style_no=#{style_no} and idx=#{idx}
 	</select>
 	
@@ -29,4 +29,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into style_product_tag
 		values (#{style_no}, #{p_no}, #{offsetX}, #{offsetY}, #{idx})
 	</insert>
+	
+	<delete id="delete">
+		delete from style_product_tag
+		where style_no=#{style_no}
+	</delete>
 </mapper>

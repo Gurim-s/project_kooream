@@ -1,5 +1,6 @@
 package com.kooream.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ public interface MemberService {
 	public int matchPw(MemberVO vo);
 	public int updatePw(MemberVO vo);
 	public int follow(int m_no);
+	public List<Integer> getFollowList();
 	
 	/*
 	//이메일발송

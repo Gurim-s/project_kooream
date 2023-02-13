@@ -3,6 +3,7 @@ import {styleService} from '../service/style-service.js';
 import {imgService} from '../service/image-service.js';
 
 const style = await getStyle();
+console.log(style);
 const tagSelector = productTagSelector();
 
 (function() {
@@ -18,6 +19,7 @@ const tagSelector = productTagSelector();
 	document.querySelector('.product-tag-selector-container')
 	.append(tagSelector.container);
 	tagSelector.slider.addImgTagList(getUploadedImgElList());
+	setProductTags(style.productTagList, tagSelector.slider);
 	
 	document.querySelector('[name="style_content"]')
 	.value = style.style_content;
@@ -85,12 +87,21 @@ async function regist(e) {
 		&& alert('글 내용은 100자 까지 입니다..')) return;
 	
 	const form = e.target.closest('form');
+	const productTagList = tagSelector.getProductTagsInput();
 	const hashTagList = extractHashTag(text);
 	const div = document.createElement('div');
+	div.innerHTML += productTagList;
 	div.innerHTML += hashTagList;
 	div.innerHTML += '<input type="hidden" name="style_no" value="'+style.style_no+'">';
 	form.append(div);
 	form.submit();
+}
+
+function setProductTags(list, slider) {
+	if (list == null || list.length == 0) return;
+	list.flat().forEach(x => {
+		slider.addProductTag(x);
+	});
 }
 
 function extractHashTag(text) {

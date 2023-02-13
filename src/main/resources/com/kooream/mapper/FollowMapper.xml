@@ -17,4 +17,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from follow
 		where m_no = #{m_no}
 	</delete>
+	<select id="getFollowList" resultType="int">
+		select m_no
+		from follow
+		where follower = #{m_no}
+	</select>
 </mapper>

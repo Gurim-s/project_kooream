@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -123,6 +124,14 @@ public class MemberController {
 		int result = service.follow(m_no);
 		
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value="/followList", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<Integer>> getFollowList() {
+		List<Integer> result = service.getFollowList();
+		
+		return new ResponseEntity<List<Integer>>(result, HttpStatus.OK);
 	}
 	
 	// 권한 에러 페이지 이동

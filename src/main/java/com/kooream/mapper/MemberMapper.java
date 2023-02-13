@@ -3,6 +3,7 @@ package com.kooream.mapper;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.kooream.domain.MemberVO;
 
@@ -28,9 +29,9 @@ public interface MemberMapper {
 	// 비밀번호 업데이트
 	public int updatePw(MemberVO vo);
 	// 팔로우 수 증가
-//	public int updateFollowCount(int m_no, int amount);
+	public int updateFollowerCount(@Param("m_no") int m_no, @Param("amount") int amount);
 	// 팔로잉 수 증가
-//	public int updateFollowingCount(int m_no, int amount);
+	public int updateFollowingCount(@Param("m_no") int m_no, @Param("amount") int amount);
 	// 게시글 수 증가
-//	public int updateStyleCount(int m_no, int amount);
+	public int updateStyleCount(@Param("m_no") int m_no, @Param("amount") int amount);
 }

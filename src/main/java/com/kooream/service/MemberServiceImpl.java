@@ -2,6 +2,7 @@ package com.kooream.service;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -100,13 +101,24 @@ public class MemberServiceImpl implements MemberService{
 		boolean isFollowed = followMapper.checkFollowed(m_no, follower);
 		if (isFollowed) {
 			followMapper.unfollow(m_no);
+			mapper.updateFollowerCount(m_no, -1);
+			mapper.updateFollowingCount(follower, -1);
 			return -1;
 		} else {
 			followMapper.follow(m_no, follower);
+			mapper.updateFollowerCount(m_no, 1);
+			mapper.updateFollowingCount(follower, 1);
 			return 1;
 		}
 	}
 	
+	@Override
+	public List<Integer> getFollowList() {
+		MemberVO userSession = new UserSession().getSession();
+		int m_no = userSession.getM_no();
+		
+		return followMapper.getFollowList(m_no);
+	}
 	
 	
 	/*
