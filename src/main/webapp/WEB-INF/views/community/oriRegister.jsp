@@ -76,11 +76,13 @@
 			<br/>
 			<div>브랜드</div>
 			<div>
+				<c:if test="${!empty brandList}" >
 				<select name="brandname">
-					<option value="노스페이스">노스페이스</option>
-					<option value="나이키">나이키</option>
-					<option value="슈프림">슈프림</option>
+					<c:forEach var="bvo" items="${brandList}">
+						<option value="${bvo.oribarandname}">${bvo.oribarandname}</option>
+					</c:forEach>
 				</select>
+				</c:if>
 			</div>
 			<br/>
 			<div>내용</div>

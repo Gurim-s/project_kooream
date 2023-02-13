@@ -82,12 +82,17 @@
 	<hr/>
 	<br/>
 	<div>
-		<!-- <select name = "brandname">
-			<option value="노스페이스">노스페이스</option>
+		<c:if test="${!empty brandList}">
+		<select name = "brandname" id="brandSearch">
+			<c:forEach var="bvo" items="${brandList}">
+				<option value="${bvo.oribarandname}">${bvo.oribarandname}</option>
+			</c:forEach>
+			<!-- <option value="노스페이스">노스페이스</option>
 			<option value="나이키">나이키</option>
 			<option value="슈프림">슈프림</option>
-			<option value="컨버스">컨버스</option>
-		</select> -->
+			<option value="컨버스">컨버스</option> -->
+		</select>
+		</c:if>
 	</div>
 	<div>
 		<br/>
@@ -231,6 +236,45 @@
 	    };
 		
 		
+	    
+	    // 게시글 검색 (비동기)
+	    $("#brandSearch").on("change", function() {
+	    	var brandSearch = $("#brandSearch");
+			var brandValue = brandSearch.val();
+			console.log(brandValue);
+			
+			$.ajax({
+				type:'get',
+				url: '/community/search/' + brandValue + '.json',
+				data : {brandname : brandValue},
+				dataType : 'json',
+				success:function(result, status, xhr){
+					if(callback){
+						callback(result);
+						console.log(result);
+					}
+				},
+				error : function(xhr, status, er){
+					if(er){
+						error(er);
+					}
+				}
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		})
+	    
+	    
+	    
+	    
+	    
 		
 		
 		
