@@ -148,8 +148,11 @@ async function loadDetail(newList) {
 function viewDetail(target) {
 	view.column.forEach(x=>x.classList.add('hide'));
 	view.detailColumn.classList.remove('hide');
-	
+
 	location.href = '#detail_'+target;
+	window.onpopstate = function() {
+		location.href = location.pathname + location.search;
+	}
 }
 
 function item(style) {
