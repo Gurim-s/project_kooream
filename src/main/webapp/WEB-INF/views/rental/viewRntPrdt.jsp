@@ -102,9 +102,18 @@
 #reviews tr{
 	border-bottom: 1px solid gray;
 }
+#intrstRemoveBtn:active,#intrstBtn:active,#rsvtBtn:active,#prdtRemvBtn:active ,#prdtModBtn:active{
+ 		background-color: #5b9a78;
+	}
+	#rpBtn:active, #reviewDeleteBtn:active{
+		background-color: rgba(34,34,34,.8);
+	}
 </style>
 <jsp:include page="../include/header.jsp" />
 <div id="body" style="margin-top: 70px;">
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.member" var="pri"/>
+	</sec:authorize>
 	<!-- 상품 이미지-------------------------------------------------------- -->
 	<div class="slick" style="width: 502px">
 		<c:forEach var="image" items="${imageList }">
@@ -141,7 +150,9 @@
 			<tr>
 				<td colspan="2" style="height: 80px; text-align: right;">
 					<div class="rntPrice">1일 기준 대여금액</div>
-					<div style="margin-right: 39px;">${pvo.r_price }원</div>
+					<div style="margin-right: 39px;">
+						<fmt:formatNumber value="${pvo.r_price }" pattern="#,###,###원"/>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -170,8 +181,9 @@
 				<td style="border-bottom: 1px solid #ebebeb;">
 					<div
 						style="font-weight: 500; border-left: 1px solid #ebebeb; padding: 15px 30px 0px;">출시가</div>
-					<div
-						style="border-left: 1px solid #ebebeb; padding: 0px 30px 15px;">${pvo.p_release_price }원</div>
+					<div style="border-left: 1px solid #ebebeb; padding: 0px 30px 15px;">
+						<fmt:formatNumber value="${pvo.p_release_price }" pattern="#,###,###원"/>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -191,7 +203,7 @@
 	</div>
 	<!-- 한줄평 등록-------------------------------------------------------- -->
 	<sec:authorize access="isAuthenticated()">
-		<form id="reviewForm" action="/rental/rgstReview" method="post">
+		<form id="reviewForm"  method="post">
 			<!--별점  -->
 			<div id="rAll">
 				<span id="1" data-rval="n">☆</span> 
@@ -203,7 +215,9 @@
 
 			<div id="reviewContent">
 				<input type="text" placeholder="한줄평을 남겨주세요.(최대 30자)" name="rp_content" maxlength="30" /> 
-				<input type="button" id="rpBtn" value="한줄평 등록" /> 
+				<sec:authorize access="isAuthenticated()">
+					<input type="button" id="rpBtn" value="한줄평 등록" />
+				</sec:authorize>
 				<input type="hidden" name="p_no" value="${pvo.p_no }" /> 
 				<input id="rst" type="hidden" name="rating" />
 			</div>
@@ -226,47 +240,7 @@
 				<th></th>
 			</tr>
 		</thead>
-		<tbody>
-		<c:choose>
-			<c:when test="${empty reviewVO}">
-				<tr><td colspan="4" style=" height: 37px;">댓글이 없습니다.</td></tr>
-			</c:when>
-			<c:otherwise>
-				<c:forEach var="review" items="${reviewVO}">
-					<!-- 평점 기준 별표시 출력 -->
-					<tr>
-						<td style=" height: 37px;">
-							<c:forEach varStatus="status" begin="1" end="5">
-								<c:if test="${status.count <= review.rating }">
-									<span>★&nbsp;</span>
-								</c:if>
-								<c:if test="${status.count > review.rating }">
-									<span>☆&nbsp;</span>
-								</c:if>
-							</c:forEach>
-						</td>
-						<td >${review.m_nickname}</td>
-						<td>
-							<span>${review.rp_content}</span> 
-						</td>
-						<td>
-							<sec:authorize access="isAuthenticated()">
-							<sec:authentication property="principal" var="pr" />
-								<!-- 시큐리티에 저장된 정보 가져오기 -->
-								<c:if
-									test="${pr.member.m_no eq review.m_no || pr.member.authList[0].auth eq 'ROLE_ADMIN'}">
-									<!-- 시큐리티에 저장된 회원번호와 작성자 회원번호가 동일하거나
-	                				 시큐리티에 저장된 권한 중에 ROLE_ADMIN 있으면 삭제버튼 출력 -->
-									<input type="button" id="reviewDeleteBtn"
-										onclick="goRemoveReview(${review.rp_idx},${review.p_no })"
-										value="삭제">
-								</c:if>
-							</sec:authorize>
-						</td>
-					</tr>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<tbody id="reviewList">
 		</tbody>
 	</table>
 
@@ -287,6 +261,8 @@
 			$("#intrstRemoveBtn").hide();
 		}
 		
+		// 댓글 불러오기
+		getReview();
 		
 		
 		
@@ -362,7 +338,19 @@
 				alert("10자 이상 입력해주세요.");
 				return;
 			}
-			$("#reviewForm").submit();
+			
+			$.ajax({
+				type : "POST",            
+		         url : "/rental/ajax/rgstReview",      
+		         data : $("#reviewForm").serialize(), 
+		         success : function(result){
+		        	 if(result>0){
+			        	 getReview();
+		        	 }else{
+						console.log("댓글 등록 실패");        		 
+		        	 }
+		         }			
+			});
 		});
 		// 상품예약 버튼 클릭 이벤트------------------------------------------------------------
 		$("#rsvtBtn").on("click", function(){
@@ -414,16 +402,62 @@
 						$("#intrstBtn").show();
 					}
 				}else{
-					alert("관심 상품 " + (type == 'insert' ? '추가' : '삭제') + "를 실패하였습니다.")	// type이 insert면 추가 아니면 삭제 출력
+					alert("관심 상품 " + (type == 'insert' ? '추가' : '삭제') + "를 실패하였습니다.")
 				}
             }
-            
         });
+	}
+	
+	// 댓글 불러오는 ajax---------------------------------------------------
+	function getReview(){
+		
+		$.ajax({
+			 type : "POST",            
+	         url : "/rental/ajax/getReview",      
+	         data : {p_no: "${pvo.p_no}"},
+	         dataType : 'json',
+	         success : function(reviewList){
+		        
+	        	 var str='';
+	        	 if(reviewList.length){
+		        	 for(var i=0; i<reviewList.length; i++){
+		        		
+		        		str += '<tr>';
+		        		str += '<td style=" height: 37px;">';
+		        		for(var j=0; j<5; j++){
+		        			if(reviewList[i].rating>j){				// reviewList[i] -> object형태로 덧글데이터를 들고있음 ㅣ둫ㅅ
+				        		str += '<span>★&nbsp;</span>';
+		        			}else{
+				        		str += '<span>☆&nbsp;</span>';
+		        			}
+		        		}
+		        		str += '</td>';
+		        		str += '<td>'+reviewList[i].m_nickname+'</td>';
+		        		str += '<td>';
+		        		str += '<span>'+reviewList[i].rp_content+'</span>'; 
+		        		str += '</td>';
+		        		str += '<td>';
+		        		if("${pri.m_no}"==reviewList[i].m_no || "${pri.authList[0].auth}"=='ROLE_ADMIN'){
+			        		str += '<input type="button" id="reviewDeleteBtn" onclick="goRemoveReview('+reviewList[i].rp_idx+','+reviewList[i].p_no+')" value="삭제">';
+		        		}
+		        		str += '</td>';
+		        		str += '</tr>';
+		        		 
+		        	 }
+	        	 }else{
+	        		 str = '<tr><td colspan="4" style=" height: 37px;">댓글이 없습니다.</td></tr>';
+	        	 }
+		         $("#reviewList").html(str);
+	         }
+		}); 
+		
 		
 	}
 	
 	// 댓글 삭제하는 함수-------------------------------------------------------
+	
 	function goRemoveReview(rp_idx,p_no){
+		
 		var f = document.createElement('form');
 		var obj1;
 		obj1 = document.createElement('input');
@@ -440,9 +474,23 @@
 		f.appendChild(obj1);
 		f.appendChild(obj2);
 		f.setAttribute('method', 'post');
-		f.setAttribute('action', '/rental/removeReview');
+		//f.setAttribute('action', '/rental/removeReview');
 		document.body.appendChild(f);
-		f.submit();
+		
+		$.ajax({
+			type : "POST",            
+	         url : "/rental/ajax/removeReview",      
+	         data : $(f).serialize(), // createElement는 j쿼리 문법이 아니므로 serialize사용을 위해 f를 j쿼리로 바꿔줘야함
+	         success : function(result){
+	        	 if(result>0){
+		        	 getReview();
+	        	 }else{
+					console.log("댓글 삭제 실패");        		 
+	        	 }
+	         }			
+		});
+		
+		
 	}
 	
 	

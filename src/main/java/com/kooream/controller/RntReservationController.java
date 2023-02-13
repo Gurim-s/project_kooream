@@ -45,6 +45,7 @@ public class RntReservationController {
 		return "/rental/rsvtPage";
 	}
 	
+	
 	// 상품 예약 기능
 	@Secured({"ROLE_USER"})
 	@PostMapping("/rgstRsvt")

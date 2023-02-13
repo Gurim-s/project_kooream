@@ -26,6 +26,9 @@
 		background-color: black;
 		cursor: pointer;
 	}
+	button:active {
+ 		background-color: rgba(34,34,34,.8);
+	}
 	.title, button, .spanText{
 		font-weight: bold;
 	}
@@ -134,11 +137,11 @@
 		<ul id="findIdUl">
 			<li class="title">이름</li>
 			<li class="inputBox">
-				<input type="text" placeholder="이름을 입력하세요." name="m_name">
+				<input type="text" class="emptyCheck" placeholder="이름을 입력하세요." name="m_name">
 			</li>
 			<li class="title">생년월일</li>
 			<li class="inputBox">
-				<input type="date" name="m_bday" onclick="this.showPicker()">
+				<input type="date" class="emptyCheck" name="m_bday" onclick="this.showPicker()">
 			</li>
 			<li>
 				<button class="findInfoBtn">아이디찾기</button>
@@ -149,11 +152,11 @@
 		<ul id="findPwUl">
 			<li class="title">아이디</li>
 			<li class="inputBox">
-				<input type="text" placeholder="아이디를 입력하세요." name="m_id">
+				<input type="text" class="emptyCheck" placeholder="아이디를 입력하세요." name="m_id">
 			</li>
 			<li class="title">이메일</li>
 			<li class="inputBox">
-				<input type="text" placeholder="이메일을 입력하세요." name="m_email">
+				<input type="text" class="emptyCheck" placeholder="이메일을 입력하세요." name="m_email">
 			</li>
 			<li>
 				<button class="findInfoBtn">비밀번호찾기</button>
@@ -198,49 +201,70 @@ $(function(){
 	// 아이디,비밀번호찾기 버튼 클릭 이벤트
 	$(".findInfoBtn").on("click",function(e){
 		e.preventDefault();
-		var form = null;
-		if($("#findIdBtn").is(":checked")){
-			form = $("#findIdForm").serialize();
-		}else{
-			form = $("#findPwForm").serialize();
-		}
-		
-		$.ajax({
-            type : "POST",            
-            url : "/member/ajax/findInfo",      
-            data : form,
-            success : function(result){
-				if(result){
-					//$("#modal").css("display","block");
-					// 체크된게 아이디찾기인지 비번찾기인지 구분하여 모달창 타이을 변경
-					if($("#findPwBtn").is(":checked")){
-						$("#title").text("일치하는 계정을 찾았습니다.");
-						// $("#content").text(result.m_pw);
-						var pwStr="";
-						
-						pwStr += '<div class="pwTitle">  &nbsp;&nbsp;&nbsp;  새로 생성할 비밀번호 입력</div>';
-						pwStr += '<div  class="newPwDiv">&nbsp;<input type="password" id="pwText" name="m_pw"></div>';
-						pwStr += '<div id="pwCheck" class="checkText"> </div>';
-						pwStr += '<div class="pwTitle">  &nbsp;&nbsp;&nbsp;  비밀번호 확인</div>';
-						pwStr += '<div class="newPwDiv">&nbsp;<input type="password" id="newPwText"></div>';
-						pwStr += '<div id="newPwCheck" class="checkText"> </div>';
-						pwStr += '<div><button style="margin-top: 5px;" id="updatePwBtn">비밀번호생성</button></div>';
-						pwStr += '<div><input type="hidden" name="m_id" value="'+result.m_id+'"></div>';
-						
-						$("#content").html(pwStr);
-						
-					}else{
-						$("#title").text("아이디찾기에 성공하였습니다.");
-						$("#content").text(result.m_id);
+		var emptyCheck=0;
+
+			var form = null;
+			if($("#findIdBtn").is(":checked")){
+				$("#findIdForm .emptyCheck").each(function(){
+					if(!$(this).val()){
+						var str=$(this).parent().prev().text();
+						alert(str+"를 입력해주세요.");
+						emptyCheck=1;
+						return false;
 					}
-					// 모달창 실행 스크립트
-					goDetail();
-				}else{
-					alert("일치하는 정보가 없습니다.");
-					return;
-				}
-            }
-        });
+				})
+				form = $("#findIdForm").serialize();
+			}else{
+				$("#findPwForm .emptyCheck").each(function(){
+					if(!$(this).val()){
+						var str=$(this).parent().prev().text();
+						alert(str+"를 입력해주세요.");
+						emptyCheck=1;
+						return false;
+					}
+				})
+				form = $("#findPwForm").serialize();
+			}
+			if(emptyCheck > 0){
+				return;
+			}
+			
+			$.ajax({
+	            type : "POST",            
+	            url : "/member/ajax/findInfo",      
+	            data : form,
+	            success : function(result){
+					if(result){
+						//$("#modal").css("display","block");
+						// 체크된게 아이디찾기인지 비번찾기인지 구분하여 모달창 타이을 변경
+						if($("#findPwBtn").is(":checked")){
+							$("#title").text("일치하는 계정을 찾았습니다.");
+							// $("#content").text(result.m_pw);
+							var pwStr="";
+							
+							pwStr += '<div class="pwTitle">  &nbsp;&nbsp;&nbsp;  새로 생성할 비밀번호 입력</div>';
+							pwStr += '<div  class="newPwDiv">&nbsp;<input type="password" id="pwText" name="m_pw"></div>';
+							pwStr += '<div id="pwCheck" class="checkText"> </div>';
+							pwStr += '<div class="pwTitle">  &nbsp;&nbsp;&nbsp;  비밀번호 확인</div>';
+							pwStr += '<div class="newPwDiv">&nbsp;<input type="password" id="newPwText"></div>';
+							pwStr += '<div id="newPwCheck" class="checkText"> </div>';
+							pwStr += '<div><button style="margin-top: 5px;" id="updatePwBtn">비밀번호생성</button></div>';
+							pwStr += '<div><input type="hidden" name="m_id" value="'+result.m_id+'"></div>';
+							
+							$("#content").html(pwStr);
+							
+						}else{
+							$("#title").text("아이디찾기에 성공하였습니다.");
+							$("#content").text(result.m_id);
+						}
+						// 모달창 실행 스크립트
+						goDetail();
+					}else{
+						alert("일치하는 정보가 없습니다.");
+						return;
+					}
+	            }
+	        });
 	});
 	
 	// 비밀번호 조건에 맞는지 확인(테스트위해 잠시 막아둠)----------------------------

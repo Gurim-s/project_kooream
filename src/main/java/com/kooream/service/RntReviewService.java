@@ -9,7 +9,7 @@ public interface RntReviewService {
 	// 리뷰 등록
 	public int rgstReview(RntReviewVO vo);
 	// 리뷰 리스트 불러오기
-	public List<RntReviewVO> getReview(ProductVO vo);
+	public List<RntReviewVO> getReview(int p_no);
 	
 	// 리뷰 삭제
 	public int removeReview(RntReviewVO vo);

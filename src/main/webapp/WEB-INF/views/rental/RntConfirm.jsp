@@ -13,6 +13,20 @@
 	.prdtInfo > li{
 		display: inline-block
 	}
+	button{
+		background-color: black;
+		color: white;
+		font-weight: 700;
+    	min-width: 80px;
+    	padding: 0 13px;
+	    height: 32px;
+	    border-radius: 5px;
+	    font-size: 14px;
+	    letter-spacing: -.14px;
+	}
+	button:active{
+		background-color: rgba(34,34,34,.8);
+	}
 </style>
 <div style="padding-top: 125px;">
 	<h2>예약상품</h2>
@@ -41,7 +55,7 @@
 									<div>${vo.p_name_en }</div>
 								</li>
 								<li style="width: 80px; vertical-align: 58px;">
-									예약금액
+									<!-- ${vo.total_price } -->
 								</li>
 								<li style="vertical-align: 52px;">
 									<span>${vo.strt_r_date }</span>

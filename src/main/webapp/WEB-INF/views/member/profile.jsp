@@ -7,8 +7,26 @@
 <jsp:include page="../include/header.jsp"/>
 <jsp:include page="../include/myPageCategory.jsp"/>
 <style>
+	.btnTd{
+		text-align: center;
+		padding: 15px;
+	}
+	.titleTd{
+		font-weight: bold;
+		height: 45px;
+		width: 80px;
+		color: gray !important;
+	}
+	.contentTd{
+		width: 300px;
+		border-bottom: 1px solid gray;
+	}
 	#submitTd{
-		display: none;
+		display:none;
+	}
+	table td input{
+		height: 40px;
+ 	   width: 298px;
 	}
 	#mask {
 	    position: absolute;
@@ -163,12 +181,43 @@
 		height: 15px;
 		margin-left: 17px;
 	}
+	#loginInfo{
+		margin-top: 150px;
+    	display: inline-block;
+		ont-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,나눔고딕,Segoe UI,Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
+	}
+	table button{
+		border: 1px solid #d3d3d3;
+		background-color: white;
+		padding: 15px;
+		border-radius: 3px;
+		width: 126px;
+	}
+	h2{
+		    width: 800px;
+    border-bottom: 3px solid black;
+    margin-bottom: 27px;
+	}
+	button:active {
+ 		background-color: rgba(34,34,34,.8);
+	}
+	#matchPwBtn{
+		border: 0;
+		width: 280px;
+		height: 53px;
+		border-radius: 7px;
+		color: white;
+		background-color: black;
+		cursor: pointer;
+		margin: auto;
+	}
 </style>
 
 <!-- 회원정보 불러오기 -->
 <div id="mainContainer">
 	<sec:authentication property="principal.member" var="pri"/>
-	<div>
+	<div id="loginInfo">
+		<h2>로그인정보</h2>
 		<form id="modifyForm" method="post">
 		<table>
 			<tr>
@@ -190,7 +239,7 @@
 				<td class="td-id">
 					<span>아이디</span>
 				</td>
-				<td>
+				<td class="contentTd" id="titleId">
 					<span>${pri.m_id}</span>
 					<input type="hidden" name="m_id" value="${pri.m_id}">
 				</td>
@@ -199,7 +248,7 @@
 				<td class="td-nickname">
 					<span>닉네임</span>
 				</td>
-				<td>
+				<td class="contentTd">
 					<span>${pri.m_nickname}</span>
 					<input type="hidden" name="m_nickname" value="${pri.m_nickname}">
 				</td>
@@ -208,16 +257,15 @@
 				<td class="td-name">
 					<span>이름</span>
 				</td>
-				<td>
+				<td class="contentTd">
 					<span class="info" name="m_name">${pri.m_name}</span>
-					<div id="namdCheck" class="checkText"></div>
 				</td>
 			</tr>
 			<tr>
 				<td class="td-birth">
 					<span>생년월일</span>
 				</td>
-				<td>
+				<td class="contentTd">
 					<span class="info" name="m_bday">${pri.m_bday}</span>
 				</td>
 			</tr>
@@ -225,7 +273,7 @@
 				<td class="td-addr">
 					<span>주소</span>
 				</td>
-				<td>
+				<td class="contentTd">
 					<span id="addr_Span" name="m_addr"><c:out value="${fn:split(pri.m_addr,'/')[0]}"/></span>
 				</td>
 			</tr>
@@ -233,7 +281,7 @@
 				<td class="td-addr2">
 					<span>상세주소</span>
 				</td>
-				<td>
+				<td class="contentTd">
 					<span id="addr_detail_Span" name="m_Detail_addr"><c:out value="${fn:split(pri.m_addr,'/')[1]}"/></span>
 				</td>
 			</tr>
@@ -241,7 +289,7 @@
 				<td class="td-email">
 					<span>이메일</span>
 				</td>
-				<td>
+				<td class="contentTd">
 					<span class="info" name="m_email">${pri.m_email}</span>
 					<div id="emailCheck" class="checkText"></div>
 				</td>
@@ -250,7 +298,7 @@
 				<td class="td-phone">
 					<span>핸드폰번호</span>
 				</td>
-				<td>
+				<td class="contentTd">
 					<span class="info" name="m_phone">${pri.m_phone}</span>
 					<div id="phoneCheck" class="checkText"></div>
 				</td>
@@ -283,8 +331,8 @@
         <article class="layerpop_area">
         	<div id="title">비밀번호를 입력해주세요.</div>
         	<a href="javascript:popupClose();" class="layerpop_close" id="layerbox_close">X</a>
-        	<input id="content" type="text" name="m_pw">
-        	<button id="matchPwBtn">개인정보수정</button>
+        	<input id="content" type="password" name="m_pw" style="height: 56px; margin-top: 54px; border-radius: 12px; border-color: #80808059;">
+        	<button id="matchPwBtn" style="margin-left: 110px; margin-top: 28px;">개인정보수정</button>
         </article>
         </form>
     </div>
@@ -348,6 +396,7 @@
 			
 			$(".info").each(function(idx,item){
 				str = $(this).text();
+				$(item).parent().css("border",0);
 				if($(item).attr("name")=="m_bday"){
 					$(item).contents().unwrap().wrap( '<input type="date" name="'+$(item).attr("name")+'" class="inputInfo" value="'+str+'">' );
 					return;
@@ -360,6 +409,8 @@
 				$(item).contents().unwrap().wrap( '<span></span>' ); 
 			});
 			// 주소는 적을게 많아서 따로 뺌
+			$("#addr_Span").parent().css("border",0)
+			$("#addr_detail_Span").parent().css("border",0)
 			var addr=$("#addr_Span").text();
 			var addr_detail=$("#addr_detail_Span").text();
 			$("#addr_Span")
