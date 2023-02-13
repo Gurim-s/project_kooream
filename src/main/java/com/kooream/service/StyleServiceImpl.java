@@ -16,6 +16,7 @@ import com.kooream.domain.ProductVO;
 import com.kooream.domain.ProductTagVO;
 import com.kooream.domain.StyleImageVO;
 import com.kooream.domain.StyleQuery;
+import com.kooream.domain.StyleReplyVO;
 import com.kooream.domain.StyleTagVO;
 import com.kooream.domain.StyleVO;
 import com.kooream.mapper.StyleImageMapper;
@@ -91,42 +92,6 @@ public class StyleServiceImpl implements StyleService{
 		return list;
 	}
 	
-	public List<StyleVO> getListSlow(StyleQuery query) {
-		List<StyleVO> list = mapper.getList(query); 
-		switch(query.getCategory()) {
-		case "hot":
-			list = mapper.getHotList(query);
-			break;
-		case "recent":
-			list = mapper.getRecentList(query);
-			break;
-		case "follow":
-			list = mapper.getFollowList(query);
-			break;
-		case "tag":
-			list = mapper.getTagList(query);
-			break;
-		case "product":
-			list = mapper.getProductList(query);
-			break;
-		case "member":
-			list = mapper.getMemberList(query);
-		}
-		
-		for (StyleVO style : list) {
-			long style_no = style.getStyle_no();
-			int m_no = style.getM_no();
-			List<ImageFileVO> images = imageMapper.getImagesByStyle_no(style_no);
-			MemberVO writer = memberMapper.getMemberInfoByMno(m_no);
-			ImageFileVO profileImage = memberImageMapper.getProfile(m_no);
-			
-			style.setStyle_image(images);
-			style.setWriter(writer);
-			style.setProfile_image(profileImage);
-		}
-		return list;
-	}
-	
 	@Override
 	public StyleVO get(long style_no) {
 		StyleVO style = mapper.get(style_no);
@@ -171,6 +136,13 @@ public class StyleServiceImpl implements StyleService{
 		return productTagMapper.getProductTagListByStyleNoList(styleNoList)
 				.stream()
 				.collect(Collectors.groupingBy(ProductTagVO::getStyle_no));
+	}
+	
+	@Override
+	public Map<Long, List<StyleReplyVO>> getReplyListByStyleNoList(List<Long> styleNoList) { 
+		return replyMapper.getReplyListByStyleNoList(styleNoList)
+				.stream()
+				.collect(Collectors.groupingBy(StyleReplyVO::getStyle_no));
 	}
 	
 	@Override

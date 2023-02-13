@@ -15,6 +15,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<select id="getReplyListByStyleNoList" resultType="com.kooream.domain.StyleReplyVO">
+    	SELECT r.m_no, m_nickname, uuid, uploadpath, filename, r_no, style_no, content, regdate
+    	FROM style_reply r left join member m on m.m_no = r.m_no
+    	WHERE style_no IN
+    	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      		#{item}
+    	</foreach>
+    	and r.nested_from = 0
+	</select>
+	
 	<select id="get" resultType="com.kooream.domain.StyleReplyVO">
 		select *
 		from style_reply

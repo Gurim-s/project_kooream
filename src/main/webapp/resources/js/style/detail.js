@@ -170,7 +170,6 @@ function setProductTags(list, productContainer, slider) {
 function productTagTemplate(productTag) {
 	const container = document.createElement('a');
 	container.className = 'product-info';
-	console.log(productTag);
 	container.href = '../shop_introduce/'+productTag.p_no;
 	const str = (
 		'<div class="product-img">' +

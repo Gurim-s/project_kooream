@@ -12,6 +12,7 @@ public interface StyleReplyMapper {
 	public long getStyleNo(long rno);
 	public int getCountNested(long style_no);
 	public long getRnoNestedFrom(long rno);
+	public List<StyleReplyVO> getReplyListByStyleNoList(List<Long> styleNoList);
 	public int insert(StyleReplyVO vo);
 	public int updateCountNested(@Param("rnoNestedFrom") long rnoNestedFrom,
 								 @Param("amount") int amount);
