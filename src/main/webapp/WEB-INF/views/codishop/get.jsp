@@ -50,12 +50,6 @@
 			<span>${board.codi_content } </span>
 		</div>
 		
-		<div class="product">
-			<div class="codi_sample">
-				<span>모델 착용 상품</span>
-			</div>
-			<span>${board.m_no }</span>
-		</div>
 		<div class="container social">
 			<span name="tag">Tag</span>
 			<div class="keyword_brand">

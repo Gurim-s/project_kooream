@@ -10,10 +10,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where codi_no=#{codi_no} and idx=#{idx}
 	</select>
 	
-	<select id="getPNoListByStyleNo" resultType="int">
-		select distinct p_no
-		from codi_product_tag
-		where codi_no=#{codi_no}
+	<select id="getPNoListByCodiNo" resultType="com.kooream.domain.ProductTagVO">
+		select *
+		FROM PRODUCT
+		WHERE P_NO IN (select distinct p_no from codi_product_tag where codi_no=#{codi_no})
 	</select>
 	
 	<insert id="insert">

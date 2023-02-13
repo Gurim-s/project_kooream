@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/resources/css/codi/codi.css" />
+<link rel="stylesheet" href="/resources/css/common/search-box.css" />
 <jsp:include page="../include/header.jsp"/>
 
 
@@ -27,7 +28,10 @@
 					
 					<input type="text" class="tag" id="tag" placeholder="엔터로 해시태그를 등록해주세요.">
 				</div>
-				
+				<div class="row tagResult">
+            		<ul id="tag-list">
+            		</ul>
+				</div>
 				
 				<div class="row">
 					<span class="title_content">모델정보</span>
@@ -58,10 +62,7 @@
 						<div class="product-tag-selector"></div>
 					</div>
 				</div>
-				<div class="row tagResult">
-            		<ul id="tag-list">
-            		</ul>
-				</div>
+				
 				
 			</div> <!--  insert_codi.... end -->
 			<hr/>
@@ -102,8 +103,16 @@ div.row.hide-image {
 	color : #999;
 	font-size:.9em;
 }
-
-
+.tag_name{
+	display: inline-block;
+	margin : 5px;
+	padding : 5px;
+    border-radius: 20px;
+    background-color: #ebebeb;
+}
+.tag_text{
+	font-weight: bold;
+}
 
 /* 테스트 */
 #textForm{

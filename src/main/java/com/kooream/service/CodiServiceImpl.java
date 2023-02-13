@@ -82,7 +82,6 @@ public class CodiServiceImpl implements CodiService{
 		// 1. 게시글 등록
 		mapper.insert(vo);
 		int codi_no = mapper.getcodi_no();
-		System.out.println("codi_noooooooooooooooooooooooooooooooooo" + codi_no);
 		if(vo.getAttachList() != null && vo.getAttachList().size() >0) {
 			List<CodiImageVO> imageList = vo.getAttachList();
 			for(int i=0; i < imageList.size() ; i++) {
@@ -90,12 +89,12 @@ public class CodiServiceImpl implements CodiService{
 				attachmapper.insert(imageList.get(i));
 				
 				if (vo.getProductTagList() != null && vo.getProductTagList().size() > i) {
-					List<ProductTagVO> productTagList = vo.getProductTagList().get(i);
-					for (ProductTagVO productTag : productTagList) {
-						productTag.setCodi_no(codi_no);
-						productTag.setIdx(i);
-						productTagMapper.insert(productTag);
-					}
+					ProductTagVO productTagList = vo.getProductTagList().get(i);
+//					for (ProductTagVO productTag : productTagList) {
+//					}
+					productTagList.setCodi_no(codi_no);
+					productTagList.setIdx(i);
+						productTagMapper.insert(productTagList);
 				}
 			}
 		}
@@ -127,7 +126,7 @@ public class CodiServiceImpl implements CodiService{
 		log.info("remove........."+ codi_no);
 		return mapper.delete(codi_no) == 1;
 	}
-	
+	//이미지 
 	@Override
 	public List<CodiImageVO> getCodiAttachList(int codi_no) {
 		log.info("getCodiAttachList ...................");
@@ -140,7 +139,7 @@ public class CodiServiceImpl implements CodiService{
 		return list;
 	}
 
-	
+	//해시태그
 	@Override
 	public List<Codi_TagVO> getTagList(int codi_no) {
 		log.info("getCodi_TagList ::::::::::::");
@@ -153,11 +152,11 @@ public class CodiServiceImpl implements CodiService{
 		return list;
 	}
 	
-	/*
-	 * // 상품 태그
-	 * 
-	 * @Override public List<Codi_itemVO> getCodiAndPno(int coid_no, int p_no) {
-	 * return itemmapper.getCodiAndPno(p_no, p_no); }
-	 */
+	//상품 태그
+	@Override
+	public List<ProductTagVO> getPNoListByCodiNo(int codi_no) {
+		List<ProductTagVO> pList = productTagMapper.getPNoListByCodiNo(codi_no);
+		return pList;
+	}
 	
 }

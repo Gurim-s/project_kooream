@@ -24,7 +24,7 @@ $(function() {
 // 	    			var fileCallPath = encodeURIComponent(result[i].uploadPath + "/"
 // 	    					+ result[i].uuid + "_"
 // 	    					+ result[i].fileName);
-    		imgSrcList.push(imgService.getImageEl(result[i]));
+    			imgSrcList.push(imgService.getImageEl(result[i]));
     		}
 // 	    		var imgSrcList = style.style_image.map(x => imgService.originPath(x));
 	    		//	result[i]
@@ -36,24 +36,58 @@ $(function() {
 		}
 	});
 	
-//	$.ajax({
-//		type : 'get',
-//		url : '/codishop/getproduct/'+codi_no,
-//		success : function(result){
-//			var item = $('.product_list');
-//			
-//			var str = '';
-//		for(var i=0; i<result.length; i++){
-//			var iteam = result[i];
-//			
-//			str += '<a href="/brandshop/view?b_no ='+item.b_no+'" class="item_tag"></a>'
-//			
-//		}
-//		
-//		
-//		item.html(str);
-//		}
-//	})
+	$.ajax({
+		type : 'get',
+		url : '/codishop/getProductTag/'+codi_no,
+		success : function(result){
+			console.log(result);
+			var iteam = $('.product_list');
+			
+			var str = '';
+		for(var i=0; i<result.length; i++){
+			var fileCallPath = encodeURIComponent(result[i].uploadPath + "/"
+ 	    					+ result[i].uuid + "_"
+ 	    					+ result[i].fileName);
+			
+			var link = '';
+			 if(result[i].p_class == 'brand'){
+					link = '/brandshop/get?p_no='+result[i].p_no;
+			}else if(result[i].p_class == 'rental'){
+					link = '/rental/viewRntPrdt?p_no='+result[i].p_no;
+			}else if(result[i].p_class == 'shop'){
+					link = '/shop/shop_introduce/'+result[i].p_no;
+			}
+			
+			
+			str += '<a class="productA" href="'+link+'" title="'+result[i].p_name_ko+'" >';
+				str += '<div class= "product">';
+					str += '<div class= "productimg">';
+						str += '<img class="productTag" alt="'+result[i].p_name_ko+'" src="/displayImage?fileName='+fileCallPath+'">';
+					str += '</div>';
+					str += '<div class= "producttext">';
+						str += '<span>이름 : '+result[i].p_name_ko+'</span></br>';
+						str += '<span>가격 : '+result[i].p_release_price+'</span>';
+					str += '</div>';
+				str += '</div>';
+			str += '</a>';
+		}
+//		$('.productA').on('click', function(e){
+//			e.preventDefault();
+//			console.log(e);
+//			 if(result[i].p_class == 'brand'){
+//					$(".productA").attr("href", "/brandshop/get?p_no="+result[i].p_no);
+//			}else if(result[i].p_class == 'rental'){
+//					$(".productA").attr("href", "/rental/viewRntPrdt?p_no="+result[i].p_no);
+//			}else if(result[i].p_class == 'shop'){
+//					$(".productA").attr("href", "/rental/viewRntPrdt?p_no="+result[i].p_no);
+//			}
+//		});
+		
+		
+		
+			iteam.html(str);
+		}
+	});
 	
 		
 	
@@ -126,7 +160,7 @@ $("#goodsBtn").on("click", function(){
 	
 // 댓글 리스트 화면에 출력 함수 ---- start 
 function showList() {
-	CodiReplyService.getList({codi_no:codi_noValue, page:1},
+	CodiReplyService.getList({codi_no:codi_noValue, page:1 },
 		function(result) {
 			var str = '';
 				
