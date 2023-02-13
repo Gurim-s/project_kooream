@@ -15,9 +15,16 @@ const memberService = (function() {
 		return result.json();
 	}
 	
+	async function getFollowList() {
+		const result = await fetch('/member/followList/');
+
+		return result.json(); 
+	}
+	
 	return {
 		getMemberInfo: getMemberInfo,
 		followMember: followMember,
+		getFollowList: getFollowList,
 	}
 })();
 

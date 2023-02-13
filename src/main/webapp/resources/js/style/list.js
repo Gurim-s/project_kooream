@@ -1,7 +1,7 @@
 import {imgService} from '../service/image-service.js';
 import {styleService} from '../service/style-service.js';
 import {memberService} from '../service/member-service.js';
-import {template as detailTemplate} from '../style/detail.js';
+import {template as detailTemplate, data as detailData} from '../style/detail.js';
 
 const member_no = document.querySelector('input[name="pri_m_no"]').value;
 let styleList = [];
@@ -27,7 +27,8 @@ const events = {
 }
 let query;
 
-(function() {
+(async function() {
+	detailData.followerList = member_no !== 'anonymousUser' ? await memberService.getFollowList() : [];
 	query = setQuery();
 	setContentHeader();
 	getList(query);
@@ -46,6 +47,7 @@ function setQuery() {
 		query: param,
 		isEnd: false,
 	}
+	
 	return query;
 }
 
@@ -113,7 +115,6 @@ async function getList(query) {
 	});
 
 	styleList = styleList.concat(newList);
-	console.log(styleList);
 	setTimeout(() => {loadDetail(newList)}, 0);
 	
 	if (styleList.length < query.amount) query.isEnd = true;
@@ -121,6 +122,8 @@ async function getList(query) {
 }
 
 async function loadDetail(newList) {
+	if (newList == null || newList.length == 0) return;
+	
 	const styleNoList = newList.map(x => x.style_no);
 	const imageList = await styleService.getImageList(styleNoList);
 	const productTagList = await styleService.getProductTagList(styleNoList);
@@ -141,7 +144,6 @@ function viewDetail(target) {
 	view.detailColumn.classList.remove('hide');
 	
 	location.href = '#detail_'+target;
-	console.log(location.href);
 }
 
 function item(style) {

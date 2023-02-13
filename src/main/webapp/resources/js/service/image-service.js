@@ -14,10 +14,13 @@ var imgService = (function() {
 	function thumbnailPath(imageVO, size) {
 		if (size == null) size = 's';
 		if (!imageVO) return '/resources/img/codi_test.png';
-		var originalUuid = imageVO.uuid;
-		imageVO.uuid = size + '_' + originalUuid;
+		var path = {
+			uuid: size + '_' + imageVO.uuid,
+			fileName: imageVO.fileName,
+			uploadPath: imageVO.uploadPath,
+		}
 		
-		return originPath(imageVO);
+		return originPath(path);
 	}
 	
 	function getImageEl(imageVO) {

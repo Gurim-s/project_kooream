@@ -2,7 +2,7 @@
  * img-slider 모듈입니다.
  * 
  */
-import {imgService} from '../service/image-service.js';
+import { imgService } from '../service/image-service.js';
 
 const imgSlider = (customOption) => (function(customOption) {
 	let option = {
@@ -20,7 +20,7 @@ const imgSlider = (customOption) => (function(customOption) {
 	let idxContainer;
 	let idxIndicator;
 	let dataTransfer;
-	
+
 	init();
 	function init() {
 		option = Object.assign(option, customOption);
@@ -33,96 +33,96 @@ const imgSlider = (customOption) => (function(customOption) {
 		container.append(idxContainer);
 		setEvent();
 		setDefaultCss();
-		
-		if(option.editMode) dataTransfer = new DataTransfer();
+
+		if (option.editMode) dataTransfer = new DataTransfer();
 	}
-	
+
 	function createBtnContainer() {
-		var btnContainer= document.createElement('div');
+		var btnContainer = document.createElement('div');
 		btnContainer.className = 'btn-container';
-		
-		var str = '<button class="prev">&lt;</button>' + 
-				  '<button class="next">&gt;</button>'; 
+
+		var str = '<button class="prev">&lt;</button>' +
+			'<button class="next">&gt;</button>';
 
 		btnContainer.innerHTML = str;
 		btnContainer.querySelectorAll('button')
-		.forEach(x => x.addEventListener('click', (e) => {
-			e.preventDefault();
-			slideImg(e.target.className);
-			hover('on');
-		}));
-		
+			.forEach(x => x.addEventListener('click', (e) => {
+				e.preventDefault();
+				slideImg(e.target.className);
+				hover('on');
+			}));
+
 		return btnContainer;
 	}
-	
+
 	function createIdxContainer() {
 		var idxContainer = document.createElement('ul');
 		idxContainer.className = 'idx-container';
-		
+
 		idxContainer.addEventListener('click', function(e) {
 			if (e.target.tagName != 'LI') return;
 			var idx = Array.from(e.target.parentNode.children).indexOf(e.target);
 			slideImg(idx);
 		});
-		
+
 		return idxContainer;
 	}
-	
+
 	function createIdxIndicator() {
 		var idxIndicator = document.createElement('div');
 		return idxIndicator;
 	}
-	
+
 	function hover(v) {
 		var length = idxContainer.childElementCount;
 		var isEnd = (idx == length - 1) || (length == 0);
 		var isStart = idx == 0;
 		var prev = container.querySelector('button.prev');
 		var next = container.querySelector('button.next');
-		
+
 		if (v == 'on') {
 			next.style.display = isEnd ? 'none' : 'block';
 			prev.style.display = isStart ? 'none' : 'block';
 		} else {
-			[prev, next].forEach(btn => {btn.style.display = 'none'});
+			[prev, next].forEach(btn => { btn.style.display = 'none' });
 		}
 	}
-	
+
 	function setEvent() {
 		container.addEventListener('mouseover', () => hover('on'));
 		container.addEventListener('mouseout', () => hover('out'));
 		if (option.editMode) {
-			container.addEventListener('mousewheel', _canvasScrollEvent, {passive: false});
+			container.addEventListener('mousewheel', _canvasScrollEvent, { passive: false });
 			_dragImageEvent();
 		}
 		if (option.tagEditMode) _dragTagEvent();
 	}
-	
+
 	function _dragTagEvent() {
-		ul.ondragstart = function() {return false;}
+		ul.ondragstart = function() { return false; }
 		let isPressed = false;
 		let oldX = 0;
 		let oldY = 0;
-		
+
 		ul.onmousedown = start;
 		ul.onmouseup = end;
 		ul.onmouseout = end;
 		onmousemove = move;
-		
+
 		function start(e) {
 			e.preventDefault();
 			if (!e.target.closest('.product-tag')) return;
 			oldX = e.clientX;
 			oldY = e.clientY;
 			isPressed = true;
-		} 
-		
+		}
+
 		function end(e) {
 			e.preventDefault();
 			if (!e.target.closest('.product-tag')) return;
 			isPressed = false;
 		}
-		
+
 		function move(e) {
 			e.preventDefault();
 			if (!e.target.closest('.product-tag')) return;
@@ -131,7 +131,7 @@ const imgSlider = (customOption) => (function(customOption) {
 			const productInfo = tag.querySelector('.product-info');
 			const offsetX = e.clientX - oldX;
 			const offsetY = e.clientY - oldY;
-			
+
 			oldX = e.clientX;
 			tag.style.left = (tag.offsetLeft + offsetX) + 'px';
 			oldY = e.clientY;
@@ -144,7 +144,7 @@ const imgSlider = (customOption) => (function(customOption) {
 			}
 		}
 	}
-	
+
 	/*************************************
 	 * --Method--
 	 ************************************/
@@ -152,13 +152,13 @@ const imgSlider = (customOption) => (function(customOption) {
 		option.ratio = ratio;
 		setDefaultCss();
 	}
-	
+
 	function setOption(customOption) {
 		option = Object.assign(option, customOption);
 		setEvent();
 		setDefaultCss();
 	}
-	
+
 	function add(imgSrc) {
 		if (option.editMode == true) {
 			_addCanvas(imgSrc);
@@ -169,16 +169,16 @@ const imgSlider = (customOption) => (function(customOption) {
 		addIdx();
 		setLiCss();
 		setUlCss();
-		slideImg(idxContainer.childElementCount-1);
+		slideImg(idxContainer.childElementCount - 1);
 	}
-	
+
 	async function getCropedImgList() {
 		const canvasList = Array.from(ul.querySelectorAll('canvas'));
 		const files = await _cropImage(canvasList);
-		
+
 		return files;
 	}
-	
+
 	//******************************************* */
 	//editMode canvas Method
 	//******************************************* */
@@ -193,13 +193,13 @@ const imgSlider = (customOption) => (function(customOption) {
 		newCanvas.dataset.scaleY = 1;
 		newCanvas.dataset.offsetX = 0;
 		newCanvas.dataset.offsetY = 0;
-		newCanvas.addEventListener('mousewheel', _canvasScrollEvent, {passive: false});
-		
+		newCanvas.addEventListener('mousewheel', _canvasScrollEvent, { passive: false });
+
 		const canvasList = ul.querySelectorAll('canvas');
 		const img = new Image();
 		img.src = imgSrc;
 		imgList.push(img);
-		
+
 		img.onload = (_) => {
 			canvasList.forEach((canvas, i) => {
 				let imgWidth = imgList[i].width;
@@ -209,23 +209,23 @@ const imgSlider = (customOption) => (function(customOption) {
 				const scaleY = canvas.dataset.scaleY;
 				const offsetX = canvas.dataset.offsetX;
 				const offsetY = canvas.dataset.offsetY;
-				
-		        context.drawImage(imgList[i], offsetX, offsetY, imgWidth, imgHeight, 0, 0, imgWidth*scaleX, imgHeight*scaleY);
+
+				context.drawImage(imgList[i], offsetX, offsetY, imgWidth, imgHeight, 0, 0, imgWidth * scaleX, imgHeight * scaleY);
 			});
 		};
-		
+
 		addIdx();
 		setUlCss();
 		setLiCss();
-		slideImg(idxContainer.childElementCount-1);
+		slideImg(idxContainer.childElementCount - 1);
 	}
-	
+
 	//**************** */
 	//scroll시 확대 이벤트
 	//**************** */
 	function _canvasScrollEvent(e) {
 		if (e.target.tagName !== 'CANVAS') return;
-        e.preventDefault();
+		e.preventDefault();
 		const imgWidth = imgList[idx].width;
 		const imgHeight = imgList[idx].height;
 		const canvas = e.target;
@@ -234,54 +234,54 @@ const imgSlider = (customOption) => (function(customOption) {
 		const offsetY = canvas.dataset.offsetY;
 		let scaleX = e.target.dataset.scaleX;
 		let scaleY = e.target.dataset.scaleY;
-		
-		const isScrollDown = e.deltaY > 0;
-        scaleX *= isScrollDown? 0.98 : (1 / 0.98);
-        scaleY *= isScrollDown? 0.98 : (1 / 0.98);
 
-        let newWidth = imgWidth * scaleX;
-        let newHeight = imgHeight * scaleY;
+		const isScrollDown = e.deltaY > 0;
+		scaleX *= isScrollDown ? 0.98 : (1 / 0.98);
+		scaleY *= isScrollDown ? 0.98 : (1 / 0.98);
+
+		let newWidth = imgWidth * scaleX;
+		let newHeight = imgHeight * scaleY;
 		const isMinWidth = canvas.width >= newWidth;
-		const isMinHeight = canvas.height >= newHeight; 
-        if (isMinWidth) {
-            scaleX = scaleX * (1 / 0.98);
-            scaleY = scaleY * (1 / 0.98);
-            newWidth = canvas.width;
-            newHeight = imgHeight * scaleY;
-        }
-        if (isMinHeight) {
-            scaleX = scaleX * (1 / 0.98);
-            scaleY = scaleY * (1 / 0.98);
-            newWidth = imgWidth * scaleX;
-            newHeight = canvas.height;
-        }
-        
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.beginPath();
-        context.drawImage(imgList[idx], -1*offsetX, -1*offsetY, imgWidth, imgHeight, 0, 0, newWidth, newHeight);
+		const isMinHeight = canvas.height >= newHeight;
+		if (isMinWidth) {
+			scaleX = scaleX * (1 / 0.98);
+			scaleY = scaleY * (1 / 0.98);
+			newWidth = canvas.width;
+			newHeight = imgHeight * scaleY;
+		}
+		if (isMinHeight) {
+			scaleX = scaleX * (1 / 0.98);
+			scaleY = scaleY * (1 / 0.98);
+			newWidth = imgWidth * scaleX;
+			newHeight = canvas.height;
+		}
+
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		context.beginPath();
+		context.drawImage(imgList[idx], -1 * offsetX, -1 * offsetY, imgWidth, imgHeight, 0, 0, newWidth, newHeight);
 		e.target.dataset.scaleX = scaleX;
 		e.target.dataset.scaleY = scaleY;
-    }
+	}
 
 	//이미지 드래그 이벤트
 	function _dragImageEvent() {
-		container.ondragstart = function() {return false;}
+		container.ondragstart = function() { return false; }
 		let isPressed = false;
 		let oldX = 0;
 		let oldY = 0;
-		
+
 		container.onmousedown = start;
 		container.onmouseup = end;
 		container.onmouseout = end;
 		container.onmousemove = move;
-		
+
 		function start(e) {
 			if (e.target.tagName !== 'CANVAS') return;
 			oldX = e.clientX;
 			oldY = e.clientY;
 			isPressed = true;
-		} 
-		
+		}
+
 		function end(e) {
 			if (e.target.tagName !== 'CANVAS') return;
 			isPressed = false;
@@ -297,7 +297,7 @@ const imgSlider = (customOption) => (function(customOption) {
 			const canvas = e.target;
 			const context = canvas.getContext('2d');
 			const img = imgList[idx];
-			const imgWidth = img.width; 
+			const imgWidth = img.width;
 			const imgHeight = img.height;
 			const offsetX = canvas.dataset.offsetX;
 			const offsetY = canvas.dataset.offsetY;
@@ -306,7 +306,7 @@ const imgSlider = (customOption) => (function(customOption) {
 
 			const newX = diffX + parseInt(offsetX);
 			const newY = diffY + parseInt(offsetY);
-			
+
 			const isXRightBoundary = diffX > 0 && newX >= 0;
 			const isXLeftBoundary = diffX < 0 && ((-1 * newX * scaleX) + canvas.width) > imgWidth * scaleX;
 			const isYTopBoundary = diffY > 0 && newY >= 0;
@@ -314,50 +314,50 @@ const imgSlider = (customOption) => (function(customOption) {
 			if (isXRightBoundary || isXLeftBoundary) return;
 			if (isYTopBoundary || isYBottomBoundary) return;
 
-	        context.clearRect(0, 0, canvas.width, canvas.height);
-	        context.beginPath();
-    	    context.drawImage(img, -1*newX, -1*newY, imgWidth, imgHeight, 0, 0, imgWidth*scaleX, imgHeight*scaleY);
-			
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			context.beginPath();
+			context.drawImage(img, -1 * newX, -1 * newY, imgWidth, imgHeight, 0, 0, imgWidth * scaleX, imgHeight * scaleY);
+
 			canvas.dataset.offsetX = newX;
 			canvas.dataset.offsetY = newY;
 		}
 	}
-	
-    async function _cropImage(canvasList) {
-        // 이미지를 base64 기반 data uri로 변경
-        const urlList = await new Promise((resolve) => {
-            resolve(canvasList.map(x => x.toDataURL('image/jpeg')))
-        });
-        // data uri를 blob화
-        const fileList = urlList.map(_dataURItoBlob);
-		
-        return fileList;
-    }
-    // data uri를 blob화
-    function _dataURItoBlob(dataURI) {
-        const binary = atob(dataURI.split(',')[1]);
-        const array = [];
-        for (let i = 0; i < binary.length; i++) {
-            array.push(binary.charCodeAt(i));
-        }
-        return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
-    }
-	
-	function addList(imgSrcList) { 
-		if(imgSrcList.length == 0) return;
-		
+
+	async function _cropImage(canvasList) {
+		// 이미지를 base64 기반 data uri로 변경
+		const urlList = await new Promise((resolve) => {
+			resolve(canvasList.map(x => x.toDataURL('image/jpeg')))
+		});
+		// data uri를 blob화
+		const fileList = urlList.map(_dataURItoBlob);
+
+		return fileList;
+	}
+	// data uri를 blob화
+	function _dataURItoBlob(dataURI) {
+		const binary = atob(dataURI.split(',')[1]);
+		const array = [];
+		for (let i = 0; i < binary.length; i++) {
+			array.push(binary.charCodeAt(i));
+		}
+		return new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+	}
+
+	function addList(imgSrcList) {
+		if (imgSrcList.length == 0) return;
+
 		const imgTagList = Array.from(imgSrcList)
-		.reduce((str, imgSrc) => {
-			addIdx();
-			return str + '<li><img src="' + imgSrc + '"/></li>'
-		}, '');
-		
+			.reduce((str, imgSrc) => {
+				addIdx();
+				return str + '<li><img src="' + imgSrc + '"/></li>'
+			}, '');
+
 		ul.innerHTML += imgTagList;
 		setLiCss();
 		setUlCss();
 		slideImg(0);
 	}
-	
+
 	function addImgTag(imgTag) {
 		const li = document.createElement('li');
 		li.append(imgTag);
@@ -365,79 +365,81 @@ const imgSlider = (customOption) => (function(customOption) {
 		addIdx();
 		slideImg(0);
 	}
-	
+
 	function addImgTagList(imgTagList) {
 		if (imgTagList.length == 0) return;
-		
+
 		imgTagList.forEach(addImgTag);
 		setLiCss();
 		setUlCss();
 		slideImg(0);
 	}
-	
+
 	function getImgTagList() {
 		const imgTagList = Array.from(ul.querySelectorAll('li img'))
-		.map(x => x.cloneNode());
-		
+			.map(x => x.cloneNode());
+
 		setDefaultCss();
 		return imgTagList;
 	}
-	
+
 	function addProductTag(product) {
 		if (product.idx === undefined) product.idx = idx;
 		if (product.offsetX === undefined) product.offsetX = 0;
 		if (product.offsetY === undefined) product.offsetY = 0;
-		
+
 		const currentImg = Array.from(ul.children)[product.idx];
 		currentImg.append(productTemplate(product));
 	}
-	
+
 	function getProductTagList() {
 		const list = Array.from(ul.children)
-		.map(x => x.querySelectorAll('.product-tag'));
-		
+			.map(x => x.querySelectorAll('.product-tag'));
+
 		return list;
 	}
-	
+
 	function productTemplate(product) {
 		const container = document.createElement('div');
 		container.className = 'product-tag';
 		container.dataset.p_no = product.p_no;
-		
+
 		const pointer = document.createElement('div');
-		pointer.className = 'tag-pointer'; 
-		
+		pointer.className = 'tag-pointer';
+
 		const template = document.createElement('div');
 		template.className = 'product-info';
-		
+
 		container.append(pointer);
 		container.append(template);
-		
+
 		const str = (
-			(option.tagEditMode? '<a href="#" class="remove-tag">X<a/>': '')+
+			(option.tagEditMode ? '<a href="#" class="remove-tag">X<a/>' : '') +
 			'<div class="product-img">' +
-				'<img src="' + imgService.thumbnailPath(product, 'xs') +'" />' +
+			'<img src="' + imgService.thumbnailPath(product, 'xs') + '" />' +
 			'</div>' +
 			'<div class="name-price">' +
-				'<p class="name">'+product.p_name_ko+'</p>'+
-				'<p class="price">'+product.p_release_price+'원</p>'+
+			'<p class="name">' + product.p_name_ko + '</p>' +
+			'<p class="price">' + product.p_release_price + '원</p>' +
 			'</div>'
 		);
 		template.innerHTML = str;
 		if (option.tagEditMode) template.querySelector('.remove-tag')
-		.addEventListener('click', _removeTag);
-		
+			.addEventListener('click', _removeTag);
+
 		container.style.position = 'absolute';
-		container.style.top = product.offsetY == '0'? '80%': product.offsetY;
-		container.style.left = product.offsetX == '0'? '10px': product.offsetX;
-//		container.style.zIndex = '1';
-		
+		container.style.top = product.offsetY == '0' ? '80%' : product.offsetY;
+		container.style.left = product.offsetX == '0' ? '10px' : product.offsetX;
+		//		container.style.zIndex = '1';
+
 		if (option.tagEditMode) {
 			const removeTag = template.querySelector('.remove-tag');
 			removeTag.style.position = 'absolute';
 			removeTag.style.top = '0px';
 			removeTag.style.right = '0px';
-//			removeTag.style.borderRadius = '50%';
+			removeTag.style.textAlign = 'center';
+			removeTag.style.lineHeight = '15px';
+			removeTag.style.borderRadius = '50%';
 			removeTag.style.width = '15px';
 			removeTag.style.height = '15px';
 			removeTag.style.fontSize = '15px';
@@ -445,7 +447,7 @@ const imgSlider = (customOption) => (function(customOption) {
 			removeTag.style.color = 'white';
 			removeTag.style.backgroundColor = 'black';
 		}
-		
+
 		pointer.style.height = '12px';
 		pointer.style.width = '12px';
 		pointer.style.display = 'inline-block';
@@ -453,7 +455,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		pointer.style.border = '2px solid white';
 		pointer.style.borderRadius = '50%';
 		pointer.style.margin = '10px';
-		
+
 		template.style.width = '200px';
 		template.style.overflow = 'hidden';
 		template.style.position = 'relative';
@@ -462,36 +464,36 @@ const imgSlider = (customOption) => (function(customOption) {
 		template.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
 		template.style.borderRadius = '10px';
 		template.style.padding = '3px 0';
-		
+
 		const imgContainer = template.querySelector('.product-img');
 		imgContainer.style.height = '40px';
 		imgContainer.style.float = 'left';
 		imgContainer.style.marginRight = '5px';
 		imgContainer.style.marginLeft = '7px';
-		
+
 		const img = template.querySelector('img');
 		img.style.height = '90%';
 		img.style.borderRadius = '10px';
-		
+
 		const name = template.querySelector('p.name');
 		name.style.fontSize = '14px';
 		name.style.height = '20px';
 		name.style.overflow = 'hidden';
 		name.style.color = '#ccc';
-		
+
 		const price = template.querySelector('p.price');
 		price.style.height = '20px';
 		price.style.fontSize = '14px';
 		price.style.color = '#fff';
-		
+
 		return container;
 	}
-	
+
 	function _removeTag(e) {
 		e.preventDefault();
 		e.target.closest('.product-tag').remove();
 	}
-	
+
 	function remove(idx) {
 		ul.children[idx].remove();
 		imgList = imgList.filter((_, i) => i !== idx);
@@ -499,28 +501,28 @@ const imgSlider = (customOption) => (function(customOption) {
 		removeIdx(idx);
 		refreshIndicator();
 	}
-	
+
 	function empty() {
 		ul.innerHTML = '';
 		imgList = [];
 		idxContainer.innerHTML = '';
 		idx = 0;
 	}
-	
+
 	function addIdx() {
 		var li = document.createElement('li');
 		container.querySelector('.idx-container').append(li);
 		setIdxCss();
 	}
-	
+
 	function removeIdx(idx) {
 		idxContainer.children[idx].remove();
 	}
-	
+
 	function slideImg(v) {
 		const idxLiAll = Array.from(idxContainer.children);
 		idxLiAll[idx].style.backgroundColor = 'lightgray';
-			
+
 		if (v == 'next') {
 			idx++;
 		} else if (v == 'prev') {
@@ -528,27 +530,27 @@ const imgSlider = (customOption) => (function(customOption) {
 		} else {
 			idx = v;
 		}
-		
+
 		ul.style.left = (-1 * idx * 100) + '%';
 		idxLiAll[idx].style.backgroundColor = 'black';
 		refreshIndicator();
 	}
-	
+
 	function refreshIndicator() {
 		const idxLiAll = Array.from(idxContainer.children);
 		idxIndicator.innerHTML = idxLiAll.length == 0
 			? ''
-			: (idx+1) + '/' + idxLiAll.length;
+			: (idx + 1) + '/' + idxLiAll.length;
 	}
-	
-//	function offsetX(idx) {
-//		return ul.querySelectorAll('li img')[idx].dataset.offsetX;
-//	}
-//	
-//	function offsetY(idx) {
-//		return ul.querySelectorAll('li img')[idx].dataset.offsetY;
-//	}
-	
+
+	//	function offsetX(idx) {
+	//		return ul.querySelectorAll('li img')[idx].dataset.offsetX;
+	//	}
+	//	
+	//	function offsetY(idx) {
+	//		return ul.querySelectorAll('li img')[idx].dataset.offsetY;
+	//	}
+
 	//********************* */
 	//--CSS--
 	//********************* */
@@ -557,7 +559,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		setUlCss();
 		setIdxCss();
 	}
-	
+
 	function setContainerCss() {
 		container.style.width = '100%';
 		container.style.position = 'relative';
@@ -566,7 +568,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		if (option.ratioFix == true) {
 			container.style.paddingTop = (100 * option.ratio) + '%';
 		}
-		
+
 		imgContainer.style.overflow = 'hidden';
 		if (option.ratioFix == true) {
 			imgContainer.style.width = '100%';
@@ -574,7 +576,7 @@ const imgSlider = (customOption) => (function(customOption) {
 			imgContainer.style.left = '0';
 			imgContainer.style.position = 'absolute';
 		}
-		
+
 		var prev = container.querySelector('.prev');
 		var next = container.querySelector('.next');
 		[prev, next].forEach(x => {
@@ -586,7 +588,7 @@ const imgSlider = (customOption) => (function(customOption) {
 			x.style.opacity = '0.7';
 			x.style.border = 'none';
 			x.style.borderRadius = '50%';
- 			x.style.fontSize = '5%';
+			x.style.fontSize = '5%';
 			x.style.display = 'none';
 		});
 		prev.style.left = "5%";
@@ -594,7 +596,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		next.style.right = "5%";
 		next.style.transform = 'tanslate3d(50%, -50%, 0)';
 	}
-	
+
 	function setUlCss() {
 		const liCount = ul.childElementCount;
 		ul.style.minHeight = '400px';
@@ -605,51 +607,52 @@ const imgSlider = (customOption) => (function(customOption) {
 		ul.style.left = '0%';
 		ul.style.transition = 'left 0.5s';
 	}
-	
+
 	function setLiCss() {
 		var liAll = ul.querySelectorAll('li');
-		
+
 		var liWidth = (100 / liAll.length) + '%';
 		var liPaddingTop = (100 / liAll.length * option.ratio) + '%';
 		liAll.forEach(li => {
 			li.style.float = 'left';
 			li.style.width = liWidth;
+			li.style.position = 'relative';
 
-			var liImg = !(option.editMode)  ? li.querySelector('img')
-											: li.querySelector('canvas');
+			var liImg = !(option.editMode) ? li.querySelector('img')
+				: li.querySelector('canvas');
 			if (!option.editMode) {
 				liImg.style.width = '100%';
 			}
-			
+
 			if (option.ratioFix) {
 				li.style.position = 'relative';
 				li.style.top = '0';
 				li.style.paddingTop = liPaddingTop;
 				li.style.overflow = 'hidden';
-				
+
 				liImg.style.position = 'absolute';
 				liImg.style.top = '0';
 			}
 		});
 	}
-	
+
 	function setIdxCss() {
 		var idxContainer = container.querySelector('.idx-container');
 		idxContainer.style.position = 'absolute';
 		idxContainer.style.bottom = '-3%';
 		idxContainer.style.left = '50%';
 		idxContainer.style.transform = 'tanslate3d(-50%, 0, 0)';
-		
+
 		idxContainer.querySelectorAll('li')
-		.forEach(x => {
-			x.style.width ="8px";
-			x.style.height ="8px";
-			x.style.float = "left";
-			x.style.marginRight = "3px";
-			x.style.borderRadius = "50%";
-			x.style.backgroundColor = "lightgray";
-		});
-		
+			.forEach(x => {
+				x.style.width = "8px";
+				x.style.height = "8px";
+				x.style.float = "left";
+				x.style.marginRight = "3px";
+				x.style.borderRadius = "50%";
+				x.style.backgroundColor = "lightgray";
+			});
+
 		idxIndicator.style.position = 'absolute';
 		idxIndicator.style.top = '3%';
 		idxIndicator.style.right = '2%';
@@ -663,7 +666,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		idxIndicator.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
 		idxIndicator.style.borderRadius = '15px';
 	}
-	
+
 	return {
 		container: container,
 		setRatio: setRatio,
@@ -682,4 +685,4 @@ const imgSlider = (customOption) => (function(customOption) {
 	}
 }(customOption));
 
-export {imgSlider};
+export { imgSlider };

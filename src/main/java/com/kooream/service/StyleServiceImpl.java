@@ -67,8 +67,12 @@ public class StyleServiceImpl implements StyleService{
 		case "product":
 			list = mapper.getProductList(query);
 			break;
-		case "member":
+		case "following":
+			MemberVO userSession = new UserSession().getSession();
+			int m_no = userSession.getM_no();
+			query.setM_no(m_no);
 			list = mapper.getMemberList(query);
+			break;
 		}
 
 		for (StyleVO style : list) {
@@ -137,10 +141,10 @@ public class StyleServiceImpl implements StyleService{
 			productTagList.add(tagList);
 		}
 		
-		MemberVO writer = memberMapper.getMemberInfoByMno(style.getM_no());
+//		MemberVO writer = memberMapper.getMemberInfoByMno(style.getM_no());
 //		ImageFileVO profile = memberImageMapper.getProfile(style.getM_no());
 //		writer.setProfileImage(profile);
-		style.setWriter(writer);
+//		style.setWriter(writer);
 //		List<Integer> pnoList = productTagMapper.getPNoListByStyleNo(style_no);
 //		List<ProductVO> productList = new ArrayList<>(); 
 //		if (pnoList != null && pnoList.size() != 0) {
@@ -220,7 +224,7 @@ public class StyleServiceImpl implements StyleService{
 			}
 		}
 		
-//		memberMapper.updateStyleCount(vo.getM_no(), 1);
+		memberMapper.updateStyleCount(vo.getM_no(), 1);
 	}
 	
 	@Override
@@ -233,7 +237,7 @@ public class StyleServiceImpl implements StyleService{
 		if (styleTagMapper.getCountTags(style_no) > 0) {
 			styleTagMapper.deleteByStyleNo(style_no);
 		}
-//		memberMapper.updateStyleCount(m_no, -1);
+		memberMapper.updateStyleCount(m_no, -1);
 		return mapper.delete(style_no) == 1;
 	}
 	
@@ -261,6 +265,21 @@ public class StyleServiceImpl implements StyleService{
 				styleTag.setTag_no(x.getTag_no());
 				styleTagMapper.delete(styleTag);
 			});
+		
+		productTagMapper.delete(style_no);
+		List<List<ProductTagVO>> newProductTags = vo.getProductTagList();
+		if (newProductTags != null && newProductTags.size() != 0) {
+			for (int i=0; i<newProductTags.size(); i++) {
+				List<ProductTagVO> list = newProductTags.get(i);
+				if (list == null || list.size() == 0) continue;
+				for (ProductTagVO productTag : list) {
+					productTag.setStyle_no(style_no);
+					productTag.setIdx(i);
+					productTagMapper.insert(productTag);
+				}
+			}
+		}
+		
 		mapper.update(vo);
 	}
 	

@@ -19,17 +19,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getRecentList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, m_no, style_regdate, style_content, count_like, count_reply
-			from (select /*+index_desc(style style_pk) */
-            	  rownum rn, style_no, m_no, style_regdate, style_content, count_like, count_reply
-			      from style
-        		  where rownum <= #{pageNum} * #{amount})
-			where rn > (#{pageNum} - 1) * #{amount}
-		]]>
-	</select>
-	
-	<select id="getHotList" resultType="com.kooream.domain.StyleVO">
-		<![CDATA[
 			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
 				style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
 			from (select /*+index_desc(style style_pk) */
@@ -41,30 +30,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
-	<select id="getTagList" resultType="com.kooream.domain.StyleVO">
+	<select id="getHotList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, m_no, style_regdate, style_content, count_like, count_reply
-			from (select /*+index_desc(style style_pk) */
-      			  rownum rn, style_no, m_no, style_regdate, style_content, count_like, count_reply
-      			  from style
-      			  where style_no in (select style_no 
-									 from style_tag
-                       				 where tag_no = (select tag_no
-                                        			 from hashtag
-                                        			 where hashtag like #{query}))
-      			  and rownum <= #{pageNum} * #{amount})
+			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
+			    style_no, style_regdate, style_content, count_like, count_reply, uuid, uploadpath, filename, count_image
+			from (select 
+			    rownum rn, m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
+			        style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
+			    from (select 
+			                count_hot, m.m_no m_no, m_nickname m_nickname, m.uuid m_uuid, m.uploadpath m_uploadpath, m.filename m_filename,
+			                style_no, style_regdate, style_content, count_like, count_reply, s.uuid s_uuid, s.uploadpath s_uploadpath, s.filename s_filename, count_image
+			            from member m inner join (select count_hot, s.style_no, m_no, style_regdate, style_content, s.count_like, s.count_reply, uuid, uploadpath, filename, count_image
+			                                from style s inner join (select nvl(reply.style_no, style_like.style_no) style_no, nvl(count_reply, 0) + nvl(count_like, 0) count_hot
+			                                                        from (select style_no, count(*) count_reply from style_reply WHERE REGDATE >= TO_CHAR(SYSDATE-7,'YY/MM/DD') group by style_no) reply
+			                                                        full outer join
+			                                                            (select style_no, count(*) count_like from style_like WHERE REGDATE >= TO_CHAR(SYSDATE-7,'YY/MM/DD') group by style_no) style_like
+			                                                        on reply.style_no = style_like.style_no) count_hot on s.style_no = count_hot.style_no) s
+			            on s.m_no = m.m_no order by count_hot desc)
+			    where rownum <= #{pageNum} * #{amount} )
 			where rn > (#{pageNum} - 1) * #{amount}
 		]]>
 	</select>
+	
+	<select id="getTagList" resultType="com.kooream.domain.StyleVO">
+		<![CDATA[
+			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
+			    style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
+			from (select /*+index_desc(style style_pk) */
+			    rownum rn, m.m_no m_no, m_nickname m_nickname, m.uuid m_uuid, m.uploadpath m_uploadpath, m.filename m_filename,
+			        style_no, style_regdate, style_content, count_like, count_reply, s.uuid s_uuid, s.uploadpath s_uploadpath, s.filename s_filename, count_image
+			    from member m inner join (select s.* from style s inner join (select style_no from style_tag st inner join hashtag h on st.tag_no = h.tag_no where hashtag like #{query}) t on s.style_no = t.style_no) s on m.m_no = s.m_no
+			        and rownum <= #{pageNum} * #{amount})
+			where rn > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	
 	<select id="getMemberList" resultType="com.kooream.domain.StyleVO">
 		<![CDATA[
-			select style_no, m_no, style_regdate, style_content, count_like, count_reply
+			select m_no, m_nickname, m_uuid, m_uploadpath, m_filename,
+			    style_no, style_regdate, style_content, count_like, count_reply, s_uuid uuid, s_uploadpath uploadpath, s_filename filename, count_image
 			from (select /*+index_desc(style style_pk) */
-            	  rownum rn, style_no, m_no, style_regdate, style_content, count_like, count_reply
-			      from style
-        		  where m_no=#{query} 
-        		  and rownum <= #{pageNum} * #{amount})
-			where rn > (#{pageNum} - 1) * #{amount}
+			    rownum rn, m.m_no m_no, m_nickname m_nickname, m.uuid m_uuid, m.uploadpath m_uploadpath, m.filename m_filename,
+			        style_no, style_regdate, style_content, count_like, count_reply, s.uuid s_uuid, s.uploadpath s_uploadpath, s.filename s_filename, count_image
+			    from (select * from member where m_no in (select m_no from follow where follower=#{m_no})) m inner join style s on m.m_no = s.m_no
+      			  where rownum <= #{pageNum} * #{amount})
+			where rn > (1 - #{pageNum}) * #{amount}
 		]]>
 	</select>
 	

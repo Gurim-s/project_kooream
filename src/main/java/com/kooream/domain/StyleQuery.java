@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StyleQuery {
-	private int pageNum, amount;
+	private int pageNum, amount, m_no;
 	private String category, query;
 }
