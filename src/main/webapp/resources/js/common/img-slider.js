@@ -370,7 +370,8 @@ const imgSlider = (customOption) => (function(customOption) {
 		if (imgTagList.length == 0) return;
 		
 		imgTagList.forEach(addImgTag);
-		setDefaultCss();
+		setLiCss();
+		setUlCss();
 		slideImg(0);
 	}
 	
