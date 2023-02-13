@@ -34,13 +34,14 @@ let query;
 	getList(query);
 	setEvent();
 })();
-window.onpageshow = function(e) {
-	e.preventDefault();
-	if ( e.persisted || (window.performance && window.performance.navigation.type == 2)) {
-		alert('hello');
-		alert(location.href.includes('detail'));
-    }
-}
+
+//onpageshow = function(e) {
+//	if ( e.persisted || (window.performance && window.performance.navigation.type == 2)) {
+//		alert('hello');
+//		alert(location.href.includes('detail'));
+//    }
+//}
+
 function setQuery() {
 	const searchParams = Array.from(new URLSearchParams(location.search));
 	const category = searchParams.length == 0 ? 'hot' : searchParams[0][1];
