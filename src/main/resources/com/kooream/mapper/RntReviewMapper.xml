@@ -12,13 +12,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 리뷰 리스트 불러오기 -->
-	<select id="getReview" parameterType="com.kooream.domain.ProductVO" resultType="com.kooream.domain.RntReviewVO">
+	<select id="getReview" parameterType="int" resultType="com.kooream.domain.RntReviewVO">
 		SELECT (SELECT m_nickname
 					FROM MEMBER B
 					WHERE A.M_NO=B.M_NO) AS m_nickname,A.*
 		FROM REVIEW_TBL A
 		WHERE A.P_NO = #{p_no}
-		ORDER BY rp_idx
+		ORDER BY rp_idx desc
 	</select>
 	
 	<!-- 리뷰 삭제 -->

@@ -26,6 +26,9 @@
 		background-color: black;
 		cursor: pointer;
 	}
+	button:active {
+ 		background-color: rgba(34,34,34,.8);
+	}
 	.spanId, button{
 		font-weight: bold;
 	}

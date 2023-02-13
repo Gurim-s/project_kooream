@@ -46,7 +46,6 @@
 	<div class="mcategory">&nbsp;내 정보</div>	
 	<ul class="mul">
 		<li><a href="/member/profile">프로필 정보</a></li>	
-		<li><a href="#">주소록</a></li>	
 		<li><a href="#">결제 정보</a></li>	
 		<li><a href="#">판매 정산 계좌</a></li>	
 		<li><a href="#">현금영수증 정보</a></li>	

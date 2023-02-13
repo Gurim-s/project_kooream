@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	.content_area{
@@ -99,10 +101,18 @@
 	}
 	
 	.guide_txt{
-		margin-left: 12px;
+		margin-top: 7px;
+		width: 100%;
 		font-size: 14px;
 		letter-spacing: -.21px;
 		color: rgba(34,34,34,.5);
+		height: 44px;
+	    border-radius: 10px;
+	    border: 1px solid #ebebeb;	
+	    background-color: #fafafa;
+	    -webkit-box-align: center;
+	    align-items: center;
+	    padding: 14px 12px;
 	}
 	
 	.shipping_memo{
@@ -346,23 +356,31 @@
 		vertical-align: middle;
 		text-align: center;
     }
-
+	button:active {
+ 		background-color: rgba(34,34,34,.8);
+	}
 
 </style>
 
 <div class="content_area">
-	<form name="shop_bidsell" method="post" id="bidSellForm">
+	<sec:authentication property="principal.member" var="pri"/>
 		<div class="buy_before">
 			<div class="product_info">
 				<div class="product_info">
 					<div class="infobox">
-						<img class="product_image" src="${imageUrl }">
-						<!-- <img class="product_image" src="/resources/img/ps5.png"> -->
+						<c:url value="/displayImage" var="url">
+							<c:param name="fileName" value="${image_list[0].img_url }"/>
+						</c:url>
+						<img class="product_image" src="${url}"/>
 						<div class="product_infobox">
-							<div class="code">P0000CQH</div>
-							<div class="name">[KREAM Exclusive] STU Duck Down Short Jacket Multi Check</div>
-							<div class="kor_name">에스티유 덕 다운 쇼트 자켓 멀티 체크</div>
-							<div class="p_size">L</div>
+							<div class="code">${pvo.p_model_no }</div>
+							<div class="name">${pvo.p_name_en }</div>
+							<div class="kor_name">${pvo.p_name_ko }</div>
+							<div class="p_size">
+								대여기간: <span>${vo.strt_r_date }</span>
+										<span>-</span>
+										<span>${vo.rtrn_r_date }</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -371,18 +389,22 @@
 				<div class="section_unit">
 					<div class="section_title">
 						<h3 class="title_txt">배송 주소</h3>
-						<a href="#" class="add_more_btn">+ 새 주소 추가</a>
+						<!-- <a href="#" class="add_more_btn">+ 새 주소 추가</a> -->
 					</div>
 					
-					<a href="#" class="delivery_info">
+					<input type="checkbox" id="copyAddr">기본 배송지선택
+					<div><input type="text" class="guide_txt" 
+											id="sample6_address" 
+											name="m_addr" onclick="sample6_execDaumPostcode()" 
+											placeholder="주소를 입력해주세요."></div>
+					<div><input type="text" class="guide_txt" id="sample6_detailAddress" name="m_Detail_addr" placeholder="상세주소를 입력하세요."></div>
+					<!-- <a href="#" class="delivery_info">
 						<span class="guide_txt">
-							주소를 추가해주세요. >
+							주소를 입력해주세요.
 						</span>
-					</a>
+					</a> -->
 					<div class="shipping_memo">
-						<button class="button_shipping">
-							<span class="button_shipping_memo">배송 시 요청사항을 선택하세요.</span>						
-						</button>
+						<input type="text" class="button_shipping_memo guide_txt" placeholder="배송 시 요청사항을 입력하세요." >					
 					</div>
 				</div>
 				<div class="section_unit2">
@@ -397,11 +419,11 @@
 								</div>
 								<div class="way_desc">
 									<p class="company">
-										<span class="badge_title">브랜드 배송</span>
+										<span class="badge_title">렌탈 배송</span>
 										<span>무료</span>
 									</p>
 									<p class="sub_txt">
-									입점한 브랜드에서 직접 택배 배송
+									렌탈 브랜드에서 직접 택배 배송
 									</p>
 								</div>
 							</div>
@@ -418,24 +440,21 @@
 						<dl class="price_box">
 							<dt class="price_title">총 결제금액</dt>
 							<dd class="price empty_price">
-								<span class="amount">-</span>
+								<span class="amount"><fmt:formatNumber value="${vo.total_price }" pattern="#,###,###원"/></span>
 							</dd>
 						</dl>
 					</div>
 					<div class="price_bind">
 						<dl class="price_addition">
 							<dt class="price_title"><span>구매가</span></dt>
-							<dd class="price_text">가격</dd>
+							<dd class="price_text"><fmt:formatNumber value="${vo.total_price }" pattern="#,###,###원"/> </dd>
 						</dl>
 						<dl class="price_addition">
 							<dt class="price_title2"><span>배송비</span></dt>
-							<dd class="price_text2">가격</dd>
+							<dd class="price_text2">0원</dd>
 						</dl>
 					</div>
 				</div>
-			</div>
-			<div class="section_total">
-				대충 결제 공간
 			</div>
 			<div class="section_total">
 				<div>
@@ -480,17 +499,64 @@
 					<div class="price_total">
 						<dl class="price_box2">
 							<dt class="price_title3">총 결제금액</dt>
-							<dd class="empty_price2">-</dd>
+							<dd class="empty_price2"><fmt:formatNumber value="${vo.total_price }" pattern="#,###,###원"/></dd>
 						</dl>
 					</div>
 					<div class="now_buy_btn">
-						<div class="btn_box full" >결제 하기</div>
+						<div class="btn_box full" id="goRgstRsvt" >결제 하기</div>
+						<form id="goPaymentForm" action="/rsvt/rgstRsvt" method="post">
+							<input type="hidden" name="strt_r_date" value="${vo.strt_r_date }">
+							<input type="hidden" name="rtrn_r_date" value="${vo.rtrn_r_date }">
+							<input type="hidden" name="p_no" value="${pvo.p_no }">
+							<input type="hidden" name="total_price" value="${vo.total_price }">
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form>
 </div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api 사용하기 위해 명시 -->
 <script type="text/javascript">
+$(function(){
+	// 결제하기 클릭 이벤트
+	$("#goRgstRsvt").on("click",function(){
+		var check=0;
+		$(".chbox").each(function(idx,item){
+			if(!$(item).is(':checked')){
+				alert("전체 동의 후 결제 가능합니다.");
+				check=1;
+				return false;
+			}
+		});
+		
+		if(check==0){
+			$("#goPaymentForm").submit();
+		}
+	});
+	
+	// 기본배송지 체크박스 클릭 이벤트
+	$("#copyAddr").on("click", function(){
+		if($(this).is(':checked')){
+			var addrList = "${pri.m_addr}".split("/");
+			$("#sample6_address").val(addrList[0]);
+			$("#sample6_detailAddress").val(addrList[1]);
+		}else{
+			$("#sample6_address").val("");
+			$("#sample6_detailAddress").val("");
+		}
+	});
+	
+});
+
+//주소 api-----------------------
+function sample6_execDaumPostcode() {
+	new daum.Postcode({
+  		oncomplete: function(data) {
+  			document.getElementById("sample6_address").value = data.address; // 주소 넣기
+            document.querySelector("#sample6_detailAddress").focus(); //상세입력 포커싱
+  		}
+	}).open();
+}
+
 </script>
 <jsp:include page="../include/footer.jsp"/>

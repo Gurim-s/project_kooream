@@ -24,7 +24,7 @@
 					<li><a href="/rental/interestList">관심상품</a></li>
           			<li><a href="#">장바구니</a></li>
 						<sec:authorize access="hasRole('ROLE_USER')">
-							<li><a href="/member/myPage">마이페이지</a></li>
+							<li><a href="/member/profile">마이페이지</a></li>
 						</sec:authorize>
 					<li>
 						<sec:authorize access="isAnonymous()">
