@@ -13,7 +13,7 @@ var column1 = $('.style-column');
 	setSlide();
 	getCodiList(pageNum,amount);
 	getStyleList(pageNum,amount);
-	
+	getBrandList(pageNum, amount);
 	
 })();
 
@@ -97,8 +97,6 @@ async function getStyleList(pageNum, amount){
 		category: 'hot'
 	}
 	var styleList = await styleService.getList(query);
-	console.log(styleList);
-	console.log(styleList[0].style_no);
 	$.each(styleList, function(idx, style){
 		var card_box = $('<a href="../style/detail?category=hot&style_no='+style.style_no+'"><div></div></a>')	
 		$(card_box).attr('class','style_card'); // class 부여
@@ -110,7 +108,6 @@ async function getStyleList(pageNum, amount){
 		$(img_box).attr('class', 'style_img_box');
 		var img_tag = $('<img></img>');
 		$(img_tag).attr('class','codi_img');
-		console.log(style);
 		var fileCallPath = encodeURIComponent(style.uploadPath+"/s_"
 												+ style.uuid + "_"
 												+ style.fileName);
@@ -124,3 +121,24 @@ async function getStyleList(pageNum, amount){
 		$(column1[idx % 4]).append(card_box);
 	}); // each end 
 }; // getStyleList end
+
+
+function getBrandList(pageNum, amount){
+	$.ajax({
+		url: "../brandshop/view",
+		data: JSON.stringify({
+			pageNum: pageNum,
+			amount: amount
+		}),
+		type: "get",
+		dataType:"json",
+		contentType:"application/json",
+	})
+	.done(function(json){
+		$.each(json, function(idx, brand){
+			console.log(brand);
+			var card_box = $('<a href="../codishop/get?codi_no='+brand.p_no+ '"><div></div></a>');	
+					
+		})//each
+	});//done
+}
