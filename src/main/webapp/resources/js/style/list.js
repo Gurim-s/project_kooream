@@ -34,7 +34,13 @@ let query;
 	getList(query);
 	setEvent();
 })();
-
+window.onpageshow = function(e) {
+	e.preventDefault();
+	if ( e.persisted || (window.performance && window.performance.navigation.type == 2)) {
+		alert('hello');
+		alert(location.href.includes('detail'));
+    }
+}
 function setQuery() {
 	const searchParams = Array.from(new URLSearchParams(location.search));
 	const category = searchParams.length == 0 ? 'hot' : searchParams[0][1];
@@ -130,8 +136,7 @@ async function loadDetail(newList) {
 	
 	newList.forEach(x => {
 		x.style_image = [...imageList[x.style_no]];
-		if (productTagList[x.style_no] == undefined) return;
-		x.productTagList = [...productTagList[x.style_no]];
+		if (productTagList[x.style_no] !== undefined) x.productTagList = [...productTagList[x.style_no]];
 	});
 	
 	newList.forEach(x => {

@@ -42,6 +42,18 @@ var styleService = (function() {
 		return res.json();
 	}
 	
+//	async function getReplyList(styleNoList) {
+//		const res = await fetch('/style/list/replyList', {
+//			method: 'post',
+//            headers: {
+//                'Content-Type': 'application/json;charset=utf-8',
+//            },
+//            body: JSON.stringify(styleNoList),
+//		});
+//		
+//		return res.json();
+//	}
+	
 	async function getProductTagList(styleNoList) {
 		const res = await fetch('/style/list/productTagList', {
             method: 'post',
@@ -53,6 +65,7 @@ var styleService = (function() {
 
 		return res.json();		
 	}
+	
 	async function like(style_no) {
 		const res = await fetch('/style/like/'+style_no);
 		

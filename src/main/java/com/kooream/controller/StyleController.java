@@ -28,6 +28,7 @@ import com.kooream.domain.ImageFileVO;
 import com.kooream.domain.MemberVO;
 import com.kooream.domain.ProductTagVO;
 import com.kooream.domain.StyleQuery;
+import com.kooream.domain.StyleReplyVO;
 import com.kooream.domain.StyleVO;
 import com.kooream.security.UserSession;
 import com.kooream.service.StyleService;
@@ -72,6 +73,14 @@ public class StyleController {
 		Map<Long, List<ProductTagVO>> list = service.getProductTagListByStyleNoList(styleNoList);
 		
 		return new ResponseEntity<Map<Long, List<ProductTagVO>>>(list, HttpStatus.OK);
+	}
+	@PostMapping(value = "/list/replyList",
+			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
+			consumes = "application/json")
+	public ResponseEntity<Map<Long, List<StyleReplyVO>>> styleReplyTagList(@RequestBody List<Long> styleNoList) {
+		Map<Long, List<StyleReplyVO>> list = service.getReplyListByStyleNoList(styleNoList);
+		
+		return new ResponseEntity<Map<Long, List<StyleReplyVO>>>(list, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/list/slow",
