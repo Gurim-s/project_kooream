@@ -82,7 +82,7 @@ public class CodiController {
 
 		List<CodiImageVO> list = vo.getAttachList();
 		List<Codi_TagVO> tagList = vo.getCodiTagList();
-		List<ProductTagVO> productTagList = vo.getProductTagList();
+		List<List<ProductTagVO>> productTagList = vo.getProductTagList();
 		
 		for(int i=0; i<vo.getCodiTagList().size(); i++ ) {
 		  

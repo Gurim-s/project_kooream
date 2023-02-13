@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<link rel="stylesheet" href="/resources/css/codi/codi.css" />
+<link rel="stylesheet" href="/resources/css/codi/register.css" />
 <link rel="stylesheet" href="/resources/css/common/search-box.css" />
 <jsp:include page="../include/header.jsp"/>
 
@@ -55,12 +55,14 @@
 						</div>
 					</div>
 				</div>	<!-- row.... end -->
-				<div><button id="addProductTag">상품태그 추가하기</button></div>
 				<div class="row hide-product">
 					<div><span class="title_content">상품태그</span></div>
 					<div style="width: 420px;">
 						<div class="product-tag-selector"></div>
 					</div>
+				</div>
+				<div class="row insert-product">
+					<button id="addProductTag">상품태그 추가하기</button>
 				</div>
 				
 				
@@ -76,127 +78,7 @@
 		
 	</div> <!-- codi_box ........... end -->
 <script type="module" src="/resources/js/codi/register.js"></script>
-<script type="text/javascript">
 
 
-
-
-
-</script>
-
-<style>
-div.row.hide-product {
-	display: none;
-}
-div.row.hide-image {
-	display: none;
-}
-/* 이미지 업로드 테스트 */
-#att_zone{
-	width: 505px;
-	min-height:150px;
-	padding:10px;
-	border:1px dotted #00f;
-}
-#att_zone:empty:before{
-	content : attr(data-placeholder);
-	color : #999;
-	font-size:.9em;
-}
-.tag_name{
-	display: inline-block;
-	margin : 5px;
-	padding : 5px;
-    border-radius: 20px;
-    background-color: #ebebeb;
-}
-.tag_text{
-	font-weight: bold;
-}
-
-/* 테스트 */
-#textForm{
-	  width: 70%;
-	  border:none;
-	  border-bottom : 3px solid #ebebeb;
-	  outline:none;
-	  color: #636e72;
-	  font-size:16px;
-	  height:25px;
-	  background: none;
-	  text-align: center;
-	  
-}
-.tag{
-	  width: 70%;
-	  border:none;
-	  border-bottom : 3px solid #ebebeb;
-	  outline:none;
-	  color: #636e72;
-	  font-size:16px;
-	  height:25px;
-	  background: none;
-	  text-align: center;
-	  
-}
-.del-btn{
-	border: 1px solid #ebebeb;
-
-
-}
-
-#textForm2{
-	  width: 18%;
-	  border:none;
-	  border-bottom : 3px solid #ebebeb;
-	  outline:none;
-	  color: #636e72;
-	  font-size:16px;
-	  height:25px;
-	  background: none;
-	  text-align: center;
-	  
-}
-.title_content{
-    display: flex;
-    align-items: center;
-    width: 100px;
-    height: 40px;
-    font-weight: bold;
-}
-.row {
-	width : 50%;
-	min-width: 600px;
-    display: flex;
-    padding: 10px 0;
-    margin: auto;
-}
-.btn1{
- 	position:relative;
-	left:5%;
-	border-radius: 15px;
-	transform: translateX(-50%);
-	margin-bottom: 40px;
-	width:10%;
-	height:40px;
-	background-color : #ebebeb;
-	background-position: left;
-	background-size: 200%;
-	color:black;
-	font-weight: bold;
-	border:none;
-	cursor:pointer;
-	transition: 0.4s;
-	display:inline;
-}
-.model_info{
-	font-size : large;
-	font-weight: bold;
-}
-.panel-body{
-	width: 70%;
-}
-
-</style>
 
 <jsp:include page="../include/footer.jsp"/>

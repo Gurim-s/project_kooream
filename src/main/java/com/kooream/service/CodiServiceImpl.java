@@ -89,12 +89,12 @@ public class CodiServiceImpl implements CodiService{
 				attachmapper.insert(imageList.get(i));
 				
 				if (vo.getProductTagList() != null && vo.getProductTagList().size() > i) {
-					ProductTagVO productTagList = vo.getProductTagList().get(i);
-//					for (ProductTagVO productTag : productTagList) {
-//					}
-					productTagList.setCodi_no(codi_no);
-					productTagList.setIdx(i);
-						productTagMapper.insert(productTagList);
+					List<ProductTagVO> productTagList = vo.getProductTagList().get(i);
+					for (ProductTagVO productTag : productTagList) {
+						productTag.setCodi_no(codi_no);
+						productTag.setIdx(i);
+						productTagMapper.insert(productTag);
+					}
 				}
 			}
 		}
