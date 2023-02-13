@@ -413,6 +413,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		container.append(template);
 		
 		const str = (
+			(option.tagEditMode? '<a href="#" class="remove-tag">X<a/>': '')+
 			'<div class="product-img">' +
 				'<img src="' + imgService.thumbnailPath(product, 'xs') +'" />' +
 			'</div>' +
@@ -422,12 +423,27 @@ const imgSlider = (customOption) => (function(customOption) {
 			'</div>'
 		);
 		template.innerHTML = str;
+		if (option.tagEditMode) template.querySelector('.remove-tag')
+		.addEventListener('click', _removeTag);
 		
 		container.style.position = 'absolute';
 		container.style.top = product.offsetY == '0'? '80%': product.offsetY;
 		container.style.left = product.offsetX == '0'? '10px': product.offsetX;
 //		container.style.zIndex = '1';
 		
+		if (option.tagEditMode) {
+			const removeTag = template.querySelector('.remove-tag');
+			removeTag.style.position = 'absolute';
+			removeTag.style.top = '0px';
+			removeTag.style.right = '0px';
+//			removeTag.style.borderRadius = '50%';
+			removeTag.style.width = '15px';
+			removeTag.style.height = '15px';
+			removeTag.style.fontSize = '15px';
+			removeTag.style.fontWeight = 'bold';
+			removeTag.style.color = 'white';
+			removeTag.style.backgroundColor = 'black';
+		}
 		
 		pointer.style.height = '12px';
 		pointer.style.width = '12px';
@@ -468,6 +484,11 @@ const imgSlider = (customOption) => (function(customOption) {
 		price.style.color = '#fff';
 		
 		return container;
+	}
+	
+	function _removeTag(e) {
+		e.preventDefault();
+		e.target.closest('.product-tag').remove();
 	}
 	
 	function remove(idx) {

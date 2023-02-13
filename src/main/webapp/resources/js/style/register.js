@@ -30,7 +30,7 @@ const tagSelector = productTagSelector();
 	tagSelector.slider.setOption({
 		ratio:1,
 		ratioFix: true,
-		tagMode: true,
+		tagEditMode: true,
 	});
 	document.querySelector('.product-tag-selector-container')
 	.append(tagSelector.container);
