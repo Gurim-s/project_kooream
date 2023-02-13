@@ -106,7 +106,7 @@ public class BrandProductController {
 		model.addAttribute("sizeVOlist", list);
 		model.addAttribute("cri", cri);
 		model.addAttribute("vo", service.getDetail(vo));
-		model.addAttribute("vo2", service.member(vo));  // 
+		//model.addAttribute("vo2", service.member(vo));  // 
 		return "/brandshop/get";
 	}
 	
