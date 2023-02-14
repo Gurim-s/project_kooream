@@ -101,6 +101,12 @@
 				</ul>
 			</div>
 		</div>
+		<div id="page-navigator">
+			<a href="#">
+				<div>▲</div>
+				<div>top</div>
+			</a>
+		</div>
 		<script type="text/javascript" defer>
 			const now = location.pathname;
 			const nowMenu = 'nav-'+ now.split('/')[1];
