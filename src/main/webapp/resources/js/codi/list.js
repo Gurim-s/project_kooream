@@ -89,7 +89,7 @@ function getList(pageNum, amount) {
 			
 
 			var text_Line1 = $('<div></div>');
-			$(text_Line1).append('<h3>' + codi.m_no + '</h3>');
+//			$(text_Line1).append('<h3>' + codi.m_no + '</h3>');
 			var text_Line2 = $('<div></div>');
 			$(text_Line2).append('<h3>' + codi.codi_title + '</h3>');
 			

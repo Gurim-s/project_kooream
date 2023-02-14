@@ -43,18 +43,6 @@ $(function() {
 		}else{
 			var result = await uploader.uploadImageAjax();
 			var div = $('<div></div>');
-			div.append(result);
-			formObj.append(div);
-//			$('.uploadResult ul li').each(function(i, obj){
-//				var jobj = $(obj);
-//				console.dir(jobj);
-//				str+='<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'">';
-//				str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
-//				str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
-//			});
-			var tagList = tagSelector.getProductTagsInput();
-			formObj.append(tagList);
-			console.log(formObj);
 			
 			 if(codi_register.codi_title.value == "" ) {
 				codi_register.codi_title.focus();
@@ -87,11 +75,28 @@ $(function() {
 		      	return false;
 			  };
 			
+			
+			
+			
+			div.append(result);
+			formObj.append(div);
+//			$('.uploadResult ul li').each(function(i, obj){
+//				var jobj = $(obj);
+//				console.dir(jobj);
+//				str+='<input type="hidden" name="attachList['+i+'].fileName" value="'+jobj.data("filename")+'">';
+//				str+='<input type="hidden" name="attachList['+i+'].uuid" value="'+jobj.data("uuid")+'">';
+//				str+='<input type="hidden" name="attachList['+i+'].uploadPath" value="'+jobj.data("path")+'">';
+//			});
+			var tagList = tagSelector.getProductTagsInput();
+			formObj.append(tagList);
+			console.log(formObj);
+			
+			
 				
 	
 	
 	
-	/*업로더 수정 이후에 다시 작업*/
+			/*업로더 수정 이후에 다시 작업*/
 			var fileCheck = uploader.countFiles() > 0;
 			 if(!fileCheck){
 			        alert("파일을 첨부해 주세요");
