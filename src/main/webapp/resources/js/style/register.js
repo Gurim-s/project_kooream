@@ -152,19 +152,3 @@ function extractHashTag(text) {
 	.reduce((str, x) => str + x, '');
 	return result; 
 }
-
-//	$('.editable').each(function(_, textDiv){
-//		if ($(textDiv).prop('tagName') == 'div') return;
-//		
-//		var html = $('textarea[name="style_content"]');
-//		var text = $('textarea[name="style_text_content"]');
-//		$(textDiv).on('input', function({target, data}) {
-//			console.log(data);
-//			if (data == '#') alert('#을 누르셨습니다.');
-//			$(html).val(target.innerHTML);
-//			str = '<div></div>';
-//			
-//			$(text).val(target.innerText);
-//		});
-//	    this.contentEditable = true;
-//	});

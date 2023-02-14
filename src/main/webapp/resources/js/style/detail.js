@@ -126,6 +126,11 @@ var template = function(style) {
 	template.querySelector('.like-summary')
 	.addEventListener('click', async (e) => {
 		e.preventDefault();
+		if(member_no === 'anonymousUser') {
+			location.href = '/style/reply/login';
+			return;
+		}
+		
 		const style_no = e.target.closest('.item').dataset.styleNo;
 		const count = await styleService.like(style_no);
 		

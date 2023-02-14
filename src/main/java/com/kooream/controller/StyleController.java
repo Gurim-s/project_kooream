@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -180,7 +181,7 @@ public class StyleController {
 		});
 	}
 	
-	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(value="/like/{style_no}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	@ResponseBody
 	public ResponseEntity<Integer> likeStyle(@PathVariable("style_no") long style_no) {
