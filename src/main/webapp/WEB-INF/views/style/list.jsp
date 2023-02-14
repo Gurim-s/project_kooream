@@ -19,7 +19,7 @@
 		<div id="categories" class="hide">
 			<a href="/style/list?category=hot" id="hot" class="">인기</a>
 			<a href="/style/list?category=recent" id="recent" class="">최신</a>
-			<a href="/style/list?category=following" id="following" class="">팔로잉</a>
+			<a href="/style/list/following" id="following" class="">팔로잉</a>
 <!-- 			<button id="search" class="">검색</button> -->
 			<a href="/style/register" id="register">등록</a>
 			<div id="listKeyword">

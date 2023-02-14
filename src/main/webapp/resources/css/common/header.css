@@ -57,12 +57,12 @@ header .header-bottom div:nth-child(2) ul li a.header-on{
 	font-weight: bold;
 	border-bottom: 2px solid black;
 }
-#page-navigator {
+#pageNavigator {
 	position: fixed;
 	bottom: 150px;
 	right: 150px;
 }
-#page-navigator div{
+#pageNavigator div{
 	width: 70px;
 	height: 25px;
 	text-align: center;

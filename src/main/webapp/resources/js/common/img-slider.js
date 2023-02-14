@@ -79,12 +79,20 @@ const imgSlider = (customOption) => (function(customOption) {
 		var isStart = idx == 0;
 		var prev = container.querySelector('button.prev');
 		var next = container.querySelector('button.next');
+		var productTagList = container.querySelectorAll('ul .product-tag');
 
 		if (v == 'on') {
 			next.style.display = isEnd ? 'none' : 'block';
 			prev.style.display = isStart ? 'none' : 'block';
+			
+			if(!option.tagEditMode) {
+				productTagList.forEach(productTag => { productTag.style.display = 'block';});
+			}
 		} else {
 			[prev, next].forEach(btn => { btn.style.display = 'none' });
+			if(!option.tagEditMode) {
+				productTagList.forEach(productTag => { productTag.style.display = 'none';});
+			}
 		}
 	}
 
@@ -125,7 +133,7 @@ const imgSlider = (customOption) => (function(customOption) {
 
 		function move(e) {
 			e.preventDefault();
-			if (!e.target.closest('.product-tag')) return;
+//			if (!e.target.closest('.product-tag')) return;
 			if (isPressed === false) return;
 			const tag = e.target.closest('.product-tag');
 			const productInfo = tag.querySelector('.product-info');
@@ -416,7 +424,7 @@ const imgSlider = (customOption) => (function(customOption) {
 		const str = (
 			(option.tagEditMode ? '<a href="#" class="remove-tag">X<a/>' : '') +
 			'<div class="product-img">' +
-			'<img src="' + imgService.thumbnailPath(product, 'xs') + '" />' +
+				'<img src="' + imgService.thumbnailPath(product) + '" />' +
 			'</div>' +
 			'<div class="name-price">' +
 			'<p class="name">' + product.p_name_ko + '</p>' +
@@ -430,8 +438,9 @@ const imgSlider = (customOption) => (function(customOption) {
 		container.style.position = 'absolute';
 		container.style.top = product.offsetY == '0' ? '80%' : product.offsetY;
 		container.style.left = product.offsetX == '0' ? '10px' : product.offsetX;
+		container.style.display = option.tagEditMode? 'block': 'none';
 		//		container.style.zIndex = '1';
-
+		
 		if (option.tagEditMode) {
 			const removeTag = template.querySelector('.remove-tag');
 			removeTag.style.position = 'absolute';
@@ -460,7 +469,10 @@ const imgSlider = (customOption) => (function(customOption) {
 		template.style.overflow = 'hidden';
 		template.style.position = 'relative';
 		template.style.top = '-34px';
-		template.style.left = '34px';
+		template.style.left = '30px'; 
+		if(!option.tagEditMode) {
+			template.style.left = product.offsetX.split('px')[0] < 350 ?'30px' : '-200px';
+		}
 		template.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
 		template.style.borderRadius = '10px';
 		template.style.padding = '3px 0';
