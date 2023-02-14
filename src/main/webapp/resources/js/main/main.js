@@ -107,10 +107,10 @@ async function getStyleList(pageNum, amount){
 		var img_box = $('<div></div>');	
 		$(img_box).attr('class', 'style_img_box');
 		var img_tag = $('<img></img>');
-		$(img_tag).attr('class','codi_img');
-		var fileCallPath = encodeURIComponent(style.uploadPath+"/s_"
+		$(img_tag).attr('class','style_img');
+		var fileCallPath = encodeURIComponent(style.uploadpath+"/s_"
 												+ style.uuid + "_"
-												+ style.fileName);
+												+ style.filename);
 		$(img_tag).attr('src', '/displayImage?fileName='+fileCallPath);
 		$(img_box).append(img_tag);
 		$(card_box).append(img_box);
@@ -136,8 +136,27 @@ function getBrandList(pageNum, amount){
 	})
 	.done(function(json){
 		$.each(json, function(idx, pList){
-			console.log(pList);
-			var card_box = $('<a href="../codishop/get?codi_no='+pList.p_no+ '"><div></div></a>');	
+			var fileCallPath = encodeURIComponent(pList.uploadPath+"/s_"
+													+ pList.uuid + "_"
+													+ pList.fileName);
+			var card_box = $('<a href="../brandshop/get?p_no='+pList.p_no+'"><div></div></a>');
+			$(card_box).attr('class','brand_card'); // class 부여
+			
+			var text_box = $('<div></div>');
+			$(text_box).attr('class', 'brand_text');
+			
+			var img_box = $('<div></div>');	
+			$(img_box).attr('class', 'brand_img_box');
+			var img_tag = $('<img></img>');
+			$(img_tag).attr('class','brand_img');
+			$(img_tag).attr('src', '/displayImage?fileName='+fileCallPath);
+			$(img_box).append(img_tag);
+			$(card_box).append(img_box);
+			var textLine1 = $('<div></div>');
+			$(textLine1).append('<h4>'+brand.p_name_ko+'</h4>');
+			$(text_box).append(textLine1);
+			$(card_box).append(text_box);
+			$(column2[idx % 4]).append(card_box);
 					
 		})//each
 	});//done

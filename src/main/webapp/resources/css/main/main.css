@@ -108,6 +108,20 @@ li {
 	border-radius : 30%;
 	
 }
+.style_img{
+	
+	width: 160px;
+	height: 200px;
+	border-radius : 30%;
+	
+}
+.brand_img{
+	
+	width: 160px;
+	height: 200px;
+	border-radius : 30%;
+	
+}
 #first {
 	    /* border: 1px solid red; */
 	    flex:1;
