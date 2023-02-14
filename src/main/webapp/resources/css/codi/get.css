@@ -124,7 +124,7 @@ input{
 	  background-position: 1% 50%;
 	  background-size: 400% 300%;
 	  border: 1px solid #b2876f;
-	  @include transition;
+	  @include transition
   
 	  &:hover{
 	    color: white;
@@ -149,11 +149,12 @@ input{
 	  border: 1px solid #b2876f;
 	  @include transition;
   
-	  &:hover{
-	    color: white;
+	  
+}
+#goods_btn:hover {
+	color: white;
 	      color: #fff;
      	background-position: 99% 50%;
- 		}
 }
 .update_btn{
 	display: inline-block;
@@ -170,7 +171,7 @@ input{
 	  background-position: 1% 50%;
 	  background-size: 400% 300%;
 	  border: 1px solid #b2876f;
-	  @include transition;
+	  @include transition
   
 	  &:hover{
 	    color: white;
