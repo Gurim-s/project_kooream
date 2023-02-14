@@ -22,7 +22,7 @@
 		font-weight: bold ;
 	}
 	.modify td input{
-		width: 90%;
+		width: 70%;
 	}
 	.m_btn{
 		display:inline-block;	
@@ -122,10 +122,10 @@
 			</tr>
 			<tr>
 				<td>파일 첨부</td>
-					<td><input type="file" name="uploadFile" multiple="multiple"></td>
-				<td class="uploadResult">
-				<ul></ul>
-				</td>
+					<td class="uploadResult">
+					<ul></ul>
+					<input type="file" name="uploadFile" multiple="multiple"></td>
+
 			</tr>
 <!-- 			<tr>
 					<td class = "Brand_name"><input type="hidden" name ="p_brand" value=""></td>
@@ -265,7 +265,7 @@ $(function(){
 		               
 		               //console.log(fileCallPath);
 		               
-		              str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+		              str += '<li style = "width : 500px; font-size: 15px;" data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
 		              // str += '<a href="/download?fileName='+fileCallPath+'">';	// 다운로드에 매개변수 던지는 중
 		              str += '<br/>'
 		              str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
@@ -301,7 +301,7 @@ $(function(){
 	
 	});		
 
-	}); */
+
 
 </script>
 
