@@ -54,7 +54,6 @@ public class OriginalController {
 	@GetMapping(value = "/getImages/{orino}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public ResponseEntity<List<OriginalAttachVO>> getImages(@PathVariable("orino") int orino) {
 		List<OriginalAttachVO> list = service.getAttList(orino);
-		System.out.println("list : " + list.size());
 		
 		return new ResponseEntity<List<OriginalAttachVO>>(list, HttpStatus.OK);
 	}
@@ -139,6 +138,7 @@ public class OriginalController {
 	
 	// 정품판별 게시글 검색
 	@GetMapping(value="/search/{brnadname}")
+	@ResponseBody
 	public ResponseEntity<List<OriginalVO>> BrandSearch(String brandname){
 		log.info("-------------Original Brand Search name" + brandname);
 		
