@@ -90,7 +90,7 @@
 <body>
 <!-- ------------------------장바구니, 등록 버튼-------------------- -->
 	
-	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div>
+	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div><br/>
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 			<div><a class="register">등록</a></div>
 		</sec:authorize>
@@ -106,7 +106,7 @@
  <div id = "box">
 	<ul>
 		<li class = "menu">
-			<p class = "p" style="font-size: 17px; font-weight: bold;">카테고리</p><hr/>
+			<p class = "p" style="font-size: 17px; font-weight: bold; cursor:pointer;">카테고리</p><hr/>
 				<ul class = "sub">
 					<li><input type ="checkbox" class = "brand_category" name = "brand_category"  value = "brand_clothes">  의류</li>
 					<li><input type ="checkbox" class = "brand_category" name = "brand_category"  value = "brand_shoes">  신발</li>
@@ -115,7 +115,7 @@
 		</li>
 		
 		<li class = "menu">
-			<p class = "p" style="font-size: 17px; font-weight: bold;">금액</p><hr/>
+			<p class = "p" style="font-size: 17px; font-weight: bold; cursor:pointer;">금액</p><hr/>
 				<ul class = "sub" >
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "100000">  10만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "200000">  20만원 이하</li>
@@ -127,15 +127,9 @@
 	</ul>
 </div> 
 <!-- ------------------셀렉트박스 시작--------------------------------- -->
-<select id ="productselect">
+<!-- <select id ="productselect">
 	<option val="">
-
-
-
-
-
-
-</select>	
+</select>	 -->
 
 
 <!-- -----------------------상품리스트 시작--------------------------->
@@ -204,16 +198,18 @@
             }
         });
     });
-	// 페이징처리를 위해 전역변수 선언
-	var idx = 1;
 
 // 상품 이미지 리스트에 보여주기--------------------------------------------------------
  	$(function() {
  		list();
- 	});	
+ 	
+ 	// 페이징처리를 위해 전역변수 선언
+ 		var idx = 1;
+	
  	
  	function list() {// 상품이미지 보여주기
-		
+ 		
+ 		var getListIdx = 8;
  		var bno = '${b_no}';
  		//console.log(bno + "123454654654645");
  		
@@ -227,11 +223,19 @@
  		.done(function(json) {
 			var str='<div class="container">';
 			console.log(json);
-			for(var i=0; i<json.length; i++) {
+			console.log(json.length+"length");
+			
+			var getLength = 0;
+			if((idx*getListIdx)>=json.length){
+				getLength = json.length;
+			}else{
+				getLength = idx*getListIdx;
+			}
+			for(var i=0; i<getLength; i++) {
 				krPrice = json[i].p_release_price.toLocaleString('ko-KR');
 				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 					// brandshop(컨트롤러) 에서 /get을 탐  
-				console.log(json);
+				
 				
 				// 이미지 하나만 보여주기 
 				
@@ -241,7 +245,7 @@
 					var uuid = "s_"+ json[i].uuid;
 					var fileName = json[i].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-					console.log(fileCallPath);
+					
 					str += '<div class = "product">'
 					str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
 				}
@@ -277,7 +281,21 @@
 	if(result != ''){
 		checkResult(result);
 	}
-
+// -------------------------------------------------------------------------------무한 스크롤--------------------------------------------------------
+	$(window).scroll(function(){
+		var scrT = $(window).scrollTop();
+			console.log(scrT); //스크롤 값 확인용
+		if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
+			// 페이지 전체크기 =< 스크롤크기(아래 내려갈 공간) + 화면상 보이는 크기 --> 상품 더보기되면서 페이지 전체크기 늘어남
+			idx += 1; //스크롤이 끝에 도달했을때 실행될 이벤트
+			list();
+		} else {
+			//아닐때 이벤트
+		}
+	});
+	
+});	 
+	
 	
 // --------------------alert 창 띄우기--------------------------------------------------------
 	// 뒤로 가기 할 때 문제가 될 수 있으므로,
@@ -311,12 +329,12 @@
 				contentType:"application/json",
 	 		})
 	 		.done(function(json) {
-	 			
-				var str='<div class="container">';
-				console.log(json);
-				for(var i=0; i<json.length; i++) {
-					krPrice = json[i].p_release_price.toLocaleString('ko-KR');
-					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'&b_no='+json[i].b_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+			var str='<div class="container">';
+			console.log(json);
+			for(var i=0; i<json.length; i++) {
+				krPrice = json[i].p_release_price.toLocaleString('ko-KR');
+				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+					
 						// brandshop(컨트롤러) 에서 /get을 탐  
 					
 					// 이미지 하나만 보여주기 
@@ -376,50 +394,38 @@
 					
 					// 이미지 하나만 보여주기 
 					
-					if(json[i].attachList.length > 0) {
-						var uploadPath = json[i].attachList[0].uploadPath;
-						var uuid = json[i].attachList[0].uuid;
-						var fileName = json[i].attachList[0].fileName;
+					if(json.length > 0) {
+						var uploadPath = json[i].uploadPath;
+						var uuid = "s_"+ json[i].uuid;
+						var fileName = json[i].fileName;
 						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+						console.log(fileCallPath);
 						str += '<div class = "product">'
 						str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
+						}
+		
+						str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
+						str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
+						str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
+						str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
+						str += '</a>'
+						str += '</div>'
+						str += '<br/>'
+		
 					}
-	
-					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
-					str += '<div class = "p_info" style="font-weight: bold; font-size: 15px; ">'+json[i].p_name_en+'</div>';
-					str += '<div class = "p_info" style="color: gray; font-size: 15px;">'+json[i].p_name_ko+'</div>';
-					str += '<div style="font-weight: bold; font-size: 15px;" >'+krPrice+'원</div>';
-					str += '</a>'
+					
 					str += '</div>'
-					str += '<br/>'
-	
-				}
-				
-				str += '</div>'
-				str += '<br/>';
-				$('.brand').html(str);
-			});
- 		}
- 		else if(val2==null){
- 			list();	
- 		}
- 	}) 		
+					str += '<br/>';
+					$('.brand').html(str);
+				});
+	 		}
+	 		else if(val2==null){
+	 			list();	
+	 		}
+	 	});
  
-/* 		// 스크롤 내리면 삼품 불러오는 -----------------------------------------------
-		$(window).scroll(function(){
-			var scrT = $(window).scrollTop();
-				console.log(scrT); //스크롤 값 확인용
-			if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
-				// 페이지 전체크기 =< 스크롤크기(아래 내려갈 공간) + 화면상 보이는 크기 --> 상품 더보기되면서 페이지 전체크기 늘어남
-				idx += 1; //스크롤이 끝에 도달했을때 실행될 이벤트
-				list();
-			} else {
-				//아닐때 이벤트
-			}
-		});
- 	
- 	 */
- 	
+		// 스크롤 내리면 삼품 불러오는 -----------------------------------------------
+
  	
  // --------------------체크박스 다른거 클릭시 다른체크박스 해제 사용xxx --------------------------------------------------------
 	function checkOnlyOne(element) {
