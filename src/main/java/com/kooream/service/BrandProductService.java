@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandAdminVO;
+import com.kooream.domain.Criteria;
 import com.kooream.domain.ProductVO;
 import com.kooream.domain.SizeVO;
 
@@ -31,5 +32,6 @@ public interface BrandProductService {
 	//	보내는 값은 product vo 
 	// 리턴되는 값의 형태가 brandAdminVo vo
 	
+	List<ProductVO> getpList(Criteria cri);
 
 }

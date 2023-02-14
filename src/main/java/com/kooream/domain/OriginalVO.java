@@ -19,4 +19,5 @@ public class OriginalVO {
 	
 	// 게시글 등록 시 한 번에 첨부파일을 처리하기 위해 list 추가
 	private List<OriginalAttachVO> attachList;
+	private String uuid, uploadPath, fileName;
 }
