@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	.content_area{
@@ -299,12 +300,12 @@
 					<div class="buy_price">
 						<div class="box_border">
 							<div class="now_buysell">즉시 구매가</div>
-							<span class="now_price">${vo3.bid_buy }</span><span class="won">원</span>
+							<span class="now_price"><fmt:formatNumber value="${vo3.bid_buy }" pattern="#,###,###"/></span><span class="won">원</span>
 						</div>
 					</div>
 					<div class="sell_price">
 						<div class="now_buysell">즉시 판매가</div>
-						<span class="now_price">${vo2.bid_sell }</span><span class="won">원</span>
+						<span class="now_price"><fmt:formatNumber value="${vo2.bid_sell }" pattern="#,###,###"/></span><span class="won">원</span>
 					</div>
 				</div>
 					<div class="instant_group">
@@ -322,7 +323,7 @@
 							<dl class="price_now_box">
 								<dt class="price_now_title">즉시 판매가</dt>
 								<dd class="price">
-									<span class="amount" >${vo2.bid_sell }</span>
+									<span class="amount" ><fmt:formatNumber value="${vo2.bid_sell }" pattern="#,###,###"/></span>
 									<span class="won">원</span>
 								</dd>
 							</dl>
@@ -332,7 +333,7 @@
 									<input type="number" placeholder="희망가 입력" name="bid_buy" id="bid_buy" class="price_input"/>
 									<span class="won">원</span>
 									<input type="hidden" name="p_no" value="${vo.p_no}">
-									<input type="hidden" name="bid_sell" id="bid_sell" value="${vo.max_bid_sell }">
+									<input type="hidden" name="bid_sell" id="bid_sell" value="${vo2.bid_sell }">
 									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
 								</dd>
 							</dl>
@@ -414,6 +415,8 @@
 			$('input[name="bid_buy"]').remove();
 			form.attr("action", "/shop/shop_Nowsellconfirm");
 			console.log(form);
+			console.log(${vo.p_no });
+			console.log(${vo2.bid_sell });
 			$(form).submit();
 		}
 	}

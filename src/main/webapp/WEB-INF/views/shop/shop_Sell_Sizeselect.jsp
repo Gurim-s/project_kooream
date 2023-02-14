@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	.content_area{
@@ -182,7 +183,7 @@
 							${vo2.pp_size }
 						</div>
 						<div class="size_price">
-							${vo2.bid_sell }
+							<fmt:formatNumber value="${vo2.bid_sell }" pattern="#,###,###"/>
 						</div>
 						<input type="hidden" name="p_no" value="${vo.p_no }">
 					</div>

@@ -470,13 +470,10 @@
 					<ul class="check_list">
 						<li>
 							<div class="notice_group">
-								<div class="text_group">
-									<p class="notice_maintext">KREAM의 검수 없이 제휴 사업자가 직접 배송하며, 재고 부족 등 사업자의 상황에 따라 거래가 취소될 수 있습니다.</p>
-									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
-								</div>
 								<div>
-									<input type="checkbox" class="chbox" name="check_all">
-								</div>
+									<input type='checkbox' name="check_all" value='selectall' onclick='selectAll(this)'/> 
+								<b>전체 선택</b>
+							</div>
 							</div>
 							<div class="notice_group notice2">
 								<div class="text_group">
@@ -502,10 +499,6 @@
 								<div class="check_d">
 									<input type="checkbox" class="chbox" name="check_all">
 								</div>
-							</div>
-							<div>
-								<input type='checkbox' name="check_all" value='selectall' onclick='selectAll(this)'/> 
-								<b>전체 선택</b>
 							</div>
 						</li>
 					</ul>

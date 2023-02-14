@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	.content_area{
@@ -430,14 +431,14 @@
 						<dl class="price_box">
 							<dt class="price_title">총 결제금액</dt>
 							<dd class="price empty_price">
-								<span class="amount">${vo3.bid_buy }원</span>
+								<span class="amount"><fmt:formatNumber value="${vo3.bid_buy }" pattern="#,###,###원"/></span>
 							</dd>
 						</dl>
 					</div>
 					<div class="price_bind">
 						<dl class="price_addition">
 							<dt class="price_title"><span>구매가</span></dt>
-							<dd class="price_text">${vo3.bid_buy }원</dd>
+							<dd class="price_text"><fmt:formatNumber value="${vo3.bid_buy }" pattern="#,###,###원"/></dd>
 						</dl>
 						<dl class="price_addition">
 							<dt class="price_title2"><span>배송비</span></dt>
@@ -447,19 +448,22 @@
 				</div>
 			</div>
 			<div class="section_total">
-				대충 결제 공간
-			</div>
-			<div class="section_total">
 				<div>
 					<ul class="check_list">
 						<li>
+							<div class="notice_group">
+								<div>
+									<input type='checkbox' name="check_all" value='selectall' onclick='selectAll(this)'> 
+									<b>전체 선택</b>
+								</div>
+							</div>
 							<div class="notice_group">
 								<div class="text_group">
 									<p class="notice_maintext">KREAM의 검수 없이 제휴 사업자가 직접 배송하며, 재고 부족 등 사업자의 상황에 따라 거래가 취소될 수 있습니다.</p>
 									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
 								</div>
 								<div>
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon"  name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -468,7 +472,7 @@
 									<p class="notice_subtext">자세히보기</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon"  name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -476,15 +480,16 @@
 									<p class="notice_maintext">'결제하기'를 선택하시면 즉시 결제가 진행됩니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon"  name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
 								<div class="text_group">
 									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 거래 진행에 동의합니다.</p>
 								</div>
+								
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon"  name="check_all">
 									<input type="hidden" name="p_no" value="${vo.p_no }">
 									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
 									<input type="hidden" name="bid_buy" id="bid_buy" value="${vo3.bid_buy }">
@@ -497,38 +502,89 @@
 					<div class="price_total">
 						<dl class="price_box2">
 							<dt class="price_title3">총 결제금액</dt>
-							<dd class="empty_price2">${vo3.bid_buy }원</dd>
+							<dd class="empty_price2"><fmt:formatNumber value="${vo3.bid_buy }" pattern="#,###,###원"/></dd>
 						</dl>
 					</div>
 					<div class="now_buy_btn">
-						<div class="btn_box full" >[${vo3.bid_buy }]원 결제 하기</div>
+						<div class="btn_box full" ><fmt:formatNumber value="${vo3.bid_buy }" pattern="#,###,###원"/> 결제 하기</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
 </div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
 	var m_no = $('input[name="pri_m_no"]').val();
 	var m_no_input = '<input type="hidden" name ="m_no" value="'+ m_no +'">';
 	console.log(${vo4.m_no });
-	
+	var IMP = window.IMP; // 생략 가능
+	IMP.init("imp56461814"); // 예: imp00000000a
 	$(".btn_box").on("click",function(){
 		
 		if ($('input:checkbox[id="cbcon"]').is(":checked") != true) {
 			alert("동의하기 체크박스 선택하여야합니다.")
 			return false;
 		} else {
-			var form = $('form');
-			form.attr("action", "/shop/now_buy");
-			console.log(form);
-			console.log(m_no_input);
-			$('.price_box2').html(m_no_input);
- 			$(form).submit();
+// 			var form = $('form');
+// 			form.attr("action", "/shop/now_buy");
+// 			console.log(form);
+// 			console.log(m_no_input);
+// 			$('.price_box2').html(m_no_input);
+			
+//  			$(form).submit();
 		}
+			requestPay();
 	});
 	
 	
+	function requestPay() {
+        IMP.request_pay({
+            pg : 'kakaopay',
+            pay_method : 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name : '상품명',
+            amount : ${vo3.bid_buy },
+            buyer_email : 'iamport@siot.do',
+            buyer_name : '구매자이름',
+            customer_uid: '사람' + new Date().getTime(),
+            buyer_tel : '010-1234-5678',
+            buyer_addr : '서울특별시 강남구 삼성동',
+            buyer_postcode : '123-456'
+        }, function (rsp) { // callback
+            if (rsp.success) {
+                console.log(rsp);
+                var msg = '결제가 완료되었습니다.';
+                msg += '고유ID : ' + rsp.imp_uid;
+                msg += '상점 거래ID : ' + rsp.merchant_uid;
+                msg += '결제 금액 : ' + rsp.paid_amount;
+                msg += '카드 승인번호 : ' + rsp.apply_num;
+                alert(msg);
+                var form = $('form');
+    			form.attr("action", "/shop/now_buy");
+    			console.log(form);
+    			console.log(m_no_input);
+    			$('.price_box2').html(m_no_input);
+     			$(form).submit();
+            }else{
+                console.log(rsp);
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+                return;
+            }
+            
+        });
+    }
+ // 전체 체크 박스 
+    function selectAll(selectAll)  {
+      const checkboxes 
+           = document.getElementsByName('check_all');
+      
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = selectAll.checked;
+      })
+    }
 
 </script>
 <jsp:include page="../include/footer.jsp"/>

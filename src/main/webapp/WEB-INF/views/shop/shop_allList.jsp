@@ -92,7 +92,7 @@
 	.product_box{
 		float: left;
 		width: calc(25% - 10px);
-		height : 450px;
+		height : 400px;
 		cursor:pointer;
 		
 	}
@@ -167,9 +167,8 @@
 			</c:if>
 	</div>
 	<div class="main-content-box clearfix">
-		<div class="filter_box" style="border : 1px solid black; width : 210px;">
+		<div class="filter_box" style="width : 210px;">
 			<div class="filter_status" style="padding : 23px 0 15px;">
-				<span class="filter_text">필터</span>
 			</div>
 			<div class="filter_title" id="filter_title">
 				<div class="title_box">
@@ -185,7 +184,7 @@
 				<label><input type="checkbox" class = "p_category" name = "p_category" onclick='checkOnlyOne(this)' value="pants">하의</label><br/>
 				<label><input type="checkbox" class = "p_category" name = "p_category" onclick='checkOnlyOne(this)' value="other">패션잡화</label>
 			</div>
-			<div class="filter_title">
+			<!-- <div class="filter_title">
 				<div class="title_box">
 					<span class="categoty">브랜드</span><br/>
 					<span class="all_category">모든 브랜드</span>
@@ -212,7 +211,7 @@
 				<label><input type="checkbox" value="Vans">260</label><br/>
 				<label><input type="checkbox" value="Jordan">270</label><br/>
 				<label><input type="checkbox" value="Apple">280</label>
-			</div>
+			</div> -->
 		</div>
 		<div class="product_all">
 			<c:forEach items="${bidList}" var="bid">
