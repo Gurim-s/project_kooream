@@ -108,7 +108,6 @@
 }
 .card .img-container {
 	width: 100%;
-	min-height: 300px;
 	position: relative;
 	overflow: hidden;
 	border-radius: 10px;
