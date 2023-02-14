@@ -60,7 +60,7 @@
 					<td class="uploadResult">
 					<ul></ul>
 					<input id = "p_image" type="file" name="uploadFile" multiple="multiple"></td>
-					</td>
+					
 			</tr>
 			<tr>
 				<td>브랜드</td>
