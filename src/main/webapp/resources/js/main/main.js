@@ -7,13 +7,13 @@ var pageNum =1;
 var amount = 4;
 var column = $('.list-column');
 var column1 = $('.style-column');
-
+var column2 = $('.brand-column');
 
 (function() {
 	setSlide();
 	getCodiList(pageNum,amount);
 	getStyleList(pageNum,amount);
-	
+	getBrandList(pageNum, amount);
 	
 })();
 
@@ -95,12 +95,10 @@ async function getStyleList(pageNum, amount){
 		pageNum: 1,
 		amount: 4,
 		category: 'hot'
-	}
+	};
 	var styleList = await styleService.getList(query);
-	console.log(styleList);
-	console.log(styleList[0].style_no);
 	$.each(styleList, function(idx, style){
-		var card_box = $('<a href="../style/detail?category=hot&style_no='+style.style_no+'"><div></div></a>')	
+		var card_box = $('<a href="../style/detail?category=hot&style_no='+style.style_no+'"><div></div></a>');
 		$(card_box).attr('class','style_card'); // class 부여
 		
 		var text_box = $('<div></div>');
@@ -110,7 +108,6 @@ async function getStyleList(pageNum, amount){
 		$(img_box).attr('class', 'style_img_box');
 		var img_tag = $('<img></img>');
 		$(img_tag).attr('class','codi_img');
-		console.log(style);
 		var fileCallPath = encodeURIComponent(style.uploadPath+"/s_"
 												+ style.uuid + "_"
 												+ style.fileName);
@@ -118,9 +115,30 @@ async function getStyleList(pageNum, amount){
 		$(img_box).append(img_tag);
 		$(card_box).append(img_box);
 		var textLine1 = $('<div></div>');
-		$(textLine1).append('<h4>'+style.style_content+'</h4>')
+		$(textLine1).append('<h4>'+style.style_content+'</h4>');
 		$(text_box).append(textLine1);
 		$(card_box).append(text_box);
 		$(column1[idx % 4]).append(card_box);
 	}); // each end 
 }; // getStyleList end
+
+
+function getBrandList(pageNum, amount){
+	$.ajax({
+		url: "../brandshop/pList",
+		data: JSON.stringify({
+			pageNum: pageNum,
+			amount: amount
+		}),
+		type: "post",
+		dataType:"json",
+		contentType:"application/json",
+	})
+	.done(function(json){
+		$.each(json, function(idx, pList){
+			console.log(pList);
+			var card_box = $('<a href="../codishop/get?codi_no='+pList.p_no+ '"><div></div></a>');	
+					
+		})//each
+	});//done
+}

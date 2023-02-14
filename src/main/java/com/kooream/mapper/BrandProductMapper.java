@@ -3,6 +3,7 @@ package com.kooream.mapper;
 import java.util.List;
 
 import com.kooream.domain.BrandAdminVO;
+import com.kooream.domain.Criteria;
 import com.kooream.domain.ProductVO;
 
 public interface BrandProductMapper {
@@ -21,7 +22,7 @@ public interface BrandProductMapper {
 	
 	public BrandAdminVO member(ProductVO vo);	// get페이지에서 BrandAdminVO 가지고 오기위해 사용
 
-	
+	public List<ProductVO> getpList(Criteria cri); // 전채 목록 
 	
 
 	

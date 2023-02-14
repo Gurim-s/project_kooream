@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kooream.domain.AttachFileVO;
 import com.kooream.domain.BrandAdminVO;
+import com.kooream.domain.Criteria;
 import com.kooream.domain.ProductVO;
 import com.kooream.domain.SizeVO;
 import com.kooream.mapper.BrandProductMapper;
@@ -137,12 +138,6 @@ public class BrandProductServiceImpl implements BrandProductService{
 		return sizemapper.findPno(p_no);
 	}
 
-
-
-
-	
-	
-	
 	/*
 	 * @Override public List<BrandAdminVO> brandGetList() { List<BrandAdminVO> list2
 	 * = adminmapper.brandgetList(); return list2; }
@@ -153,5 +148,14 @@ public class BrandProductServiceImpl implements BrandProductService{
 	 * mapper.read(vo2); }
 	 */
 	  
+	@Override
+	public List<ProductVO> getpList(Criteria cri) {
+		
+		List<ProductVO> pList = mapper.getpList(cri);
+		return pList;
+	}
+	
+	
+	
 }
 	 

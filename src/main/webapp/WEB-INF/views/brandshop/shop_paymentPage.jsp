@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <style>
    .content_area{
       overflow: hidden;
@@ -474,7 +475,7 @@
 									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
 								</div>
 								<div>
-									<input type="checkbox" class="chbox" >
+									<input type="checkbox" class="chbox" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -483,7 +484,7 @@
 									<p class="notice_subtext">자세히보기</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -491,7 +492,7 @@
 									<p class="notice_maintext">'결제하기'를 선택하시면 즉시 결제가 진행됩니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -499,8 +500,12 @@
 									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 거래 진행에 동의합니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" name="check_all">
 								</div>
+							</div>
+							<div>
+								<input type='checkbox' name="check_all" value='selectall' onclick='selectAll(this)'/> 
+								<b>전체 선택</b>
 							</div>
 						</li>
 					</ul>
@@ -523,9 +528,15 @@
 
 <!-- ------------------------------------- 스크립트 시작 ----------------------------------------------------------------  -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api 사용하기 위해 명시 -->
+<!-- 결제관련 -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<!-- 결제관련 끝 ! -->
 <script type="text/javascript">
-
-
+/* 결제 관련  */
+var IMP = window.IMP; // 생략 가능
+IMP.init("imp56461814"); // 예: imp00000000a
+var check=0;
 $(function(){
 	
 //-------------------------------------------------------기본배송지 체크박스 클릭 이벤트
@@ -541,8 +552,9 @@ $(function(){
 	});	
 
 //-------------------------------------------------------체크박스 + 구매하기 클릭시	
-	$(document).on("click","#gopayment",function(){
-	    var check=0;
+	$(document).on("click","#gopayment",function(e){
+		e.preventDefault();
+// 	    var check=0;
 		$(".chbox").each(function(idx,item){ // idx 순서 , item 들어가는 값
 		    if(!$(item).is(':checked')){	//	check가 되어있지 않으면 
 		       alert("전체 동의 후 결제 가능합니다.");
@@ -550,25 +562,64 @@ $(function(){
 		       return false;	// 반복문 밖으로 나감
 		    }
 		});
-		
-
-		if(check==0){
-
-			var form = $('#myForm');
-			var str = '';
-			var ad = $("#sample6_address").val() +  $("#sample6_detailAddress").val();
-			$(".pno").each(function(index, item){
-				str += '<input type="hidden" class = "paddr" name ="paymentList['+index+'].m_adress" value="'+ad+'"/>';
-			});
-			form.append(str);
-			//console.log(form.serialize());
-			form.submit();
-		}
-			 
-
-
+// 	아래 있는 requestPay() 함수 호출 아래 주석 내용은 결제 성공시 submit 되게 해놨음
+		requestPay();
+// 		if(check==0){
+// 			var form = $('#myForm');
+// 			var str = '';
+// 			var ad = $("#sample6_address").val() +  $("#sample6_detailAddress").val();
+// 			$(".pno").each(function(index, item){
+// 				str += '<input type="hidden" class = "paddr" name ="paymentList['+index+'].m_adress" value="'+ad+'"/>';
+// 			});
+// 			form.append(str);
+// 			//console.log(form.serialize());
+// 			form.submit();
+// 		}
 	});
-		
+	function requestPay() {
+        IMP.request_pay({
+            pg : 'kakaopay',
+            pay_method : 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name : '상품명',
+            amount : 100,
+            buyer_email : 'iamport@siot.do',
+            buyer_name : '구매자이름',
+            customer_uid: '사람' + new Date().getTime(),
+            buyer_tel : '010-1234-5678',
+            buyer_addr : '서울특별시 강남구 삼성동',
+            buyer_postcode : '123-456'
+        }, function (rsp) { // callback
+            if (rsp.success) {
+                console.log(rsp);
+                var msg = '결제가 완료되었습니다.';
+                msg += '고유ID : ' + rsp.imp_uid;
+                msg += '상점 거래ID : ' + rsp.merchant_uid;
+                msg += '결제 금액 : ' + rsp.paid_amount;
+                msg += '카드 승인번호 : ' + rsp.apply_num;
+                alert(msg);
+                if(check==0){
+        			var form = $('#myForm');
+        			var str = '';
+        			var ad = $("#sample6_address").val() +  $("#sample6_detailAddress").val();
+        			$(".pno").each(function(index, item){
+        				str += '<input type="hidden" class = "paddr" name ="paymentList['+index+'].m_adress" value="'+ad+'"/>';
+        			});
+        			form.append(str);
+        			//console.log(form.serialize());
+        			form.submit();
+        		}
+                
+            } else {
+                console.log(rsp);
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+                return;
+            }
+            
+        });
+    }
+
 //-------------------------------------------------------상품합계	
 
  	var priceList = Array.from($('input.price'));	// jquery 문법으로 변경(?)
@@ -605,7 +656,15 @@ $(function(){
 	   }).open();
 	}
 		
-		
+// 전체 체크 박스 
+function selectAll(selectAll)  {
+  const checkboxes 
+       = document.getElementsByName('check_all');
+  
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = selectAll.checked;
+  })
+}
 
 
 
