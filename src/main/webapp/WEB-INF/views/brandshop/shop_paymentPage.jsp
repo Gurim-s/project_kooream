@@ -582,12 +582,12 @@ $(function(){
             pay_method : 'card',
             merchant_uid: 'merchant_' + new Date().getTime(),
             name : '상품명',
-            amount : 100,
+            amount : sum,
             buyer_email : 'iamport@siot.do',
             buyer_name : '구매자이름',
             customer_uid: '사람' + new Date().getTime(),
             buyer_tel : '010-1234-5678',
-            buyer_addr : '서울특별시 강남구 삼성동',
+            buyer_addr : '$("#sample6_address")'+'$("#sample6_detailAddress")',
             buyer_postcode : '123-456'
         }, function (rsp) { // callback
             if (rsp.success) {

@@ -37,5 +37,5 @@ public class ProductVO {
 	
 	private List<SizeVO> sizeVoList;
 	private List<String> sizeList;
-	
+	private int listAmount, pageNum;
 }

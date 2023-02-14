@@ -150,29 +150,29 @@
 
 //-------------------------------------상품 메인/로고 이미지/ 브랜드 이름시작-------------------------------------------------------
 	var b_no = ${b_no};
-		for(i=51; i<=55; i++) {
-			if(b_no == i){
-				$(".title_image").append("<img class = 'title' src='../resources/img/"+ i +"_title.png/'>");
-			
-			}
-		}
-		for(i=51; i<=55; i++) {
-			if(b_no == i){
-				$(".logo_image").append("<img class = 'logo' src='../resources/img/"+ i +"_logo.png'>");
-			}
-		}
+	for(i=51; i<=55; i++) {
+		if(b_no == i){
+			$(".title_image").append("<img class = 'title' src='../resources/img/"+ i +"_title.png/'>");
 		
-		if(b_no == 51){
-			$(".logo_name").append('<div class = "logoname" style = "left: 525px;">LE17SEPTEMBRE<img style= "width : 25px; " src =../resources/img/check.png/></div>')
-		}else if(b_no == 52){
-			$(".logo_name").append('<div class = "logoname" style = "left: 525px;">Polar Skate Co.<img style= "width : 25px; " src =../resources/img/check.png/></div>')
-		}else if(b_no == 53){
-			$(".logo_name").append('<div class = "logoname" style = "left: 500px;">Punch Drunk Parties<img style= "width : 25px; " src =../resources/img/check.png/></div>')
-		}else if(b_no == 54){
-			$(".logo_name").append('<div class = "logoname" style = "left: 475px;">THE IDENTITY PROJECT<img style= "width : 25px; " src =../resources/img/check.png/></div>')
-		}else{
-			$(".logo_name").append('<div class = "logoname" style = "left: 500px;">The Museum Visitor<img style= "width : 25px; " src =../resources/img/check.png/></div>')
 		}
+	}
+	for(i=51; i<=55; i++) {
+		if(b_no == i){
+			$(".logo_image").append("<img class = 'logo' src='../resources/img/"+ i +"_logo.png'>");
+		}
+	}
+		
+	if(b_no == 51){
+		$(".logo_name").append('<div class = "logoname" style = "left: 525px;">LE17SEPTEMBRE<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+	}else if(b_no == 52){
+		$(".logo_name").append('<div class = "logoname" style = "left: 525px;">Polar Skate Co.<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+	}else if(b_no == 53){
+		$(".logo_name").append('<div class = "logoname" style = "left: 500px;">Punch Drunk Parties<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+	}else if(b_no == 54){
+		$(".logo_name").append('<div class = "logoname" style = "left: 475px;">THE IDENTITY PROJECT<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+	}else{
+		$(".logo_name").append('<div class = "logoname" style = "left: 500px;">The Museum Visitor<img style= "width : 25px; " src =../resources/img/check.png/></div>')
+	}
 
 //--------------------------------------------수정 페이지 이동--------------------------------------------------
 	$(".register").click(function (e) {
@@ -181,7 +181,7 @@
 		var b_no = "${b_no}";
 		location.href = '/brandshop/register?b_no=' + b_no;
 		
-	})
+	});
 
 //--------------------------------------------옆에 카테고리 클릭시 내려오는거------------------------------------------
     // html dom 이 다 로딩된 후 실행된다.
@@ -200,101 +200,115 @@
     });
 
 // 상품 이미지 리스트에 보여주기--------------------------------------------------------
+	var idx = 1;
+	var pageNum = 0;
+	var listAmount = 8;
+	var isScrollEnd = false;
+	
  	$(function() {
  		list();
- 	
+ 		
+ 		var container = $('<div class="container"></div>');  /* 같은표현 var str='<div class="container"></div>'; */
+ 		$('.brand').append(container);
+ 		
  	// 페이징처리를 위해 전역변수 선언
- 		var idx = 1;
-	
  	
- 	function list() {// 상품이미지 보여주기
- 		
- 		var getListIdx = 8;
- 		var bno = '${b_no}';
- 		//console.log(bno + "123454654654645");
- 		
- 		$.ajax({
- 			url:'/brandshop/getList',
- 			type: 'get',
- 			data : {b_no:bno},	// 
- 			dataType:"json",
- 			contentType:"application/json",
- 		})
- 		.done(function(json) {
-			var str='<div class="container">';
-			console.log(json);
-			console.log(json.length+"length");
-			
-			var getLength = 0;
-			if((idx*getListIdx)>=json.length){
-				getLength = json.length;
-			}else{
-				getLength = idx*getListIdx;
-			}
-			for(var i=0; i<getLength; i++) {
-				krPrice = json[i].p_release_price.toLocaleString('ko-KR');
-				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
-					// brandshop(컨트롤러) 에서 /get을 탐  
-				
+ 		function list() {// 상품이미지 보여주기
+ 			console.log(pageNum);
+	 		console.log(isScrollEnd);
+	 		console.log(listAmount);
+	 		var getListIdx = 8;
+	 		var bno = '${b_no}';
+	 		pageNum++;
+	 		//console.log(bno + "123454654654645");
+	 		
+	 		$.ajax({
+	 			url:'/brandshop/getList',
+	 			type: 'get',
+	 			data : {b_no:bno, pageNum:pageNum, listAmount:listAmount},	// 
+	 			dataType:"json",
+	 			contentType:"application/json",
+	 		})
+ 			.done(function(json) {
+	 			console.log(json);
+	 			if (json.length < listAmount) isScrollEnd = true;
+	 			
+				/* var str='<div class="container">'; */
+				console.log(json);
+				console.log(json.length+"length");
+				var str='';
+				var getLength = 0;
+				if((idx*getListIdx)>=json.length){
+					getLength = json.length;
+				}else{
+					getLength = idx*getListIdx;
+				}
+				for(var i=0; i<getLength; i++) {
+					krPrice = json[i].p_release_price.toLocaleString('ko-KR');
+					str += '<a href="/brandshop/get?p_no='+json[i].p_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
+						// brandshop(컨트롤러) 에서 /get을 탐  
+					
 				
 				// 이미지 하나만 보여주기 
 				
 				
-				if(json.length > 0) {
-					var uploadPath = json[i].uploadPath;
-					var uuid = "s_"+ json[i].uuid;
-					var fileName = json[i].fileName;
-					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+					if(json.length > 0) {
+						var uploadPath = json[i].uploadPath;
+						var uuid = "s_"+ json[i].uuid;
+						var fileName = json[i].fileName;
+						var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+						
+						str += '<div class = "product">';
+						str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
+					}
+					//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
+	// 				for(var j=0; j<json[i].attachList.length; j++) {
+	// 					var uploadPath = json[i].attachList[j].uploadPath;
+	// 					var uuid = json[i].attachList[j].uuid;
+	// 					var fileName = json[i].attachList[j].fileName;
+	// 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
+	// 					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
+	// 				}
+					/* str += '<div>{vo2.b_name}</div>' */
+					str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
+					str += '<div class = "p_info" style="font-weight: bold; font-size: 13px; ">'+json[i].p_name_en+'</div>';
+					str += '<div class = "p_info" style="color: gray; font-size: 12px;">'+json[i].p_name_ko+'</div>';
+					str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
 					
-					str += '<div class = "product">'
-					str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
+					str += '</a>';
+					str += '</div>';
+					str += '<br/>';
+
 				}
-				//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
-// 				for(var j=0; j<json[i].attachList.length; j++) {
-// 					var uploadPath = json[i].attachList[j].uploadPath;
-// 					var uuid = json[i].attachList[j].uuid;
-// 					var fileName = json[i].attachList[j].fileName;
-// 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-// 					str += '<img src="/brandfile/display?fileName='+ fileCallPath + '" />';
-// 				}
-				/* str += '<div>{vo2.b_name}</div>' */
-				str += '<div style="font-weight: bold; font-size: 15px; data-name ="'+json[i].b_name+'"">'+json[i].b_name+'<img style= "width : 25px; " src =../resources/img/check.png/></div>';
-				str += '<div class = "p_info" style="font-weight: bold; font-size: 13px; ">'+json[i].p_name_en+'</div>';
-				str += '<div class = "p_info" style="color: gray; font-size: 12px;">'+json[i].p_name_ko+'</div>';
-				str += '<div style="font-weight: bold; font-size: 15px;">'+krPrice+'원</div>';
-				
-				str += '</a>'
-				str += '</div>'
-				str += '<br/>'
-
-			}
 			
-			str += '</div>'
-			str += '<br/>';
-			$('.brand').html(str);	// 원래 $('.brand').append(str);
-		});
+				/* str += '</div>'; */
+				str += '<br/>';
+				$(container).append(str);	// 원래 $('.brand').append(str);
+			});
 
- 	};
+ 		};
  	
-   	var result = '<c:out value="${result}"/>';
-	// rttr 객체를 통해 받아온 값이 빈 값이 아닐 때(데이터 변경) 알림 메소드 실행
-	if(result != ''){
-		checkResult(result);
-	}
-// -------------------------------------------------------------------------------무한 스크롤--------------------------------------------------------
-	$(window).scroll(function(){
-		var scrT = $(window).scrollTop();
-			console.log(scrT); //스크롤 값 확인용
-		if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
-			// 페이지 전체크기 =< 스크롤크기(아래 내려갈 공간) + 화면상 보이는 크기 --> 상품 더보기되면서 페이지 전체크기 늘어남
-			idx += 1; //스크롤이 끝에 도달했을때 실행될 이벤트
-			list();
-		} else {
-			//아닐때 이벤트
+   		var result = '<c:out value="${result}"/>';
+		// rttr 객체를 통해 받아온 값이 빈 값이 아닐 때(데이터 변경) 알림 메소드 실행
+		if(result != ''){
+			checkResult(result);
 		}
-	});
+// -------------------------------------------------------------------------------무한 스크롤--------------------------------------------------------
+		$(window).scroll(function(){
+			if (isScrollEnd) return; 
+			
+			var scrT = $(window).scrollTop();
+				//console.log(scrT); //스크롤 값 확인용
+			if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
+				// 페이지 전체크기 =< 스크롤크기(아래 내려갈 공간) + 화면상 보이는 크기 --> 상품 더보기되면서 페이지 전체크기 늘어남
+				idx += 1; //스크롤이 끝에 도달했을때 실행될 이벤트
+				list();
+			} else {
+				//아닐때 이벤트
+			}
+		});
 	
-});	 
+ 
 	
 	
 // --------------------alert 창 띄우기--------------------------------------------------------
@@ -425,7 +439,7 @@
 	 	});
  
 		// 스크롤 내리면 삼품 불러오는 -----------------------------------------------
-
+	});	
  	
  // --------------------체크박스 다른거 클릭시 다른체크박스 해제 사용xxx --------------------------------------------------------
 	function checkOnlyOne(element) {
