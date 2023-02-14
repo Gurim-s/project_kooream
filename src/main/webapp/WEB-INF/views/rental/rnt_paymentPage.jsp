@@ -491,8 +491,12 @@
 									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 거래 진행에 동의합니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox">
+									<input type="checkbox" class="chbox" name="check_all">
 								</div>
+								<!-- <div>
+								<input type='checkbox' name="check_all" value='selectall' onclick='selectAll(this)'/> 
+								<b>전체 선택</b>
+							</div> -->
 							</div>
 						</li>
 					</ul>
@@ -516,7 +520,14 @@
 		</div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api 사용하기 위해 명시 -->
+<!-- 결제관련 -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script type="text/javascript">
+/* 결제 관련  */
+var IMP = window.IMP; // 생략 가능
+IMP.init("imp56461814"); // 예: imp00000000a
+var check=0;
 $(function(){
 	// 결제하기 클릭 이벤트
 	$("#goRgstRsvt").on("click",function(){
@@ -530,7 +541,8 @@ $(function(){
 		});
 		
 		if(check==0){
-			$("#goPaymentForm").submit();
+			
+			requestPay();
 		}
 	});
 	
@@ -557,6 +569,57 @@ function sample6_execDaumPostcode() {
   		}
 	}).open();
 }
-
+function requestPay() {
+    IMP.request_pay({
+        pg : 'kakaopay',
+        pay_method : 'card',
+        merchant_uid: 'merchant_' + new Date().getTime(),
+        name : '${pvo.p_name_ko }',
+        amount : '${vo.total_price }',
+        buyer_email : 'iamport@siot.do',
+        buyer_name : '${pri.m_name}',
+        customer_uid: '사람' + new Date().getTime(),
+        buyer_tel : '${pri.m_phone}',
+        buyer_addr : '$("#sample6_address")'+'$("#sample6_detailAddress")',
+        buyer_postcode : '123-456'
+    }, function (rsp) { // callback
+        if (rsp.success) {
+            console.log(rsp);
+            var msg = '결제가 완료되었습니다.';
+            msg += '고유ID : ' + rsp.imp_uid;
+            msg += '상점 거래ID : ' + rsp.merchant_uid;
+            msg += '결제 금액 : ' + rsp.paid_amount;
+            msg += '카드 승인번호 : ' + rsp.apply_num;
+            alert(msg);
+            if(check==0){
+    			var form = $('#myForm');
+    			var str = '';
+    			var ad = $("#sample6_address").val() +  $("#sample6_detailAddress").val();
+    			$(".pno").each(function(index, item){
+    				str += '<input type="hidden" class = "paddr" name ="paymentList['+index+'].m_adress" value="'+ad+'"/>';
+    			});
+    			$("#goPaymentForm").append(str);
+    			//console.log(form.serialize());
+    			$("#goPaymentForm").submit();
+    		}
+            
+        } else {
+            console.log(rsp);
+            msg += '에러내용 : ' + rsp.error_msg;
+            alert(msg);
+            return;
+        }
+        
+    });
+}
+//전체 체크 박스 
+function selectAll(selectAll)  {
+  const checkboxes 
+       = document.getElementsByName('check_all');
+  
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = selectAll.checked;
+  })
+}
 </script>
 <jsp:include page="../include/footer.jsp"/>

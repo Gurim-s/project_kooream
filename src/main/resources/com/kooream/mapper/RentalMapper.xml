@@ -8,10 +8,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 렌탈 상품 등록 -->
 	<insert id="addRntPrdt">
 		<selectKey keyProperty="p_no" resultType="int" order="BEFORE">
-			SELECT rproduct_no_seq.nextval FROM DUAL
+			SELECT product_no_seq.nextval FROM DUAL
 		</selectKey>
 		INSERT INTO PRODUCT
-		(P_NO, B_NO, P_NAME_KO, P_NAME_EN, P_MODEL_NO, P_RELEASE_PRICE, P_CATEGORY, P_CLASS, P_STOCK, R_CHECK, R_PRICE)
+		(P_NO, B_NO, P_NAME_KO, P_NAME_EN, P_MODEL_NO, P_RELEASE_PRICE, P_CATEGORY, P_CLASS, P_STOCK, R_CHECK, R_PRICE, uuid, filename, uploadpath)
 		VALUES(#{p_no}, 
 			#{b_no}, 
 			#{p_name_ko}, 
@@ -22,7 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			'rental', 
 			#{p_stock}, 
 			'y', 
-			#{r_price})
+			#{r_price},
+			 #{uuid}, #{fileName}, #{uploadPath})
 	</insert>
 	
 	<!-- 렌탈 상품 리스트 -->

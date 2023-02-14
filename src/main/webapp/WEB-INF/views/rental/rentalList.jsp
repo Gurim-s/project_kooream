@@ -72,7 +72,7 @@
 	}
 	#selectOrderID{
 		position: relative;
-	    left: -36px;
+	    left: 20px;
 	    top: 150px;
 	}
 	#serchBtn:active {

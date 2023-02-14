@@ -30,6 +30,11 @@ public class RentalServiceImpl implements RentalService{
 	// 렌탈 상품 등록
 	@Override
 	public int addRntPrdt(ProductVO vo) {
+		AttachFileVO main_image = vo.getAttachList().get(0);
+		vo.setUuid(main_image.getUuid());
+		vo.setUploadPath(main_image.getUploadPath());
+		vo.setFileName(main_image.getFileName());
+		
 		mapper.addRntPrdt(vo);
 		int upPno = vo.getP_no();	// p_no 값 불러와서 저장
 		String strUuid = vo.getStrUuid();
