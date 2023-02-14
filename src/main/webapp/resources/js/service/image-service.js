@@ -24,6 +24,19 @@ var imgService = (function() {
 		return originPath(path);
 	}
 	
+	function thumbnailPath2(imageVO, size) {
+		if (size == null) size = 's';
+		if (!imageVO) return '/resources/img/codi_test.png';
+		var path = {
+			uuid: size + '_' + imageVO.uuid,
+			fileName: imageVO.fileName,
+			uploadPath: imageVO.uploadPath,
+		}
+		
+		return originPath(path);
+	}
+	
+	
 	function getImageEl(imageVO) {
 		const img = document.createElement('img');
 		img.src = originPath(imageVO);
@@ -43,6 +56,7 @@ var imgService = (function() {
 	return {
 		originPath: originPath,
 		thumbnailPath: thumbnailPath,
+		thumbnailPath2: thumbnailPath2,
 		uploadImageAjax: uploadImageAjax,
 		getImageEl: getImageEl,
 	}

@@ -58,6 +58,12 @@ public class StyleController {
 		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 	}
 	
+	@GetMapping("/list/following")
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	public String listFollowing() {
+		return "redirect:/style/list?category=following";
+	}
+	
 	@PostMapping(value = "/list/imageList",
 			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
 			consumes = "application/json")
@@ -82,15 +88,6 @@ public class StyleController {
 		Map<Long, List<StyleReplyVO>> list = service.getReplyListByStyleNoList(styleNoList);
 		
 		return new ResponseEntity<Map<Long, List<StyleReplyVO>>>(list, HttpStatus.OK);
-	}
-	
-	@PostMapping(value = "/list/slow",
-			produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
-			consumes = "application/json")
-	public ResponseEntity<List<StyleVO>> listHot(@RequestBody StyleQuery query) {
-		List<StyleVO> list = service.getList(query);
-		
-		return new ResponseEntity<List<StyleVO>>(list, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{style_no}",

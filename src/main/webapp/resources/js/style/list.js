@@ -74,7 +74,6 @@ function setContentHeader() {
 }
 
 function setEvent() {
-	btn.register.addEventListener('click', events.moveRegister);
 	document.addEventListener('scroll', events.onScrollLoadData, {passive: true});
 }
 
@@ -163,12 +162,12 @@ function item(style) {
 	template.innerHTML =(
 		'<div class="card">' +
 			'<div class="img-container">' +
-				'<img src="'+imgService.thumbnailPath(style.main_image)+'" />'+
+				'<img src="'+imgService.thumbnailPath2(style.main_image, 's')+'" />'+
 			'</div>' +
 			'<div class="info">' +
 				'<div class="user_info">' +
 					'<div class="profile">'+
-						'<img src="'+imgService.thumbnailPath(style.profile_image)+'" />'+
+						'<img src="'+imgService.thumbnailPath2(style.profile_image, 's')+'" />'+
 					'</div>' +
 					'<div class="user_id">'+style.m_nickname+'</div>'+
 				'</div>' +
