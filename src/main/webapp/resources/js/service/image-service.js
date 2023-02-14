@@ -12,10 +12,11 @@ var imgService = (function() {
 	}
 	
 	function thumbnailPath(imageVO, size) {
-		if (size == null) size = 's';
+//		if (size == null) size = 's';
 		if (!imageVO) return '/resources/img/codi_test.png';
 		var path = {
-			uuid: size + '_' + imageVO.uuid,
+//			uuid: size + '_' + imageVO.uuid,
+			uuid: imageVO.uuid,
 			fileName: imageVO.fileName,
 			uploadPath: imageVO.uploadPath,
 		}

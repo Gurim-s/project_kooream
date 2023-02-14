@@ -90,15 +90,23 @@
 	#mainContainer table #modifyButtons button,
 	#mainContainer table #submitButtons button {
 		width: 150px;
-		height: 30px;
+ 		height: 30px;
 		border: none;
 		border-radius: 10px;
 		font-size: 15px;
+		padding: 0px;
+		margin: 30px 0 30px 0;
 	}
 	#mainContainer table #modifyButtons button:first-child,
 	#mainContainer table #submitButtons button:first-child {
 		color: white;
 		background-color: black;
+		font-weight: bold;
+	}
+	#mainContainer table #modifyButtons button:nth-child(2),
+	#mainContainer table #submitButtons button:nth-child(2) {
+		color: black;
+		background-color: lightgray;
 		font-weight: bold;
 	}
 	#mainContainer table #modifyButtons button:hover:first-child,
