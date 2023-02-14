@@ -24,6 +24,22 @@
 	.modify td input{
 		width: 90%;
 	}
+	.m_btn{
+		display:inline-block;	
+	}
+	.m_btn div{
+		float: left;
+	}
+	.mm_btn{
+		width: 100px;
+		height: 30px;
+		margin : 5px;
+		background-color: black;
+		color: white;
+		
+	}
+	
+	
 </style>
 
 </head>
@@ -115,13 +131,16 @@
 					<td class = "Brand_name"><input type="hidden" name ="p_brand" value=""></td>
 			</tr> -->
 			<tr>
-				<td class="register_button">
-					<button type="submit" data-oper="modify">수정완료</button>
+				<td colspan="2" class="modify_button">
+					<div class = "m_btn">
+					<br/>
+					<button class = "mm_btn" type="submit" data-oper="modify">수정완료</button>
 					<!-- <button type="reset">취소</button> -->
-					<button type ="submit" data-oper="list">목록으로</button>
-					<button type="submit" data-oper="remove">삭제</button>
+					<button class = "mm_btn" type ="submit" data-oper="list">목록으로</button>
+					<button class = "mm_btn" type="submit" data-oper="remove">삭제</button>
 					<input type="hidden" name="p_no" value="${vo.p_no }"/>
 					<input type="hidden" name="b_no" value="${vo.b_no }"/>
+					</div>
 				</td>
 			</tr>		
 	</table>

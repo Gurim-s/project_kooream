@@ -81,6 +81,7 @@ public class PaymentController {
 		return "/rental/rnt_paymentPage";
 	}
 
+
 	@Setter(onMethod_ = @Autowired)
 	private BrandCartService cartservice;
 	
@@ -174,5 +175,6 @@ public class PaymentController {
 
 
 }
+
 
 	
