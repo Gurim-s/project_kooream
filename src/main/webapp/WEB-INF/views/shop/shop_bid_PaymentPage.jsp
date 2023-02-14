@@ -362,6 +362,7 @@
 </style>
 
 <div class="content_area">
+	<sec:authentication property="principal.member" var="pri"/>	<!-- 시큐리티에서 member정보 가지고오기  -->
 	<form name="now_buy" method="post" id="now_buy">
 		<div class="buy_before">
 			<div class="product_info">
@@ -400,11 +401,10 @@
                </a> -->
 
 <!---------------------------------------배송 관련----------------------------------------------------------------  -->
-					<div class="shipping_memo">
-						<input type="text" class="button_shipping">
-							<span class="button_shipping_memo">배송 시 요청사항을 선택하세요.</span>						
-						
-					</div>
+				<div class="shipping_memo">
+					<input type="text" class="button_shipping">
+					<span class="button_shipping_memo">배송 시 요청사항을 입력하세요.</span>						
+				</div>
 				</div>
 				<div class="section_unit2">
 					<div class="section_title">
@@ -467,12 +467,18 @@
 					<ul class="check_list">
 						<li>
 							<div class="notice_group">
+								<div>
+									<input type='checkbox' name="check_all" value='selectall' onclick='selectAll(this)'> 
+									<b>전체 선택</b>
+								</div>
+							</div>
+							<div class="notice_group">
 								<div class="text_group">
 									<p class="notice_maintext">판매자의 판매거부, 배송지연, 미입고 등의 사유가 발생할 경우, 거래가 취소될 수 있습니다.</p>
 									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없습니다.</p>
 								</div>
 								<div>
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -481,7 +487,7 @@
 									<p class="notice_subtext">본 거래는 개인간 거래로 전자상거래법(제17조)에 따른 청약철회(환불, 교환) 규정이 적용되지 않습니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -489,7 +495,7 @@
 									<p class="notice_maintext">구매 조건을 모두 확인하였으며, 입찰 진행에 동의합니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon" name="check_all">
 									<input type="hidden" name="p_no" value="${vo.p_no }">
 									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
 									<input type="hidden" name="bid_sell" id="bid_sell" value="${vvo }">
@@ -514,25 +520,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api 사용하기 위해 명시 -->
 <script type="text/javascript">
 $(function(){
-	var m_no = $('input[name="pri_m_no"]').val();
-	var addr = $("#sample6_address").val() + $("#sample6_detailAddress").val();
-	var m_no_input = '<input type="hidden" name ="m_no" value="'+ m_no +'">' +
-	'<input type="hidden" name ="m_adress" value="'+ ad +'">';
-
-	$(".btn_box").on("click",function(){
-		if ($('input:checkbox[id="cbcon"]').is(":checked") != true) {
-			alert("동의하기 체크박스 선택하여야합니다.")
-			return false;
-		} else {
-			var form = $('form');
-			form.attr("action", "/shop/shop_buycomplete");
-			console.log(m_no_input);
-			console.log(m_no);
-			console.log('주소' + addr);
-			$('.empty_price2').html(m_no_input);
- 			/* $(form).submit(); */
-		}
-	});
 	
 	$("#copyAddr").on("click", function(){
 		if($(this).is(':checked')){
@@ -544,8 +531,27 @@ $(function(){
 			$("#sample6_detailAddress").val("");
 		}
 	});	
-	
-});	
+});
+	var m_no = $('input[name="pri_m_no"]').val();
+	var addr = $("#sample6_address").val() + $("#sample6_detailAddress").val();
+	var m_no_input = '<input type="hidden" name ="m_no" value="'+ m_no +'">' +
+	'<input type="hidden" name ="m_adress" value="'+ addr +'">';
+
+	$(".btn_box").on("click",function(){
+		if ($('input:checkbox[id="cbcon"]').is(":checked") != true) {
+			alert("동의하기 체크박스 선택하여야합니다.")
+			return false;
+		} else {
+			var form = $('form');
+			form.attr("action", "/shop/shop_buycomplete");
+			console.log(m_no_input);
+			console.log(m_no);
+			console.log(addr);
+			$('.empty_price2').html(m_no_input);
+ 			$(form).submit();
+		}
+	});
+
 	function sample6_execDaumPostcode() {
 		   new daum.Postcode({
 		        oncomplete: function(data) {
@@ -554,5 +560,15 @@ $(function(){
 		        }
 		   }).open();
 		}
+	
+	 // 전체 체크 박스 
+    function selectAll(selectAll)  {
+      const checkboxes 
+           = document.getElementsByName('check_all');
+      
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = selectAll.checked;
+      })
+    }
 </script>
 <jsp:include page="../include/footer.jsp"/>

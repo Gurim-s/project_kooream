@@ -358,6 +358,7 @@ public class BidShopController {
 		BidShopVO result = service.sizeSelect(bid);
 		BidShopVO result2 = service.buysizeSelect(bid);
 		BidShopVO result3 = service.get_mno(bid);
+		System.out.println("ㅇㅇ에메노ㅇㅇ" + result3.getM_no());
 		model.addAttribute("vo2", result);
 		model.addAttribute("vo3", result2);
 		model.addAttribute("vo4", result3);

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="../include/header.jsp"/>
 <style>
 	.content_area{
@@ -380,7 +381,7 @@
 				</div>
 			</div>
 			<div class="section_total">
-				<div class="section_unit">
+<!-- 				<div class="section_unit">
 					<div class="section_title">
 						<h3 class="title_txt">반송 주소</h3>
 						<a href="#" class="add_more_btn">+ 새 주소 추가</a>
@@ -396,7 +397,7 @@
 							<span class="button_shipping_memo">배송 시 요청사항을 선택하세요.</span>						
 						</button>
 					</div>
-				</div>
+				</div> -->
 				<div class="section_unit2">
 					<div class="section_title">
 						<h3 class="title_txt"> 배송 방법</h3>
@@ -430,7 +431,7 @@
 						<dl class="price_box">
 							<dt class="price_title">즉시 판매가</dt>
 							<dd class="price empty_price">
-								<span class="amount">${vo2.bid_sell }원</span>
+								<span class="amount"><fmt:formatNumber value="${vo2.bid_sell }" pattern="#,###,###원"/></span>
 							</dd>
 						</dl>
 					</div>
@@ -450,12 +451,18 @@
 					<ul class="check_list">
 						<li>
 							<div class="notice_group">
+								<div>
+									<input type='checkbox' name="check_all" value='selectall' onclick='selectAll(this)'> 
+									<b>전체 선택</b>
+								</div>
+							</div>
+							<div class="notice_group">
 								<div class="text_group">
 									<p class="notice_maintext">거래가 체결되면 일요일 · 공휴일을 제외하고 48시간 내에 KREAM으로 발송을 완료한 후, 발송 정보를 정확히 입력해야 합니다.</p>
 									<p class="notice_subtext">착불 배송 시 판매 금액에서 차감 정산하며, 미정산 시 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
 								</div>
 								<div>
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -464,7 +471,7 @@
 									<p class="notice_subtext">앱 알림 해제, 알림톡 차단, 전화번호 변경 후 미등록 시에는 거래 진행 상태 알림을 받을 수 없으며 이로 인한 거래 실패는 판매자의 책임입니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -473,7 +480,7 @@
 									<p class="notice_subtext">이용정책 위반 시, 판매 금액의 최대 15.0%의 페널티가 부과됩니다. 페널티 회피 시 이후 거래가 제한되며 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon" name="check_all">
 								</div>
 							</div>
 							<div class="notice_group notice2">
@@ -482,7 +489,7 @@
 									<p class="notice_subtext">이용정책 위반 시, 판매 금액의 최대 15.0%의 페널티가 부과됩니다. 페널티 회피 시 이후 거래가 제한되며 별도 고지없이 해당 금액을 결제 시도할 수 있습니다.</p>
 								</div>
 								<div class="check_d">
-									<input type="checkbox" class="chbox" id="cbcon">
+									<input type="checkbox" class="chbox" id="cbcon" name="check_all">
 									<input type="hidden" name="p_no" value="${vo.p_no }">
 									<input type="hidden" name="pp_size" value="${vo2.pp_size }">
 									<input type="hidden" name="bid_sell" id="bid_sell" value="${vo2.bid_sell }">
@@ -495,7 +502,7 @@
 					<div class="price_total">
 						<dl class="price_box2">
 							<dt class="price_title3">즉시 판매가</dt>
-							<dd class="empty_price2">${vo2.bid_sell }원</dd>
+							<dd class="empty_price2"><fmt:formatNumber value="${vo2.bid_sell }" pattern="#,###,###원"/></dd>
 						</dl>
 					</div>
 					<div class="now_buy_btn">
@@ -512,7 +519,7 @@
 	var m_no_input = '<input type="hidden" name ="sell_m_no" value="'+ m_no +'">';
 	
 	$(".btn_box").on("click",function(){
-		if($('#bankcode').val() == 0){
+/* 		if($('#bankcode').val() == 0){
 			alert("[은행]을 선택해주세요");
 			return false;
 		} 
@@ -523,7 +530,7 @@
 		if($('#account_holder').val() == '') {
 			alert("[예금주]를 확인해주세요");
 			return false;
-		}
+		} */
 		if ($('input:checkbox[id="cbcon"]').is(":checked") != true) {
 			alert("동의하기 체크박스 선택하여야합니다.")
 			return false;
@@ -534,9 +541,14 @@
 			console.log(m_no_input);
 			$('.price_box2').html(m_no_input);
  			$(form).submit();
+	console.log(${vo.p_no });
+	console.log(${vo2.bid_sell });
+	console.log(${vo4.m_no });
+	console.log(${vo2.bid_sell });
 		}
 	});
 	
+
 
 
 	
@@ -549,7 +561,15 @@
 		$('.price_total').html(brando);
 	} */
 	
-	
+	 // 전체 체크 박스 
+    function selectAll(selectAll)  {
+      const checkboxes 
+           = document.getElementsByName('check_all');
+      
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = selectAll.checked;
+      })
+    }
 
 </script>
 <jsp:include page="../include/footer.jsp"/>

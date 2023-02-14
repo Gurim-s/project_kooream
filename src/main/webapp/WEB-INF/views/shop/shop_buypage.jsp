@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="../include/header.jsp"/>
 <style>
@@ -300,12 +301,12 @@
 					<div class="buy_price">
 						<div class="box_border">
 							<div class="now_buysell">즉시 구매가</div>
-							<span class="now_price">${vo3.bid_buy }</span><span class="won">원</span>
+							<span class="now_price"><fmt:formatNumber value="${vo3.bid_buy }" pattern="#,###,###"/></span><span class="won">원</span>
 						</div>
 					</div>
 					<div class="sell_price">
 						<div class="now_buysell">즉시 판매가</div>
-						<span class="now_price">${vo2.bid_sell }</span><span class="won">원</span>
+						<span class="now_price"><fmt:formatNumber value="${vo2.bid_sell }" pattern="#,###,###"/></span><span class="won">원</span>
 					</div>
 				</div>
 					<div class="instant_group">
@@ -323,7 +324,7 @@
 							<dl class="price_now_box">
 								<dt class="price_now_title">즉시 구매가</dt>
 								<dd class="price">
-									<span class="amount">${vo3.bid_buy }</span>
+									<span class="amount"><fmt:formatNumber value="${vo3.bid_buy }" pattern="#,###,###"/></span>
 									<span class="won">원</span>
 								</dd>
 							</dl>

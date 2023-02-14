@@ -82,6 +82,7 @@ public class BiddingController {
     }
 	
 	//즉시 구매
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@Transactional
 	@PostMapping("/now_buy")
 	public String shop_nowbuy(BidShopVO vo, PaymentVO pvo) {
@@ -91,7 +92,6 @@ public class BiddingController {
 		System.out.println("~~mno값 가져오깅 : " + pvo.getSell_m_no());
 		System.out.println("~~PRICE값 가져오깅 : " + pvo.getPay_price());
 		System.out.println("~~Pno값 가져오깅 : " + pvo.getP_no());
-		/* service.trade_complete(pvo); */
 		service.trade_complete(pvo);
 		service.now_buy(vo);
 		System.out.println("즉시 구매 가격" + vo.getBid_buy());
