@@ -16,6 +16,17 @@
 	span{
 		font-size: 30px;
 	}
+	#main{
+		margin-left: 130px;
+	}
+	button{
+		border: 0;
+		width: 100px;
+		height: 50px;
+	}
+	#btn{
+		text-align: center;
+	}
 </style>
 </head>
 <body>
@@ -24,32 +35,38 @@
 		<li><a href="/community/talkList?pageNum=1&amount=10">구림톡</a></li>
 	</ul>
 	<div>
-		<span>정품판별</span>
+		<span><strong>정품판별</strong></span>
 	</div>
 	<br/>
+	<div id="main">
 	<hr/>
 	<br/>
 	<form action="/community/oriUpdate" method="post" id="form">
 		<div>
+			<div><small><strong>작성자</strong></small></div>
 			<div>${vo.oriname }</div>
 			<div style="height: 20px;"></div>
+			<div><small><strong>제목</strong></small></div>
 			<div><input type="text" name="orititle" value="${vo.orititle }"></div>
 			<div style="height: 20px;"></div>
 			<div><small>*이미지 파일은 제품에 대한 정품 판별 의견 때문에 수정 불가합니다.</small></div>
 			<div style="height: 20px;"></div>
+			<div><small><strong>브랜드</strong></small></div>
 			<div>${vo.brandname }</div>
 			<div style="height: 20px;"></div>
 			<div><small>*브랜드 수정은 제품에 대한 정품 판별 의견 때문에 수정 불가합니다.</small></div>
 			<div style="height: 20px;"></div>
 			<div></div>
 			<div><textarea rows="15" cols="150%" style="resize: none" name="oricon">${vo.oricon }</textarea></div>
-			<div>
+			<div style="height: 40px;"></div>
+			<div id="btn">
 				<button data-oper="oriUpdate">수정버튼</button>
 				<button data-oper="oriList">목록</button>
 				<input type="hidden" name="orino" value="${vo.orino }">
 			</div>
 		</div>
 	</form>
+	</div>
 </body>
 <script type="text/javascript">
 	$(function() {

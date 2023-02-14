@@ -84,6 +84,7 @@
 	<div>
 		<c:if test="${!empty brandList}">
 		<select name = "brandname" id="brandSearch">
+			<option value="전체보기">전체보기</option>
 			<c:forEach var="bvo" items="${brandList}">
 				<option value="${bvo.oribarandname}">${bvo.oribarandname}</option>
 			</c:forEach>
@@ -201,7 +202,7 @@
 	        // 리스트 html을 정의
 	        var str = '';
 	        
-	        str += '<c:forEach var="'+ vo +'" items="' + ${list } + '">'
+	       	str += '<c:forEach var="'+ vo +'" items="' + ${list } + '">'
 			str += '<div id="full" data-no="'+ ${vo.orino } +'">'
 			str += '<div id="thumbnail">'
 			str += '<c:if test="' + ${vo.attachList.size() ne 0 } + '">'
@@ -242,6 +243,10 @@
 	    	var brandSearch = $("#brandSearch");
 			var brandValue = brandSearch.val();
 			console.log(brandValue);
+			if (brandValue == "전체보기") {
+				location.href = '/community/oriList';
+				return;
+			}
 			
 			$.ajax({
 				type:'get',
@@ -250,37 +255,30 @@
 				dataType : 'json',
 				success:function(result){
 					console.log(result);
+					$("#mainContent").html("");
 					if(result == null){
 						// 해당 게시글이 없으면
-						$("#full").html("");
+						$("#mainContent").html("");
 						return;
 					}else{
 						// 해당 게시글이 있으면
+						var str = '';
 						for(var i=0; i<result.length; i++){
-							
-							var str = '';
-							
-							str += '<c:forEach var="'+ vo +'" items="' + ${list } + '">'
-							str += '<div id="full" data-no="'+ result[i].orino +'">'
-							str += '<div id="thumbnail">'
-							str += '<c:if test="' + ${vo.attachList.size() ne 0 } + '">'
-							str += '<c:url var="imgSrc" value="/displayImage">'
-							str += '<c:param name="fileName" value="' + ${vo.attachList.get(0).uploadPath } + '/' + ${vo.attachList.get(0).uuid }+ '_' + ${vo.attachList.get(0).fileName } + '"></c:param>'
-							str += '</c:url>'
-							str += '<img alt="제품 이미지" src="' + ${imgSrc } + '" width="150px;" height="150px;">'
-							str += '</c:if>'
-							str += '</div>'
-							str += '<div id="sub">'
-							str += '<div id="barandName"><small>' + result[i].brandname + '</small></div>'
-							str += '<div id="oriTitle"><a class="get" href="' + result[i].orino + '"><strong>' + result[i].orititle + '</strong></a></div>'
-							str += '<br/>' 
-							str += '<div id="oriContent"><a class="get" href="' + result[i].orino + '">' + result[i].oricon + '</a></div>'
-							str += '</div>'
-							str += '<div>'
-							str += '<div id="oriNickname">' + result[i].oriname + '</div>'
-							str += '</div>'
-							str += '</div>'
-							str += '</c:forEach>'
+							var imgSrc = "/displayImage?fileName=" + encodeURI(result[i].uploadPath + "\\" + result[i].uuid + "_" + result[i].fileName);
+							str += '<div id="full" data-no="'+ result[i].orino +'">';
+							str += '<div id="thumbnail">';
+							str += '<img src="'+imgSrc+'" width="150px;" height="150px;"/>'
+							str += '</div>';
+							str += '<div id="sub">';
+							str += '<div id="barandName"><small>' + result[i].brandname + '</small></div>';
+							str += '<div id="oriTitle"><a class="get" href="/community/oriGet?orino=' + result[i].orino + '"><strong>' + result[i].orititle + '</strong></a></div>';
+							str += '<br/>'; 
+							str += '<div id="oriContent"><a class="get" href="/community/oriGet?orino=' + result[i].orino + '">' + result[i].oricon + '</a></div>';
+							str += '</div>';
+							str += '<div>';
+							str += '<div id="oriNickname">' + result[i].oriname + '</div>';
+							str += '</div>';
+							str += '</div>';
 						};
 						$("#mainContent").html(str);
 					}

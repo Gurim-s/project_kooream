@@ -45,7 +45,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select> -->
 	
 	<select id="brandSearch" resultType="com.kooream.domain.OriginalVO">
-		SELECT * FROM original_pro WHERE brandname = #{brandname}
+<!-- 		SELECT * FROM original_pro p inner join original_attach a on p.orino=a.orino where brandname = #{brandname} -->
+		select * from original_pro p inner join (select a.orino, uuid, uploadpath, a.filename from original_attach a inner join (select orino, max(filename) filename from original_attach group by orino) b on a.filename = b.filename) a on p.orino = a.orino where brandname=#{brandname} 
+<!-- 		SELECT * FROM original_pro WHERE brandname = #{brandname} -->
 	</select>
 	
 </mapper>
