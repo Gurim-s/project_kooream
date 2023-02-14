@@ -57,10 +57,11 @@
 			<table class = "register">
 			<tr>
 				<td>이미지 등록</td>
-					<td><input id = "p_image" type="file" name="uploadFile" multiple="multiple"></td>
-			<td class="uploadResult">
-				<ul></ul>
-			</td>
+					<td class="uploadResult">
+					
+					<input id = "p_image" type="file" name="uploadFile" multiple="multiple"/>
+					<ul></ul>
+					</td>
 			</tr>
 			<tr>
 				<td>브랜드</td>
@@ -350,11 +351,11 @@ $(function(){
 					orginPath = originPath.replace(new RegExp(/\\/g),"/"); */
 			
 				
-				 str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+				 str += '<div style = "width : 600px; font-size: 15px;"  data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
 	               //str += '<a href="/download?fileName='+fileCallPath+'">';
-	               str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+	               str += '<img src="/resources/img/attach.png" style="width:20px">' + obj.fileName;
 	               str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
-	               str += '</li>';
+	               str += '</div>';
 			
 			}
 			
