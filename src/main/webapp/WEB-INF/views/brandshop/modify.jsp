@@ -22,7 +22,7 @@
 		font-weight: bold ;
 	}
 	.modify td input{
-		width: 70%;
+		width: 500px;;
 	}
 	.m_btn{
 		display:inline-block;	

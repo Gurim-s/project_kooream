@@ -20,6 +20,8 @@
 		border-collapse:collapse;
 		text-align: center;
 		border-top: 1px solid #444444;
+		border-left : none;
+		border-right : none;
 	}
 
 	th {
