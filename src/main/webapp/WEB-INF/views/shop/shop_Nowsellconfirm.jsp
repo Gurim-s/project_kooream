@@ -444,9 +444,6 @@
 				</div>
 			</div>
 			<div class="section_total">
-				대충 결제 공간
-			</div>
-			<div class="section_total">
 				<div>
 					<ul class="check_list">
 						<li>

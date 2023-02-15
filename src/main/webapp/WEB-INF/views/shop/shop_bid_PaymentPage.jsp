@@ -418,7 +418,7 @@
 								</div>
 								<div class="way_desc">
 									<p class="company">
-										<span class="badge_title">브랜드 배송</span>
+										<span class="badge_title">구림에서 직접 배송</span>
 										<span>무료</span>
 									</p>
 									<p class="sub_txt">
@@ -458,9 +458,6 @@
 						</dl>
 					</div>
 				</div>
-			</div>
-			<div class="section_total">
-				대충 결제 공간
 			</div>
 			<div class="section_total">
 				<div>
