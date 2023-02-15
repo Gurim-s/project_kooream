@@ -521,8 +521,21 @@
 		            }
 		        });
 		    } else {
-		    	$("#modifyForm").attr("action", "/member/successModify");
-				$("#modifyForm").submit();
+			    $.ajax({
+		            type : 'POST',            
+		            url : "/member/ajax/matchPw",      
+		            data : {m_pw : $("#content").val()},
+		            dataType : 'json',
+		            success : function(result){
+						if(result){ // 컨트롤러에서 리턴받은 값이 true면.
+							$("#modifyForm").attr("action", "/member/successModify");
+							$("#modifyForm").submit();
+						}else{
+							alert("비밀번호가 일치하지 않습니다.");
+							return;
+						}
+		            }
+		        });
 		    }
 			
 // 			ajax({
