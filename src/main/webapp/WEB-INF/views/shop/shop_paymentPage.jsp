@@ -417,7 +417,7 @@
 								</div>
 								<div class="way_desc">
 									<p class="company">
-										<span class="badge_title">브랜드 배송</span>
+										<span class="badge_title">구림에서 배송</span>
 										<span>무료</span>
 									</p>
 									<p class="sub_txt">
