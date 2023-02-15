@@ -295,7 +295,7 @@
 								str += '</div>'
 								str += '<div style="height: 10px;"></div>'
 								str += '</div>'
-								str += '<div><textarea rows="5" cols="50" id="replyconupdate" name="replycon">'+ result.talkreplycon +'</textarea></div>'
+								str += '<div><textarea rows="5" cols="150%" id="replyconupdate" name="replycon" style="resize: none;">'+ result.talkreplycon +'</textarea></div>'
 								str += '<br/>'
 								
 							
