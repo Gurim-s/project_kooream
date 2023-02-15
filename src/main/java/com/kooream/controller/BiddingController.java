@@ -53,7 +53,7 @@ public class BiddingController {
 		System.out.println("구매 입찰 피엔오 : " + vo.getP_no());
 		System.out.println("구매 입찰 사이즈 : " + vo.getPp_size());
 
-        return "redirect:/shop/shop_allList";
+        return "redirect:/shop/myPage_bid";
     }
 
 	@PostMapping("/shop_bidsellComplete")
@@ -78,7 +78,7 @@ public class BiddingController {
         System.out.println(vo.getBid_buy());
         System.out.println(vo.getP_no());
 
-        return "redirect:/shop/shop_allList";
+        return "redirect:/shop/myPage_bid";
     }
 	
 	//즉시 구매
@@ -97,7 +97,7 @@ public class BiddingController {
 		System.out.println("즉시 구매 가격" + vo.getBid_buy());
 		System.out.println("즉시 구매 피엔오" + vo.getP_no());
 		
-		return "redirect:/shop/shop_allList";
+		return "redirect:/shop/myPage_bid";
 	}
 	
 	@Secured({"ROLE_USER","ROLE_ADMIN"})

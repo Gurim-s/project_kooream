@@ -41,6 +41,9 @@
 							<option value="3">Adidas</option>
 							<option value="4">Converse</option>
 							<option value="5">Apple</option>
+							<option value="6">Nintendo</option>
+							<option value="7">DRX</option>
+							<option value="8">Jordan</option>
 						</select>
 					</td>
 				</tr>	

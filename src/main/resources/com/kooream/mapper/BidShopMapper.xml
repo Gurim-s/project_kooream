@@ -2,10 +2,15 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 		select A.* from product A where p_class='shop' order by p_no desc -->
 
 <mapper namespace="com.kooream.mapper.BidShopMapper">
 	<select id="getList" resultType="com.kooream.domain.ProductVO">
-		select A.* from product A where p_class='shop' order by p_no desc
+		select
+			p.p_no p_no, p_name_en, p_name_ko, p_size, p_brand, p_class, uuid, filename, uploadpath, nvl(min_bid_buy, 0) as min_bid_buy
+		from product p left join (select p_no, nvl(min(nullif(bid_buy, 0)), 0) min_bid_buy 
+									from bidding group by p_no) b on p.p_no=b.p_no
+		where p_class='shop' order by p.p_no desc
 	</select>
 	
 	<select id="select_cate" resultType="com.kooream.domain.ProductVO">

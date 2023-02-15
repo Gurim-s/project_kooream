@@ -405,10 +405,12 @@
 	var m_no_input = '<input type="hidden" name ="m_no" value="'+ m_no +'">';
 	console.log(m_no_input);
 	$('.price_box2').html(m_no_input);
+	
+	var sell_price = ${vo2.bid_sell };
 
 	function now_sell() {
 		var form = $('form');
-		if (now_sell == 0) {
+		if (sell_price == 0) {
 			alert("입찰 유저가 없어 즉시 판매할 수 없습니다.");
 			return false;
 		} else {
@@ -420,6 +422,8 @@
 			$(form).submit();
 		}
 	}
+	
+	
 
 </script>
 <jsp:include page="../include/footer.jsp"/>
