@@ -175,7 +175,10 @@ function setProductTags(list, productContainer, slider) {
 function productTagTemplate(productTag) {
 	const container = document.createElement('a');
 	container.className = 'product-info';
-	container.href = '../shop_introduce/'+productTag.p_no;
+	container.href = productTag.p_class == 'shop'  ? '/shop/shop_introduce/'+productTag.p_no
+				  : (productTag.p_class == 'brand' ? '/brandshop/get?p_no='+productTag.p_no
+												   : '/rental/viewRntPrdt?p_no='+productTag.p_no);
+	
 	const str = (
 		'<div class="product-img">' +
 				'<img src="'+imgService.originPath(productTag)+'" />' +

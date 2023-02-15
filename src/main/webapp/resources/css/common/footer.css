@@ -1,8 +1,24 @@
 @charset "UTF-8";
 /* footer css 부분 */
 footer {
-	margin-left : 30px;
+	
+	background-color: #2D2D2D;
+	
 }
 footer h1 {
 	font-weight: bold;
+	
+}
+.footer_text{
+	padding-left: 50px;
+	
+}
+footer h3 {
+	color:#b2b2b2;
+}
+footer span{
+	color:#b2b2b2;
+}
+footer a{
+	color:#b2b2b2;
 }

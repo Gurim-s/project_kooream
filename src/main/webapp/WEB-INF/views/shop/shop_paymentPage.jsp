@@ -593,9 +593,9 @@
         checkbox.checked = selectAll.checked;
       })
     }
+
  
     $(function(){
-    	
     	$("#copyAddr").on("click", function(){
     		if($(this).is(':checked')){
     			var addrList = "${pri.m_addr}".split("/");

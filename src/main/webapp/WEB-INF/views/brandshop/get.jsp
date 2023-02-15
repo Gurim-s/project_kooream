@@ -41,6 +41,7 @@
 		border: 1px solid black;
 		border-collapse: collapse;
 		width: 100%;
+		height: 200px;
 	}
 	.full{
 		position: center;
@@ -56,6 +57,7 @@
 		font-size: 15px;
 
 	}
+
 	.top-menu{
 		text-align: center;	/* top-menu 가운데 정렬  */
 	}
@@ -200,7 +202,7 @@
 </div>
 	<div class = "admin_btn"><!--  버튼 이어 붙이기,,,,, -->
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-			<button style="border: none; cursor:pointer;" type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
+			<button style="border: none; cursor:pointer; height: 30px;" type="button" id = "product_modify"> 수정하기</button><!--  관리자만 볼 수 있게 -->
 		</sec:authorize>
 		
 		
@@ -230,12 +232,12 @@
 	<hr/>
 		<ul class = "top-menu">
 			<li><a href = "#tag1">상품상세보기</a></li>
-			<li><a href = "#tag3">판매자 정보</a></li>
-			<li><a href = "#tag2">교환 및 반품</a></li>
+			<li><a href = "#tag2">판매자 정보</a></li>
+			<li><a href = "#tag3">교환 및 반품</a></li>
 		</ul>
 	<hr/><br/><br/><br/><br/>
 	
-	<div  style="margin-left:auto; margin-right:auto; text-align: center;">본 상품은 '${vo2.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
+	<div  style="margin-left:auto; margin-right:auto; text-align: center;">본 상품은 '${vo.b_name }' 브랜드 판매자가 배송하는 상품입니다.</div>
 </div>
 	<a name = "tag1"></a>
 <!-- ------------------------------------------ 상세이미지 ---------------------------------------------------- -->	
@@ -257,7 +259,7 @@
 
 	<br/>
 <!-- ------------------------------------------ 판매자 정보 ---------------------------------------------------- -->	
-<a name = "tag3"></a>	
+<a name = "tag2"></a>	
 <hr/><br/>
 <h3>판매자 정보</h3>
 	<br/>
@@ -287,14 +289,16 @@
 	<br/>
 	<br/>
 <hr/><br/>
+<!-----------지도 API ------------->
 <h3>사업장 위치</h3>
 <br/>
+<div>${vo.b_badress }</div><br/>
 <div id="map" style="width:100%; height:400px;"></div>
 	<br/>
 	<br/>
 <!-- ------------------------------------------ 교환 및 반품 안내 ---------------------------------------------------- -->		
 <hr/><br/>
-<a name = "tag2"></a>
+<a name = "tag3"></a>
 <h3>교환 및 반품 안내</h3>
 	<br/>
 	<table class="brand_member" border="1" >
@@ -338,7 +342,7 @@
 	
 
 <!-- ------------------------------------------ 스크립트 시작 ---------------------------------------------------- -->		
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5b676d54f5b1a30b4b0cd24d103eede8"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5b676d54f5b1a30b4b0cd24d103eede8"></script><!-- 지도 api사용 하기 위한 스크립트  -->
 <script type="text/javascript">
 
 <!-- ------------------------------------------ 수정페이지 이동 ---------------------------------------------------- -->		
@@ -410,7 +414,7 @@ $(function () {	// 수정페이지로 이동
 				data : {p_no:pno, b_no:bno, pp_size:sizeval}, // 가지고 갈 값 적기 // 컬럼명 값
 				dataType : 'json',
 				success : function (result) {
-					var confirm_val = confirm("장바구니 추가 성공★ 장바구니 페이지로 이동하시겠습니까?");
+					var confirm_val = confirm("장바구니에 추가되었습니다. 장바구니 페이지로 이동하시겠습니까?");
 						if(confirm_val){
 							location.href="/brandCart/brandCart"
 						}else{
@@ -457,9 +461,9 @@ $(function () {	// 수정페이지로 이동
 				$('html, body').animate({scrollTop:0}, '300');
 			});
 
-		});
+	});
 <!-- ------------------------------------------ 지도 api  ---------------------------------------------------- -->			 
-var bno = '${vo.b_no}';	
+		var bno = '${vo.b_no}';	
 		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 		var b_51 = {  //지도를 생성할 때 필요한 기본 옵션
 			center: new kakao.maps.LatLng(37.5214207, 127.0269771), //지도의 중심좌표.
@@ -485,7 +489,7 @@ var bno = '${vo.b_no}';
 			};
 			
 		if(bno == 51){
-		var map = new kakao.maps.Map(container, b_51); //지도 생성 및 객체 리턴
+			var map = new kakao.maps.Map(container, b_51); //지도 생성 및 객체 리턴
 		}else if(bno == 52){
 			var map = new kakao.maps.Map(container, b_52);
 		}else if(bno == 53){
@@ -510,17 +514,7 @@ var bno = '${vo.b_no}';
 		}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 /* 	$("#product_buy").click(function (e) {
 		e.preventDefault();
 		var sizeval = $("input[name='pp_size']").val()

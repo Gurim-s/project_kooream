@@ -64,9 +64,10 @@ public class PaymentController {
 	@Setter(onMethod_= @Autowired)
 	private RentalService Rntservice;
 	
+
 	 
 	// 예약페이지에서 결제페이지로 이동
-	@GetMapping
+	@GetMapping("/goRnt_paymentPage")
 	public String goRnt_paymentPage(RntRsvtVO vo, Model model) {
 		ProductVO pvo = new ProductVO();
 		pvo.setP_no(vo.getP_no());
@@ -80,6 +81,7 @@ public class PaymentController {
 		model.addAttribute("image_list", image_list);
 		return "/rental/rnt_paymentPage";
 	}
+
 
 	@Setter(onMethod_ = @Autowired)
 	private BrandCartService cartservice;
@@ -174,5 +176,6 @@ public class PaymentController {
 
 
 }
+
 
 	

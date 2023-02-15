@@ -173,6 +173,7 @@ $(function() {
 		
 		var str = '<input id="file" type="file"/> ';
 		var strUuid = '';
+		var strHidden = '';
 		
 		for(var i=0; i<uploadResultArr.length; i++){
 			var obj = uploadResultArr[i];
@@ -186,9 +187,18 @@ $(function() {
             str += '<span data-file="'+fileCallPath+'" data-uuid="'+obj.uuid+'"> X </span>';		// X표시 만들어서 파일 삭제할 수 있게 기능 넣을 예정
 			
             strUuid += "@" + obj.uuid;
+            
+            strHidden += '<input type="hidden" name="attachList['+i+'].fileName" value="'+obj.fileName+'" >';
+            strHidden += '<input type="hidden" name="attachList['+i+'].uuid" value="'+obj.uuid+'" >';
+            strHidden += '<input type="hidden" name="attachList['+i+'].uploadPath" value="'+obj.uploadPath+'" >';
+            
+            
+            
+            
 		}
 		uploadResult.html(str);	
 		$("#strUuid").val(strUuid);
+		$("#MyForm").append(strHidden);
 		
 	}	//------------------------------------------------------------------------end showUploadFile();
 

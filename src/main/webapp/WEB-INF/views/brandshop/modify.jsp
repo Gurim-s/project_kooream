@@ -22,8 +22,24 @@
 		font-weight: bold ;
 	}
 	.modify td input{
-		width: 90%;
+		width: 70%;
 	}
+	.m_btn{
+		display:inline-block;	
+	}
+	.m_btn div{
+		float: left;
+	}
+	.mm_btn{
+		width: 100px;
+		height: 30px;
+		margin : 5px;
+		background-color: black;
+		color: white;
+		
+	}
+	
+	
 </style>
 
 </head>
@@ -106,22 +122,25 @@
 			</tr>
 			<tr>
 				<td>파일 첨부</td>
-					<td><input type="file" name="uploadFile" multiple="multiple"></td>
-				<td class="uploadResult">
-				<ul></ul>
-				</td>
+					<td class="uploadResult">
+					<ul></ul>
+					<input type="file" name="uploadFile" multiple="multiple"></td>
+
 			</tr>
 <!-- 			<tr>
 					<td class = "Brand_name"><input type="hidden" name ="p_brand" value=""></td>
 			</tr> -->
 			<tr>
-				<td class="register_button">
-					<button type="submit" data-oper="modify">수정완료</button>
+				<td colspan="2" class="modify_button">
+					<div class = "m_btn">
+					<br/>
+					<button class = "mm_btn" type="submit" data-oper="modify">수정완료</button>
 					<!-- <button type="reset">취소</button> -->
-					<button type ="submit" data-oper="list">목록으로</button>
-					<button type="submit" data-oper="remove">삭제</button>
+					<button class = "mm_btn" type ="submit" data-oper="list">목록으로</button>
+					<button class = "mm_btn" type="submit" data-oper="remove">삭제</button>
 					<input type="hidden" name="p_no" value="${vo.p_no }"/>
 					<input type="hidden" name="b_no" value="${vo.b_no }"/>
+					</div>
 				</td>
 			</tr>		
 	</table>
@@ -246,7 +265,7 @@ $(function(){
 		               
 		               //console.log(fileCallPath);
 		               
-		              str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+		              str += '<li style = "width : 500px; font-size: 15px;" data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
 		              // str += '<a href="/download?fileName='+fileCallPath+'">';	// 다운로드에 매개변수 던지는 중
 		              str += '<br/>'
 		              str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
@@ -282,7 +301,7 @@ $(function(){
 	
 	});		
 
-	}); */
+
 
 </script>
 

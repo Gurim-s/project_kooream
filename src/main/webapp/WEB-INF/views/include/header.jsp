@@ -101,7 +101,7 @@
 				</ul>
 			</div>
 		</div>
-		<div id="page-navigator">
+		<div id="pageNavigator">
 			<a href="#">
 				<div>▲</div>
 				<div>top</div>
@@ -114,6 +114,11 @@
 			if (target != undefined && target != null) {
 				target.className="header-on";
 			}
+			const pageTop = document.querySelector('#pageNavigator a');
+			pageTop.addEventListener('click', function(e) {
+				e.preventDefault();
+				window.scrollTo({ top: 0, behavior: "smooth" });  
+			});
 		</script>
 	</header>
 	<main>

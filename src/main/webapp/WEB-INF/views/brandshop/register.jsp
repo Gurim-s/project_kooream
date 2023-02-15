@@ -23,9 +23,29 @@
 		font-size: 20px;
 		font-weight: bold ;
 	}
-	.register td input{
-		width: 90%;
+	input[type="text"]{
+		width: 500px;
 	}
+	input[type="checkbox"]{
+       width: 80px;
+    }
+	.r_btn{
+		display:inline-block;	
+	}
+	.r_btn div{
+		float: left;
+	}
+	.rr_btn{
+		width: 100px;
+		height: 30px;
+		margin : 5px;
+		background-color: black;
+		color: white;
+		
+	}
+
+		
+
 
 
 </style>
@@ -37,10 +57,10 @@
 			<table class = "register">
 			<tr>
 				<td>이미지 등록</td>
-					<td><input id = "p_image" type="file" name="uploadFile" multiple="multiple"></td>
-			<td class="uploadResult">
-				<ul></ul>
-			</td>
+					<td class="uploadResult">
+					<ul></ul>
+					<input id = "p_image" type="file" name="uploadFile" multiple="multiple"></td>
+					
 			</tr>
 			<tr>
 				<td>브랜드</td>
@@ -112,13 +132,14 @@
 					</select></td>
 			</tr>
 			<tr>
-				<td class="register_button">
-					<button data-oper="submit">등록</button>
-					<button data-oper="reset">취소</button>
-					<button data-oper="list">목록으로</button>
-					<input type="hidden" name="pageNum" value="${cri.pageNum}"/> 	<!-- 값 던지기 -->
-					<input type="hidden" name="amount" value="${cri.amount}"/> 
+				<td colspan="2" class="register_button">
+					<div class = "r_btn">
+					<br/>
+					<div><button class = "rr_btn"  data-oper="submit">등록</button></div>
+					<div><button class = "rr_btn"   data-oper="reset">취소</button></div>
+					<div><button class = "rr_btn"   data-oper="list">목록으로</button></div>
 					<input type="hidden" name="b_no" value="${b_no}"/> 
+					</div>
 				</td>
 			</tr>
 <!-- 			<tr>
@@ -329,9 +350,9 @@ $(function(){
 					orginPath = originPath.replace(new RegExp(/\\/g),"/"); */
 			
 				
-				 str += '<li data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
+				 str += '<li style = "width : 500px; font-size: 15px;" data-path="'+obj.uploadPath+'" data-uuid="'+obj.uuid+'" data-filename="'+obj.fileName+'">';// vo값을 던질 수 있게 수정
 	               //str += '<a href="/download?fileName='+fileCallPath+'">';
-	               str += '<img src="/resources/img/attach.png" style="width:15px">' + obj.fileName;
+	               str += '<img src="/resources/img/attach.png" style="width:20px">' + obj.fileName;
 	               str += '<span data-file="'+fileCallPath+'"> X </span>';   //X파일 하나 만들어서 파일 삭제할 수 있게 하자
 	               str += '</li>';
 			

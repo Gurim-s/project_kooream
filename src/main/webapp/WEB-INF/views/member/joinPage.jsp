@@ -111,7 +111,6 @@
 		</ul>
 	</form>
 </div>
-<script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api 사용하기 위해 명시 -->
 <script  type="text/javascript">
 	$(function(){

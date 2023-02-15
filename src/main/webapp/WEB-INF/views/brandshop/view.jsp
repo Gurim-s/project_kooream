@@ -90,7 +90,7 @@
 <body>
 <!-- ------------------------장바구니, 등록 버튼-------------------- -->
 	
-	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div>
+	<div><a class = "cartList" href="/brandCart/brandCart">장바구니</a></div><br/>
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 			<div><a class="register">등록</a></div>
 		</sec:authorize>
@@ -106,7 +106,7 @@
  <div id = "box">
 	<ul>
 		<li class = "menu">
-			<p class = "p" style="font-size: 17px; font-weight: bold;">카테고리</p><hr/>
+			<p class = "p" style="font-size: 17px; font-weight: bold; cursor:pointer;">카테고리</p><hr/>
 				<ul class = "sub">
 					<li><input type ="checkbox" class = "brand_category" name = "brand_category"  value = "brand_clothes">  의류</li>
 					<li><input type ="checkbox" class = "brand_category" name = "brand_category"  value = "brand_shoes">  신발</li>
@@ -115,7 +115,7 @@
 		</li>
 		
 		<li class = "menu">
-			<p class = "p" style="font-size: 17px; font-weight: bold;">금액</p><hr/>
+			<p class = "p" style="font-size: 17px; font-weight: bold; cursor:pointer;">금액</p><hr/>
 				<ul class = "sub" >
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "100000">  10만원 이하</li>
 					<li><input type ="checkbox" name = "brand_price" class = "brand_price" value = "200000">  20만원 이하</li>
@@ -127,15 +127,9 @@
 	</ul>
 </div> 
 <!-- ------------------셀렉트박스 시작--------------------------------- -->
-<select id ="productselect">
+<!-- <select id ="productselect">
 	<option val="">
-
-
-
-
-
-
-</select>	
+</select>	 -->
 
 
 <!-- -----------------------상품리스트 시작--------------------------->
@@ -231,7 +225,7 @@
 				krPrice = json[i].p_release_price.toLocaleString('ko-KR');
 				str += '<a href="/brandshop/get?p_no='+json[i].p_no+'">';	// 페이지 이동하면서 p_no, b_no값 가지고 이동 
 					// brandshop(컨트롤러) 에서 /get을 탐  
-				console.log(json);
+				
 				
 				// 이미지 하나만 보여주기 
 				
@@ -241,9 +235,11 @@
 					var uuid = "s_"+ json[i].uuid;
 					var fileName = json[i].fileName;
 					var fileCallPath = encodeURIComponent(uploadPath + "/" + uuid + "_" + fileName);
-					console.log(fileCallPath);
+					
 					str += '<div class = "product">'
 					str += '<img src="/displayImage?fileName='+ fileCallPath + '" />';	// 이미지
+					
+				
 				}
 				//상품 이미지 태그 추가	// 이건 이미지 여러개 보여줄때 사용
 // 				for(var j=0; j<json[i].attachList.length; j++) {
@@ -277,7 +273,6 @@
 	if(result != ''){
 		checkResult(result);
 	}
-
 	
 // --------------------alert 창 띄우기--------------------------------------------------------
 	// 뒤로 가기 할 때 문제가 될 수 있으므로,
@@ -405,8 +400,8 @@
  		}
  	}) 		
  
-/* 		// 스크롤 내리면 삼품 불러오는 -----------------------------------------------
-		$(window).scroll(function(){
+		// 스크롤 내리면 삼품 불러오는 -----------------------------------------------
+/* 		$(window).scroll(function(){
 			var scrT = $(window).scrollTop();
 				console.log(scrT); //스크롤 값 확인용
 			if(scrT+3 >= $(document).height() - $(window).height()){ // $(document).height() : 페이지 전체크기, $(window).height() : 화면상 보이는 크기
@@ -418,7 +413,7 @@
 			}
 		});
  	
- 	 */
+ 	  */
  	
  	
  // --------------------체크박스 다른거 클릭시 다른체크박스 해제 사용xxx --------------------------------------------------------

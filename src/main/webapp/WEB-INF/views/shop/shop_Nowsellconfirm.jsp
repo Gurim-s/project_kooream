@@ -541,6 +541,10 @@
 			console.log(m_no_input);
 			$('.price_box2').html(m_no_input);
  			$(form).submit();
+	console.log(${vo.p_no });
+	console.log(${vo2.bid_sell });
+	console.log(${vo4.m_no });
+	console.log(${vo2.bid_sell });
 		}
 	});
 	

@@ -61,7 +61,7 @@ const searchBox = () => (function() {
 			'<a href="#" class="choose-product">'+
 				'<div class="searched-product-container">' +
 					'<div class="product-image">'+
-						'<img src="'+imgService.thumbnailPath(product, 'xs')+'"/>'+
+						'<img src="'+imgService.thumbnailPath(product)+'"/>'+
 					'</div>'+
 					'<div class="product-name">'+
 						'<span class="p-name-ko">'+product.p_name_ko +'</span>'+
@@ -71,7 +71,7 @@ const searchBox = () => (function() {
 			'</a>';
 		
 		li.innerHTML = str;
-		li.querySelector('li a').addEventListener('click', (e) => chooseProduct(e, product));
+		li.addEventListener('click', (e) => chooseProduct(e, product));
 		return li;
 	}
 	

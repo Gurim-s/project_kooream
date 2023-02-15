@@ -90,15 +90,23 @@
 	#mainContainer table #modifyButtons button,
 	#mainContainer table #submitButtons button {
 		width: 150px;
-		height: 30px;
+ 		height: 30px;
 		border: none;
 		border-radius: 10px;
 		font-size: 15px;
+		padding: 0px;
+		margin: 30px 0 30px 0;
 	}
 	#mainContainer table #modifyButtons button:first-child,
 	#mainContainer table #submitButtons button:first-child {
 		color: white;
 		background-color: black;
+		font-weight: bold;
+	}
+	#mainContainer table #modifyButtons button:nth-child(2),
+	#mainContainer table #submitButtons button:nth-child(2) {
+		color: black;
+		background-color: lightgray;
 		font-weight: bold;
 	}
 	#mainContainer table #modifyButtons button:hover:first-child,
@@ -231,6 +239,9 @@
 						<c:url value="/displayImage" var="imgSrc"><!-- c:url 자동 인코딩  -->
 							<c:param name="fileName" value="${pri.uploadPath }/${pri.uuid }_${pri.fileName }"></c:param>
 						</c:url>
+						<input type="hidden" name="uploadPath" value="${pri.uploadPath }">
+						<input type="hidden" name="uuid" value="${pri.uuid }">
+						<input type="hidden" name="fileName" value="${pri.fileName }">
 						<img alt="profile-img" src="${imgSrc }">
 					</div>
 				</td>
@@ -476,39 +487,43 @@
 			var uploadResult = '';
 			var formData = new FormData();
 		    var inputFile = $(".profile-img input[type='file']")[0];
-		    var file = Array.from(inputFile.files)[0];
-		    formData.append("uploadFile", file);
-		    
-		    $.ajax({
-	            type : 'POST',            
-	            url : "/member/ajax/matchPw",      
-	            data : {m_pw : $("#content").val()},
-	            dataType : 'json',
-	            success : function(result){
-					if(result){ // 컨트롤러에서 리턴받은 값이 true면.
-						$.ajax({
-							url: "/uploadImageAWS/member",
-				            processData: false,
-				            contentType: false,
-				            data: formData,
-							type: 'POST',
-							dataType: 'json',
-							success: function(result) {
-								inputFile.remove();
-								var str = '<input type="hidden" name="fileName" value="'+result[0].fileName+'" >'
-										+ '<input type="hidden" name="uuid" value="'+result[0].uuid+'" >'
-										+ '<input type="hidden" name="uploadPath" value="'+result[0].uploadPath+'" >';
-								$("#modifyForm").append(str);
-								$("#modifyForm").attr("action", "/member/successModify");
-								$("#modifyForm").submit();
-							}
-						});
-					}else{
-						alert("비밀번호가 일치하지 않습니다.");
-						return;
-					}
-	            }
-	        });
+		    if (inputFile.files.length !== 0) {
+			    var file = Array.from(inputFile.files)[0];
+			    formData.append("uploadFile", file);
+			    
+			    $.ajax({
+		            type : 'POST',            
+		            url : "/member/ajax/matchPw",      
+		            data : {m_pw : $("#content").val()},
+		            dataType : 'json',
+		            success : function(result){
+						if(result){ // 컨트롤러에서 리턴받은 값이 true면.
+							$.ajax({
+								url: "/uploadImageAWS/member",
+					            processData: false,
+					            contentType: false,
+					            data: formData,
+								type: 'POST',
+								dataType: 'json',
+								success: function(result) {
+									inputFile.remove();
+									$("input[name='fileName']").attr('value', result[0].fileName);
+									$("input[name='uuid']").attr('value', result[0].uuid);
+									$("input[name='uploadPath']").attr('value', result[0].uploadPath);
+									$("#modifyForm").attr("action", "/member/successModify");
+									$("#modifyForm").submit();
+								}
+							});
+						}else{
+							alert("비밀번호가 일치하지 않습니다.");
+							return;
+						}
+		            }
+		        });
+		    } else {
+		    	$("#modifyForm").attr("action", "/member/successModify");
+				$("#modifyForm").submit();
+		    }
 			
 // 			ajax({
 // 	            type : 'POST',            
