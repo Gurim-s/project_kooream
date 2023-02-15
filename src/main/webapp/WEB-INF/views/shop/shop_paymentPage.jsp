@@ -605,7 +605,7 @@
     			$("#sample6_address").val("");
     			$("#sample6_detailAddress").val("");
     		}
-    	});	
+    	});
     });
     
 	function sample6_execDaumPostcode() {
