@@ -32,16 +32,16 @@ public class BidShopServiceImpl implements BidShopService {
 	@Override
 	public List<ProductVO> getList() {
 		List<ProductVO> list = mapper.getList();
-		for (ProductVO product : list) {
-			int max_bid_sell = biddingMapper.getMaxBidding(product.getP_no());
-			int min_bid_buy = biddingMapper.getMinBidding(product.getP_no());
-
-			product.setMax_bid_sell(max_bid_sell);
-			product.setMin_bid_buy(min_bid_buy);
-			
-			List<AttachFileVO> attach = bidproMapper.findByPno(product.getP_no());	// 
-			product.setAttachList(attach);
-		}
+//		for (ProductVO product : list) {
+//			int max_bid_sell = biddingMapper.getMaxBidding(product.getP_no());
+//			int min_bid_buy = biddingMapper.getMinBidding(product.getP_no());
+//
+//			product.setMax_bid_sell(max_bid_sell);
+//			product.setMin_bid_buy(min_bid_buy);
+//			
+//			List<AttachFileVO> attach = bidproMapper.findByPno(product.getP_no());	// 
+//			product.setAttachList(attach);
+//		}
 //		ProductVO product = mapper.get(p_no);
 //		int max_bid_sell = biddingMapper.getMaxBidding(product.getP_no());
 //		int min_bid_buy = biddingMapper.getMinBidding(product.getP_no());

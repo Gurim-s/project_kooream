@@ -55,29 +55,30 @@ public class BidShopController {
 	public String shop_List(Model model) { //Controller에서 리턴값 String은 URL을 의미함 
 		log.info("list...");
 		List<ProductVO> bidList = service.getList();
-		for (ProductVO productVO : bidList) {
-			int p_no = productVO.getP_no();
-			List<AttachFileVO> attachFileList = service.getAttachList(p_no);
-			List<String> imageUrls = new ArrayList<String>();
-			for(AttachFileVO attachFileVO: attachFileList) {
-				String uploadPath = attachFileVO.getUploadPath();
-				String uuid = attachFileVO.getUuid();
-				String fileName = attachFileVO.getFileName();
-				String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
-				String fileCallPathEncoded = null;
-				try {
-					fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				
-				imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
-			}
-			
-			productVO.setImageUrls(imageUrls);
-		}
+//		for (ProductVO productVO : bidList) {
+//			int p_no = productVO.getP_no();
+//			List<AttachFileVO> attachFileList = service.getAttachList(p_no);
+//			List<String> imageUrls = new ArrayList<String>();
+//			for(AttachFileVO attachFileVO: attachFileList) {
+//				String uploadPath = attachFileVO.getUploadPath();
+//				String uuid = attachFileVO.getUuid();
+//				String fileName = attachFileVO.getFileName();
+//				String fileCallPath = uploadPath + "/" + uuid + "_" + fileName;
+//				String fileCallPathEncoded = null;
+//				try {
+//					fileCallPathEncoded = URLEncoder.encode(fileCallPath, "UTF-8");
+//				} catch (UnsupportedEncodingException e) {
+//					e.printStackTrace();
+//				}
+//				
+//				imageUrls.add("/displayImage?fileName=" + fileCallPathEncoded);
+//			}
+//			
+//			productVO.setImageUrls(imageUrls);
+//		}
 		
 		model.addAttribute("bidList", bidList);
+		System.out.println("+++++++++"+ bidList.size());
 		return "shop/shop_allList";
 	}
 	

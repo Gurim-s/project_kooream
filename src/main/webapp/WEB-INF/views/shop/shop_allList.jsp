@@ -139,7 +139,7 @@
 		display: inline-block;
 		vertical-align: top;
 		line-height: 11px;
-		padding: 4.5px 5.5px 4.5px 17px;
+		padding: 4.5px 5.5px 4.5px 5.5px;
 		color: #31b46e;
 		background-color: #f2f9f6;
 		border-radius: 2px;
@@ -159,11 +159,13 @@
 	}
 	
 </style>
-	<sec:authentication property="principal.member" var="pri"/>
+	<sec:authentication property="principal" var="pri"/>
 	<div class="shop_title" style="height: 110px; width: 100%;">
 		<h2 class="shop_text">SHOP</h2>
-			<c:if test="${pri.authList.get(0).auth eq 'ROLE_ADMIN' }">
-				<button id="p_i_btn">상품 등록</button>
+			<c:if test="${pri ne 'anonymousUser'}">
+				<c:if test="${pri.member.authList.get(0).auth eq 'ROLE_ADMIN' }">
+					<button id="p_i_btn">상품 등록</button>
+				</c:if>
 			</c:if>
 	</div>
 	<div class="main-content-box clearfix">
@@ -216,9 +218,14 @@
 		<div class="product_all">
 			<c:forEach items="${bidList}" var="bid">
 				<div class="product_box" onclick="getPage(${bid.p_no})">
-					<c:if test="${not empty bid.imageUrls }">
-						<img class="product_image" src="${bid.imageUrls.get(0) }">
-					</c:if>
+					<c:url value="/displayImage" var="imgSrc"><!-- c:url 자동 인코딩  -->
+						<c:param name="fileName" value="${bid.uploadPath }/${bid.uuid }_${bid.fileName }"></c:param>
+						<!-- get(0)은 attachList가 list 형태이기 때문에 맨 처음 사진만 불러오려고 0번으로 지정해서 불러오는 중임 -->
+					</c:url>
+					<img class="product_image" src="${imgSrc }"/>
+<%-- 					<c:if test="${not empty bid.imageUrls }"> --%>
+<%-- 						<img class="product_image" src="${bid.imageUrls.get(0) }"> --%>
+<%-- 					</c:if> --%>
 					<div class="brand_name" >${bid.p_brand}</div>
 					<div class="product_name_eng">${bid.p_name_en}</div>
 					<div class="product_name_kor">${bid.p_name_ko}</div>		

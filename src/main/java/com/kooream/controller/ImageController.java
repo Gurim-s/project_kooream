@@ -84,6 +84,7 @@ public class ImageController {
 						
 						thumbs3Path = uploadFolderPath + "/xxs_" + uploadFileName;
 						s3Service.uploadThumbFile(image, thumbs3Path, 40, 40);
+						System.out.println("++++++++++++++++++썸네일 생성++++++++++++++++++");
 						break;
 					case "member":
 						thumbs3Path = uploadFolderPath + "/s_" + uploadFileName;
@@ -91,7 +92,6 @@ public class ImageController {
 						break;
 					}
 				}
-				
 				imageVO.setUuid(uuid.toString());
 				imageVO.setUploadPath(uploadFolderPath);
 				list.add(imageVO);

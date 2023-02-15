@@ -56,6 +56,8 @@
 							<option value="4">Converse</option>
 							<option value="5">Apple</option>
 							<option value="6">Nintendo</option>
+							<option value="7">DRX</option>
+							<option value="8">Jordan</option>
 						</select>
 					</td>
 				</tr>
@@ -390,11 +392,15 @@
  	
 	function ChangeValue2() {
 		var cate = $('#p_category').val();
-		var a = '<input type="checkbox" class = "B_Category"  value="46" name ="sizeList" checked>'
-		+ '<input type="checkbox" class = "B_Category"  value="48" name ="sizeList" checked>'
-		+ '<input type="checkbox" class = "B_Category"  value="50" name ="sizeList" checked>';
+		var a = '<input type="checkbox" class = "B_Category"  value="XS" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="S" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="M" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="L" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="XL" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="2XL" name ="sizeList" checked>';
 		
-		var b = '<input type="checkbox" class = "B_Category"  value="S" name ="sizeList" checked>'
+		var b = '<input type="checkbox" class = "B_Category"  value="XS" name ="sizeList" checked>'
+			+ '<input type="checkbox" class = "B_Category"  value="S" name ="sizeList" checked>'
 			+ '<input type="checkbox" class = "B_Category"  value="M" name ="sizeList" checked>'
 			+ '<input type="checkbox" class = "B_Category"  value="L" name ="sizeList" checked>'
 			+ '<input type="checkbox" class = "B_Category"  value="XL" name ="sizeList" checked>'
@@ -419,7 +425,7 @@
 		} else {
 			$('.Brand_name').html(d);
 		}
-	}
+	}	
  
 
 

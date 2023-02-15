@@ -6,10 +6,13 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <jsp:include page="../include/header.jsp"/>
 <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/shop/shop_introduce.css'/>">
-	<c:if test="${pri.authList.get(0).auth eq 'ROLE_ADMIN' }">
+	<sec:authentication property="principal" var="pri"/>
+		<c:if test="${pri ne 'anonymousUser'}">
+			<c:if test="${pri.member.authList.get(0).auth eq 'ROLE_ADMIN' }">
 		<button id="modify_btn" onclick="modiPage(${vo.p_no})">상품 수정</button>
 		<button id="remove_btn" onclick="remove(${vo.p_no})">삭제</button>
-	</c:if>
+			</c:if>
+		</c:if>
 	<div class="wrap clearfix">
 		<div class="product_photo">
 			<div id="slideShow" id="slideShow">

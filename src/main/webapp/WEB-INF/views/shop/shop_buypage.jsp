@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="../include/header.jsp"/>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <style>
 	.content_area{
 		overflow: hidden;
@@ -282,6 +283,7 @@
 </style>
 
 <div class="content_area">
+	<sec:authentication property="principal.member" var="pri"/>	<!-- 시큐리티에서 member정보 가지고오기  -->
 	<form name="shop_register" method="post" id="buyBidForm">
 		<div class="buy_before">
 			<div class="product_info">
