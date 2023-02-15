@@ -160,15 +160,17 @@
 	            var windowHeight = $window.height();
 	            var documentHeight = $(document).height();
 	            
-	            console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
+	            //console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
 	            
 	            // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
-	            if( scrollTop + windowHeight + 50 > documentHeight ){
+	            
+	            console.log( scrollTop + windowHeight + 300  + " ||||| " + documentHeight);
+	            if( scrollTop + windowHeight + 300 > documentHeight ){
 	            	//alert("무한 스크롤");
-	                fetchList();
+	                //fetchList();
 	            }
 	        })
-	        fetchList();
+	        //fetchList();
 	    })
 		
 	    var fetchList = function(){
@@ -181,12 +183,14 @@
 	        // ajax에서는 data- 속성의 값을 가져오기 위해 data() 함수를 제공.
 	        var startNo = $("#full").last().data("no") || 0;
 	        $.ajax({
-	            url:"/community/oriList?orino=" + startNo ,
+	            url:"/community/ajaxOriList?orino=" + startNo ,
 	            type: "GET",
 	            dataType: "json",
 	            success: function(result){
+	            	alert(result)
 	                // 컨트롤러에서 가져온 리스트는 result.data에 담겨오도록 했다.
 	                // 남은 데이터가 5개 이하일 경우 무한 스크롤 종료
+	                /*
 	                let length = result.data.length;
 	                if( length < 5 ){
 	                    isEnd = true;
@@ -194,6 +198,9 @@
 	                $.each(result.data, function(index, vo){
 	                    renderList(false, vo);
 	                })
+	                */
+	            },error:function(){
+	            	//alert("실패")
 	            }
 	        });
 	    }
@@ -224,9 +231,6 @@
 			str += '</div>'
 			str += '</c:forEach>'
 	        	
-	        	
-	        	
-	        	
 	        
 	        if( mode ){
 	            $("#full").prepend(html);
@@ -236,11 +240,8 @@
 	        }
 	    };
 		
-		
-	    
-	    // 게시글 검색 (비동기)
-	    $("#brandSearch").on("change", function() {
-	    	var brandSearch = $("#brandSearch");
+		function getOriList(){
+			var brandSearch = $("#brandSearch");
 			var brandValue = brandSearch.val();
 			console.log(brandValue);
 			if (brandValue == "전체보기") {
@@ -289,10 +290,15 @@
 					}
 				}
 			});
+		}//---------- 게시글 검색 end
+		
+	    // 게시글 검색 (비동기)
+	    $("#brandSearch").on("change", function() {
+	    	getOriList();
+		});
 			
 			
 			
-		}) //---------- 게시글 검색 end
 	    
 	    
 	    

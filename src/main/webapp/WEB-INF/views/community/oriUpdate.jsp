@@ -27,6 +27,15 @@
 	#btn{
 		text-align: center;
 	}
+	input[type=text] {
+		width: 500px;
+		height: 40px;
+		font-size: 15px;
+		border: 1;
+		border-radius: 5px;
+		outline: none;
+		padding-left: 10px;
+	}
 </style>
 </head>
 <body>
