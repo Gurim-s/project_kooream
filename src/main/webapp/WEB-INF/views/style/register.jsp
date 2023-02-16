@@ -36,7 +36,7 @@
 					</div>
 					<div class="clearfix"></div>
 					<div class="product-tag-selector-container"></div>
-				</li>
+				</li> 
 				<li id="inputContent">
 					<div class="btn-container">
 						<a href="#" class="prev-btn">뒤로</a>

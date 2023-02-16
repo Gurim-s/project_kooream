@@ -116,14 +116,14 @@ async function loadMemberDetailInfo() {
 
 async function getList(query) {
 	const newList = await styleService.getList(query);
+	setTimeout(() => {loadDetail(newList)}, 0);
 	newList.forEach((style, i) => {
 		view.column[i%4].append(item(style));
 	});
 
 	styleList = styleList.concat(newList);
-	setTimeout(() => {loadDetail(newList)}, 0);
 	
-	if (styleList.length < query.amount) query.isEnd = true;
+	if (newList.length < query.amount) query.isEnd = true;
 	if (view.column[0].children.length == 0) {view.altEmpty.className = '';} 
 }
 
