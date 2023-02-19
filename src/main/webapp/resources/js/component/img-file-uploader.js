@@ -3,7 +3,7 @@
  * 슬라이더 모듈 포함
  * 드래그앤 드롭 기능 추가 예정
  */
-import {imgSlider} from '../common/img-slider.js';
+import {imgSlider} from './img-slider.js';
 import {imgService} from '../service/image-service.js';
 
 var imgFileUploader = (function() {

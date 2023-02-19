@@ -1,9 +1,9 @@
 /**
  * 
  */
-import {imgSlider} from '../common/img-slider.js';
-import {searchBox} from '../common/search-box.js';
-import {modal} from '../common/modal.js';
+import {imgSlider} from './img-slider.js';
+import {searchBox} from './search-box.js';
+import {modal} from './modal.js';
 
 const productTagSelector = () => (function() {
 	const container = document.createElement('div');

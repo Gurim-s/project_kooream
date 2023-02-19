@@ -49,5 +49,5 @@
 			</ul>
 		</form>
 	</div>
-	<script type="module" src="<c:url value='/resources/js/style/register.js'/>"></script>
+	<script type="module" src="<c:url value='/resources/js/page/style/register.js'/>"></script>
 <jsp:include page="../include/footer.jsp"/>

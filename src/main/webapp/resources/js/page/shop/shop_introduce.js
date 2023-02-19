@@ -1,4 +1,4 @@
-import {imgSlider} from '../common/img-slider.js';
+import {imgSlider} from '../../component/img-slider.js';
 
 var slider = imgSlider();
 var imgContainer = document.querySelector('#imgSlider');

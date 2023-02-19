@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/header.css'/>">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/main.css'/>">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/common/footer.css'/>">
-	<script type="text/javascript" src="<c:url value='/resources/js/jquery/jquery-3.4.1.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/resources/js/common/jquery/jquery-3.4.1.js'/>"></script>
 	<script  type="text/javascript">
 		// 로그아웃시 토큰 보내주기 위한 함수
 		function listView(){

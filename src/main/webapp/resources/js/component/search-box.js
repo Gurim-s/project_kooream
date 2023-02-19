@@ -3,6 +3,7 @@
  */
 import {productSearchService} from '../service/product-search-service.js';
 import {imgService} from '../service/image-service.js';
+
 const searchBox = () => (function() {
 	const container = document.createElement('div');
 	container.id = 'searchBox';

@@ -69,7 +69,7 @@
 	</div>
 </body>
 
-<script type="module" src="/resources/js/codi/list.js"></script>
+<script type="module" src="/resources/js/page/codi/list.js"></script>
 
 
 </html>

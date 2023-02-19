@@ -2,7 +2,7 @@
  * img-slider 모듈입니다.
  * 
  */
-import { imgService } from '../service/image-service.js';
+import {imgService} from '../service/image-service.js';
 
 const imgSlider = (customOption) => (function(customOption) {
 	let option = {
@@ -273,7 +273,7 @@ const imgSlider = (customOption) => (function(customOption) {
 
 	//이미지 드래그 이벤트
 	function _dragImageEvent() {
-		container.ondragstart = function() { return false; }
+		container.ondragstart = function() { return false; };
 		let isPressed = false;
 		let oldX = 0;
 		let oldY = 0;

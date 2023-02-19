@@ -1,6 +1,6 @@
-import {imgService} from '../service/image-service.js';
-import {styleService} from '../service/style-service.js';
-import {memberService} from '../service/member-service.js';
+import {imgService} from '../../service/image-service.js';
+import {styleService} from '../../service/style-service.js';
+import {memberService} from '../../service/member-service.js';
 import {template as detailTemplate, data as detailData} from '../style/detail.js';
 
 const member_no = document.querySelector('input[name="pri_m_no"]').value;
