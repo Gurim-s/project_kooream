@@ -1,11 +1,11 @@
-import {styleService} from '../service/style-service.js';
-import {memberService} from '../service/member-service.js';
-import {imgService} from '../service/image-service.js';
-import {imgSlider} from '../common/img-slider.js';
+import {styleService} from '../../service/style-service.js';
+import {memberService} from '../../service/member-service.js';
+import {imgService} from '../../service/image-service.js';
+import {imgSlider} from '../../component/img-slider.js';
 //import {productSearchService} from '../service/product-search-service.js';
-import {modal} from '../common/modal.js';
-import {replyViewer} from '../common/reply-viewer.js';
-import {showTime} from '../common/common.js';
+import {modal} from '../../component/modal.js';
+import {replyViewer} from '../../component/reply-viewer.js';
+import {showTime} from '../../common/common.js';
 
 //	let styleList = await styleService.get(category, style_no);
 //	styleList.forEach(x => column.append(template(x)));

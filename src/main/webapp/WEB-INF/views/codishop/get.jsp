@@ -113,8 +113,8 @@
 </div> <!-- codi_box .....end -->
 <br/><br/><br/><br/><br/><br/>
 
-<script type="text/javascript" src="/resources/js/codi/codiReply.js"></script>
-<script type="text/javascript" src="/resources/js/codi/util.js"></script>
-<script type="module" src="/resources/js/codi/get.js"></script>
+<script type="text/javascript" src="/resources/js/page/codi/codiReply.js"></script>
+<script type="text/javascript" src="/resources/js/page/codi/util.js"></script>
+<script type="module" src="/resources/js/page/codi/get.js"></script>
 
 <jsp:include page="../include/footer.jsp"/>

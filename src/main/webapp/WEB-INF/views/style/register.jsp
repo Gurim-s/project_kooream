@@ -36,7 +36,7 @@
 					</div>
 					<div class="clearfix"></div>
 					<div class="product-tag-selector-container"></div>
-				</li>
+				</li> 
 				<li id="inputContent">
 					<div class="btn-container">
 						<a href="#" class="prev-btn">뒤로</a>
@@ -49,5 +49,5 @@
 			</ul>
 		</form>
 	</div>
-	<script type="module" src="<c:url value='/resources/js/style/register.js'/>"></script>
+	<script type="module" src="<c:url value='/resources/js/page/style/register.js'/>"></script>
 <jsp:include page="../include/footer.jsp"/>

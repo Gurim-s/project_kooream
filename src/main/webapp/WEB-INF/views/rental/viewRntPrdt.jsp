@@ -6,9 +6,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css"
-	href="/resources/js/rental/slick.css" />
+	href="/resources/js/page/rental/slick.css" />
 <link rel="stylesheet" type="text/css"
-	href="/resources/js/rental/slick-theme.css" />
+	href="/resources/js/page/rental/slick-theme.css" />
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <style>
@@ -248,7 +248,7 @@
 
 
 
-<script type="text/javascript" src='/resources/js/rental/slick.min.js'></script>
+<script type="text/javascript" src='/resources/js/page/rental/slick.min.js'></script>
 <script type="text/javascript">
 	
 	var $ = jQuery.noConflict();	// j쿼리 충돌 막기 위해서 적어줌

@@ -190,7 +190,7 @@
 		</div>
 	</div>
 <jsp:include page="../include/footer.jsp"/>
-<script type="module" src="<c:url value='/resources/js/shop/shop_introduce.js'/>"></script>
+<script type="module" src="<c:url value='/resources/js/page/shop/shop_introduce.js'/>"></script>
 <script type="text/javascript">
 	// 배송기간 안내 접기 펼치기
 	$(".dropdown_head").click(function(){

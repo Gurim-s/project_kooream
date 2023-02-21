@@ -1,8 +1,8 @@
 /**
  * 
  */
-import {imgSlider} from '../common/img-slider.js';
-import {imgService} from '../service/image-service.js';
+import {imgSlider} from '../../component/img-slider.js';
+import {imgService} from '../../service/image-service.js';
 
 var orino = $('#title').data('orino');
 

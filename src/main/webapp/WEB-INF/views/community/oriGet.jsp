@@ -195,9 +195,9 @@
 
 	
 
-<script type="text/javascript" src="/resources/js/community/orireply.js"></script>
-<script type="module" src="/resources/js/community/oriGet.js"></script>
-<script type="text/javascript" src="/resources/js/community/util.js"></script>
+<script type="text/javascript" src="/resources/page/js/community/orireply.js"></script>
+<script type="module" src="/resources/page/js/community/oriGet.js"></script>
+<script type="text/javascript" src="/resources/page/js/community/util.js"></script>
 <script type="text/javascript">
 
 	$(function() {

@@ -96,5 +96,5 @@
 			</div>
 		</div>
 	</div>
-<script type="module" src="/resources/js/main/main.js"></script>
+<script type="module" src="/resources/js/page/main/main.js"></script>
 <jsp:include page="include/footer.jsp"/>

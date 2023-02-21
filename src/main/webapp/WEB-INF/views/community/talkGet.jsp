@@ -125,8 +125,8 @@
 	</div>
 </body>
 <!-- reply Service 꼭 위에 써주기 (ajax와 연결하는 주소 있어야만 연결이 되어 함수를 불러옴) -->
-<script type="text/javascript" src="/resources/js/community/reply.js"></script>
-<script type="text/javascript" src="/resources/js/community/util.js"></script>
+<script type="text/javascript" src="/resources/js/page/community/reply.js"></script>
+<script type="text/javascript" src="/resources/js/page/community/util.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var form = $("#form");

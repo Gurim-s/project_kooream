@@ -35,5 +35,5 @@
 		</div>
 	</div>
 </div>
-<script type="module" src="<c:url value='/resources/js/style/detail.js'/>"></script>
+<script type="module" src="<c:url value='/resources/js/page/style/detail.js'/>"></script>
 <jsp:include page="../include/footer.jsp"/>

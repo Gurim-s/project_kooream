@@ -77,7 +77,7 @@
 		</form>
 		
 	</div> <!-- codi_box ........... end -->
-<script type="module" src="/resources/js/codi/register.js"></script>
+<script type="module" src="/resources/js/page/codi/register.js"></script>
 
 
 

@@ -1,6 +1,6 @@
-import {imgService} from '../service/image-service.js';
-import {styleService} from '../service/style-service.js';
-import {memberService} from '../service/member-service.js';
+import {imgService} from '../../service/image-service.js';
+import {styleService} from '../../service/style-service.js';
+import {memberService} from '../../service/member-service.js';
 import {template as detailTemplate, data as detailData} from '../style/detail.js';
 
 const member_no = document.querySelector('input[name="pri_m_no"]').value;
@@ -116,14 +116,14 @@ async function loadMemberDetailInfo() {
 
 async function getList(query) {
 	const newList = await styleService.getList(query);
+	setTimeout(() => {loadDetail(newList)}, 0);
 	newList.forEach((style, i) => {
 		view.column[i%4].append(item(style));
 	});
 
 	styleList = styleList.concat(newList);
-	setTimeout(() => {loadDetail(newList)}, 0);
 	
-	if (styleList.length < query.amount) query.isEnd = true;
+	if (newList.length < query.amount) query.isEnd = true;
 	if (view.column[0].children.length == 0) {view.altEmpty.className = '';} 
 }
 

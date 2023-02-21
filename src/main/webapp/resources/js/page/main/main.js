@@ -1,7 +1,7 @@
 /**
  * 
  */
-import {styleService} from '../service/style-service.js';
+import {styleService} from '../../service/style-service.js';
 
 var pageNum =1;
 var amount = 4;
